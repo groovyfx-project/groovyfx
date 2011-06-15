@@ -22,6 +22,7 @@ import java.util.List;
 import javafx.scene.Node;
 import groovyx.javafx.SceneGraphBuilder;
 import javafx.scene.Group;
+import javafx.scene.layout.Region;
 import javafx.scene.Parent;
 
 /**
@@ -30,14 +31,13 @@ import javafx.scene.Parent;
  */
 class SceneFactory extends AbstractFactory {
 
-
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         SceneWrapper scene;
         if (FactoryBuilderSupport.checkValueIsType(value, name, SceneWrapper.class)) {
             scene = value
         } else {
             def root = attributes.remove("parent");
-            scene = new SceneWrapper(parent: root)
+            scene = new SceneWrapper(root: root)
         }
 
         builder.getContext().put(SceneGraphBuilder.CONTEXT_SCENE_KEY, SceneWrapper)
@@ -45,23 +45,31 @@ class SceneFactory extends AbstractFactory {
     }
 
     public void setChild(FactoryBuilderSupport build, Object parent, Object child) {
-        SceneWrapper scene = (SceneWrapper)parent;
-        if(scene.parent == null && child instanceof Node) {
-            if(child instanceof Parent ) {
-                scene.parent = child;
+        SceneWrapper sceneWrapper = (SceneWrapper)parent;
+        if(sceneWrapper.root == null && child instanceof Node) {
+            if(child instanceof Group || child instanceof Region ) {
+                sceneWrapper.root = child;
                 return;
             } else {
-                scene.parent = new Group();
+                sceneWrapper.root = new Group();
             }
         }
+        
         if(child instanceof Node)
-            scene.parent.getChildren().add((Node) child);
+            sceneWrapper.root.getChildren().add((Node) child);
+            
         //TODO add stylesheets
         else if(child instanceof List) {
-            scene.stylesheets = (List)child;
+            sceneWrapper.stylesheets = (List)child;
         }
     }
 
+    @Override
+    void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
+        if (node instanceof SceneWrapper && !node.root) {
+            node.root = new Group()
+        }
+    }
 }
 
 

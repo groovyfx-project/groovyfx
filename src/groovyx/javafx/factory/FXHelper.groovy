@@ -1,18 +1,18 @@
 /*
-* Copyright 2011 the original author or authors.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Copyright 2011 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package groovyx.javafx.factory
 
@@ -34,13 +34,13 @@ import javafx.collections.ObservableList;
 import org.codehaus.groovyfx.javafx.binding.ClosureTriggerBinding;
 import javafx.event.EventHandler;
 /**
-*
-* @author jimclarke
-*/
+ *
+ * @author jimclarke
+ */
 class FXHelper {
 
     static Object getValue(value) {
-    if (value instanceof ClosureTriggerBinding) {
+        if (value instanceof ClosureTriggerBinding) {
             def v = value.getSourceValue();
             return v;
         } else {
@@ -104,64 +104,82 @@ class FXHelper {
                 return true;
             }else if(Insets.class.isAssignableFrom(metaProperty.getType())) {
                 value = getValue(value);
-                if(List.class.isAssignableFrom(value.getClass())) {
-                        value = new Insets(value[0], value[1],value[2],value[3]);
-                    }else if (!Insets.class.isAssignableFrom(value.getClass())) {
-                    if(value.getString().toUpperCase() == 'EMPTY') {
-                            value = Insets.EMPTY;
-                        }
+                if (Number.class.isAssignableFrom(value.getClass())) {
+                    value = new Insets(value, value, value, value)
+                } else if(List.class.isAssignableFrom(value.getClass())) {
+                    switch (value.size()) {
+                        case 0:
+                            value = Insets.EMPTY
+                            break
+                        case 1:
+                            value = new Insets(value[0], value[0], value[0], value[0])
+                            break
+                        case 2:
+                            value = new Insets(value[0], value[1], value[0], value[1])
+                            break
+                        case 3:
+                            value = new Insets(value[0], value[1], value[2], value[1])
+                            break
+                        default:
+                            value = new Insets(value[0], value[1], value[2], value[3])
+                            break
                     }
-                    metaProperty.setProperty(delegate, value);
-                    return true;
+                } else if (!Insets.class.isAssignableFrom(value.getClass())) {
+                    if(value.getString().toUpperCase() == 'EMPTY') {
+                        value = Insets.EMPTY;
+                    }
+                }
+                metaProperty.setProperty(delegate, value);
+                return true;
             }else if(BoundingBox.class.isAssignableFrom(metaProperty.getType())) {
                 value = getValue(value);
                 if(List.class.isAssignableFrom(value.getClass())) {
                     if(value.getSize() == 4) // 2D
-                        value = new BoundingBox(value[0], value[1],value[2],value[3]);
-                        else // 3D
-                        value = new BoundingBox(value[0], value[1],value[2],value[3], value[4], value[5]);
-                    }
-                    metaProperty.setProperty(delegate, value);
-                    return true;
+                    value = new BoundingBox(value[0], value[1],value[2],value[3]);
+                    else // 3D
+                    value = new BoundingBox(value[0], value[1],value[2],value[3], value[4], value[5]);
+                }
+                metaProperty.setProperty(delegate, value);
+                return true;
             }else if(Dimension2D.class.isAssignableFrom(metaProperty.getType())) {
                 value = getValue(value);
                 if(List.class.isAssignableFrom(value.getClass())) {
-                        value = new Dimension2D(value[0], value[1]);
-                    }
-                    metaProperty.setProperty(delegate, value);
-                    return true;
+                    value = new Dimension2D(value[0], value[1]);
+                }
+                metaProperty.setProperty(delegate, value);
+                return true;
             }else if(Point2D.class.isAssignableFrom(metaProperty.getType())) {
                 value = getValue(value);
                 if(List.class.isAssignableFrom(value.getClass())) {
-                        value = new Point2D(value[0], value[1]);
-                    }
-                    metaProperty.setProperty(delegate, value);
-                    return true;
+                    value = new Point2D(value[0], value[1]);
+                }
+                metaProperty.setProperty(delegate, value);
+                return true;
             }else if(Point3D.class.isAssignableFrom(metaProperty.getType())) {
                 value = getValue(value);
                 if(List.class.isAssignableFrom(value.getClass())) {
-                        value = new Point3D(value[0], value[1], value[2]);
-                    }
-                    metaProperty.setProperty(delegate, value);
-                    return true;
+                    value = new Point3D(value[0], value[1], value[2]);
+                }
+                metaProperty.setProperty(delegate, value);
+                return true;
             }else if(Rectangle2D.class.isAssignableFrom(metaProperty.getType())) {
                 value = getValue(value);
                 if(List.class.isAssignableFrom(value.getClass())) {
-                        value = new Rectangle2D(value[0], value[1],value[2],value[3]);
-                    }else if (!Rectangle2D.class.isAssignableFrom(value.getClass())) {
+                    value = new Rectangle2D(value[0], value[1],value[2],value[3]);
+                }else if (!Rectangle2D.class.isAssignableFrom(value.getClass())) {
                     if(value.getString().toUpperCase() == 'EMPTY') {
-                            value = Rectangle2D.EMPTY;
-                        }
+                        value = Rectangle2D.EMPTY;
                     }
-                    metaProperty.setProperty(delegate, value);
-                    return true;
+                }
+                metaProperty.setProperty(delegate, value);
+                return true;
             }else if(Image.class.isAssignableFrom(metaProperty.getType())) {
                 value = getValue(value);
                 if (!Image.class.isAssignableFrom(value.getClass())) {
-                        value = new Image(value.toString());
-                    }
-                    metaProperty.setProperty(delegate, value);
-                    return true;
+                    value = new Image(value.toString());
+                }
+                metaProperty.setProperty(delegate, value);
+                return true;
             }else if(Cursor.class.isAssignableFrom(metaProperty.getType())) {
                 value = getValue(value);
                 if (!Cursor.class.isAssignableFrom(value.getClass())) {
@@ -227,11 +245,11 @@ class FXHelper {
                 if (!Cursor.class.isAssignableFrom(value.getClass())) {
                     switch(value.toString().toUpperCase()) {
                         case 'VERTICAL':
-                            value = Orientation.VERTICAL;
-                            break;
+                        value = Orientation.VERTICAL;
+                        break;
                         case 'HORIZONTAL':
-                            value = Orientation.HORIZONTAL;
-                            break;
+                        value = Orientation.HORIZONTAL;
+                        break;
                     }
                 }
                 metaProperty.setProperty(delegate, value);

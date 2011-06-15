@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * @author jimclarke
  */
 class SceneWrapper {
-    public Parent parent;
+    public Parent root;
     public double width = -1;
     public double height = -1;
     public Camera camera;
@@ -38,7 +38,7 @@ class SceneWrapper {
 
 
     public Scene createScene() {
-        Scene scene =  new Scene(parent, width, height, fill);
+        Scene scene =  new Scene(root, width, height, fill);
         if(camera != null)
                 scene.setCamera(camera);
         if(cursor != null)
