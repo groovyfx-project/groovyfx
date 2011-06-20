@@ -16,7 +16,8 @@
 
 package groovyx.javafx.factory
 
-import javafx.scene.control.*;
+import javafx.scene.control.*
+import javafx.scene.Node
 
 /**
  *
@@ -70,7 +71,7 @@ class ControlFactory extends NodeFactory {
     public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
         if(child instanceof Tooltip) {
             ((Control)parent).setTooltip(child);
-        }else if(child instanceof ScrollPane) {
+        }else if(parent instanceof ScrollPane) {
             ((ScrollPane)parent).setNode((Node)child);
         } else if(parent instanceof TableView) {
             TableView table = (TableView)parent;

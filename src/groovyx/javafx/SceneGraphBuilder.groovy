@@ -29,7 +29,8 @@ import javafx.stage.Stage;
 import org.codehaus.groovy.runtime.InvokerHelper;
 import org.codehaus.groovy.runtime.MetaClassHelper;
 import org.codehaus.groovy.runtime.metaclass.MissingMethodExceptionNoStack;
-import org.codehaus.groovyfx.javafx.binding.ClosureTriggerBinding;
+import org.codehaus.groovyfx.javafx.binding.ClosureTriggerBinding
+import javafx.scene.paint.Stop;
 /**
  *
  * @author jimclarke
@@ -355,6 +356,10 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'quadCurveTo', pef)
         registerFactory( 'vLineTo', pef)
         registerFactory( 'text', new TextFactory())
+
+        registerFactory( 'linearGradient', new LinearGradientFactory() )
+        registerFactory( 'radialGradient', new RadialGradientFactory() )
+        registerFactory( 'stop', new StopFactory() )
     }
 
     public def registerControls() {
