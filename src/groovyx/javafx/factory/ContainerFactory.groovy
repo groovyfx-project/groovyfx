@@ -48,8 +48,10 @@ class ContainerFactory extends NodeFactory {
             case 'gridPane': // TODO
                 container = new GridPane();
                 break;
+            case 'anchorPane':
+                container = new AnchorPane();
+                break;
         }
-        //FXHelper.fxAttributes(container, attributes);
         return container;
     }
 

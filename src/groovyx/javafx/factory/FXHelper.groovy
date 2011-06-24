@@ -33,6 +33,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.codehaus.groovyfx.javafx.binding.ClosureTriggerBinding;
 import javafx.event.EventHandler;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.Node;
 /**
  *
  * @author jimclarke
@@ -260,6 +262,46 @@ class FXHelper {
                 metaProperty.setProperty(delegate, handler);
                 return true;
             }
+        }
+        if(key == "topAnchor") {
+            value = getValue(value);
+            if(value instanceof Number){
+                value = ((Number)value).doubleValue();
+            }else {
+                value = Double.parseDouble(value.toString());
+            }
+            AnchorPane.setTopAnchor((Node)delegate, value);
+            return true;
+        }
+        if(key == "bottomAnchor") {
+            value = getValue(value);
+            if(value instanceof Number){
+                value = ((Number)value).doubleValue();
+            }else {
+                value = Double.parseDouble(value.toString());
+            }
+            AnchorPane.setBottomAnchor((Node)delegate, value);
+            return true;
+        }
+        if(key == "rightAnchor") {
+            value = getValue(value);
+            if(value instanceof Number){
+                value = ((Number)value).doubleValue();
+            }else {
+                value = Double.parseDouble(value.toString());
+            }
+            AnchorPane.setRightAnchor((Node)delegate, value);
+            return true;
+        }
+        if(key == "leftAnchor") {
+            value = getValue(value);
+            if(value instanceof Number){
+                value = ((Number)value).doubleValue();
+            }else {
+                value = Double.parseDouble(value.toString());
+            }
+            AnchorPane.setLeftAnchor((Node)delegate, value);
+            return true;
         }
         return false;
     }

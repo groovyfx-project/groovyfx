@@ -26,6 +26,7 @@ import javafx.scene.image.Image;
 import javafx.scene.transform.Transform;
 import javafx.event.EventHandler;
 
+
 /**
  *
  * @author jimclarke
@@ -47,6 +48,7 @@ public class NodeFactory extends AbstractFactory {
         'onKeyReleased',
         'onKeyTyped',
     ]
+    
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Object node;
@@ -89,6 +91,8 @@ public class NodeFactory extends AbstractFactory {
                 }
             }
         }
+        
+ 
         return true;
     }
 

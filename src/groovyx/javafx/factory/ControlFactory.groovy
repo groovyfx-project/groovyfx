@@ -64,7 +64,6 @@ class ControlFactory extends NodeFactory {
 
             }
         }
-        FXHelper.fxAttributes(control, attributes);
         return control;
     }
 

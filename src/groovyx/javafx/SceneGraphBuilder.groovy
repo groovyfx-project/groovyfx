@@ -292,6 +292,8 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'stylesheets', new StylesheetFactory());
 
         ContainerFactory cf = new ContainerFactory();
+        registerFactory( 'anchorPane', cf)
+        registerFactory( 'borderPane', cf)
         registerFactory( 'flowPane', cf)
         registerFactory( 'hbox', cf)
         registerFactory( 'vbox', cf)
@@ -300,6 +302,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'group', cf)
         registerFactory( 'gridPane', cf)
         registerFactory( 'constraint', new GridConstraintFactory());
+        
 
         GridRowColumnFactory rcf = new GridRowColumnFactory();
         registerFactory( 'row', rcf)
