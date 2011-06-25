@@ -27,7 +27,7 @@ class GroovyKeyHandler implements EventHandler<KeyEvent> {
     String type;
     Closure closure;
 
-    public GroovyKeyListener(String type) {
+    public GroovyKeyHandler(String type) {
        this.type = type;
     }
 
