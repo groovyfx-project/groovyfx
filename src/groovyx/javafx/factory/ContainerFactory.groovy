@@ -18,6 +18,7 @@ package groovyx.javafx.factory
 
 import javafx.scene.layout.*;
 import javafx.scene.*;
+import javafx.geometry.Pos;
 
 /**
  *
@@ -51,6 +52,9 @@ class ContainerFactory extends NodeFactory {
             case 'anchorPane':
                 container = new AnchorPane();
                 break;
+            case 'borderPane':
+                container = new BorderPane();
+                break;
         }
         return container;
     }
@@ -79,6 +83,9 @@ class ContainerFactory extends NodeFactory {
                     grid.getColumnInfo().add(rci.columnInfo)
                 }
             }
+        } else if(parent instanceof BorderPane) {
+            if(child instanceof Node)
+                parent.setCenter(child);
         }else {
             super.setChild(builder, parent, child);
         }

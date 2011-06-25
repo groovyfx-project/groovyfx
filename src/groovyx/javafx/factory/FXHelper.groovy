@@ -114,6 +114,7 @@ class FXHelper {
                             value = Insets.EMPTY
                             break
                         case 1:
+                            //top, right,bottom, left
                             value = new Insets(value[0], value[0], value[0], value[0])
                             break
                         case 2:

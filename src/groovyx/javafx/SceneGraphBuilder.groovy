@@ -307,7 +307,13 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         GridRowColumnFactory rcf = new GridRowColumnFactory();
         registerFactory( 'row', rcf)
         registerFactory( 'column', rcf)
-
+        
+        BorderPanePositionFactory bppf = new BorderPanePositionFactory();
+        registerFactory( 'top', bppf)
+        registerFactory( 'bottom', bppf)
+        registerFactory( 'left', bppf)
+        registerFactory( 'right', bppf)
+        registerFactory( 'center', bppf)
     }
 
     public def registerBinding() {
