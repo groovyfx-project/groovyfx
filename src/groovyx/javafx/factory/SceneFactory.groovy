@@ -25,6 +25,10 @@ import javafx.scene.Group;
 import javafx.scene.layout.Region;
 import javafx.scene.Parent;
 
+import groovyx.javafx.input.*;
+import javafx.scene.input.*;
+import javafx.event.EventHandler;
+
 /**
  *
  * @author jimclarke
@@ -61,7 +65,41 @@ class SceneFactory extends AbstractFactory {
         //TODO add stylesheets
         else if(child instanceof List) {
             sceneWrapper.stylesheets = (List)child;
+        
+        }else if(child instanceof GroovyMouseHandler) {
+            parent.addMouseHandler(((GroovyMouseHandler)child).getType(), (EventHandler)child);
+        } else if(child instanceof GroovyKeyHandler) {
+            parent.addKeyHandler(((GroovyKeyHandler)child).getType(), (EventHandler)child);
         }
+    }
+    
+    public boolean onHandleNodeAttributes( FactoryBuilderSupport builder, Object node,
+            Map attributes ) {
+        for(v in NodeFactory.mouseEvents) {
+            if(attributes.containsKey(v)) {
+                def val = attributes.remove(v);
+                if(val instanceof Closure) {
+                    def handler = new GroovyMouseHandler(v);
+                    handler.setClosure((Closure)val);
+                    node.addMouseHandler(v, handler);
+                }else if(val instanceof EventHandler) {
+                    node.addMouseHandler(v, (EventHandler)val);
+                }
+            }
+        }
+        for(v in NodeFactory.keyEvents) {
+            if(attributes.containsKey(v)) {
+                def val = attributes.remove(v);
+                if(val instanceof Closure) {
+                    def handler = new GroovyKeyHandler(v);
+                    handler.setClosure((Closure)val);
+                    node.addKeyHandler(v, handler);
+                }else if(val instanceof EventHandler) {
+                    node.addKeyHandler(v, (EventHandler)val);
+                }
+            }
+        }
+        return true;
     }
 
     @Override

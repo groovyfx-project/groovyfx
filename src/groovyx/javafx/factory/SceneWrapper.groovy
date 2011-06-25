@@ -23,6 +23,8 @@ import javafx.scene.Cursor;
 import java.util.List;
 import java.util.ArrayList;
 
+import javafx.scene.input.*;
+import javafx.event.EventHandler;
 /**
  *
  * @author jimclarke
@@ -35,7 +37,19 @@ class SceneWrapper {
     public Cursor cursor;
     public Paint fill = Color.WHITE;
     public List<String> stylesheets;
-
+    
+    public Map<String, EventHandler<MouseEvent>> mouseEvents =
+        new HashMap<String, EventHandler<MouseEvent>>();
+    public Map<String, EventHandler<KeyEvent>> keyEvents=
+        new HashMap<String, EventHandler<KeyEvent>>();
+    
+    public addMouseHandler(String type, EventHandler<MouseEvent> handler) {
+        mouseEvents.put(type, handler);
+    }
+    
+    public addKeyHandler(String type, EventHandler<KeyEvent> handler) {
+        keyEvents.put(type, handler);
+    }
 
     public Scene createScene() {
         Scene scene =  new Scene(root, width, height, fill);
@@ -43,6 +57,50 @@ class SceneWrapper {
                 scene.setCamera(camera);
         if(cursor != null)
                 scene.setCursor(cursor);
+        if(stylesheets != null && !stylesheets.isEmpty())
+            scene.getStylesheets().setAll(stylesheets);
+        mouseEvents.each { type, handler -> 
+            switch(type) {
+                case 'onMouseClicked':
+                    scene.setOnMouseClicked(handler);
+                    break;
+                case 'onMouseDragged':
+                    scene.setOnMouseDragged(handler);
+                    break;
+                case 'onMouseEntered':
+                    scene.setOnMouseEntered(handler);
+                    break;
+                case 'onMouseExited':
+                    scene.setOnMouseExited(handler);
+                    break;
+                case 'onMouseMoved':
+                    scene.setOnMouseMoved(handler);
+                    break;
+                case 'onMousePressed':
+                    scene.setOnMousePressed(handler);
+                    break;
+                case 'onMouseReleased':
+                    scene.setOnMouseReleased(handler);
+                    break;
+                case 'onMouseWheelMoved':
+                    scene.setOnMouseWheelMoved(handler);
+                    break;
+            }
+        }
+        
+        keyEvents.each { type, handler -> 
+            switch(type) {
+                case 'onKeyPressed':
+                    scene.setOnKeyPressed(handler);
+                    break;
+                case 'onKeyReleased':
+                    scene.setOnKeyReleased(handler);
+                    break;
+                case 'onKeyTyped':
+                    scene.setOnKeyTyped(handler);
+                    break;
+            }
+        }
         return scene;
     }
 }

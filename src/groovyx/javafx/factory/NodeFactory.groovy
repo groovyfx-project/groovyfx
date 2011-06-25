@@ -33,7 +33,7 @@ import javafx.event.EventHandler;
  */
 public class NodeFactory extends AbstractFactory {
     
-    def mouseEvents = [
+    public static def mouseEvents = [
         'onMouseClicked',
         'onMouseDragged',
         'onMouseEntered',
@@ -43,7 +43,7 @@ public class NodeFactory extends AbstractFactory {
         'onMouseReleased',
         'onMouseWheelMoved',        
     ]
-    def keyEvents = [
+    public static def keyEvents = [
         'onKeyPressed',
         'onKeyReleased',
         'onKeyTyped',
@@ -91,8 +91,6 @@ public class NodeFactory extends AbstractFactory {
                 }
             }
         }
-        
- 
         return true;
     }
 

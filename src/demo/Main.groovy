@@ -45,7 +45,11 @@ class Custom extends Region {
         onHidden: { println "Close"}
     ) {
         
-        scene(fill: hsb(128, 0.5, 0.5, 0.5), parent: group() ) {
+        scene(fill: hsb(128, 0.5, 0.5, 0.5), parent: group(), stylesheets: ["file://another.css"]) {
+            onMousePressed (onEvent: {event -> println "scene press" })
+            onKeyReleased( onEvent: { event -> println "scene key" + event.text})
+            //stylesheets( urls: ["file://foo.css"])
+            
             node(new Custom(), layoutX: 10, layoutY: 10) {
                 scale(x: 5, y: 5)
             }
