@@ -18,6 +18,7 @@ package groovyx.javafx.factory
 
 import javafx.scene.control.*
 import javafx.scene.Node
+import groovyx.javafx.SceneGraphBuilder;
 
 /**
  *
@@ -61,7 +62,28 @@ class ControlFactory extends NodeFactory {
                 case 'tableView':
                     control = new TableView();
                     break;
-
+                case 'accordion':
+                    control = new Accordion();
+                    break;
+                case 'titledPane':
+                    control = new TitledPane();
+                    break;
+                case 'splitPane':
+                    control = new SplitPane();
+                    def cntx = builder.getContext();
+                    List dividers = cntx.get(SceneGraphBuilder.CONTEXT_DIVIDER_KEY);
+                    if(dividers == null) {
+                        cntx.put(SceneGraphBuilder.CONTEXT_DIVIDER_KEY, new ArrayList());
+                    }else if(!dividers.isEmpty()){
+                        dividers.clear();
+                    }    
+                    break;
+                case 'toolBar':
+                    control = new ToolBar();
+                    break;
+                case 'tabPane' :
+                    control = new TabPane();
+                    break;
             }
         }
         return control;
@@ -79,9 +101,44 @@ class ControlFactory extends NodeFactory {
             //}else if(child instanceof TableColumn) {
                 table.getColumns().add(child);
             //}
+        } else if(parent instanceof Accordion) {
+            parent.getPanes().add(child);
+        } else if(parent instanceof TitledPane) {
+            if(child instanceof Node) {
+                parent.content = child;
+            }else {
+                child.pane = parent;
+            }
+        }else if(parent instanceof SplitPane) {
+            if(child instanceof Node)
+                parent.items.add(child);
+            else { // todo this should be saved and set upon node complete
+                // so that all the items are saved first.
+                def pcntx = builder.getParentContext();
+                List dividers = pcntx.get(SceneGraphBuilder.CONTEXT_DIVIDER_KEY);
+                dividers.add(child);
+                
+            }
+        }else if(parent instanceof ToolBar) {
+            parent.items.add(child);
+        } else if(parent instanceof TabPane && child instanceof Tab) {
+            parent.tabs.add(child);
         }else {
             super.setChild(builder, parent, child);
         }
     }
+    
+    public void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object child ) {
+        if(child instanceof SplitPane) {
+            def cntx = builder.getContext();
+            List dividers = cntx.get(SceneGraphBuilder.CONTEXT_DIVIDER_KEY);
+            dividers.each{div ->
+                child.setDividerPosition(div.index, div.position);
+            }
+            dividers.clear();
+        }
+    }
+    
+    
 }
 

@@ -50,11 +50,13 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
     public static final String DEFAULT_DELEGATE_PROPERTY_OBJECT_STROKE = "stroke";
     
     public static final String CONTEXT_SCENE_KEY = "CurrentScene";
+    public static final String CONTEXT_DIVIDER_KEY = "CurrentDividers";
 
 
     private static final Random random = new Random()
 
     private Scene currentScene;
+    
 
     static HashSet<String> colors = new HashSet<String>();
 
@@ -376,6 +378,10 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         LabeledFactory lf = new LabeledFactory();
         ControlFactory cf = new ControlFactory();
         TableFactory tf = new TableFactory();
+        TitledFactory titledF = new TitledFactory();
+        DividerPositionFactory df = new DividerPositionFactory();
+        TabFactory tabf = new TabFactory();
+        GraphicFactory gf = new GraphicFactory();
 
         // labeled
         registerFactory( 'button', lf)
@@ -398,11 +404,34 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'progessIndicator', cf)
         registerFactory( 'scrollPane', cf)
         registerFactory( 'tableView', cf)
+        
+        
+        registerFactory( 'accordion', cf); // children node to panes list
+        registerFactory( 'titledPane', cf); // Node title, Node content
+        registerFactory( 'splitPane', cf); // left and right nodes
+        registerFactory( 'dividerPosition', df);
+        registerFactory( 'tabPane', cf); // add tabs
+        registerFactory( 'tab', tabf);
+        registerFactory( 'toolBar', cf); // items
+        
+        //TODO
+        registerFactory( 'menu', cf); // experimental
+        registerFactory( 'menuBar', cf); // experimental
+        
+        registerFactory( 'toolBar', cf); // items
+        registerFactory( 'treeView', cf);
+        // popupControl
+        
         //'indexedCell'
         //'cell'
 
         registerFactory( 'tableColumn', tf)
-        registerFactory( 'cellFactory', tf)
+        registerFactory( 'tableRow', tf) // seldom used
+        
+        registerFactory( 'title', titledF)
+        registerFactory( 'content', titledF)
+        
+        registerFactory( 'graphic', gf);
 
 
     }
