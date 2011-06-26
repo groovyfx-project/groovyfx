@@ -35,11 +35,16 @@ import org.codehaus.groovyfx.javafx.binding.ClosureTriggerBinding;
 import javafx.event.EventHandler;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.Node;
+import java.util.Map;
+import java.util.HashMap;
+import javafx.scene.control.ToggleGroup;
 /**
  *
  * @author jimclarke
  */
 class FXHelper {
+    
+    static Map<String, ToggleGroup> toggleGroups = new HashMap<String, ToggleGroup>();
 
     static Object getValue(value) {
         if (value instanceof ClosureTriggerBinding) {
@@ -262,6 +267,19 @@ class FXHelper {
                 ClosureEventHandler handler = new ClosureEventHandler(closure: value);
                 metaProperty.setProperty(delegate, handler);
                 return true;
+            }else if(ToggleGroup.class.isAssignableFrom(metaProperty.getType())) {
+                ToggleGroup group = null;
+                if(value instanceof String) {
+                    group = toggleGroups.get(value);
+                    if(group == null) {
+                        group = new ToggleGroup();
+                        toggleGroups.put(value, group);
+                    }
+                }else {
+                    group = value;
+                }
+                metaProperty.setProperty(delegate, group);
+                return true
             }
         }
         if(key == "topAnchor") {
