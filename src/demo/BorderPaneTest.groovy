@@ -32,9 +32,9 @@ GroovyFX.start({
                  bottom(align: "center", margin: [10,0]) {
                      button(text: "bottom")
                  }
-                 center(align: "center") {
+                 //center(align: "center") {
                      label(text: "center")
-                 }
+                 //}
              }
          }
     }

@@ -62,7 +62,11 @@ class ContainerFactory extends NodeFactory {
     public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
 
         if(child instanceof Node) {
-            ((Parent)parent).getChildren().add((Node)child);
+            if(parent instanceof BorderPane) {
+                parent.setCenter(child);
+            }else {
+                ((Parent)parent).getChildren().add((Node)child);
+            }
         } else if(parent instanceof GridPane && child instanceof RowColumnInfo) {
             GridPane grid = (GridPane)parent;
             RowColumnInfo rci = (RowColumnInfo) child;
@@ -83,9 +87,6 @@ class ContainerFactory extends NodeFactory {
                     grid.getColumnInfo().add(rci.columnInfo)
                 }
             }
-        } else if(parent instanceof BorderPane) {
-            if(child instanceof Node)
-                parent.setCenter(child);
         }else {
             super.setChild(builder, parent, child);
         }

@@ -301,6 +301,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'tilePane', cf)
         registerFactory( 'group', cf)
         registerFactory( 'gridPane', cf)
+        
         registerFactory( 'constraint', new GridConstraintFactory());
         
 
@@ -444,7 +445,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'onMouseMoved', mf)
         registerFactory( 'onMousePressed', mf)
         registerFactory( 'onMouseReleased', mf)
-        registerFactory( 'onMouseWheelMoved', mf)
+        //registerFactory( 'onMouseWheelMoved', mf)
         registerFactory( 'onKeyPressed', kf)
         registerFactory( 'onKeyReleased', kf)
         registerFactory( 'onKeyTyped', kf)

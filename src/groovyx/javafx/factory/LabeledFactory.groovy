@@ -43,6 +43,8 @@ class LabeledFactory extends NodeFactory {
                     break;
                 case 'choiceBox':
                     control = new ChoiceBox();
+                    List items = attributes.remove("items");
+                    control.getItems.setAll(items);
                     break;
                 case 'hyperlink':
                     control = new Hyperlink();
