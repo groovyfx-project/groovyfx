@@ -32,7 +32,6 @@ class SimpleContainer extends Region {
             x += partWidth;
         }
     }
-
 }
 
 GroovyFX.start({
@@ -41,10 +40,7 @@ GroovyFX.start({
         title: "Custom Container example",
         x: 100, y: 100, width: 200, height:200,
         visible: true,
-        style: "decorated",
-        onHidden: { println "Close"}
     ) {
-        
         scene(fill: hsb(128, 0.5, 0.5, 0.5)) {
             container(new SimpleContainer()) {
                 button(text: "one")
