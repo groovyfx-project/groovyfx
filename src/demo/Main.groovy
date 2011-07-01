@@ -32,7 +32,6 @@ class Custom extends Region {
     protected javafx.scene.Node create() {
         return new Rectangle(width: 10, height: 10, fill: Color.BLUE);
     }
-
 }
 
  GroovyFX.start({
@@ -48,10 +47,12 @@ class Custom extends Region {
         scene(fill: hsb(128, 0.5, 0.5, 0.5), parent: group(), stylesheets: ["file://another.css"]) {
             onMousePressed (onEvent: {event -> println "scene press" })
             onKeyReleased( onEvent: { event -> println "scene key" + event.text})
+            onChange(property: "width", changed: {observable, oldValue, newValue -> println "Width: " + oldValue + " ==> " + newValue})
             //stylesheets( urls: ["file://foo.css"])
             
             node(new Custom(), layoutX: 10, layoutY: 10) {
                 scale(x: 5, y: 5)
+                onChange(property: "hover", changed: {observable, oldValue, newValue -> println "hover: " + oldValue + " ==> " + newValue})
             }
             circle ( centerX: 50, centerY: 50, radius: 25,
                 fill: rgb(0,0,255), onMousePressed: {println 'jim'})

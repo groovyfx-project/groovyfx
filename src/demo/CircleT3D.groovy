@@ -38,8 +38,15 @@ GroovyFX.start({ primaryStage ->
         resizable: true
     ) {
          scene(fill: lightgreen, camera: new PerspectiveCamera()) {
-             circle(centerX: 200, centerY: 150, radius: 75, fill: blue,
-                rotate: 30, rotationAxis: Rotate.Y_AXIS)
+             rectangle(x: 20, y: 20, width: 100, height: 50, fill: blue) {
+                //rotate(angle: 30, axis: Rotate.Y_AXIS)
+                //scale(x: 1.2)
+                //translate(x: -100, y: -50, z:-50)
+                //shear(x: -0.35, y: 0)
+                affine(tx: -20, mxx: 2, mxy: 0.5, mxz: 1, 
+                    ty: -50, myx: 1, myy: 1.2, myz: 1,
+                    tz: 0, mzx: 1, mzy: 1, mzz: 0)
+             }
          }
     }
 })

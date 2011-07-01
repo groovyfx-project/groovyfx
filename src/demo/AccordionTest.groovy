@@ -20,6 +20,7 @@ sg.stage(
     x: 100, y: 100, width: 400, height:400,
     visible: true,
     style: "decorated",
+    primary: true
 ) {
 
     scene(fill: hsb(128, 0.5, 0.5, 0.5) ) {

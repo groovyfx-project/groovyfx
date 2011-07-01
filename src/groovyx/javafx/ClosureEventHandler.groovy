@@ -24,7 +24,14 @@ import javafx.event.EventHandler;
  * @author jimclarke
  */
 class ClosureEventHandler implements EventHandler {
+    public String name;
     public Closure action;
+    
+    public ClosureEventHandler() {}
+    
+    public ClosureEventHandler(String name) {
+        this.name = name;
+    }
 
     public void handle(Event event) {
         if(action != null)

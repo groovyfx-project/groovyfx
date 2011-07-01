@@ -19,6 +19,7 @@ package groovyx.javafx.factory
 import javafx.scene.control.*
 import javafx.scene.Node
 import groovyx.javafx.SceneGraphBuilder;
+import groovyx.javafx.ClosureEventHandler;
 
 /**
  *
@@ -61,6 +62,9 @@ class ControlFactory extends NodeFactory {
                     break;
                 case 'tableView':
                     control = new TableView();
+                    break;
+                case 'treeView':
+                    control = new TreeView();
                     break;
                 case 'accordion':
                     control = new Accordion();
@@ -123,6 +127,22 @@ class ControlFactory extends NodeFactory {
             parent.items.add(child);
         } else if(parent instanceof TabPane && child instanceof Tab) {
             parent.tabs.add(child);
+        }else if(parent instanceof TreeView) {
+            if(child instanceof TreeItem) {
+                parent.root = child
+            }else if(child instanceof ClosureEventHandler) {
+                switch(child.name) {
+                    case 'onEditCancel':
+                        parent.onEditCancel = child.action;
+                        break;
+                    case 'onEditCommit':
+                        parent.onEditCommit = child.action;
+                        break;
+                    case 'onEditStart':
+                        parent.onEditStart = child.action;
+                        break;
+                }
+            }
         }else {
             super.setChild(builder, parent, child);
         }

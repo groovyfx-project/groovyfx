@@ -25,6 +25,8 @@ import java.util.ArrayList;
 
 import javafx.scene.input.*;
 import javafx.event.EventHandler;
+import groovyx.javafx.ClosureChangeListener
+import org.codehaus.groovy.runtime.InvokerHelper;
 /**
  *
  * @author jimclarke
@@ -37,11 +39,16 @@ class SceneWrapper {
     public Cursor cursor;
     public Paint fill = Color.WHITE;
     public List<String> stylesheets;
+    public List<ClosureChangeListener> changeListeners = new ArrayList<ClosureChangeListener>();
     
     public Map<String, EventHandler<MouseEvent>> mouseEvents =
         new HashMap<String, EventHandler<MouseEvent>>();
     public Map<String, EventHandler<KeyEvent>> keyEvents=
         new HashMap<String, EventHandler<KeyEvent>>();
+        
+    public addChangeListener(ClosureChangeListener listener) {
+        changeListeners.add(listener);
+    }
     
     public addMouseHandler(String type, EventHandler<MouseEvent> handler) {
         mouseEvents.put(type, handler);
@@ -100,6 +107,11 @@ class SceneWrapper {
                     scene.setOnKeyTyped(handler);
                     break;
             }
+        }
+        
+        changeListeners.each { listener ->
+            def property = InvokerHelper.invokeMethod(scene, listener.property + "Property", null);
+            InvokerHelper.invokeMethod(property, "addListener", listener );
         }
         return scene;
     }

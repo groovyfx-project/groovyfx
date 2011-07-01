@@ -35,6 +35,9 @@ class KeyHandlerFactory extends AbstractFactory {
             def closure = attributes.remove("onEvent");
             if(closure != null && closure instanceof Closure)
                 ((GroovyKeyHandler)handler).setClosure(closure);
+            else if(value instanceof Closure) {
+                handler.closure = value;
+            }
         }
         return handler;
     }

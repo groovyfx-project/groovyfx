@@ -276,7 +276,9 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         Color.hsb(hue, saturation, brightness);
     }
     public def registerStages() {
-        registerFactory("stage", new StageFactory())
+        StageFactory factory = new StageFactory();
+        registerFactory("stage", factory)
+        registerFactory("popup", factory)
         
     }
     // register this one first
@@ -290,7 +292,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
     }
 
     public def registerContainers() {
-        registerFactory("scene", new SceneFactory());
+        registerFactory( "scene", new SceneFactory());
         registerFactory( 'stylesheets', new StylesheetFactory());
 
         ContainerFactory cf = new ContainerFactory();
@@ -321,7 +323,11 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
 
     public def registerBinding() {
         BindFactory bindFactory = new BindFactory();
+        ChangeFactory changeFactory = new ChangeFactory();
+        
         registerFactory("bind", bindFactory);
+        registerFactory("onChange", changeFactory);
+        
         addAttributeDelegate(bindFactory.&bindingAttributeDelegate);
     }
 
@@ -382,6 +388,9 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         DividerPositionFactory df = new DividerPositionFactory();
         TabFactory tabf = new TabFactory();
         GraphicFactory gf = new GraphicFactory();
+        TreeItemFactory treeItemf = new TreeItemFactory();
+        TreeItemEventFactory treeItemEventf = new TreeItemEventFactory();
+        TreeViewEventFactory treeViewEventf = new TreeViewEventFactory();
 
         // labeled
         registerFactory( 'button', lf)
@@ -418,8 +427,8 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'menu', cf); // experimental
         registerFactory( 'menuBar', cf); // experimental
         
-        registerFactory( 'toolBar', cf); // items
         registerFactory( 'treeView', cf);
+        registerFactory( 'treeItem', treeItemf);
         // popupControl
         
         //'indexedCell'
@@ -433,7 +442,18 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         
         registerFactory( 'graphic', gf);
 
-
+        // tree events
+        registerFactory( "branchCollapse", treeItemEventf)
+        registerFactory( "branchExpand",treeItemEventf)
+        registerFactory( "childrenModification",treeItemEventf)
+        registerFactory( "graphicChanged",treeItemEventf)
+        registerFactory( "treeItemCountChange",treeItemEventf)
+        registerFactory( "treeNotification",treeItemEventf)
+        registerFactory( "valueChanged",treeItemEventf)
+        
+        registerFactory( "onEditCancel", treeViewEventf)
+        registerFactory( "onEditCommit", treeViewEventf)
+        registerFactory( "onEditStart", treeViewEventf)
     }
 
     public def registerEffects() {
@@ -442,25 +462,29 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'bloom', ef);
         registerFactory( 'boxBlur', ef)
         registerFactory( 'colorAdjust', ef);
+        registerFactory( "colorInput", ef);
         registerFactory( 'displacementMap', ef);
         registerFactory( 'dropShadow', ef);
-        registerFactory( 'flood', ef);
         registerFactory( 'gaussianBlur', ef);
         registerFactory( 'glow', ef);
-        registerFactory( 'identity', ef);
+        registerFactory( 'imageInput', ef);
         registerFactory( 'innerShadow', ef);
-        registerFactory( 'invertMask', ef);
         registerFactory( 'lighting', ef);
         registerFactory( 'motionBlur', ef);
         registerFactory( 'perspectiveTransform', ef);
         registerFactory( 'reflection', ef);
         registerFactory( 'sepiaTone', ef);
         registerFactory( 'shadow', ef);
+        
         registerFactory( 'topInput', ef);
         registerFactory( 'bottomInput', ef);
+        registerFactory( 'bumpInput', ef);
+        registerFactory( 'contentInput', ef);
         registerFactory( "distant", ef);
         registerFactory( "point", ef);
         registerFactory( "spot", ef);
+        
+        
     }
 
 

@@ -45,20 +45,23 @@ class EffectFactory extends AbstractFactory {
                 case 'colorAdjust':
                     effect = new ColorAdjust();
                     break;
+                case 'colorInput':
+                    effect = new ColorInput();
+                    break;
                 case 'displacementMap':
                     effect = new DisplacementMap();
                     break;
                 case 'dropShadow':
                     effect = new DropShadow();
                     break;
-                case 'colorInput':
-                    effect = new ColorInput();
-                    break;
                 case 'gaussianBlur':
                     effect = new GaussianBlur();
                     break;
                 case 'glow':
                     effect = new Glow();
+                    break;
+                case 'imageInput':
+                    effect = new ImageInput();
                     break;
                 case 'innerShadow':
                     effect = new InnerShadow();
@@ -139,31 +142,35 @@ class EffectFactory extends AbstractFactory {
                 ((Shadow)parent).input = (Effect)child;
             }else if( parent instanceof EffectWrapper) {
                 ((EffectWrapper)parent).effect = (Effect)child;
+            } else if(parent instanceof ImageInput) {
+                parent.source = child; // image
             }else {
                 super.setChild(build, parent, child);
             }
         }else if (parent instanceof Blend) {
-            if(child instanceof EffectWrapper) {
-                EffectWrapper wrapper = (EffectWrapper)child;
-                if(wrapper.property == "topInput") {
-                    ((Blend)parent).setTopInput(wrapper.effect);
-                }else if(wrapper.property == "bottomInput") {
-                    ((Blend)parent).setBottomInput(wrapper.effect);
-                }
-            }
+            // do nothing
         }else if (parent instanceof Lighting) {
-            if(child instanceof EffectWrapper) {
-                EffectWrapper wrapper = (EffectWrapper)child;
-                if(wrapper.property == "bumpInput") {
-                    ((Lighting)parent).setBumpInput(wrapper.effect);
-                }else if(wrapper.property == "contentInput") {
-                    ((Lighting)parent).setContentInput(wrapper.effect);
-                }
-            }else if(child instanceof Light) {
-                ((Lighting)parent).setLight((Light)child);
+            if(child instanceof Light) {
+                parent.light = child;
             }
         }else {
-            super.setChild(build, parent, child);
+            super.setChild(builder, parent, child);
+        }
+    }
+    
+    void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
+        if(parent instanceof Blend && node instanceof EffectWrapper) {
+            if(node.property == "topInput") {
+                parent.topInput = node.effect;
+            }else if(node.property == "bottomInput") {
+                parent.bottomInput = node.effect;
+            }
+        }else if(parent instanceof Lighting && node instanceof EffectWrapper) {
+            if(node.property == "bumpInput") {
+                parent.bumpInput = node.effect;
+            }else if(node.property == "contentInput") {
+                parent.contentInput = node.effect;
+            }
         }
     }
 }

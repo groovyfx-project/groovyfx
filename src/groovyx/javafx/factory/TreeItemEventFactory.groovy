@@ -17,27 +17,22 @@
 package groovyx.javafx.factory
 
 import javafx.scene.input.*;
-import groovyx.javafx.input.GroovyMouseHandler;
+import groovyx.javafx.ClosureEventHandler
 import javafx.event.EventHandler;
 
 /**
  *
  * @author jimclarke
  */
-class MouseHandlerFactory extends AbstractFactory {
+class TreeItemEventFactory extends AbstractFactory {
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        EventHandler handler;
-        if (FactoryBuilderSupport.checkValueIsType(value, name, EventHandler.class)) {
-            handler = value
-        } else {
-            handler = new GroovyMouseHandler(name);
-            def closure = attributes.remove("onEvent");
-            if(closure != null && closure instanceof Closure)
-                ((GroovyMouseHandler)handler).setClosure(closure);
-            else if(value instanceof Closure) {
-                handler.closure = value;
-            }
+        EventHandler handler = new ClosureEventHandler(name);
+        def closure = attributes.remove("onEvent");
+        if(closure != null && closure instanceof Closure)
+            handler.action = closure;
+        else if(value instanceof Closure) {
+            handler.action = value;
         }
         return handler;
     }

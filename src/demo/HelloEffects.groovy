@@ -79,6 +79,9 @@ GroovyFX.start({
                      bloom()
 
                  }
+                 text(content: "ColorAdjust Text!", fill: red, font: "bold 20pt", x: 10, y: 10, textOrigin: "top") {
+                    colorAdjust(contrast: 4, brightness: -0.8, hue: 0.2)
+                 }
                  /// BoxBlur
                  text(content: "Blurry Text!", fill: "red", font: "bold 36pt", x: 10, y: 40,
                      translateX: 300, translateY: 100) {
@@ -114,6 +117,10 @@ GroovyFX.start({
                  /// GaussianBlur
                  text(x: 10, y: 140, cache: true, content: "Blurry Text", fill: "red", font: "bold 36pt") {
                      gaussianBlur()
+                 }
+                 // ColorInput
+                 text(content: "Some Text!", fill: "red", font: "bold 36pt", x: 10, y: 200, textOrigin: "top") {
+                     colorInput(paint: blue, x: 55, y: 205, width: 50, height: 20)
                  }
                  /// Distant Light
                  group (translateY: 460) {

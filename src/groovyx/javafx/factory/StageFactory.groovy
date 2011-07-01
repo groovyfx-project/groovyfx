@@ -19,6 +19,7 @@ package groovyx.javafx.factory
 import javafx.stage.Stage
 import javafx.scene.Scene
 import javafx.stage.StageStyle
+import javafx.stage.Popup;
 
 /**
  *
@@ -28,66 +29,78 @@ class StageFactory extends AbstractFactory {
     SceneWrapper sceneWrapper;
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        Stage stage
+        def window = null;
+        if(name == "stage") {
 
-        def style = attributes.remove("style")
-        if(style == null) {
-            style = StageStyle.DECORATED;
-        }
-        if(style instanceof String) {
-            style = StageStyle.valueOf(style.toUpperCase())
-        }
-        
-        
+            def style = attributes.remove("style")
+            if(style == null) {
+                style = StageStyle.DECORATED;
+            }
+            if(style instanceof String) {
+                style = StageStyle.valueOf(style.toUpperCase())
+            }
 
-        if (FactoryBuilderSupport.checkValueIsType(value, name, Stage.class)) {
-            stage = value
-        } else if (builder.stage != null) {
-            stage = builder.stage;
-            stage.style = style;
-        } else {
-            stage = new Stage(style)
+
+            def primary = attributes.remove("primary")
+            if(primary == null) {
+                primary = true;
+            }
+            if (FactoryBuilderSupport.checkValueIsType(value, name, Stage.class)) {
+                window = value
+            } else if (primary && builder.stage != null) {
+                window = builder.stage;
+                window.style = style;
+            } else {
+                window = new Stage(style)
+                if(primary)
+                    builder.stage = window;
+            }
+        }else if(name == "popup") {
+            window = new Popup();
         }
-        
         def onHidden = attributes.remove("onHidden");
         if(onHidden != null) {
             def handler = new ClosureEventHandler(closure: onHidden);
-            stage.onHidden = handler;
+            window.onHidden = handler;
         }
         def onHidding = attributes.remove("onHidding");
         if(onHidding != null) {
             def handler = new ClosureEventHandler(closure: onHidding);
-            stage.onHidding = handler;
+            window.onHidding = handler;
         }
         def onShowing = attributes.remove("onShowing");
         if(onShowing != null) {
             def handler = new ClosureEventHandler(closure: onShowing);
-            stage.onShowing = handler;
+            window.onShowing = handler;
         }
         def onShown = attributes.remove("onShown");
         if(onShown != null) {
             def handler = new ClosureEventHandler(closure: onShown);
-            stage.onShown = handler;
+            window.onShown = handler;
         }
 
-        //FXHelper.fxAttributes(stage, attributes);
-        return stage;
+        return window;
     }
 
     public void setChild(FactoryBuilderSupport build, Object parent, Object child) {
         if(child instanceof SceneWrapper) {
             sceneWrapper = child;
+        }else if(parent instanceof Popup) {
+            parent.content.add(child);
         }
     }
 
    
 
     public void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
-        node.setScene(sceneWrapper.createScene());
-        if(node.getWidth() == -1)
-            node.sizeToScene();
-        if (builder.context.show) {
-            node.visible = true
+        if(node instanceof Stage) {
+            if(sceneWrapper != null)
+                node.setScene(sceneWrapper.createScene());
+            if(node.getWidth() == -1)
+                node.sizeToScene();
+            if (builder.context.show) {
+                node.visible = true
+            }
         }
 
     }

@@ -111,7 +111,7 @@ public class ColorFactory {
                 }
                 return Color.rgb(r, g, b, a);
             }
-        }else {
+        }else if(value != null) {
             String color = value.toString();
             if(color.startsWith("linear")) {
                 return getLinearPaint(color);
@@ -124,6 +124,8 @@ public class ColorFactory {
             } else {
                 return Color.web(color);
             }
+        }else {
+            return null;
         }
 
     }

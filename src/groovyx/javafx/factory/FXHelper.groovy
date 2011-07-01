@@ -77,12 +77,23 @@ class FXHelper {
                 value = getValue(value);
                 if(value != null) {
                     ObservableList list = metaProperty.getProperty(delegate);
+                    
                     if(list == null) {
                         list = FXCollections.observableArrayList();
                         metaProperty.setProperty(delegate, list);
                     }
+                    
                     if(value instanceof java.util.List) {
-                        list.addAll(value);
+                        if(delegate instanceof javafx.scene.shape.Polygon ||
+                            delegate instanceof javafx.scene.shape.Polyline) {
+                            // need to convert to double
+                            // not sure if you can tell that this from meta data?
+                                for(v in value) {
+                                    list.add(v.doubleValue());
+                                }
+                        }else {
+                            list.addAll(value);
+                        }
                     }else if(!list.contains(value)) {
                         list.add(value);
                     }
