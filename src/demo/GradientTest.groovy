@@ -35,7 +35,10 @@ GroovyFX.start({
 
             tilePane(hgap: 10, vgap: 20, padding: 5) {
                 rectangle(width: width, height: height,
-                        fill: "linear (0%,0%) to (100%,100%) stops (0.0,red) (1.0,black)")
+                        fill: "linear (0%,0%) to (100%,100%) stops (0.0,red) (1.0,black)",
+                        stroke: linearGradient(stops: [[0.0, blue], [1.0,red]]),
+                        strokeWidth: 10
+                    )
 
                 rectangle(width: width, height: height) {
                     linearGradient(stops: [[0.0, red], [1.0, blue]])

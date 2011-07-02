@@ -21,6 +21,9 @@ import javafx.scene.paint.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+import javafx.builders.RadialGradientBuilder
+import javafx.builders.LinearGradientBuilder;
+
 /**
  *
  * @author jimclarke
@@ -30,6 +33,8 @@ public class ColorFactory {
     public static Paint get(Object value) {
         if(value instanceof Paint) {
             return (Paint)value;
+        } else if(value instanceof RadialGradientBuilder || value instanceof LinearGradientBuilder) {
+            return value.build();
         }else if(value instanceof List || value instanceof Object[]) {
             Object[]args;
             if(value instanceof List) {
