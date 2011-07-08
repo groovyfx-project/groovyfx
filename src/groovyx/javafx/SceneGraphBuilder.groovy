@@ -32,6 +32,7 @@ import org.codehaus.groovy.runtime.metaclass.MissingMethodExceptionNoStack;
 import org.codehaus.groovyfx.javafx.binding.ClosureTriggerBinding
 import javafx.scene.paint.Stop
 import javafx.geometry.Orientation;
+import javafx.util.Duration;
 /**
  *
  * @author jimclarke
@@ -218,12 +219,24 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
     public SceneGraphBuilder(boolean init = true) {
         super(init)
         this[DELEGATE_PROPERTY_OBJECT_ID] = DEFAULT_DELEGATE_PROPERTY_OBJECT_ID
+        ExpandoMetaClass.enableGlobally()
+        Number.metaClass.getM = { -> new Duration(delegate*1000.0*60.0)};
+        Number.metaClass.getS = { -> new Duration(delegate*1000.0)};
+        Number.metaClass.getMs = { -> new Duration(delegate)};
+        Number.metaClass.getH = { -> new Duration(delegate*1000.0*60.0*60.0)};
+
     }
     
     public SceneGraphBuilder(Stage primaryStage, boolean init = true) {
         super(init)
         this.stage = primaryStage;
         this[DELEGATE_PROPERTY_OBJECT_ID] = DEFAULT_DELEGATE_PROPERTY_OBJECT_ID
+        ExpandoMetaClass.enableGlobally()
+        Number.metaClass.getM = { -> new Duration(delegate*1000.0*60.0)};
+        Number.metaClass.getS = { -> new Duration(delegate*1000.0)};
+        Number.metaClass.getMs = { -> new Duration(delegate)};
+        Number.metaClass.getH = { -> new Duration(delegate*1000.0*60.0*60.0)};
+
     }
 
     public Scene getCurrentScene() { return currentScene }
@@ -514,6 +527,23 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
 
         registerFactory( 'webView', wf)
         registerFactory( 'webEngine', wf)
+
+    }
+    
+    public def registerTransition() {
+        TransitionFactory tf = new TransitionFactory();
+        
+        registerFactory( 'fadeTransition', tf);
+        registerFactory( 'fillTransition', tf);
+        registerFactory( 'parallelTransition', tf);
+        registerFactory( 'pauseTransition', tf);
+        registerFactory( 'rotateTransition', tf);
+        registerFactory( 'scaleTransition', tf);
+        registerFactory( 'translateTransition', tf);
+        registerFactory( 'sequentialTransition', tf);
+        registerFactory( 'pathTransition', tf);
+        registerFactory( 'strokeTransition', tf);
+        registerFactory( 'transition', tf);
 
     }
 

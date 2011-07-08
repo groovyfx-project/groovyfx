@@ -29,7 +29,7 @@ y = 5.0;
 GroovyFX.start({
     def tlb = new TimelineBuilder();
     def tl = tlb.timeline(cycleCount: 2, onFinished: { Platform.exit()}) {
-        at (10.s,
+        at (1.m,
            onFinished: { println "x = ${this.x}, y = ${this.y}"}
            )
            {

@@ -27,88 +27,34 @@ import javafx.scene.input.*;
 import javafx.event.EventHandler;
 import groovyx.javafx.ClosureChangeListener
 import org.codehaus.groovy.runtime.InvokerHelper;
+import javafx.builders.SceneBuilder;
 /**
  *
  * @author jimclarke
  */
-class SceneWrapper {
-    public Parent root;
-    public double width = -1;
-    public double height = -1;
-    public Camera camera;
-    public Cursor cursor;
-    public Paint fill = Color.WHITE;
-    public List<String> stylesheets;
+class SceneWrapper extends SceneBuilder {
     public List<ClosureChangeListener> changeListeners = new ArrayList<ClosureChangeListener>();
+    public Parent sceneRoot;
     
-    public Map<String, EventHandler<MouseEvent>> mouseEvents =
-        new HashMap<String, EventHandler<MouseEvent>>();
-    public Map<String, EventHandler<KeyEvent>> keyEvents=
-        new HashMap<String, EventHandler<KeyEvent>>();
-        
+    
+    public SceneWrapper() {
+        super();
+    }   
     public addChangeListener(ClosureChangeListener listener) {
         changeListeners.add(listener);
     }
     
-    public addMouseHandler(String type, EventHandler<MouseEvent> handler) {
-        mouseEvents.put(type, handler);
-    }
-    
-    public addKeyHandler(String type, EventHandler<KeyEvent> handler) {
-        keyEvents.put(type, handler);
+    @Override
+    public SceneBuilder root(Parent x) {
+        if(x != null) {
+            sceneRoot = x;
+            super.root(x);
+        }
+        return this;
     }
 
-    public Scene createScene() {
-        Scene scene =  new Scene(root, width, height, fill);
-        if(camera != null)
-                scene.setCamera(camera);
-        if(cursor != null)
-                scene.setCursor(cursor);
-        if(stylesheets != null && !stylesheets.isEmpty())
-            scene.getStylesheets().setAll(stylesheets);
-        mouseEvents.each { type, handler -> 
-            switch(type) {
-                case 'onMouseClicked':
-                    scene.setOnMouseClicked(handler);
-                    break;
-                case 'onMouseDragged':
-                    scene.setOnMouseDragged(handler);
-                    break;
-                case 'onMouseEntered':
-                    scene.setOnMouseEntered(handler);
-                    break;
-                case 'onMouseExited':
-                    scene.setOnMouseExited(handler);
-                    break;
-                case 'onMouseMoved':
-                    scene.setOnMouseMoved(handler);
-                    break;
-                case 'onMousePressed':
-                    scene.setOnMousePressed(handler);
-                    break;
-                case 'onMouseReleased':
-                    scene.setOnMouseReleased(handler);
-                    break;
-                case 'onMouseWheelMoved':
-                    scene.setOnMouseWheelMoved(handler);
-                    break;
-            }
-        }
-        
-        keyEvents.each { type, handler -> 
-            switch(type) {
-                case 'onKeyPressed':
-                    scene.setOnKeyPressed(handler);
-                    break;
-                case 'onKeyReleased':
-                    scene.setOnKeyReleased(handler);
-                    break;
-                case 'onKeyTyped':
-                    scene.setOnKeyTyped(handler);
-                    break;
-            }
-        }
-        
+    public Scene build() {
+        Scene scene =  super.build();
         changeListeners.each { listener ->
             def property = InvokerHelper.invokeMethod(scene, listener.property + "Property", null);
             InvokerHelper.invokeMethod(property, "addListener", listener );

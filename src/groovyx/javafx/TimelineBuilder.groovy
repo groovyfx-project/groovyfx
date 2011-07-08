@@ -36,7 +36,7 @@ class TimelineBuilder extends FactoryBuilderSupport {
         super(init)
         this[DELEGATE_PROPERTY_OBJECT_ID] = DEFAULT_DELEGATE_PROPERTY_OBJECT_ID
         ExpandoMetaClass.enableGlobally()
-        Number.metaClass.getMin = { -> new Duration(delegate*1000.0*60.0)};
+        Number.metaClass.getM = { -> new Duration(delegate*1000.0*60.0)};
         Number.metaClass.getS = { -> new Duration(delegate*1000.0)};
         Number.metaClass.getMs = { -> new Duration(delegate)};
         Number.metaClass.getH = { -> new Duration(delegate*1000.0*60.0*60.0)};
@@ -55,7 +55,7 @@ class TimelineBuilder extends FactoryBuilderSupport {
     }
     
     def propertyMissing(String name) {
-        switch(name) {
+        switch(name.toLowerCase()) {
             case "ease_both":
             case "easeboth":
                 return Interpolator.EASE_BOTH;

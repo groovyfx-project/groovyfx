@@ -33,7 +33,7 @@ class KeyValueSubFactory  extends AbstractFactory  {
         }
      }
 
-     Interpolator getInterpolator(Object interpolate) {
+     public static Interpolator getInterpolator(Object interpolate) {
         if(interpolate == null)
             return Interpolator.LINEAR;
         if(interpolate instanceof Interpolator) {

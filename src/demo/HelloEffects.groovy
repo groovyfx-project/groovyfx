@@ -48,7 +48,7 @@ GroovyFX.start({
         title: "Hello Effects (Groovy)",
         visible: true,
     ) {
-         scene(parent: group(), width: 840, height:680) {
+         scene(root: group(), width: 840, height:680) {
             // group() { // scene group}
                  /// Persepctive
                  group( cache: true, layoutX: 0, layoutY: 0) {

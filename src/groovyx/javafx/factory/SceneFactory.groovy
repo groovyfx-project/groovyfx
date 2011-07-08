@@ -40,8 +40,12 @@ class SceneFactory extends AbstractFactory {
         if (FactoryBuilderSupport.checkValueIsType(value, name, SceneWrapper.class)) {
             scene = value
         } else {
-            def root = attributes.remove("parent");
-            scene = new SceneWrapper(root: root)
+            
+            scene = new SceneWrapper()
+            def root = attributes.remove("root");
+            if(root != null) {
+                scene.root(root);
+            }
         }
 
         builder.getContext().put(SceneGraphBuilder.CONTEXT_SCENE_KEY, SceneWrapper)
@@ -50,20 +54,21 @@ class SceneFactory extends AbstractFactory {
 
     public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         SceneWrapper sceneWrapper = (SceneWrapper)parent;
-        if(sceneWrapper.root == null && child instanceof Node) {
+        
+        if(sceneWrapper.sceneRoot == null  && child instanceof Node) {
             if(child instanceof Group || child instanceof Region ) {
-                sceneWrapper.root = child;
+                sceneWrapper.root(child);
                 return;
             } else {
-                sceneWrapper.root = new Group();
+                sceneWrapper.root(new Group());
             }
         }
 
         if(child instanceof Node) {
-            sceneWrapper.root.getChildren().add((Node) child);
+            sceneWrapper.sceneRoot.getChildren().add((Node) child);
         } else if(child instanceof List) {
             // TODO add stylesheets
-            sceneWrapper.stylesheets = (List)child;
+            sceneWrapper.stylesheets((List)child);
         } else if(child instanceof GroovyMouseHandler) {
             parent.addMouseHandler(((GroovyMouseHandler)child).getType(), (EventHandler)child);
         } else if(child instanceof GroovyKeyHandler) {
@@ -73,6 +78,34 @@ class SceneFactory extends AbstractFactory {
 
     public boolean onHandleNodeAttributes( FactoryBuilderSupport builder, Object node,
             Map attributes ) {
+        def attr = attributes.remove("fill");
+        if(attr) {
+            node.fill(ColorFactory.get(attr));
+        }
+        attr = attributes.remove("camera");
+        if(attr) {
+            node.camera(attr);
+        }
+        attr = attributes.remove("cursor");
+        if(attr) {
+            node.cursor(attr);
+        }
+        attr = attributes.remove("height");
+        if(attr) {
+            node.height(attr);
+        }
+        attr = attributes.remove("root");
+        if(attr) {
+            node.root(root);
+        }
+        attr = attributes.remove("stylesheets");
+        if(attr) {
+            node.stylesheets(attr);
+        }
+        attr = attributes.remove("width");
+        if(attr) {
+            node.width(attr);
+        }
         for(v in NodeFactory.mouseEvents) {
             if(attributes.containsKey(v)) {
                 def val = attributes.remove(v);
@@ -102,8 +135,8 @@ class SceneFactory extends AbstractFactory {
 
     @Override
     void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
-        if (node instanceof SceneWrapper && !node.root) {
-            node.root = new Group()
+        if (node instanceof SceneWrapper && node.sceneRoot == null) {
+            node.root(new Group())
         }
     }
 }

@@ -95,7 +95,7 @@ class StageFactory extends AbstractFactory {
     public void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
         if(node instanceof Stage) {
             if(sceneWrapper != null)
-                node.setScene(sceneWrapper.createScene());
+                node.scene = sceneWrapper.build();
             if(node.getWidth() == -1)
                 node.sizeToScene();
             if (builder.context.show) {

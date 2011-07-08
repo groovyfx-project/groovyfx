@@ -45,6 +45,29 @@ import javafx.scene.control.ToggleGroup;
 class FXHelper {
     
     static Map<String, ToggleGroup> toggleGroups = new HashMap<String, ToggleGroup>();
+    
+    static def cursorMap = [
+        DEFAULT: Cursor.DEFAULT,
+        CROSSHAIR: Cursor.CROSSHAIR,
+        TEXT: Cursor.TEXT,
+        WAIT: Cursor.WAIT,
+        SW_RESIZE: Cursor.SW_RESIZE,
+        SE_RESIZE: Cursor.SE_RESIZE,
+        NW_RESIZE: Cursor.NW_RESIZE,
+        NE_RESIZE: Cursor.NE_RESIZE,
+        N_RESIZE: Cursor.N_RESIZE,
+        S_RESIZE: Cursor.S_RESIZE,
+        W_RESIZE: Cursor.W_RESIZE,
+        E_RESIZE: Cursor.E_RESIZE,
+        HAND: Cursor.HAND,
+        MOVE: Cursor.MOVE,
+        H_RESIZE: Cursor.H_RESIZE,
+        V_RESIZE: Cursor.V_RESIZE,
+        NONE: Cursor.NONE,
+        CLOSED_HAND: Cursor.CLOSED_HAND,
+        DISAPPEAR: Cursor.DISAPPEAR,
+        OPEN_HAND: Cursor.OPEN_HAND,
+    ];
 
     static Object getValue(value) {
         if (value instanceof ClosureTriggerBinding) {
@@ -54,10 +77,51 @@ class FXHelper {
             return value;
         }
     }
+    
+    static double getAnchorValue ( value) {
+        value = getValue(value);
+        if(value instanceof Number){
+            value = ((Number)value).doubleValue();
+        }else {
+            value = Double.parseDouble(value.toString());
+        }
+        return value;
+    }
+    
+    static def setTopAnchor = { delegate, value -> 
+        AnchorPane.setTopAnchor((Node)delegate, getAnchorValue(value));
+    }
+    static def setBottomAnchor = { delegate, value -> 
+        AnchorPane.setBottomAnchor((Node)delegate, getAnchorValue(value));
+    }
+    static def setRightAnchor = { delegate, value -> 
+        AnchorPane.setRightAnchor((Node)delegate, getAnchorValue(value));
+    }
+    static def setLeftAnchor = { delegate, value -> 
+        AnchorPane.setLeftAnchor((Node)delegate, getAnchorValue(value));
+    }
+    
+    static anchorMap = [
+        topAnchor: setTopAnchor,
+        bottomAnchor: setBottomAnchor,
+        rightAnchor: setRightAnchor,
+        leftAnchor: setLeftAnchor
+    ]
 
     public static boolean fxAttribute(delegate, key, value) {
+        def setAnchor = anchorMap[key];
+        if(setAnchor) {
+            setAnchor(delegate, value);
+            return true;
+        }
+        
         def metaProperty = delegate.getClass().metaClass.getMetaProperty(key);
         if(metaProperty) {
+            // process the common cases first to jump out of here quickly
+            if(String.class.isAssignableFrom(metaProperty.getType()) ||
+               Integer.class.isAssignableFrom(metaProperty.getType()) ||
+               Double.class.isAssignableFrom(metaProperty.getType()))
+                return false;
             if(metaProperty.getType().isEnum()) {
                 value = getValue(value);
                 if(!value.getClass().isEnum()) {
@@ -87,7 +151,7 @@ class FXHelper {
                         if(delegate instanceof javafx.scene.shape.Polygon ||
                             delegate instanceof javafx.scene.shape.Polyline) {
                             // need to convert to double
-                            // not sure if you can tell that this from meta data?
+                            // not sure if you can tell  this from meta data?
                                 for(v in value) {
                                     list.add(v.doubleValue());
                                 }
@@ -143,10 +207,8 @@ class FXHelper {
                             value = new Insets(value[0], value[1], value[2], value[3])
                             break
                     }
-                } else if (!Insets.class.isAssignableFrom(value.getClass())) {
-                    if(value.getString().toUpperCase() == 'EMPTY') {
-                        value = Insets.EMPTY;
-                    }
+                } else if(value.toString().toUpperCase() == 'EMPTY') {
+                    value = Insets.EMPTY;
                 }
                 metaProperty.setProperty(delegate, value);
                 return true;
@@ -202,60 +264,8 @@ class FXHelper {
             }else if(Cursor.class.isAssignableFrom(metaProperty.getType())) {
                 value = getValue(value);
                 if (!Cursor.class.isAssignableFrom(value.getClass())) {
-                    switch(value.toString().toUpperCase()) {
-                        case 'DEFAULT':
-                        value = Cursor.DEFAULT;
-                        break;
-                        case 'CROSSHAIR':
-                        value = Cursor.CROSSHAIR;
-                        break;
-                        case 'TEXT':
-                        value = Cursor.TEXT;
-                        break;
-                        case 'WAIT':
-                        value = Cursor.WAIT;
-                        break;
-                        case 'SW_RESIZE':
-                        value = Cursor.SW_RESIZE;
-                        break;
-                        case 'SE_RESIZE':
-                        value = Cursor.SE_RESIZE;
-                        break;
-                        case 'NW_RESIZE':
-                        value = Cursor.NW_RESIZE;
-                        break;
-                        case 'NE_RESIZE':
-                        value = Cursor.NE_RESIZE;
-                        break;
-                        case 'N_RESIZE':
-                        value = Cursor.N_RESIZE;
-                        break;
-                        case 'S_RESIZE':
-                        value = Cursor.S_RESIZE;
-                        break;
-                        case 'W_RESIZE':
-                        value = Cursor.W_RESIZE;
-                        break;
-                        case 'E_RESIZE':
-                        value = Cursor.E_RESIZE;
-                        break;
-                        case 'HAND':
-                        value = Cursor.HAND;
-                        break;
-                        case 'MOVE':
-                        value = Cursor.MOVE;
-                        break;
-                        case 'H_RESIZE':
-                        value = Cursor.H_RESIZE;
-                        break;
-                        case 'V_RESIZE':
-                        value = Cursor.V_RESIZE;
-                        break;
-                        case 'NONE':
-                        value = Cursor.NONE;
-                        break;
-
-                    }
+                    value = cursorMap[value.toString().toUpperCase()];
+                    if(value == null) value = Cursor.DEFAULT;
                 }
                 metaProperty.setProperty(delegate, value);
                 return true;
@@ -293,46 +303,7 @@ class FXHelper {
                 return true
             }
         }
-        if(key == "topAnchor") {
-            value = getValue(value);
-            if(value instanceof Number){
-                value = ((Number)value).doubleValue();
-            }else {
-                value = Double.parseDouble(value.toString());
-            }
-            AnchorPane.setTopAnchor((Node)delegate, value);
-            return true;
-        }
-        if(key == "bottomAnchor") {
-            value = getValue(value);
-            if(value instanceof Number){
-                value = ((Number)value).doubleValue();
-            }else {
-                value = Double.parseDouble(value.toString());
-            }
-            AnchorPane.setBottomAnchor((Node)delegate, value);
-            return true;
-        }
-        if(key == "rightAnchor") {
-            value = getValue(value);
-            if(value instanceof Number){
-                value = ((Number)value).doubleValue();
-            }else {
-                value = Double.parseDouble(value.toString());
-            }
-            AnchorPane.setRightAnchor((Node)delegate, value);
-            return true;
-        }
-        if(key == "leftAnchor") {
-            value = getValue(value);
-            if(value instanceof Number){
-                value = ((Number)value).doubleValue();
-            }else {
-                value = Double.parseDouble(value.toString());
-            }
-            AnchorPane.setLeftAnchor((Node)delegate, value);
-            return true;
-        }
+        
         return false;
     }
 
