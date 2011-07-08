@@ -20,38 +20,36 @@ import groovyx.javafx.GroovyFX;
 import groovyx.javafx.SceneGraphBuilder
 
 /**
- *
- * @author jimclarke
+ * A demo that shows the different ways you can define gradient fills in GroovyFX.
+ * 
+ * @author Jim Clarke
+ * @author Dean Iverson
  */
-GroovyFX.start({
-    def sg = new SceneGraphBuilder();
+GroovyFX.start {
+    def sg = new SceneGraphBuilder()
 
     sg.stage(title: "Gradient Example (GroovyFX)", width: 1020, height: 450, visible: true) {
         scene {
-            linearGradient(endX: 0, stops: [[0.0, white], [1.0, lightgray]])
+            fill linearGradient(endX: 0, stops: [[0.0, white], [1.0, lightgray]])
 
             def width = 240
             def height = 180
 
             tilePane(hgap: 10, vgap: 20, padding: 5) {
                 rectangle(width: width, height: height,
-                        fill: "linear (0%,0%) to (100%,100%) stops (0.0,red) (1.0,black)",
-                        stroke: linearGradient(stops: [[0.0, blue], [1.0,red]]),
-                        strokeWidth: 10
-                    )
+                          fill: "linear (0%,0%) to (100%,100%) stops (0.0, darkgreen) (1.0, black)")
 
-                rectangle(width: width, height: height) {
-                    linearGradient(stops: [[0.0, red], [1.0, blue]])
+                rectangle(width: width, height: height, fill: linearGradient(stops: [[0.0, red], [1.0, blue]])) {
                     dropShadow()
                 }
 
                 rectangle(width: width, height: height) {
-                    linearGradient(start: [0, 0.4], end: [0, 0.6], stops: [[0.0, red], [1.0, pink]])
+                    fill linearGradient(start: [0, 0.4], end: [0, 0.6], stops: [[0.0, red], [1.0, pink]])
                     dropShadow()
                 }
 
                 rectangle(width: width, height: height) {
-                    linearGradient(endY: 0) {
+                    fill linearGradient(endY: 0) {
                         stop(offset: 0.00, color: red)
                         stop(offset: 0.25, color: yellow)
                         stop(offset: 0.50, color: green)
@@ -63,18 +61,18 @@ GroovyFX.start({
                 circle(radius: height / 2,
                         fill: "radial (20%,20%), 100% focus(20%,20%) stops (0.0,red) (0.50,darkred) (1.0,black)")
 
-                circle(radius: height / 2) {
-                    radialGradient(radius: 0.95, center:[0.5, 0.5], stops:[[0, cyan], [0.75, black]])
+                circle(radius: height / 2,
+                       fill: radialGradient(radius: 0.95, center:[0.5, 0.5], stops:[[0, cyan], [0.75, black]])) {
                     dropShadow()
                 }
 
                 circle(radius: height / 2) {
-                    radialGradient(radius: 0.85, center:[0.5, 1], stops:[[0, magenta], [0.75, indigo]])
+                    fill radialGradient(radius: 1, center:[0.5, 1], stops:[[0, magenta], [0.75, indigo], [1, black]])
                 }
 
                 circle(radius: height / 2) {
                     dropShadow()
-                    radialGradient(radius: 0.6, center:[0.5, 0.5], focusDistance: 0.6, focusAngle: -65) {
+                    fill radialGradient(radius: 0.6, center:[0.5, 0.5], focusDistance: 0.6, focusAngle: -65) {
                         stop(offset: 0.0, color: gold)
                         stop(offset: 0.3, color: darkgoldenrod)
                         stop(offset: 1.0, color: black)
@@ -83,4 +81,4 @@ GroovyFX.start({
             }
         }
     }
-});
+}

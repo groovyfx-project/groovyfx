@@ -48,7 +48,7 @@ class SceneFactory extends AbstractFactory {
         return scene;
     }
 
-    public void setChild(FactoryBuilderSupport build, Object parent, Object child) {
+    public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         SceneWrapper sceneWrapper = (SceneWrapper)parent;
         if(sceneWrapper.root == null && child instanceof Node) {
             if(child instanceof Group || child instanceof Region ) {
@@ -58,21 +58,19 @@ class SceneFactory extends AbstractFactory {
                 sceneWrapper.root = new Group();
             }
         }
-        
-        if(child instanceof Node)
+
+        if(child instanceof Node) {
             sceneWrapper.root.getChildren().add((Node) child);
-            
-        //TODO add stylesheets
-        else if(child instanceof List) {
+        } else if(child instanceof List) {
+            // TODO add stylesheets
             sceneWrapper.stylesheets = (List)child;
-        
-        }else if(child instanceof GroovyMouseHandler) {
+        } else if(child instanceof GroovyMouseHandler) {
             parent.addMouseHandler(((GroovyMouseHandler)child).getType(), (EventHandler)child);
         } else if(child instanceof GroovyKeyHandler) {
             parent.addKeyHandler(((GroovyKeyHandler)child).getType(), (EventHandler)child);
         }
     }
-    
+
     public boolean onHandleNodeAttributes( FactoryBuilderSupport builder, Object node,
             Map attributes ) {
         for(v in NodeFactory.mouseEvents) {

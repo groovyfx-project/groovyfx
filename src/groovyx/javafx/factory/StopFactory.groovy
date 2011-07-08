@@ -37,6 +37,11 @@ class StopFactory extends AbstractFactory {
     }
 
     @Override
+    boolean isLeaf() {
+        return true
+    }
+
+    @Override
     void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
         def stopList = builder.parentContext["stops"]
         if (stopList) {

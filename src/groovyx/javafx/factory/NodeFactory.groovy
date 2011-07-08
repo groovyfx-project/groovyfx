@@ -16,16 +16,16 @@
 
 package groovyx.javafx.factory
 
-import javafx.scene.Node;
-
-import groovyx.javafx.input.*;
-import javafx.scene.input.*;
-import javafx.scene.effect.Effect;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.Image;
-import javafx.scene.transform.Transform;
-import javafx.event.EventHandler;
-
+import groovyx.javafx.input.GroovyKeyHandler
+import groovyx.javafx.input.GroovyMouseHandler
+import javafx.event.EventHandler
+import javafx.scene.Node
+import javafx.scene.effect.Effect
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
+import javafx.scene.input.KeyEvent
+import javafx.scene.input.MouseEvent
+import javafx.scene.transform.Transform
 
 /**
  *
@@ -50,7 +50,8 @@ public class NodeFactory extends AbstractFactory {
     ]
     
 
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
+    throws InstantiationException, IllegalAccessException {
         Object node;
         if (FactoryBuilderSupport.checkValueIsType(value, name, Node.class)) {
             node = value
@@ -65,8 +66,7 @@ public class NodeFactory extends AbstractFactory {
         return node;
     }
 
-     public boolean onHandleNodeAttributes( FactoryBuilderSupport builder, Object node,
-            Map attributes ) {
+     public boolean onHandleNodeAttributes( FactoryBuilderSupport builder, Object node, Map attributes ) {
         for(v in mouseEvents) {
             if(attributes.containsKey(v)) {
                 def val = attributes.remove(v);
@@ -93,7 +93,6 @@ public class NodeFactory extends AbstractFactory {
         }
         return true;
     }
-
 
     public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
         if(child instanceof GroovyMouseHandler) {
@@ -155,6 +154,5 @@ public class NodeFactory extends AbstractFactory {
     public bindingAttributeDelegate(FactoryBuilderSupport builder, def node, def attributes) {
         FXHelper.fxAttributes(node, attributes);
     }
-
 }
 

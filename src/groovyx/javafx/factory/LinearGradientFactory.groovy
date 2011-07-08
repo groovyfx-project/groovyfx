@@ -55,13 +55,13 @@ class LinearGradientFactory extends AbstractGradientFactory {
 
     @Override
     void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
-        if (parentHasFill(parent)) {
-            if (node instanceof LinearGradient)
-                parent.fill = (node as LinearGradient)
-            else{
+//        if (parentHasFill(parent)) {
+//            if (node instanceof LinearGradient)
+//                parent.fill = (node as LinearGradient)
+//            else{
                 handleStopNodesIfPresent(builder, node)
-                parent.fill = node.build()
-            }
-        }
+//                parent.fill = node.build()
+//            }
+//        }
     }
 }

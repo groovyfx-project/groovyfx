@@ -30,7 +30,8 @@ import org.codehaus.groovy.runtime.InvokerHelper;
 import org.codehaus.groovy.runtime.MetaClassHelper;
 import org.codehaus.groovy.runtime.metaclass.MissingMethodExceptionNoStack;
 import org.codehaus.groovyfx.javafx.binding.ClosureTriggerBinding
-import javafx.scene.paint.Stop;
+import javafx.scene.paint.Stop
+import javafx.geometry.Orientation;
 /**
  *
  * @author jimclarke
@@ -249,7 +250,8 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         }
         throw new MissingPropertyException("Unrecognized property: ${name}", name, this.class);
     }
-     protected void setNodeAttributes(Object node, Map attributes) {
+
+    protected void setNodeAttributes(Object node, Map attributes) {
         // set the properties
         //noinspection unchecked
         for (Map.Entry entry : (Set<Map.Entry>) attributes.entrySet()) {
@@ -378,6 +380,8 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'linearGradient', new LinearGradientFactory() )
         registerFactory( 'radialGradient', new RadialGradientFactory() )
         registerFactory( 'stop', new StopFactory() )
+        registerFactory( 'fill', new FillFactory() )
+        registerFactory( 'stroke', new StrokeFactory() )
     }
 
     public def registerControls() {
@@ -483,10 +487,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( "distant", ef);
         registerFactory( "point", ef);
         registerFactory( "spot", ef);
-        
-        
     }
-
 
     public def registerInputListeners() {
         MouseHandlerFactory mf = new MouseHandlerFactory();
@@ -517,7 +518,6 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
     }
 
 
-
     /**
      * Compatibility API.
      *
@@ -527,8 +527,6 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         c.setDelegate(this)
         return c.call()
     }
-
-
 
 }
 

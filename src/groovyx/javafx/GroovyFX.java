@@ -31,9 +31,9 @@ public class GroovyFX extends Application {
     public void start(Stage primaryStage) throws Exception {
         InvokerHelper.invokeClosure(closure, new Object[] { primaryStage });
     }
-    
+
     /**
-     * @param args the command line arguments
+     * @param c The closure to execute.
      */
      public static void start(Closure c) {
          closure = c;

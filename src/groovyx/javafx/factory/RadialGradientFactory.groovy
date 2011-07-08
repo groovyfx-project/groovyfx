@@ -50,13 +50,13 @@ class RadialGradientFactory extends AbstractGradientFactory {
 
     @Override
     void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
-        if (parentHasFill(parent)) {
-            if (node instanceof RadialGradient)
-                parent.fill = (node as RadialGradient)
-            else{
+//        if (parentHasFill(parent)) {
+//            if (node instanceof RadialGradient)
+//                parent.fill = (node as RadialGradient)
+//            else{
                 handleStopNodesIfPresent(builder, node)
-                parent.fill = node.build()
-            }
-        }
+//                parent.fill = node.build()
+//            }
+//        }
     }
 }
