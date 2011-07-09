@@ -40,8 +40,8 @@ class FillFactory extends AbstractFactory {
     @Override
     void setParent(FactoryBuilderSupport builder, Object parent, Object child) {
         def paint = builder.context.remove(FILL_PROPERTY)
-        if (paint && hasFill(parent)) {
-            parent.fill = paint
+        if (paint) {
+            FXHelper.setPropertyOrMethod(parent, "fill", paint)
         }
     }
 
@@ -51,12 +51,5 @@ class FillFactory extends AbstractFactory {
     @Override
     boolean isLeaf() {
         return true;
-    }
-
-    /**
-     * @return True if the parent object has a setFill method or a "fill" property.
-     */
-    private boolean hasFill(parent) {
-        return parent.metaClass.respondsTo(parent, "setFill") || parent.metaClass.hasProperty(parent, "fill")
     }
 }

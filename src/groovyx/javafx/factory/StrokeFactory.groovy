@@ -40,8 +40,8 @@ class StrokeFactory extends AbstractFactory {
     @Override
     void setParent(FactoryBuilderSupport builder, Object parent, Object child) {
         def paint = builder.context.remove(STROKE_PROPERTY)
-        if (paint && hasStroke(parent)) {
-            parent.stroke = paint
+        if (paint) {
+            FXHelper.setPropertyOrMethod(parent, "stroke", paint)
         }
     }
 
@@ -51,12 +51,5 @@ class StrokeFactory extends AbstractFactory {
     @Override
     boolean isLeaf() {
         return true;
-    }
-
-    /**
-     * @return True if the parent object has a setStroke method or a "stroke" property.
-     */
-    private boolean hasStroke(parent) {
-        return parent.metaClass.respondsTo(parent, "setStroke") || parent.metaClass.hasProperty(parent, "stroke")
     }
 }
