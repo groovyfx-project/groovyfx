@@ -33,6 +33,10 @@ import org.codehaus.groovyfx.javafx.binding.ClosureTriggerBinding
 import javafx.scene.paint.Stop
 import javafx.geometry.Orientation;
 import javafx.util.Duration;
+
+import javafx.builders.*;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 /**
  *
  * @author jimclarke
@@ -546,6 +550,15 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'transition', tf);
 
     }
+    
+    public def registerMedia() {
+        MediaViewFactory mf = new MediaViewFactory();
+        MediaPlayerFactory pf = new MediaPlayerFactory();
+
+        registerFactory( 'mediaView', mf)
+        registerFactory( 'player', pf)
+
+    }
 
 
     /**
@@ -557,6 +570,17 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         c.setDelegate(this)
         return c.call()
     }
+    
+    protected Object postNodeCompletion(Object parent, Object node) {
+        if (node instanceof MediaPlayerBuilder) {
+            node = node.build();
+        }
+        if(parent instanceof MediaView && node instanceof MediaPlayer) {
+                parent.mediaPlayer = node;
+            }
+
+        return super.postNodeCompletion(parent, node);
+     }
 
 }
 
