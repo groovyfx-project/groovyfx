@@ -27,8 +27,6 @@ import javafx.scene.PerspectiveCamera;
 GroovyFX.start({ primaryStage -> 
     def sg = new SceneGraphBuilder(primaryStage);
     def mp = null;
-    def curdir = new File(".").getAbsolutePath();
-    System.out.println(curdir);
     def st = sg.stage(
         title: "MediaView (Groovy)",
         width: 400, height:300,
@@ -36,9 +34,11 @@ GroovyFX.start({ primaryStage ->
         resizable: true
     ) {
          scene(fill: lightgreen, root: stackPane()) {
-                 mediaView(fitWidth: 400, fitHeight: 300, preserveRatio: true, onError: { println "Error"}) {
-                     mp = player(cycleCount: 100, autoPlay: false, source: "http://www.longtailvideo.com/jw/upload/bunny.vp6",
-                          onError: {println "Media Error"})
+                 mediaView(fitWidth: 400, fitHeight: 300, preserveRatio: true, 
+                        onError: { println "Error"}) {
+                     mp = player(cycleCount: 100, autoPlay: false, 
+                         source: "http://www.longtailvideo.com/jw/upload/bunny.vp6",
+                         onError: {println "Media Error"})
                  }
          }
     }
