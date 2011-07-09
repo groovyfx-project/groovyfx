@@ -70,9 +70,9 @@ class SceneFactory extends AbstractFactory {
             // TODO add stylesheets
             sceneWrapper.stylesheets((List)child);
         } else if(child instanceof GroovyMouseHandler) {
-            parent.addMouseHandler(((GroovyMouseHandler)child).getType(), (EventHandler)child);
+            sceneWrapper.addInputHandler(((GroovyMouseHandler)child).getType(), (EventHandler)child);
         } else if(child instanceof GroovyKeyHandler) {
-            parent.addKeyHandler(((GroovyKeyHandler)child).getType(), (EventHandler)child);
+            sceneWrapper.addInputHandler(((GroovyKeyHandler)child).getType(), (EventHandler)child);
         }
     }
 
@@ -112,9 +112,9 @@ class SceneFactory extends AbstractFactory {
                 if(val instanceof Closure) {
                     def handler = new GroovyMouseHandler(v);
                     handler.setClosure((Closure)val);
-                    node.addMouseHandler(v, handler);
+                    node.addInputHandler(v, handler);
                 }else if(val instanceof EventHandler) {
-                    node.addMouseHandler(v, (EventHandler)val);
+                    node.addInputHandler(v, (EventHandler)val);
                 }
             }
         }
@@ -124,9 +124,9 @@ class SceneFactory extends AbstractFactory {
                 if(val instanceof Closure) {
                     def handler = new GroovyKeyHandler(v);
                     handler.setClosure((Closure)val);
-                    node.addKeyHandler(v, handler);
+                    node.addInputHandler(v, handler);
                 }else if(val instanceof EventHandler) {
-                    node.addKeyHandler(v, (EventHandler)val);
+                    node.addInputHandler(v, (EventHandler)val);
                 }
             }
         }

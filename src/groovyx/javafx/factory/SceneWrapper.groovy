@@ -61,5 +61,11 @@ class SceneWrapper extends SceneBuilder {
         }
         return scene;
     }
+    
+    public void addInputHandler(String type, EventHandler handler) {
+        InvokerHelper.invokeMethod(this, type, [handler]);
+    }
+    
+ 
 }
 
