@@ -38,6 +38,10 @@ import javafx.scene.Node;
 import java.util.Map;
 import java.util.HashMap;
 import javafx.scene.control.ToggleGroup;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import javafx.geometry.VPos;
+import javafx.scene.text.TextAlignment;
 /**
  *
  * @author jimclarke
@@ -107,6 +111,252 @@ class FXHelper {
         rightAnchor: setRightAnchor,
         leftAnchor: setLeftAnchor
     ]
+    
+    static classMap = new HashMap<Class, Closure>();
+    
+    static def doPaint = { delegate, metaProperty, value ->
+         def paint = ColorFactory.get(getValue(value));
+         metaProperty.setProperty(delegate, paint);
+         return true;
+    };
+    static def doFont = { delegate, metaProperty, value ->
+        def font = FontFactory.get(getValue(value));
+        metaProperty.setProperty(delegate, font);
+        return true;   
+    };
+    static def doObservableList = { delegate, metaProperty, value ->
+        value = getValue(value);
+        if(value != null) {
+            ObservableList list = metaProperty.getProperty(delegate);
+
+            if(list == null) {
+                list = FXCollections.observableArrayList();
+                metaProperty.setProperty(delegate, list);
+            }
+
+            if(value instanceof java.util.List) {
+                if(delegate instanceof javafx.scene.shape.Polygon ||
+                    delegate instanceof javafx.scene.shape.Polyline) {
+                    // need to convert to double
+                    // not sure if you can tell  this from meta data?
+                        for(v in value) {
+                            list.add(v.doubleValue());
+                        }
+                }else {
+                    list.addAll(value);
+                }
+            }else if(!list.contains(value)) {
+                list.add(value);
+            }
+        }
+        return true;    
+    };
+    static def doSequence = { delegate, metaProperty, value ->
+        value = getValue(value);
+        if(value != null) {
+            Sequence seq = metaProperty.getProperty(delegate);
+            if(seq != null) {
+                if(value instanceof java.util.List) {
+                    for(v in value) {
+                        if(!seq.contains(v)) {
+                            seq.add(v);
+                        }
+                    }
+                }else if(!seq.contains(value)) {
+                    seq.add(value);
+                }
+            }else {
+                seq = FXCollections.sequence();
+                seq.addAll(value);
+                metaProperty.setProperty(delegate, seq);
+            }
+        }
+        return true;    
+    };
+    static def doInsets = { delegate, metaProperty, value ->
+        value = getValue(value);
+        if (Number.class.isAssignableFrom(value.getClass())) {
+            value = new Insets(value, value, value, value)
+        } else if(List.class.isAssignableFrom(value.getClass())) {
+            switch (value.size()) {
+                case 0:
+                    value = Insets.EMPTY
+                    break
+                case 1:
+                    //top, right,bottom, left
+                    value = new Insets(value[0], value[0], value[0], value[0])
+                    break
+                case 2:
+                    value = new Insets(value[0], value[1], value[0], value[1])
+                    break
+                case 3:
+                    value = new Insets(value[0], value[1], value[2], value[1])
+                    break
+                default:
+                    value = new Insets(value[0], value[1], value[2], value[3])
+                    break
+            }
+        } else if(value.toString().toUpperCase() == 'EMPTY') {
+            value = Insets.EMPTY;
+        }
+        metaProperty.setProperty(delegate, value);
+        return true;    
+    };
+    static def doBoundingBox = { delegate, metaProperty, value ->
+        value = getValue(value);
+        if(List.class.isAssignableFrom(value.getClass())) {
+            if(value.getSize() == 4) // 2D
+            value = new BoundingBox(value[0], value[1],value[2],value[3]);
+            else // 3D
+            value = new BoundingBox(value[0], value[1],value[2],value[3], value[4], value[5]);
+        }
+        metaProperty.setProperty(delegate, value);
+        return true;    
+    };
+    static def doDimension2D = { delegate, metaProperty, value ->
+        value = getValue(value);
+        if(List.class.isAssignableFrom(value.getClass())) {
+            value = new Dimension2D(value[0], value[1]);
+        }
+        metaProperty.setProperty(delegate, value);
+        return true;    
+    };
+    static def doPoint2D = { delegate, metaProperty, value ->
+        value = getValue(value);
+        if(List.class.isAssignableFrom(value.getClass())) {
+            value = new Point2D(value[0], value[1]);
+        }
+        metaProperty.setProperty(delegate, value);
+    };
+    static def doPoint3D = { delegate, metaProperty, value ->
+        value = getValue(value);
+        if(List.class.isAssignableFrom(value.getClass())) {
+            value = new Point3D(value[0], value[1], value[2]);
+        }
+        metaProperty.setProperty(delegate, value);
+        return true;    
+    };
+    static def doRectangle2D = { delegate, metaProperty, value ->
+        value = getValue(value);
+        if(List.class.isAssignableFrom(value.getClass())) {
+            value = new Rectangle2D(value[0], value[1],value[2],value[3]);
+        }else if (!Rectangle2D.class.isAssignableFrom(value.getClass())) {
+            if(value.getString().toUpperCase() == 'EMPTY') {
+                value = Rectangle2D.EMPTY;
+            }
+        }
+        metaProperty.setProperty(delegate, value);
+        return true;    
+    };
+    static def doImage = { delegate, metaProperty, value ->
+        value = getValue(value);
+        if (!Image.class.isAssignableFrom(value.getClass())) {
+            value = new Image(value.toString());
+        }
+        metaProperty.setProperty(delegate, value);
+                
+        return true;    
+    };
+    static def doCursor = { delegate, metaProperty, value ->
+        value = getValue(value);
+        if (!Cursor.class.isAssignableFrom(value.getClass())) {
+            value = cursorMap[value.toString().toUpperCase()];
+            if(value == null) value = Cursor.DEFAULT;
+        }
+        metaProperty.setProperty(delegate, value);
+        return true;     
+    };
+    static def doOrientation = { delegate, metaProperty, value ->
+        value = getValue(value);
+        if (!Cursor.class.isAssignableFrom(value.getClass())) {
+            switch(value.toString().toUpperCase()) {
+                case 'VERTICAL':
+                value = Orientation.VERTICAL;
+                break;
+                case 'HORIZONTAL':
+                value = Orientation.HORIZONTAL;
+                break;
+            }
+        }
+        metaProperty.setProperty(delegate, value);
+        return true;    
+    };
+    static def doEventHandler = { delegate, metaProperty, value ->
+        if(value instanceof Closure)
+            value = new ClosureEventHandler(closure: value);
+        metaProperty.setProperty(delegate, value);
+        return true;
+            
+    };
+    static def doToggleGroup = { delegate, metaProperty, value ->
+        ToggleGroup group = null;
+        if(value instanceof String) {
+            group = toggleGroups.get(value);
+            if(group == null) {
+                group = new ToggleGroup();
+                toggleGroups.put(value, group);
+            }
+        }else {
+            group = value;
+        }
+        metaProperty.setProperty(delegate, group);
+        return true;
+            
+    };
+    
+    static def doNothing  = { delegate, metaProperty, value ->
+        return false;
+    };
+    
+    static def doEnum  = { delegate, metaProperty, value ->
+        value = getValue(value);
+        if(!value.getClass().isEnum()) {
+            value = Enum.valueOf(metaProperty.getType(),value.toString().trim().toUpperCase())
+        }
+        metaProperty.setProperty(delegate, value);
+        return true;
+    };
+
+    static {
+        // standard Java class types that have no special processing
+        classMap.put(String, doNothing);
+        classMap.put(Double, doNothing);
+        classMap.put(Double.TYPE, doNothing);
+        classMap.put(Short, doNothing);
+        classMap.put(Short.TYPE, doNothing);
+        classMap.put(Integer, doNothing);
+        classMap.put(Integer.TYPE, doNothing);
+        classMap.put(Float, doNothing);
+        classMap.put(Float.TYPE, doNothing);
+        classMap.put(Long, doNothing);
+        classMap.put(Long.TYPE, doNothing);
+        classMap.put(Boolean, doNothing);
+        classMap.put(Boolean.TYPE, doNothing);
+        classMap.put(Byte, doNothing);
+        classMap.put(Byte.TYPE, doNothing);
+        classMap.put(Character, doNothing);
+        classMap.put(Character.TYPE, doNothing);
+        classMap.put(BigDecimal, doNothing);
+        classMap.put(BigInteger, doNothing);
+        classMap.put(Runnable, doNothing);
+        
+        // class types that do have special attribute processing
+        classMap.put(Paint, doPaint);
+        classMap.put(Font, doFont);
+        classMap.put(ObservableList, doObservableList);
+        classMap.put(Sequence, doSequence);
+        classMap.put(Insets, doInsets);
+        classMap.put(BoundingBox, doBoundingBox);
+        classMap.put(Dimension2D, doDimension2D);
+        classMap.put(Point2D, doPoint2D);
+        classMap.put(Point3D, doPoint3D);
+        classMap.put(Rectangle2D, doRectangle2D);
+        classMap.put(Image, doImage);
+        classMap.put(Cursor, doCursor);
+        classMap.put(Orientation, doOrientation);
+        classMap.put(EventHandler, doEventHandler);
+        classMap.put(ToggleGroup, doToggleGroup);
+    }
 
     public static boolean fxAttribute(delegate, key, value) {
         def setAnchor = anchorMap[key];
@@ -117,190 +367,48 @@ class FXHelper {
         
         def metaProperty = delegate.getClass().metaClass.getMetaProperty(key);
         if(metaProperty) {
-            // process the common cases first to jump out of here quickly
-            if(String.class.isAssignableFrom(metaProperty.getType()) ||
-               Integer.class.isAssignableFrom(metaProperty.getType()) ||
-               Double.class.isAssignableFrom(metaProperty.getType()))
-                return false;
+            // first do quick check from map
+            def closure = classMap.get(metaProperty.getType());
+            if(closure != null) {
+                return closure(delegate, metaProperty, value);
+            }
+            // if not in map we need to see if it is a subclass.
             if(metaProperty.getType().isEnum()) {
-                value = getValue(value);
-                if(!value.getClass().isEnum()) {
-                    value = Enum.valueOf(metaProperty.getType(),value.toString().trim().toUpperCase())
-                }
-                metaProperty.setProperty(delegate, value);
-                return true;
-            }else if(Paint.class.isAssignableFrom(metaProperty.getType())) {
-                def paint = ColorFactory.get(getValue(value));
-                metaProperty.setProperty(delegate, paint);
-                return true;
+                return doEnum(delegate, metaProperty, value);
+            }
+            //TODO Temporary to tell us if we should add a class to the map.
+            System.out.println("FXHelper unMapped class = " + metaProperty.getType())
+            
+            if(Paint.class.isAssignableFrom(metaProperty.getType())) {
+                return doPaint(delegate, metaProperty, value);
             }else if(Font.class.isAssignableFrom(metaProperty.getType())) {
-                def font = FontFactory.get(getValue(value));
-                metaProperty.setProperty(delegate, font);
-                return true;
+                return doFont(delegate, metaProperty, value);
             }else if(ObservableList.class.isAssignableFrom(metaProperty.getType())) {
-                value = getValue(value);
-                if(value != null) {
-                    ObservableList list = metaProperty.getProperty(delegate);
-                    
-                    if(list == null) {
-                        list = FXCollections.observableArrayList();
-                        metaProperty.setProperty(delegate, list);
-                    }
-                    
-                    if(value instanceof java.util.List) {
-                        if(delegate instanceof javafx.scene.shape.Polygon ||
-                            delegate instanceof javafx.scene.shape.Polyline) {
-                            // need to convert to double
-                            // not sure if you can tell  this from meta data?
-                                for(v in value) {
-                                    list.add(v.doubleValue());
-                                }
-                        }else {
-                            list.addAll(value);
-                        }
-                    }else if(!list.contains(value)) {
-                        list.add(value);
-                    }
-                }
-                return true;
+                return doObservableList(delegate, metaProperty, value);
             }else if(Sequence.class.isAssignableFrom(metaProperty.getType())) {
-                value = getValue(value);
-                if(value != null) {
-                    Sequence seq = metaProperty.getProperty(delegate);
-                    if(seq != null) {
-                        if(value instanceof java.util.List) {
-                            for(v in value) {
-                                if(!seq.contains(v)) {
-                                    seq.add(v);
-                                }
-                            }
-                        }else if(!seq.contains(value)) {
-                            seq.add(value);
-                        }
-                    }else {
-                        seq = FXCollections.sequence();
-                        seq.addAll(value);
-                        metaProperty.setProperty(delegate, seq);
-                    }
-                }
-                return true;
+                return doSequence(delegate, metaProperty, value);
             }else if(Insets.class.isAssignableFrom(metaProperty.getType())) {
-                value = getValue(value);
-                if (Number.class.isAssignableFrom(value.getClass())) {
-                    value = new Insets(value, value, value, value)
-                } else if(List.class.isAssignableFrom(value.getClass())) {
-                    switch (value.size()) {
-                        case 0:
-                            value = Insets.EMPTY
-                            break
-                        case 1:
-                            //top, right,bottom, left
-                            value = new Insets(value[0], value[0], value[0], value[0])
-                            break
-                        case 2:
-                            value = new Insets(value[0], value[1], value[0], value[1])
-                            break
-                        case 3:
-                            value = new Insets(value[0], value[1], value[2], value[1])
-                            break
-                        default:
-                            value = new Insets(value[0], value[1], value[2], value[3])
-                            break
-                    }
-                } else if(value.toString().toUpperCase() == 'EMPTY') {
-                    value = Insets.EMPTY;
-                }
-                metaProperty.setProperty(delegate, value);
-                return true;
+                return doInsets(delegate, metaProperty, value);
             }else if(BoundingBox.class.isAssignableFrom(metaProperty.getType())) {
-                value = getValue(value);
-                if(List.class.isAssignableFrom(value.getClass())) {
-                    if(value.getSize() == 4) // 2D
-                    value = new BoundingBox(value[0], value[1],value[2],value[3]);
-                    else // 3D
-                    value = new BoundingBox(value[0], value[1],value[2],value[3], value[4], value[5]);
-                }
-                metaProperty.setProperty(delegate, value);
-                return true;
+                return doBoundingBox(delegate, metaProperty, value);
             }else if(Dimension2D.class.isAssignableFrom(metaProperty.getType())) {
-                value = getValue(value);
-                if(List.class.isAssignableFrom(value.getClass())) {
-                    value = new Dimension2D(value[0], value[1]);
-                }
-                metaProperty.setProperty(delegate, value);
-                return true;
+                return doDimension2D(delegate, metaProperty, value);
             }else if(Point2D.class.isAssignableFrom(metaProperty.getType())) {
-                value = getValue(value);
-                if(List.class.isAssignableFrom(value.getClass())) {
-                    value = new Point2D(value[0], value[1]);
-                }
-                metaProperty.setProperty(delegate, value);
-                return true;
+                return doPoint2D(delegate, metaProperty, value);
             }else if(Point3D.class.isAssignableFrom(metaProperty.getType())) {
-                value = getValue(value);
-                if(List.class.isAssignableFrom(value.getClass())) {
-                    value = new Point3D(value[0], value[1], value[2]);
-                }
-                metaProperty.setProperty(delegate, value);
-                return true;
+                return doPoint3D(delegate, metaProperty, value);
             }else if(Rectangle2D.class.isAssignableFrom(metaProperty.getType())) {
-                value = getValue(value);
-                if(List.class.isAssignableFrom(value.getClass())) {
-                    value = new Rectangle2D(value[0], value[1],value[2],value[3]);
-                }else if (!Rectangle2D.class.isAssignableFrom(value.getClass())) {
-                    if(value.getString().toUpperCase() == 'EMPTY') {
-                        value = Rectangle2D.EMPTY;
-                    }
-                }
-                metaProperty.setProperty(delegate, value);
-                return true;
+                return doRectangle2D(delegate, metaProperty, value);
             }else if(Image.class.isAssignableFrom(metaProperty.getType())) {
-                value = getValue(value);
-                if (!Image.class.isAssignableFrom(value.getClass())) {
-                    value = new Image(value.toString());
-                }
-                metaProperty.setProperty(delegate, value);
-                return true;
+                return doImage(delegate, metaProperty, value);
             }else if(Cursor.class.isAssignableFrom(metaProperty.getType())) {
-                value = getValue(value);
-                if (!Cursor.class.isAssignableFrom(value.getClass())) {
-                    value = cursorMap[value.toString().toUpperCase()];
-                    if(value == null) value = Cursor.DEFAULT;
-                }
-                metaProperty.setProperty(delegate, value);
-                return true;
+                return doCursor(delegate, metaProperty, value);
             }else if(Orientation.class.isAssignableFrom(metaProperty.getType())) {
-                value = getValue(value);
-                if (!Cursor.class.isAssignableFrom(value.getClass())) {
-                    switch(value.toString().toUpperCase()) {
-                        case 'VERTICAL':
-                        value = Orientation.VERTICAL;
-                        break;
-                        case 'HORIZONTAL':
-                        value = Orientation.HORIZONTAL;
-                        break;
-                    }
-                }
-                metaProperty.setProperty(delegate, value);
-                return true;
-                
+                return doOrientation(delegate, metaProperty, value);
             }else if(EventHandler.class.isAssignableFrom(metaProperty.getType())) {
-                ClosureEventHandler handler = new ClosureEventHandler(closure: value);
-                metaProperty.setProperty(delegate, handler);
-                return true;
+                return doEventHandler(delegate, metaProperty, value);
             }else if(ToggleGroup.class.isAssignableFrom(metaProperty.getType())) {
-                ToggleGroup group = null;
-                if(value instanceof String) {
-                    group = toggleGroups.get(value);
-                    if(group == null) {
-                        group = new ToggleGroup();
-                        toggleGroups.put(value, group);
-                    }
-                }else {
-                    group = value;
-                }
-                metaProperty.setProperty(delegate, group);
-                return true
+                return doToggleGroup(delegate, metaProperty, value);
             }
         }
         
