@@ -76,7 +76,7 @@ class Custom extends Region {
                 label (
                     //layoutX: 25,
                     //layoutY: 150,
-                    textFill: "rgb(100%,100%,0)",
+                    textFill: "rgb(255,255,0)",
                     text: "I'm a label"
                 )
 
@@ -85,7 +85,7 @@ class Custom extends Region {
                     //layoutY: 200,
                     textOrigin: "top",
                     textAlignment: "center",
-                    font: "32pt",
+                    font: "32px",
                     content: "This is Text",
                     fill: cyan
                 )
@@ -93,14 +93,14 @@ class Custom extends Region {
                     button (
                         //layoutX: 25,
                         //layoutY: 300,
-                        font: "16pt Courier",
+                        font: "16px Courier",
                         text: "This is a Button",
                         onAction: { println "button pressed"}
                     )
                     checkBox (
                         //layoutX: 25,
                         //layoutY: 350,
-                        font: "16pt Courier",
+                        font: "16px Courier",
                         text: "Check",
                         selected: true
                     )

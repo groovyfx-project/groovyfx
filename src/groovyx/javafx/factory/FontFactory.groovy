@@ -17,6 +17,9 @@
 package groovyx.javafx.factory
 
 import javafx.scene.text.*;
+import com.sun.javafx.css.Stylesheet;
+import com.sun.javafx.css.Value;
+import com.sun.javafx.css.parser.CSSParser;
 
 /**
  *
@@ -31,84 +34,39 @@ class FontFactory {
             return getFont(fontStr);
         }
     }
+    
+    private static Map <String, Font> fontMap = new HashMap<String, Font>();
 
     static Font getFont(String str) {
+        str = str.trim();
         if(str.length() == 0)
             return Font.getDefault();
-        FontPosture posture = FontPosture.REGULAR;
-        FontWeight weight = FontWeight.NORMAL;
-        float size = 0.0;
-        String family = "";
-        str = str.toLowerCase();
-
-        int ndx = str.indexOf(' ');
-        if(ndx > 0) {
-            posture = FontPosture.findByName(str.substring(0, ndx));
-            if(posture == null) {
-                posture = FontPosture.REGULAR;
-            }else {
-                str = str.substring(ndx+1);
-            }
+        if(str.endsWith(";")) {
+            str = str.substring(0, str.length()-1);
         }
-        
-        // test for weight
-        ndx = str.indexOf(' ');
-        if(ndx > 0) {
-            // two words?
-            if(str.startsWith("extra") || 
-                str.startsWith("ultra") ||
-                str.startsWith("demi") ||
-                str.startsWith("semi") 
-            ) {
-                ndx = str.indexOf(' ', ndx+1);
-            }
-            String w = str.substring(0, ndx);
+        Font font = fontMap.get(str);
+        if(font == null) {
             try {
-                // try int value first
-                int val = Integer.valueOf(w);
-                weight = FontWeight.findByWeight(val);
-                str = str.substring(ndx + 1);
-            }catch(NumberFormatException ex) {
-                // not an int try name
-                weight = FontWeight.findByName(w);
-                if(weight != null)
-                    str = str.substring(ndx + 1);
-                else
-                    weight = FontWeight.NORMAL;
+                Stylesheet p = CSSParser.getInstance().parse("* { -fx-font: " + str + "; }");
+                List declarations = p.getRules().get(0).getDeclarations();
+                if(declarations.isEmpty()) {
+                    p = CSSParser.getInstance().parse("* { -fx-font-size: " + str + "; }");
+                    declarations = p.getRules().get(0).getDeclarations();
+                    Value v = declarations.get(0).getCssValue();
+                    def size = v.getConverter().convert(v, null);
+                    font = new Font(size);
+                }else {
+                    Value v = declarations.get(0).getCssValue();
+                    font = (Font)v.getConverter().convert(v, null);
+                }
+                if(font != null) {
+                    fontMap.put(str, font)
+                }
+            }catch(IOException ex) {
+                System.out.println("FontFactory.getFont() Exception: " + ex);
             }
-            
         }
-        String[]  args = str.split(" ");
-        size = fontSize(args[0]);
-        if(args.length > 1)
-            family = args[1];
-        else
-            family = "Amble";
-
-
-        //TODO NPE bug in Font.font
-        return Font.font(family, weight, posture, size);
-        //
-        //TODO work around
-        /*
-        def fontName = family;
-        if(weight == FontWeight.BOLD ) {
-                fontName += " bold";
-        }
-        if(posture == FontPosture.ITALIC)
-            fontName += " italic";
-        return new Font(fontName, size);
-        */
-    }
-
-    static float fontSize(String sizeArg) {
-        //TODO units, px, mm, ex, in, xm, mm, pc
-
-        if(sizeArg.endsWith("pt")){
-            sizeArg = sizeArg.substring(0, sizeArg.length()-2)
-        }
-
-        return Float.parseFloat(sizeArg);
+        return font;
     }
 
 }

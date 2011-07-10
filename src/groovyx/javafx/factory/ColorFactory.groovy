@@ -20,15 +20,23 @@ import java.util.List;
 import javafx.scene.paint.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.*;
+import javafx.scene.paint.Paint;
 
 import javafx.builders.RadialGradientBuilder
 import javafx.builders.LinearGradientBuilder;
+
+import com.sun.javafx.css.Stylesheet;
+import com.sun.javafx.css.Value;
+import com.sun.javafx.css.parser.CSSParser;
 
 /**
  *
  * @author jimclarke
  */
 public class ColorFactory {
+    
+    private static Map <String, Paint> colorCacheMap = new HashMap<String, Paint>();
 
     public static Paint get(Object value) {
         if(value instanceof Paint) {
@@ -117,18 +125,21 @@ public class ColorFactory {
                 return Color.rgb(r, g, b, a);
             }
         }else if(value != null) {
-            String color = value.toString();
-            if(color.startsWith("linear")) {
-                return getLinearPaint(color);
-            } else if(color.startsWith("radial")) {
-                return getRadialPaint(color);
-            }else if(color.startsWith("rgb")) {
-                return getRGBPaint(color);
-            }else if(color.startsWith("hsb")) {
-                return getHSBPaint(color);
-            } else {
-                return Color.web(color);
+            String color = value.toString().trim();
+            if(color.endsWith(";")) {
+                color = color.substring(0, color.length()-1);
             }
+            Paint paint = colorCacheMap.get(color);
+            if(paint == null) {
+                Stylesheet p = CSSParser.getInstance().parse("* { -fx-fill: " + color + "; }");
+                List declarations = p.getRules().get(0).getDeclarations();
+                Value v = declarations.get(0).getCssValue();
+                if(v.getConverter() == null)
+                    paint = (Paint)v.getValue();
+                else
+                    paint = (Paint)v.getConverter().convert(v, null);
+            }
+            return paint;
         }else {
             return null;
         }

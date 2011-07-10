@@ -70,7 +70,7 @@ GroovyFX.start({
                  /// BlendMode
                  group(blendMode: "multiply") {
                      rectangle(x: 290, y: 50, width: 50, height: 50, fill: "blue")
-                     circle(fill: "rgb(255, 00, 0, 0.5)", centerX: 290, centerY: 50, radius: 25)
+                     circle(fill: "rgba(255, 00, 0, 0.5)", centerX: 290, centerY: 50, radius: 25)
                  }
                  /// Bloom
                  group(cache: true, translateX: 350) {
