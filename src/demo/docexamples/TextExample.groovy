@@ -30,7 +30,7 @@ GroovyFX.start({
         scene (fill: white) {
             text(x: 10, y: 10,
                 content: "This is text.",
-                fill: red, font: "bold 20pt",
+                fill: red, font: "bold 20pt Amble",
                 textOrigin: "top"
                 )
         }

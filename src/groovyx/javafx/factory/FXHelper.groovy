@@ -48,9 +48,9 @@ import javafx.scene.text.TextAlignment;
  */
 class FXHelper {
     
-    static Map<String, ToggleGroup> toggleGroups = new HashMap<String, ToggleGroup>();
+    private static Map<String, ToggleGroup> toggleGroups = new HashMap<String, ToggleGroup>();
     
-    static def cursorMap = [
+    private static def cursorMap = [
         DEFAULT: Cursor.DEFAULT,
         CROSSHAIR: Cursor.CROSSHAIR,
         TEXT: Cursor.TEXT,
@@ -82,7 +82,7 @@ class FXHelper {
         }
     }
     
-    static double getAnchorValue ( value) {
+    private static double getAnchorValue ( value) {
         value = getValue(value);
         if(value instanceof Number){
             value = ((Number)value).doubleValue();
@@ -92,39 +92,39 @@ class FXHelper {
         return value;
     }
     
-    static def setTopAnchor = { delegate, value -> 
+    private static def setTopAnchor = { delegate, value -> 
         AnchorPane.setTopAnchor((Node)delegate, getAnchorValue(value));
     }
-    static def setBottomAnchor = { delegate, value -> 
+    private static def setBottomAnchor = { delegate, value -> 
         AnchorPane.setBottomAnchor((Node)delegate, getAnchorValue(value));
     }
-    static def setRightAnchor = { delegate, value -> 
+    private static def setRightAnchor = { delegate, value -> 
         AnchorPane.setRightAnchor((Node)delegate, getAnchorValue(value));
     }
-    static def setLeftAnchor = { delegate, value -> 
+    private static def setLeftAnchor = { delegate, value -> 
         AnchorPane.setLeftAnchor((Node)delegate, getAnchorValue(value));
     }
     
-    static anchorMap = [
+    private static anchorMap = [
         topAnchor: setTopAnchor,
         bottomAnchor: setBottomAnchor,
         rightAnchor: setRightAnchor,
         leftAnchor: setLeftAnchor
     ]
     
-    static classMap = new HashMap<Class, Closure>();
+    private static classMap = new HashMap<Class, Closure>();
     
-    static def doPaint = { delegate, metaProperty, value ->
+    private static def doPaint = { delegate, metaProperty, value ->
          def paint = ColorFactory.get(getValue(value));
          metaProperty.setProperty(delegate, paint);
          return true;
     };
-    static def doFont = { delegate, metaProperty, value ->
+    private static def doFont = { delegate, metaProperty, value ->
         def font = FontFactory.get(getValue(value));
         metaProperty.setProperty(delegate, font);
         return true;   
     };
-    static def doObservableList = { delegate, metaProperty, value ->
+    private static def doObservableList = { delegate, metaProperty, value ->
         value = getValue(value);
         if(value != null) {
             ObservableList list = metaProperty.getProperty(delegate);
@@ -151,7 +151,7 @@ class FXHelper {
         }
         return true;    
     };
-    static def doSequence = { delegate, metaProperty, value ->
+    private static def doSequence = { delegate, metaProperty, value ->
         value = getValue(value);
         if(value != null) {
             Sequence seq = metaProperty.getProperty(delegate);
@@ -173,7 +173,7 @@ class FXHelper {
         }
         return true;    
     };
-    static def doInsets = { delegate, metaProperty, value ->
+    private static def doInsets = { delegate, metaProperty, value ->
         value = getValue(value);
         if (Number.class.isAssignableFrom(value.getClass())) {
             value = new Insets(value, value, value, value)
@@ -202,7 +202,7 @@ class FXHelper {
         metaProperty.setProperty(delegate, value);
         return true;    
     };
-    static def doBoundingBox = { delegate, metaProperty, value ->
+    private static def doBoundingBox = { delegate, metaProperty, value ->
         value = getValue(value);
         if(List.class.isAssignableFrom(value.getClass())) {
             if(value.getSize() == 4) // 2D
@@ -213,7 +213,7 @@ class FXHelper {
         metaProperty.setProperty(delegate, value);
         return true;    
     };
-    static def doDimension2D = { delegate, metaProperty, value ->
+    private static def doDimension2D = { delegate, metaProperty, value ->
         value = getValue(value);
         if(List.class.isAssignableFrom(value.getClass())) {
             value = new Dimension2D(value[0], value[1]);
@@ -221,14 +221,14 @@ class FXHelper {
         metaProperty.setProperty(delegate, value);
         return true;    
     };
-    static def doPoint2D = { delegate, metaProperty, value ->
+    private static def doPoint2D = { delegate, metaProperty, value ->
         value = getValue(value);
         if(List.class.isAssignableFrom(value.getClass())) {
             value = new Point2D(value[0], value[1]);
         }
         metaProperty.setProperty(delegate, value);
     };
-    static def doPoint3D = { delegate, metaProperty, value ->
+    private static def doPoint3D = { delegate, metaProperty, value ->
         value = getValue(value);
         if(List.class.isAssignableFrom(value.getClass())) {
             value = new Point3D(value[0], value[1], value[2]);
@@ -236,7 +236,7 @@ class FXHelper {
         metaProperty.setProperty(delegate, value);
         return true;    
     };
-    static def doRectangle2D = { delegate, metaProperty, value ->
+    private static def doRectangle2D = { delegate, metaProperty, value ->
         value = getValue(value);
         if(List.class.isAssignableFrom(value.getClass())) {
             value = new Rectangle2D(value[0], value[1],value[2],value[3]);
@@ -248,7 +248,7 @@ class FXHelper {
         metaProperty.setProperty(delegate, value);
         return true;    
     };
-    static def doImage = { delegate, metaProperty, value ->
+    private static def doImage = { delegate, metaProperty, value ->
         value = getValue(value);
         if (!Image.class.isAssignableFrom(value.getClass())) {
             value = new Image(value.toString());
@@ -257,7 +257,7 @@ class FXHelper {
                 
         return true;    
     };
-    static def doCursor = { delegate, metaProperty, value ->
+    private static def doCursor = { delegate, metaProperty, value ->
         value = getValue(value);
         if (!Cursor.class.isAssignableFrom(value.getClass())) {
             value = cursorMap[value.toString().toUpperCase()];
@@ -266,7 +266,7 @@ class FXHelper {
         metaProperty.setProperty(delegate, value);
         return true;     
     };
-    static def doOrientation = { delegate, metaProperty, value ->
+    private static def doOrientation = { delegate, metaProperty, value ->
         value = getValue(value);
         if (!Cursor.class.isAssignableFrom(value.getClass())) {
             switch(value.toString().toUpperCase()) {
@@ -281,14 +281,14 @@ class FXHelper {
         metaProperty.setProperty(delegate, value);
         return true;    
     };
-    static def doEventHandler = { delegate, metaProperty, value ->
+    private static def doEventHandler = { delegate, metaProperty, value ->
         if(value instanceof Closure)
             value = new ClosureEventHandler(closure: value);
         metaProperty.setProperty(delegate, value);
         return true;
             
     };
-    static def doToggleGroup = { delegate, metaProperty, value ->
+    private static def doToggleGroup = { delegate, metaProperty, value ->
         ToggleGroup group = null;
         if(value instanceof String) {
             group = toggleGroups.get(value);
@@ -304,11 +304,11 @@ class FXHelper {
             
     };
     
-    static def doNothing  = { delegate, metaProperty, value ->
+    private static def doNothing  = { delegate, metaProperty, value ->
         return false;
     };
     
-    static def doEnum  = { delegate, metaProperty, value ->
+    private static def doEnum  = { delegate, metaProperty, value ->
         value = getValue(value);
         if(!value.getClass().isEnum()) {
             value = Enum.valueOf(metaProperty.getType(),value.toString().trim().toUpperCase())

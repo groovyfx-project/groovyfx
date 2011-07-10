@@ -36,6 +36,19 @@ class FontFactory {
     }
     
     private static Map <String, Font> fontMap = new HashMap<String, Font>();
+    
+    /*****
+    private static typeMap = [
+        normal: "-fx-font-style",
+        italic: "-fx-font-style",
+        oblique: "-fx-font-style",
+        bold: "-fx-font-weight",
+        bolder: "-fx-font-weight",
+        lighter: "-fx-font-weight",
+        //TODO: 100, 200, 300, 400, 500, 600, 700, 800 conflict with size
+    ]
+    
+    *****/
 
     static Font getFont(String str) {
         str = str.trim();
@@ -47,17 +60,34 @@ class FontFactory {
         Font font = fontMap.get(str);
         if(font == null) {
             try {
-                Stylesheet p = CSSParser.getInstance().parse("* { -fx-font: " + str + "; }");
-                List declarations = p.getRules().get(0).getDeclarations();
-                if(declarations.isEmpty()) {
-                    p = CSSParser.getInstance().parse("* { -fx-font-size: " + str + "; }");
-                    declarations = p.getRules().get(0).getDeclarations();
-                    Value v = declarations.get(0).getCssValue();
-                    def size = v.getConverter().convert(v, null);
-                    font = new Font(size);
-                }else {
+                def parts = str.split("\\s");
+                if(parts.length > 1) {
+                    Stylesheet p = CSSParser.getInstance().parse("* { -fx-font: " + str + "; }");
+                    List declarations = p.getRules().get(0).getDeclarations();
                     Value v = declarations.get(0).getCssValue();
                     font = (Font)v.getConverter().convert(v, null);
+                }else {
+                    /*******
+                    String type = typeMap.get(str);
+                    if(type != null) {
+                        Stylesheet p = CSSParser.getInstance().parse("* { " + type + ": " + str + "; }");
+                        List declarations = p.getRules().get(0).getDeclarations();
+                        Value v = declarations.get(0).getCssValue();
+                        def converted = null;
+                        if(v.getConverter() != null)
+                            converted = v.getConverter().convert(v, null);  
+                        else
+                            converted = v.getValue();
+                        Font defaultFont = Font.getDefault();
+                        font = Font.font(defaultFont.getFamily(), converted, defaultFont.getSize());
+                    }else {
+                    ******/
+                        Stylesheet p = CSSParser.getInstance().parse("* { -fx-font-size: " + str + "; }");
+                        List declarations = p.getRules().get(0).getDeclarations();
+                        Value v = declarations.get(0).getCssValue();
+                        def size = v.getConverter().convert(v, null);
+                        font = new Font(size);
+                    // }
                 }
                 if(font != null) {
                     fontMap.put(str, font)
