@@ -37,7 +37,7 @@ GroovyFX.start {
 
             tilePane(hgap: 10, vgap: 20, padding: 5) {
                 rectangle(width: width, height: height,
-                          fill: "linear (0%,0%) to (100%,100%) stops (0.0, darkgreen) (1.0, black)")
+                          fill: "linear (0%,0%) to (0%,100%) stops (0.0, green) (1.0, black)")
 
                 rectangle(width: width, height: height, fill: linearGradient(stops: [[0.0, red], [1.0, blue]])) {
                     dropShadow()
@@ -59,7 +59,7 @@ GroovyFX.start {
                 }
 
                 circle(radius: height / 2,
-                        fill: "radial (20%,20%), 100% focus(20%,20%) stops (0.0,red) (0.50,darkred) (1.0,black)")
+                        fill: "radial 100% stops (0.0,red) (0.50,darkred) (1.0,black)")
 
                 circle(radius: height / 2,
                        fill: radialGradient(radius: 0.95, center:[0.5, 0.5], stops:[[0, cyan], [0.75, black]])) {

@@ -15,62 +15,23 @@
 */
 
 package groovyx.javafx.factory
-import javafx.scene.shape.*;
 
-/**
- *
- * @author jimclarke
- */
-class ShapeFactory  extends NodeFactory {
+import javafx.scene.shape.Shape
 
+class ShapeFactory extends NodeFactory {
+    private final Class<? extends Shape> shapeClass
 
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        Shape shape;
-        if (FactoryBuilderSupport.checkValueIsType(value, name, Shape.class)) {
-            shape = value
+    ShapeFactory(Class<? extends Shape> shapeClass) {
+        if (shapeClass == null)
+            throw new IllegalArgumentException("shapeClass cannot be null")
+        this.shapeClass = shapeClass
+    }
+
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attr) {
+        if (FactoryBuilderSupport.checkValueIsType(value, name, shapeClass)) {
+            return value
         } else {
-            switch(name) {
-                case 'arc':
-                    shape = new Arc();
-                    break;
-                case 'circle':
-                    shape = new Circle();
-                    break;
-                case 'cubicCurve':
-                    shape = new CubicCurve();
-                    break;
-                case 'ellipse':
-                    shape = new Ellipse();
-                    break;
-                case 'line':
-                    shape = new Line();
-                    break;
-                case 'polygon':
-                    shape = new Polygon();
-                    break;
-                case 'polyline':
-                    shape = new Polyline();
-                    break;
-                case 'quadCurve':
-                    shape = new QuadCurve();
-                    break;
-                case 'rectangle':
-                    shape = new Rectangle();
-                    break;
-                case 'SVGPath':
-                    shape = new SVGPath();
-                    break;
-                case 'path':
-                    shape = new Path();
-                    break;
-                default:
-                    println "Cannot Handle shape = ${name}"
-            }
+            return shapeClass.newInstance()
         }
-
-        //FXHelper.fxAttributes(shape, attributes);
-
-        return shape;
     }
 }
-

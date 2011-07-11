@@ -29,7 +29,12 @@ public class GroovyFX extends Application {
     
     @Override
     public void start(Stage primaryStage) throws Exception {
-        InvokerHelper.invokeClosure(closure, new Object[] { primaryStage });
+        try {
+            InvokerHelper.invokeClosure(closure, new Object[] { primaryStage });
+        } catch(RuntimeException re) {
+            re.printStackTrace();
+            throw re;
+        }
     }
 
     /**

@@ -23,20 +23,40 @@ import javafx.scene.paint.Color;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import java.util.HashSet;
+
+
 import javafx.stage.Stage;
 
 import org.codehaus.groovy.runtime.InvokerHelper;
-import org.codehaus.groovy.runtime.MetaClassHelper;
-import org.codehaus.groovy.runtime.metaclass.MissingMethodExceptionNoStack;
+
+
 import org.codehaus.groovyfx.javafx.binding.ClosureTriggerBinding
-import javafx.scene.paint.Stop
+
 import javafx.geometry.Orientation;
 import javafx.util.Duration;
 
 import javafx.builders.*;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
+import javafx.scene.media.MediaView
+import javafx.scene.shape.Rectangle
+import javafx.scene.shape.QuadCurve
+import javafx.scene.shape.Polyline
+import javafx.scene.shape.Polygon
+import javafx.scene.shape.Line
+import javafx.scene.shape.Ellipse
+import javafx.scene.shape.CubicCurve
+import javafx.scene.shape.Circle
+import javafx.scene.shape.Arc
+import javafx.scene.shape.SVGPath
+import javafx.scene.shape.ArcTo
+import javafx.scene.shape.ClosePath
+import javafx.scene.shape.CubicCurveTo
+import javafx.scene.shape.HLineTo
+import javafx.scene.shape.LineTo
+import javafx.scene.shape.MoveTo
+import javafx.scene.shape.QuadCurveTo
+import javafx.scene.shape.VLineTo
+import javafx.scene.shape.Path;
 /**
  *
  * @author jimclarke
@@ -357,48 +377,43 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
     
     public def registerTransforms() {
         TransformFactory tf = new TransformFactory();
-        registerFactory( 'affine', tf);
-        registerFactory( 'rotate', tf);
-        registerFactory( 'scale', tf);
-        registerFactory( 'shear', tf);
-        registerFactory( 'translate', tf);
+        registerFactory('affine', tf);
+        registerFactory('rotate', tf);
+        registerFactory('scale', tf);
+        registerFactory('shear', tf);
+        registerFactory('translate', tf);
     }
 
-    
-    
-
     public def registerShapes() {
-        ShapeFactory sf = new ShapeFactory();
-        PathElementFactory pef = new PathElementFactory();
+        registerFactory('arc',        new ShapeFactory(Arc))
+        registerFactory('circle',     new ShapeFactory(Circle))
+        registerFactory('cubicCurve', new ShapeFactory(CubicCurve))
+        registerFactory('ellipse',    new ShapeFactory(Ellipse))
+        registerFactory('line',       new ShapeFactory(Line))
+        registerFactory('polygon',    new ShapeFactory(Polygon))
+        registerFactory('polyline',   new ShapeFactory(Polyline))
+        registerFactory('quadCurve',  new ShapeFactory(QuadCurve))
+        registerFactory('rectangle',  new ShapeFactory(Rectangle))
+        registerFactory('SVGPath',    new ShapeFactory(SVGPath))
 
-        registerFactory( 'arc', sf)
-        registerFactory( 'circle', sf)
-        registerFactory( 'cubicCurve', sf)
-        registerFactory( 'ellipse', sf)
-        registerFactory( 'line', sf)
-        registerFactory( 'polygon', sf)
-        registerFactory( 'polyline', sf)
-        registerFactory( 'quadCurve', sf)
-        registerFactory( 'rectangle', sf)
-        registerFactory( 'shapeIntersect', sf)
-        registerFactory( 'shapeSubtract', sf)
-        registerFactory( 'SVGPath', sf)
-        registerFactory( 'path', new PathFactory())
-        registerFactory( 'arcTo', pef)
-        registerFactory( 'closePath', pef)
-        registerFactory( 'cubicCurveTo', pef)
-        registerFactory( 'hLineTo', pef)
-        registerFactory( 'lineTo', pef)
-        registerFactory( 'moveTo', pef)
-        registerFactory( 'quadCurveTo', pef)
-        registerFactory( 'vLineTo', pef)
-        registerFactory( 'text', new TextFactory())
+        registerFactory('path', new PathFactory(Path))
 
-        registerFactory( 'linearGradient', new LinearGradientFactory() )
-        registerFactory( 'radialGradient', new RadialGradientFactory() )
-        registerFactory( 'stop', new StopFactory() )
-        registerFactory( 'fill', new FillFactory() )
-        registerFactory( 'stroke', new StrokeFactory() )
+        registerFactory('arcTo',        new PathElementFactory(ArcTo))
+        registerFactory('closePath',    new PathElementFactory(ClosePath))
+        registerFactory('cubicCurveTo', new PathElementFactory(CubicCurveTo))
+        registerFactory('hLineTo',      new PathElementFactory(HLineTo))
+        registerFactory('lineTo',       new PathElementFactory(LineTo))
+        registerFactory('moveTo',       new PathElementFactory(MoveTo))
+        registerFactory('quadCurveTo',  new PathElementFactory(QuadCurveTo))
+        registerFactory('vLineTo',      new PathElementFactory(VLineTo))
+
+        registerFactory('text', new TextFactory())
+
+        registerFactory('linearGradient', new LinearGradientFactory())
+        registerFactory('radialGradient', new RadialGradientFactory())
+        registerFactory('stop',   new StopFactory())
+        registerFactory('fill',   new FillFactory())
+        registerFactory('stroke', new StrokeFactory())
     }
 
     public def registerControls() {

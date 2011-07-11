@@ -133,6 +133,10 @@ public class ColorFactory {
             if(paint == null) {
                 Stylesheet p = CSSParser.getInstance().parse("* { -fx-fill: " + color + "; }");
                 List declarations = p.getRules().get(0).getDeclarations();
+
+                if (!declarations)
+                    throw new IllegalArgumentException("Invalid fill syntax: '$color'")
+                
                 Value v = declarations.get(0).getCssValue();
                 if(v.getConverter() == null)
                     paint = (Paint)v.getValue();

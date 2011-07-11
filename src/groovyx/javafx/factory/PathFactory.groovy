@@ -22,7 +22,10 @@ import javafx.scene.shape.*
  * @author jimclarke
  */
 class PathFactory extends ShapeFactory {
-    
+    PathFactory(Class<? extends Shape> shapeClass) {
+        super(shapeClass)
+    }
+
     public void setChild(FactoryBuilderSupport build, Object parent, Object child) {
         if(child instanceof PathElement)
             ((Path)parent).getElements().add((PathElement)child);

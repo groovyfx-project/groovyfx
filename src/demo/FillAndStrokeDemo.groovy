@@ -20,7 +20,7 @@ import groovyx.javafx.SceneGraphBuilder
 
 GroovyFX.start {
     def sg = new SceneGraphBuilder()
-    sg.stage(title: "Fill & Stroke (GroovyFX)", width: 600, height: 700, visible: true) {
+    sg.stage(title: "Fill & Stroke Demo (GroovyFX)", width: 600, height: 700, visible: true) {
         scene {
             def width = 240
             def height = 180
@@ -30,25 +30,24 @@ GroovyFX.start {
                 def redToBlack = linearGradient(stops: [[0, red], [1, black]])
                 def blackToRed = linearGradient(stops: [[0, black], [1, red]])
 
-                rectangle(width: width, height: height, strokeWidth: 10, fill: green, stroke: rgb(0, 0, 255))
+                rectangle(width: width, height: height, strokeWidth: 10, fill: green, stroke: rgb(0, 255, 0))
 
                 rectangle(width: width, height: height, strokeWidth: 10) {
-                    fill(blue)
+                    fill("#00FF00")
                     stroke("#008000")
                 }
 
-                rectangle(width: width, height: height, strokeWidth: 10,
-                        fill: linearGradient(stops: [[0, green], [1, yellow]]),
-                        stroke: linearGradient(stops: [[0.0, blue], [1.0,red]]))
+                rectangle(width: width, height: height, strokeWidth: 10, stroke: indigo,
+                        fill: linearGradient(stops: [[0, violet], [1, purple]]))
 
                 rectangle(width: width, height: height, strokeWidth: 10, fill: redToBlack, stroke: blackToRed)
 
-                rectangle(width: width, height: height, strokeWidth: 10) {
+                circle(radius: height/2, strokeWidth: 10) {
                     fill linearGradient(stops: [[0, orange], [1, black]])
                     stroke radialGradient(center: [0.5, 0.5], stops: [[0, black], [1, orange]])
                 }
 
-                rectangle(width: width, height: height, strokeWidth: 10) {
+                circle(radius: height/2, strokeWidth: 10) {
                     fill(blackToRed)
                     stroke(redToBlack)
                 }

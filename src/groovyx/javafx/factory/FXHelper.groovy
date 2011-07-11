@@ -377,7 +377,7 @@ class FXHelper {
                 return doEnum(delegate, metaProperty, value);
             }
             //TODO Temporary to tell us if we should add a class to the map.
-            System.out.println("FXHelper unMapped class = " + metaProperty.getType())
+            System.out.println("FXHelper unMapped class '${metaProperty.getType()}' for '$key' property")
             
             if(Paint.class.isAssignableFrom(metaProperty.getType())) {
                 return doPaint(delegate, metaProperty, value);
