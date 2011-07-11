@@ -24,6 +24,9 @@ import javafx.scene.image.Image;
  */
 class ImageFactory extends AbstractFactory {
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+        if(value instanceof Image) {
+            return value;
+        }
         Image image;
         def url = attributes.remove("url");
         if(url == null && value != null)

@@ -16,6 +16,8 @@
 
 package groovyx.javafx.factory
 import javafx.scene.*;
+
+import org.codehaus.groovy.runtime.InvokerHelper;
 /**
  * Handles custom nodes and containers.
  * @author jimclarke

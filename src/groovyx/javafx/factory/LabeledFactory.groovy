@@ -28,9 +28,13 @@ class LabeledFactory extends NodeFactory {
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Control control;
-        if (FactoryBuilderSupport.checkValueIsType(value, name, Control.class)) {
+        def text = null;
+        if (value != null && value instanceof Control) {
             control = value
         } else {
+            if(value != null) {
+                text = value.toString();
+            }
             switch(name) {
                 case 'button':
                     control = new Button();
@@ -58,6 +62,9 @@ class LabeledFactory extends NodeFactory {
                 case 'toggleButton':
                     control = new ToggleButton();
                     break;
+            }
+            if(text) {
+                control.text = text;
             }
         }
         //FXHelper.fxAttributes(control, attributes);

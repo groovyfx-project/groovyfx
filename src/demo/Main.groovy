@@ -45,7 +45,7 @@ class Custom extends Region {
     ) {
         
         scene(fill: hsb(128, 0.5, 0.5, 0.5), root: group(), stylesheets: ["file://another.css"]) {
-            onMousePressed (onEvent: {event -> println "scene press" })
+            onMousePressed (onEvent: {e -> println "scene press @" + e.x + "," + e.y  })
             onKeyReleased( onEvent: { event -> println "scene key" + event.text})
             onChange(property: "width", action: {observable, oldValue, newValue -> println "Width: " + oldValue + " ==> " + newValue})
             //stylesheets( urls: ["file://foo.css"])

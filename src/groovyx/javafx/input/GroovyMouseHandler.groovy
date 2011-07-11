@@ -42,7 +42,7 @@ class GroovyMouseHandler implements EventHandler<MouseEvent> {
     }
 
     public String toString() {
-        "type = ${type}, closure = ${closure}"
+        "GroovyMouseHandler: type = ${type}"
     }
 }
 

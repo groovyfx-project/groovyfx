@@ -39,6 +39,8 @@ class StageFactory extends AbstractFactory {
             if(style instanceof String) {
                 style = StageStyle.valueOf(style.toUpperCase())
             }
+            def centerOnScreen = attributes.remove("centerOnScreen");
+            builder.context.put("centerOnScreen", centerOnScreen);
 
 
             def primary = attributes.remove("primary")
@@ -83,9 +85,7 @@ class StageFactory extends AbstractFactory {
     }
 
     public void setChild(FactoryBuilderSupport build, Object parent, Object child) {
-        if(child instanceof SceneWrapper) {
-            sceneWrapper = child;
-        }else if(parent instanceof Popup) {
+        if(parent instanceof Popup) {
             parent.content.add(child);
         }
     }
@@ -94,12 +94,10 @@ class StageFactory extends AbstractFactory {
 
     public void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
         if(node instanceof Stage) {
-            if(sceneWrapper != null)
-                node.scene = sceneWrapper.build();
             if(node.getWidth() == -1)
                 node.sizeToScene();
-            if (builder.context.show) {
-                node.visible = true
+            if(builder.context.centerOnScreen) {
+                node.centerOnScreen();
             }
         }
 

@@ -531,6 +531,13 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'onMouseMoved', mf)
         registerFactory( 'onMousePressed', mf)
         registerFactory( 'onMouseReleased', mf)
+        registerFactory( 'onDragDetected', mf)
+        registerFactory( 'onDragDone', mf)
+        registerFactory( 'onDragEntered', mf)
+        registerFactory( 'onDragExited', mf)
+        registerFactory( 'onDragOver', mf)
+        registerFactory( 'onDragDropped', mf)
+        
         //registerFactory( 'onMouseWheelMoved', mf)
         registerFactory( 'onKeyPressed', kf)
         registerFactory( 'onKeyReleased', kf)
@@ -587,12 +594,15 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
     }
     
     protected Object postNodeCompletion(Object parent, Object node) {
-        if (node instanceof MediaPlayerBuilder) {
+        if (node instanceof MediaPlayerBuilder || node instanceof SceneBuilder) {
             node = node.build();
         }
         if(parent instanceof MediaView && node instanceof MediaPlayer) {
                 parent.mediaPlayer = node;
-            }
+        }
+        if(parent instanceof Stage && node instanceof Scene) {
+            parent.scene = node
+        }
 
         return super.postNodeCompletion(parent, node);
      }

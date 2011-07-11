@@ -26,6 +26,7 @@ GroovyFX.start({
 def foo = "foobar";
 def sg = new SceneGraphBuilder(it);
 
+
 sg.stage(
     title: "Stage Frame",
     x: 100, y: 100, width: 400, height:400,

@@ -27,6 +27,7 @@ import javafx.scene.input.KeyEvent
 import javafx.scene.input.MouseEvent
 import javafx.scene.transform.Transform
 
+import org.codehaus.groovy.runtime.InvokerHelper;
 /**
  *
  * @author jimclarke
@@ -41,7 +42,13 @@ public class NodeFactory extends AbstractFactory {
         'onMouseMoved',
         'onMousePressed',
         'onMouseReleased',
-        'onMouseWheelMoved',        
+        'onMouseWheelMoved',   
+        'onDragDetected',
+        'onDragDone',
+        'onDragEntered',
+        'onDragExited',
+        'onDragOver',
+        'onDragDropped'
     ]
     public static def keyEvents = [
         'onKeyPressed',
@@ -53,12 +60,14 @@ public class NodeFactory extends AbstractFactory {
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
     throws InstantiationException, IllegalAccessException {
         Object node;
-        if (FactoryBuilderSupport.checkValueIsType(value, name, Node.class)) {
+        if (value != null && value instanceof Node) {
             node = value
         } else {
             switch(name) {
                 case 'imageView':
                     node = new ImageView();
+                    if(value != null && value instanceof Image)
+                        node.image = value;
                     break;
             }
         }
@@ -73,9 +82,9 @@ public class NodeFactory extends AbstractFactory {
                 if(val instanceof Closure) {
                     def handler = new GroovyMouseHandler(v);
                     handler.setClosure((Closure)val);
-                    setMouseHandler((Node)node, v, handler);
+                    addInputHandler((Node)node, v, handler);
                 }else if(val instanceof EventHandler) {
-                    setMouseHandler((Node)node, v, (EventHandler)val);
+                    addInputHandler((Node)node, v, (EventHandler)val);
                 }
             }
         }
@@ -85,9 +94,9 @@ public class NodeFactory extends AbstractFactory {
                 if(val instanceof Closure) {
                     def handler = new GroovyKeyHandler(v);
                     handler.setClosure((Closure)val);
-                    setKeyHandler((Node)node, v, handler);
+                    addInputHandler((Node)node, v, handler);
                 }else if(val instanceof EventHandler) {
-                    setKeyHandler((Node)node, v, (EventHandler)val);
+                    addInputHandler((Node)node, v, (EventHandler)val);
                 }
             }
         }
@@ -96,9 +105,9 @@ public class NodeFactory extends AbstractFactory {
 
     public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
         if(child instanceof GroovyMouseHandler) {
-            setMouseHandler((Node)parent, ((GroovyMouseHandler)child).getType(), (EventHandler)child);
+            addInputHandler((Node)parent, ((GroovyMouseHandler)child).getType(), (EventHandler)child);
         } else if(child instanceof GroovyKeyHandler) {
-            setKeyHandler((Node)parent, ((GroovyKeyHandler)child).getType(), (EventHandler)child);
+            addInputHandler((Node)parent, ((GroovyKeyHandler)child).getType(), (EventHandler)child);
         } else if(child instanceof Effect) {
             ((Node)parent).setEffect((Effect)child);
         } else if(child instanceof Transform) {
@@ -107,50 +116,12 @@ public class NodeFactory extends AbstractFactory {
             ((ImageView)parent).setImage((Image)child);
         }
     }
-
-    void setMouseHandler(Node node, String type, EventHandler<MouseEvent> handler) {
-        switch(type) {
-            case 'onMouseClicked':
-                node.setOnMouseClicked(handler);
-                break;
-            case 'onMouseDragged':
-                node.setOnMouseDragged(handler);
-                break;
-            case 'onMouseEntered':
-                node.setOnMouseEntered(handler);
-                break;
-            case 'onMouseExited':
-                node.setOnMouseExited(handler);
-                break;
-            case 'onMouseMoved':
-                node.setOnMouseMoved(handler);
-                break;
-            case 'onMousePressed':
-                node.setOnMousePressed(handler);
-                break;
-            case 'onMouseReleased':
-                node.setOnMouseReleased(handler);
-                break;
-            case 'onMouseWheelMoved':
-                node.setOnMouseWheelMoved(handler);
-                break;
-        }
+    
+    public void addInputHandler(Object node, String type, EventHandler handler) {
+        FXHelper.setPropertyOrMethod(node, type, handler)
     }
 
-    void setKeyHandler(Node node, String type, EventHandler<KeyEvent> handler) {
-        switch(type) {
-            case 'onKeyPressed':
-                node.setOnKeyPressed(handler);
-                break;
-            case 'onKeyReleased':
-                node.setOnKeyReleased(handler);
-                break;
-            case 'onKeyTyped':
-                node.setOnKeyTyped(handler);
-                break;
-        }
-    }
-
+    
     public bindingAttributeDelegate(FactoryBuilderSupport builder, def node, def attributes) {
         FXHelper.fxAttributes(node, attributes);
     }

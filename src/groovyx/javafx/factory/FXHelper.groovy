@@ -427,11 +427,11 @@ class FXHelper {
         }
     }
 
-    public static void setPropertyOrMethod(node, String name, Paint paint) {
+    public static void setPropertyOrMethod(node, String name, Object value) {
         if (node.metaClass.respondsTo(node, "set$name") || node.metaClass.hasProperty(node, name))
-            node[name] = paint
+            node[name] = value
         else if (node.metaClass.respondsTo(node, name))
-            node."$name"(paint)
+            node."$name"(value)
     }
 }
 

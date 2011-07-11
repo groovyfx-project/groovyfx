@@ -17,9 +17,8 @@ package groovyx.javafx.factory
 
 import javafx.animation.*;
 import javafx.util.Duration;
-import javafx.builders.AnimationAbstractBuilder;
 import javafx.builders.FadeTransitionBuilder;
-import javafx.builders.TransitionAbstractBuilder;
+import javafx.builders.TransitionBuilder;
 import groovyx.javafx.factory.animation.KeyValueSubFactory;
 import javafx.scene.shape.Path;
 import javafx.scene.Node;

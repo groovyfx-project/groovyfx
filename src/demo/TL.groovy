@@ -42,7 +42,6 @@ GroovyFX.start({
                 }
             }
     }
-    println( tl )
     tl.play();
 });
 

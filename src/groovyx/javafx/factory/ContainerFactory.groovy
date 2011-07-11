@@ -46,7 +46,7 @@ class ContainerFactory extends NodeFactory {
             case 'tilePane':
                 container = new TilePane();
                 break;
-            case 'gridPane': // TODO
+            case 'gridPane': 
                 container = new GridPane();
                 break;
             case 'anchorPane':
@@ -67,6 +67,9 @@ class ContainerFactory extends NodeFactory {
             }else {
                 ((Parent)parent).getChildren().add((Node)child);
             }
+        } else if(child instanceof List) {
+             ((Parent)parent).getChildren().addAll((List)child);
+            
         } else if(parent instanceof GridPane && child instanceof RowColumnInfo) {
             GridPane grid = (GridPane)parent;
             RowColumnInfo rci = (RowColumnInfo) child;
