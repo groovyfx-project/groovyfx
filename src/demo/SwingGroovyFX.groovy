@@ -1,7 +1,18 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+* Copyright 2011 the original author or authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 
 package demo
 
@@ -10,6 +21,7 @@ import groovyx.javafx.GroovyFX;
 import javafx.embed.swing.JFXPanel
 import groovy.swing.SwingBuilder
 import java.awt.BorderLayout as BL
+import javax.swing.WindowConstants as WC
 import java.awt.Dimension
 import javafx.application.Platform;
 
@@ -24,7 +36,8 @@ def setUrl = { url ->
 }
 
 swing.edt {
-    frame(title:'Swing Embedded Browser', size:[800,500], show: true) {
+    frame = frame(title:'Swing Embedded Browser', show: true,
+          defaultCloseOperation: WC.EXIT_ON_CLOSE) {
         borderLayout()
         panel(constraints: BL.NORTH) {
             textField(id: "urlField", actionPerformed: {setUrl(urlField.text)}, columns: 40)
@@ -32,6 +45,7 @@ swing.edt {
         }
         widget(fxPanel, constraints: BL.CENTER)
     }
+    frame.pack()
 }
 
 GroovyFX.start {
