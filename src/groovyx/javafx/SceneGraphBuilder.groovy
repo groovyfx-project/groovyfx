@@ -545,12 +545,12 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
     }
 
     public def registerWeb() {
-        HttpFactory hf = new HttpFactory();
+        // javafx.io package has been removed.
+        //HttpFactory hf = new HttpFactory();
+        //registerFactory( 'httpRequest', hf)
+        //registerFactory( 'httpHeader', hf)
+
         WebFactory wf = new  WebFactory();
-
-        registerFactory( 'httpRequest', hf)
-        registerFactory( 'httpHeader', hf)
-
         registerFactory( 'webView', wf)
         registerFactory( 'webEngine', wf)
 
