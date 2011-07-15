@@ -537,8 +537,8 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'onDragExited', mf)
         registerFactory( 'onDragOver', mf)
         registerFactory( 'onDragDropped', mf)
+        registerFactory( 'onMouseWheelMoved', mf) // only works for scene.
         
-        //registerFactory( 'onMouseWheelMoved', mf)
         registerFactory( 'onKeyPressed', kf)
         registerFactory( 'onKeyReleased', kf)
         registerFactory( 'onKeyTyped', kf)
