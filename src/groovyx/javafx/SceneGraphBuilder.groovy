@@ -323,11 +323,14 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
     // register this one first
     public def registerNodes() {
         registerFactory("node", new CustomNodeFactory(Node.class, false));
+        registerFactory("nodes", new CustomNodeFactory(List.class, true));
         registerFactory("container", new CustomNodeFactory(Parent.class, false));
         def nf = new NodeFactory();
         addAttributeDelegate(nf.&bindingAttributeDelegate);
         registerFactory("imageView", nf);
         registerFactory("image", new ImageFactory());
+        
+        registerFactory("clip", new ClipFactory());
     }
 
     public def registerContainers() {
@@ -445,6 +448,8 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'listView', cf)
         registerFactory( 'passwordBox', cf)
         registerFactory( 'textBox', cf)
+        registerFactory( 'textArea', cf)
+        registerFactory( 'textField', cf)
         registerFactory( 'progressBar', cf)
         registerFactory( 'progessIndicator', cf)
         registerFactory( 'scrollPane', cf)
@@ -596,14 +601,17 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
     protected Object postNodeCompletion(Object parent, Object node) {
         if (node instanceof MediaPlayerBuilder || node instanceof SceneBuilder) {
             node = node.build();
-        }
-        if(parent instanceof MediaView && node instanceof MediaPlayer) {
+            if(parent instanceof MediaView && node instanceof MediaPlayer) {
                 parent.mediaPlayer = node;
-        }
-        if(parent instanceof Stage && node instanceof Scene) {
+            }else if(parent instanceof Stage && node instanceof Scene) {
+                parent.scene = node
+            }
+            // IF A non builder is passed in do the parent check.
+        }else if(parent instanceof MediaView && node instanceof MediaPlayer) {
+            parent.mediaPlayer = node;
+        }else if(parent instanceof Stage && node instanceof Scene) {
             parent.scene = node
         }
-
         return super.postNodeCompletion(parent, node);
      }
 

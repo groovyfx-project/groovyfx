@@ -17,12 +17,12 @@
 package groovyx.javafx.input
 
 import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.InputEvent;
 /**
  *
  * @author jimclarke
  */
-class GroovyMouseHandler implements EventHandler<MouseEvent> {
+class GroovyMouseHandler implements EventHandler<InputEvent> {
 
     String type;
     Closure closure;
@@ -37,7 +37,7 @@ class GroovyMouseHandler implements EventHandler<MouseEvent> {
 
     public String getType() { return type; }
 
-    public void handle(MouseEvent event) {
+    public void handle(InputEvent event) {
         closure.call(event);
     }
 

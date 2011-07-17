@@ -18,12 +18,12 @@ package groovyx.javafx.input
 
 import javafx.scene.input.*;
 import javafx.event.EventHandler;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.InputEvent;
 /**
  *
  * @author jimclarke
  */
-class GroovyKeyHandler implements EventHandler<KeyEvent> {
+class GroovyKeyHandler implements EventHandler<InputEvent> {
     String type;
     Closure closure;
 
@@ -37,7 +37,7 @@ class GroovyKeyHandler implements EventHandler<KeyEvent> {
 
     public String getType() { return type; }
 
-    public void handle(KeyEvent event) {
+    public void handle(InputEvent event) {
         closure.call(event);
     }
 }

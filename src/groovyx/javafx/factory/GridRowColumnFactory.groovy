@@ -29,7 +29,10 @@ class GridRowColumnFactory extends AbstractFactory {
     }
     
      public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
-         parent.nodes.add(child);
+         if(child instanceof List)
+            parent.nodes.addAll(child);
+         else
+            parent.nodes.add(child);
      }
     
     public void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
