@@ -26,7 +26,7 @@ import groovyx.javafx.GroovyFX;
 GroovyFX.start { primaryStage ->
     def sg = new SceneGraphBuilder(primaryStage);
     
-    sg.stage(title: "Blend Effect Example", width: 420, height: 420, visible: true ) {
+    sg.stage(title: "Blend Effect Demo", width: 420, height: 420, visible: true ) {
         scene(fill: hsb(128, 1.0, 1.0, 0.5) ) {
             rectangle(width: 400, height: 400) {
                 onMousePressed (onEvent: {e -> println "mouse press @" + e.x + "," + e.y })
