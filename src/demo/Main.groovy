@@ -86,7 +86,7 @@ class Custom extends Region {
                     textOrigin: "top",
                     textAlignment: "center",
                     font: "32pt",
-                    content: "This is Text",
+                    text: "This is Text",
                     fill: cyan
                 )
                 hbox (spacing: 10) {

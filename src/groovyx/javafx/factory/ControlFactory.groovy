@@ -27,64 +27,44 @@ import groovyx.javafx.ClosureEventHandler;
  */
 class ControlFactory extends NodeFactory {
     
-    static Map<String, Closure> controlBuilder = new HashMap<String, Closure>();
-    
-    private static def createScrollBar = { builder, name, value, attributes-> return new ScrollBar(); }
-    private static def createSlider = { builder, name, value, attributes-> return new Slider(); }
-    private static def createSeparator = { builder, name, value, attributes-> return new Separator(); }
-    private static def createListView = { builder, name, value, attributes-> return new ListView(); }
-    private static def createPasswordBox =  { builder, name, value, attributes-> return new PasswordBox(); }
-    private static def createTextBox =  { builder, name, value, attributes-> return new TextBox(); }
-    private static def createTextArea =  { builder, name, value, attributes-> return new TextArea(); }
-    private static def createTextField =  { builder, name, value, attributes-> return new TextField(); }
-    private static def createProgressBar =  { builder, name, value, attributes-> return new ProgressBar(); }
-    private static def createProgessIndicator =  { builder, name, value, attributes-> return new ProgressIndicator(); }
-    private static def createScrollPane =  { builder, name, value, attributes-> return new ScrollPane(); }
-    private static def createTableView = { builder, name, value, attributes-> return new TableView(); }
-    private static def createTreeView = { builder, name, value, attributes-> return new TreeView(); }
-    private static def createAccordion =  { builder, name, value, attributes-> return new Accordion(); }
-    private static def createTitledPane =  { builder, name, value, attributes-> return new TitledPane(); }
-    private static def createSplitPane = {builder, name, value, attributes-> 
-        def control = new SplitPane();
-        def cntx = builder.getContext();
-        List dividers = cntx.get(SceneGraphBuilder.CONTEXT_DIVIDER_KEY);
-        if(dividers == null) {
-            cntx.put(SceneGraphBuilder.CONTEXT_DIVIDER_KEY, new ArrayList());
-        }else if(!dividers.isEmpty()){
-            dividers.clear();
-        }   
-        return control;
-    }
-    private static def createToolBar =  { builder, name, value, attributes-> return new ToolBar(); }
-    private static def createTabPane = { builder, name, value, attributes-> return new TabPane(); }
+    static def controlBuilder = [
+        "scrollBar": { builder, name, value, attributes-> return new ScrollBar(); },
+        "slider": { builder, name, value, attributes-> return new Slider(); },
+        "separator": { builder, name, value, attributes-> return new Separator(); },
+        "listView": { builder, name, value, attributes-> return new ListView(); },
+        "passwordBox":  { builder, name, value, attributes-> return new PasswordBox(); },
+        "textBox":  { builder, name, value, attributes-> return new TextBox(); },
+        "TextArea":  { builder, name, value, attributes-> return new TextArea(); },
+        "textField":  { builder, name, value, attributes-> return new TextField(); },
+        "progressBar":  { builder, name, value, attributes-> return new ProgressBar(); },
+        "progessIndicator":  { builder, name, value, attributes-> return new ProgressIndicator(); },
+        "scrollPane":  { builder, name, value, attributes-> return new ScrollPane(); },
+        "tableView": { builder, name, value, attributes-> return new TableView(); },
+        "treeView": { builder, name, value, attributes-> return new TreeView(); },
+        "accordion":  { builder, name, value, attributes-> return new Accordion(); },
+        "titledPane":  { builder, name, value, attributes-> return new TitledPane(); },
+        "splitPane": {builder, name, value, attributes-> 
+            def control = new SplitPane();
+            def cntx = builder.getContext();
+            List dividers = cntx.get(SceneGraphBuilder.CONTEXT_DIVIDER_KEY);
+            if(dividers == null) {
+                cntx.put(SceneGraphBuilder.CONTEXT_DIVIDER_KEY, new ArrayList());
+            }else if(!dividers.isEmpty()){
+                dividers.clear();
+            }   
+            return control;
+        },
+        "toolBar": { builder, name, value, attributes-> return new ToolBar(); },
+        "tabPane": { builder, name, value, attributes-> return new TabPane(); }
+    ];
         
-    static {
-        controlBuilder.put("scrollBar", createScrollBar );
-        controlBuilder.put("slider", createSlider );
-        controlBuilder.put("separator", createSeparator );
-        controlBuilder.put("listView", createListView );
-        controlBuilder.put("passwordBox", createPasswordBox );
-        controlBuilder.put("textBox", createTextBox );
-        controlBuilder.put("textArea", createTextArea );
-        controlBuilder.put("textField", createTextField );
-        controlBuilder.put("progressBar", createProgressBar );
-        controlBuilder.put("progessIndicator", createProgessIndicator );
-        controlBuilder.put("scrollPane", createScrollPane );
-        controlBuilder.put("tableView", createTableView );
-        controlBuilder.put("treeView", createTreeView );
-        controlBuilder.put("accordion", createAccordion );
-        controlBuilder.put("titledPane", createTitledPane );
-        controlBuilder.put("splitPane", createSplitPane );
-        controlBuilder.put("toolBar", createToolBar );
-        controlBuilder.put("tabPane", createTabPane );
-    }
     
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Control control;
         if (FactoryBuilderSupport.checkValueIsType(value, name, Control.class)) {
             control = value
         } else {
-            def creator = controlBuilder.get(name);
+            def creator = controlBuilder[name];
             if(creator != null)
                 control = creator(builder, name, value, attributes);
         }
