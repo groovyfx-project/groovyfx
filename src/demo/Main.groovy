@@ -24,7 +24,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.layout.Region;
 
 class Custom extends Region {
-
     public Custom() {
         getChildren().add(create());
     }
@@ -34,84 +33,86 @@ class Custom extends Region {
     }
 }
 
- GroovyFX.start({
+GroovyFX.start {
     def sg = new SceneGraphBuilder();
     sg.stage(
-        title: "Stage Frame",
-        x: 100, y: 100, width: 400, height:400,
-        visible: true,
-        style: "decorated",
-        onHidden: { println "Close"}
+            title: "Stage Frame",
+            x: 100, y: 100, width: 400, height: 400,
+            visible: true,
+            style: "decorated",
+            onHidden: { println "Close"}
     ) {
-        
+
         scene(fill: hsb(128, 0.5, 0.5, 0.5), root: group(), stylesheets: ["file://another.css"]) {
-            onMousePressed (onEvent: {e -> println "scene press @" + e.x + "," + e.y  })
-            onKeyReleased( onEvent: { event -> println "scene key" + event.text})
+            onMousePressed(onEvent: {e -> println "scene press @" + e.x + "," + e.y  })
+            onKeyReleased(onEvent: { event -> println "scene key" + event.text})
             onChange(property: "width", action: {observable, oldValue, newValue -> println "Width: " + oldValue + " ==> " + newValue})
             //stylesheets( urls: ["file://foo.css"])
-            
+
             node(new Custom(), layoutX: 10, layoutY: 10) {
                 scale(x: 5, y: 5)
                 onChange(property: "hover", action: {observable, oldValue, newValue -> println "hover: " + oldValue + " ==> " + newValue})
             }
-            circle ( centerX: 50, centerY: 50, radius: 25,
-                fill: rgb(0,0,255), onMousePressed: {println 'jim'})
-            
-            rectangle (
-                x: 100, y: 50, width: 50, height: 50, fill: red
-            ) {
+
+            circle(centerX: 50, centerY: 50, radius: 25,
+                    fill: rgb(0, 0, 255), onMousePressed: {println 'jim'})
+
+            rectangle(x: 100, y: 50, width: 50, height: 50, fill: red) {
                 reflection() {
                     dropShadow()
                 }
             }
-            
-            path (fill: yellow){
-                onMousePressed (onEvent: {println "foo"})
+
+            path(fill: yellow) {
+                onMousePressed(onEvent: {println "foo"})
                 moveTo(x: 150, y: 50)
                 lineTo(x: 150, y: 100)
                 arcTo(x: 200, y: 75, radiusX: 10, radiusY: 20)
                 closePath()
             }
-            vbox (layoutX: 25, layoutY: 125, spacing: 10) {
-                label (
-                    //layoutX: 25,
-                    //layoutY: 150,
-                    textFill: "rgb(255,255,0)",
-                    text: "I'm a label"
+            vbox(layoutX: 25, layoutY: 125, spacing: 10) {
+                label(
+                        //layoutX: 25,
+                        //layoutY: 150,
+                        textFill: "rgb(255,255,0)",
+                        text: "I'm a label"
                 )
 
-                text (
-                    //layoutX: 25,
-                    //layoutY: 200,
-                    textOrigin: "top",
-                    textAlignment: "center",
-                    font: "32pt",
-                    text: "This is Text",
-                    fill: cyan
+                text(
+                        //layoutX: 25,
+                        //layoutY: 200,
+                        textOrigin: "top",
+                        textAlignment: "center",
+                        font: "32pt",
+                        text: "This is Text",
+                        fill: cyan
                 )
-                hbox (spacing: 10) {
-                    button (
-                        //layoutX: 25,
-                        //layoutY: 300,
-                        font: "16pt Courier",
-                        text: "This is a Button",
-                        onAction: { println "button pressed"}
-                    )
-                    checkBox (
-                        //layoutX: 25,
-                        //layoutY: 350,
-                        font: "16pt Courier",
-                        text: "Check",
-                        selected: true
-                    )
+
+                vbox(spacing: 10) {
+                    hbox(spacing: 10) {
+                        button(
+                                //layoutX: 25,
+                                //layoutY: 300,
+                                font: "16pt Courier",
+                                text: "This is a Button",
+                                onAction: { println "button pressed"}
+                        )
+                        checkBox(
+                                //layoutX: 25,
+                                //layoutY: 350,
+                                font: "16pt Courier",
+                                text: "Check",
+                                selected: true
+                        )
+                    }
+                    separator()
+                    hbox(spacing: 10, padding: [10, 10, 10, 10]) {
+                        scrollBar(min: 0, max: 100, value: 50, orientation: "horizontal", prefWidth: 200)
+                        slider(min: 0, max: 100, value: 50, orientation: "horizontal", showTickMarks: true, prefWidth: 200)
+                    }
+                    listView(items: ["one", "two", "three"], prefWidth: 200, prefHeight: 400)
                 }
-                separator()
-                hbox (spacing: 10, padding: [10,10,10,10]) {
-                    scrollBar(min: 0, max: 100, value: 50, orientation: "horizontal", prefWidth: 200 )
-                    slider(min: 0, max: 100, value: 50, orientation: "horizontal", showTickMarks: true, prefWidth: 200 )
-                }
-                listView(items: ["one","two","three"], prefWidth: 200, prefHeight: 400)
             }
         }
     }
- });
+}
