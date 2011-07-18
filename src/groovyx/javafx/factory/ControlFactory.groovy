@@ -19,46 +19,46 @@ package groovyx.javafx.factory
 import javafx.scene.control.*
 import javafx.scene.Node
 import groovyx.javafx.SceneGraphBuilder;
-import groovyx.javafx.ClosureEventHandler;
+import groovyx.javafx.ClosureEventHandler
+import com.javafx.preview.control.TextArea;
 
 /**
  *
  * @author jimclarke
  */
 class ControlFactory extends NodeFactory {
-    
-    static def controlBuilder = [
-        "scrollBar": { builder, name, value, attributes-> return new ScrollBar(); },
-        "slider": { builder, name, value, attributes-> return new Slider(); },
-        "separator": { builder, name, value, attributes-> return new Separator(); },
-        "listView": { builder, name, value, attributes-> return new ListView(); },
-        "passwordBox":  { builder, name, value, attributes-> return new PasswordBox(); },
-        "textBox":  { builder, name, value, attributes-> return new TextBox(); },
-        "TextArea":  { builder, name, value, attributes-> return new TextArea(); },
-        "textField":  { builder, name, value, attributes-> return new TextField(); },
-        "progressBar":  { builder, name, value, attributes-> return new ProgressBar(); },
-        "progessIndicator":  { builder, name, value, attributes-> return new ProgressIndicator(); },
-        "scrollPane":  { builder, name, value, attributes-> return new ScrollPane(); },
-        "tableView": { builder, name, value, attributes-> return new TableView(); },
-        "treeView": { builder, name, value, attributes-> return new TreeView(); },
-        "accordion":  { builder, name, value, attributes-> return new Accordion(); },
-        "titledPane":  { builder, name, value, attributes-> return new TitledPane(); },
-        "splitPane": {builder, name, value, attributes-> 
-            def control = new SplitPane();
-            def cntx = builder.getContext();
-            List dividers = cntx.get(SceneGraphBuilder.CONTEXT_DIVIDER_KEY);
-            if(dividers == null) {
-                cntx.put(SceneGraphBuilder.CONTEXT_DIVIDER_KEY, new ArrayList());
-            }else if(!dividers.isEmpty()){
-                dividers.clear();
-            }   
-            return control;
-        },
-        "toolBar": { builder, name, value, attributes-> return new ToolBar(); },
-        "tabPane": { builder, name, value, attributes-> return new TabPane(); }
-    ];
-        
-    
+
+    private static def controlBuilder = [
+            "scrollBar": { builder, name, value, attributes -> return new ScrollBar() },
+            "slider": { builder, name, value, attributes -> return new Slider() },
+            "separator": { builder, name, value, attributes -> return new Separator() },
+            "listView": { builder, name, value, attributes -> return new ListView() },
+            "passwordBox": { builder, name, value, attributes -> return new PasswordBox() },
+            "textBox": { builder, name, value, attributes -> return new TextBox() },
+            "textArea": { builder, name, value, attributes -> return new TextArea() },
+//            "textField": { builder, name, value, attributes-> return new TextField() },
+            "progressBar": { builder, name, value, attributes -> return new ProgressBar() },
+            "progessIndicator": { builder, name, value, attributes -> return new ProgressIndicator() },
+            "scrollPane": { builder, name, value, attributes -> return new ScrollPane() },
+            "tableView": { builder, name, value, attributes -> return new TableView() },
+            "treeView": { builder, name, value, attributes -> return new TreeView() },
+            "accordion": { builder, name, value, attributes -> return new Accordion() },
+            "titledPane": { builder, name, value, attributes -> return new TitledPane() },
+            "toolBar": { builder, name, value, attributes -> return new ToolBar() },
+            "tabPane": { builder, name, value, attributes -> return new TabPane() },
+            "splitPane": {builder, name, value, attributes ->
+                def control = new SplitPane();
+                def cntx = builder.getContext();
+                List dividers = cntx.get(SceneGraphBuilder.CONTEXT_DIVIDER_KEY);
+                if (dividers == null) {
+                    cntx.put(SceneGraphBuilder.CONTEXT_DIVIDER_KEY, new ArrayList());
+                } else if (!dividers.isEmpty()) {
+                    dividers.clear();
+                }
+                return control;
+            }
+    ]
+
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Control control;
         if (FactoryBuilderSupport.checkValueIsType(value, name, Control.class)) {
@@ -71,36 +71,36 @@ class ControlFactory extends NodeFactory {
         return control;
     }
 
-    public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
-        if(child instanceof Tooltip) {
-            ((Control)parent).setTooltip(child);
-        }else if(parent instanceof ScrollPane) {
-            ((ScrollPane)parent).setNode((Node)child);
-        } else if(parent instanceof TableView) {
-            TableView table = (TableView)parent;
+    public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
+        if (child instanceof Tooltip) {
+            ((Control) parent).setTooltip(child);
+        } else if (parent instanceof ScrollPane) {
+            ((ScrollPane) parent).setNode((Node) child);
+        } else if (parent instanceof TableView) {
+            TableView table = (TableView) parent;
             //if(child instanceof TableModel) {
             //    table.setModel(child);
             //}else if(child instanceof TableColumn) {
-                if(child instanceof List)
-                    table.getColumns().addAll(child);
-                else
-                    table.getColumns().add(child);
+            if (child instanceof List)
+                table.getColumns().addAll(child);
+            else
+                table.getColumns().add(child);
             //}
-        } else if(parent instanceof Accordion) {
-            if(child instanceof List)
+        } else if (parent instanceof Accordion) {
+            if (child instanceof List)
                 parent.getPanes.addAll(child);
             else
                 parent.getPanes().add(child);
-        } else if(parent instanceof TitledPane) {
-            if(child instanceof Node) {
+        } else if (parent instanceof TitledPane) {
+            if (child instanceof Node) {
                 parent.content = child;
-            }else {
+            } else {
                 child.pane = parent;
             }
-        }else if(parent instanceof SplitPane) {
-            if(child instanceof Node) {
+        } else if (parent instanceof SplitPane) {
+            if (child instanceof Node) {
                 parent.items.add(child);
-            } else if(child instanceof List) {
+            } else if (child instanceof List) {
                 parent.items.addAll(child);
             }
             else { // todo this should be saved and set upon node complete
@@ -108,20 +108,20 @@ class ControlFactory extends NodeFactory {
                 def pcntx = builder.getParentContext();
                 List dividers = pcntx.get(SceneGraphBuilder.CONTEXT_DIVIDER_KEY);
                 dividers.add(child);
-                
+
             }
-        }else if(parent instanceof ToolBar) {
-            if(child instanceof List)
+        } else if (parent instanceof ToolBar) {
+            if (child instanceof List)
                 parent.items.addAll(child);
             else
                 parent.items.add(child);
-        } else if(parent instanceof TabPane && child instanceof Tab) {
+        } else if (parent instanceof TabPane && child instanceof Tab) {
             parent.tabs.add(child);
-        }else if(parent instanceof TreeView) {
-            if(child instanceof TreeItem) {
+        } else if (parent instanceof TreeView) {
+            if (child instanceof TreeItem) {
                 parent.root = child
-            }else if(child instanceof ClosureEventHandler) {
-                switch(child.name) {
+            } else if (child instanceof ClosureEventHandler) {
+                switch (child.name) {
                     case 'onEditCancel':
                         parent.onEditCancel = child.action;
                         break;
@@ -133,22 +133,20 @@ class ControlFactory extends NodeFactory {
                         break;
                 }
             }
-        }else {
+        } else {
             super.setChild(builder, parent, child);
         }
     }
-    
-    public void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object child ) {
-        if(child instanceof SplitPane) {
+
+    public void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object child) {
+        if (child instanceof SplitPane) {
             def cntx = builder.getContext();
             List dividers = cntx.get(SceneGraphBuilder.CONTEXT_DIVIDER_KEY);
-            dividers.each{div ->
+            dividers.each {div ->
                 child.setDividerPosition(div.index, div.position);
             }
             dividers.clear();
         }
     }
-    
-    
 }
 

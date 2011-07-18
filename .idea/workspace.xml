@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="a01a2837-804f-463d-8e73-933a2c535eab" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nbproject" afterPath="$PROJECT_DIR$/nbproject" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/demo/BlendEffectDemo.groovy" afterPath="$PROJECT_DIR$/src/demo/BlendEffectDemo.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/groovyx/javafx/factory/TransitionFactory.groovy" afterPath="$PROJECT_DIR$/src/groovyx/javafx/factory/TransitionFactory.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/demo/AccordionTest.groovy" afterPath="$PROJECT_DIR$/src/demo/AccordionTest.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/demo/Main.groovy" afterPath="$PROJECT_DIR$/src/demo/Main.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/groovyx/javafx/factory/ControlFactory.groovy" afterPath="$PROJECT_DIR$/src/groovyx/javafx/factory/ControlFactory.groovy" />
     </list>
     <ignored path="GroovyFX.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,21 +24,6 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <line_breakpoints>
-      <breakpoint url="file://$PROJECT_DIR$/src/groovyx/javafx/factory/ControlFactory.groovy" line="69" class="groovyx.javafx.factory.ControlFactory" package="">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
     <breakpoint_any>
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -107,10 +91,38 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ControlFactory.groovy" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ControlFactory.groovy" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/groovyx/javafx/factory/ControlFactory.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="97" selection-start="1082" selection-end="1141" vertical-scroll-proportion="0.0665362">
+            <state line="7" column="0" selection-start="231" selection-end="231" vertical-scroll-proportion="0.0">
+              <folding>
+                <marker date="1310950101128" expanded="true" signature="2975:5093" placeholder="{...}" />
+                <marker date="1310950101128" expanded="true" signature="3495:4016" placeholder="{...}" />
+                <marker date="1310950101128" expanded="true" signature="3855:3965" placeholder="{...}" />
+                <marker date="1310950101128" expanded="true" signature="4113:4185" placeholder="{...}" />
+                <marker date="1310950101128" expanded="true" signature="4248:4274" placeholder="{...}" />
+                <marker date="1310950101128" expanded="true" signature="4312:4901" placeholder="{...}" />
+                <marker date="1310950101128" expanded="true" signature="4441:4830" placeholder="{...}" />
+                <marker date="1310950101128" expanded="true" signature="4907:5015" placeholder="{...}" />
+                <marker date="1310950101128" expanded="true" signature="5297:5342" placeholder="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AccordionTest.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/demo/AccordionTest.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="36" column="35" selection-start="1015" selection-end="1015" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Main.groovy" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/demo/Main.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="97" column="20" selection-start="3479" selection-end="3479" vertical-scroll-proportion="0.48373103">
               <folding />
             </state>
           </provider>
@@ -120,24 +132,6 @@
         <entry file="file://$PROJECT_DIR$/src/demo/WebExample.groovy">
           <provider selected="true" editor-type-id="text-editor">
             <state line="27" column="24" selection-start="852" selection-end="852" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ColorFactory.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/groovyx/javafx/factory/ColorFactory.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="138" column="16" selection-start="4944" selection-end="4944" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GradientDemo.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/demo/GradientDemo.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="53" selection-start="1314" selection-end="1314" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -180,8 +174,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/groovyx/javafx/GroovyFX.java" />
-        <option value="$PROJECT_DIR$/src/groovyx/javafx/factory/ShapeFactory3.groovy" />
         <option value="$PROJECT_DIR$/src/demo/FactoryStyleTest.groovy" />
         <option value="$PROJECT_DIR$/src/groovyx/javafx/factory/ShapeFactory2.groovy" />
         <option value="$PROJECT_DIR$/src/groovyx/javafx/factory/PathElementFactory.groovy" />
@@ -196,6 +188,8 @@
         <option value="$PROJECT_DIR$/src/demo/SwingGroovyFX.groovy" />
         <option value="$PROJECT_DIR$/src/demo/BlendEffectDemo.groovy" />
         <option value="$PROJECT_DIR$/src/groovyx/javafx/factory/ControlFactory.groovy" />
+        <option value="$PROJECT_DIR$/src/demo/AccordionTest.groovy" />
+        <option value="$PROJECT_DIR$/src/demo/Main.groovy" />
       </list>
     </option>
   </component>
@@ -343,6 +337,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GroovyFX" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="groovyfx" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="demo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Main.groovy" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -403,12 +419,6 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="UPDATED" />
-            <PATH vcs="svn" revision="963">C:\Users\Dean Iverson\Documents\devel\jvm\groovy\groovyfx\src\groovyx\javafx\input\GroovyKeyHandler.groovy</PATH>
-            <PATH vcs="svn" revision="963">C:\Users\Dean Iverson\Documents\devel\jvm\groovy\groovyfx\src\groovyx\javafx\input\GroovyMouseHandler.groovy</PATH>
-            <PATH vcs="svn" revision="963">C:\Users\Dean Iverson\Documents\devel\jvm\groovy\groovyfx\src\groovyx\javafx\factory\GridRowColumnFactory.groovy</PATH>
-            <PATH vcs="svn" revision="963">C:\Users\Dean Iverson\Documents\devel\jvm\groovy\groovyfx\src\groovyx\javafx\factory\SceneFactory.groovy</PATH>
-            <PATH vcs="svn" revision="963">C:\Users\Dean Iverson\Documents\devel\jvm\groovy\groovyfx\src\groovyx\javafx\factory\ControlFactory.groovy</PATH>
-            <PATH vcs="svn" revision="963">C:\Users\Dean Iverson\Documents\devel\jvm\groovy\groovyfx\src\groovyx\javafx\SceneGraphBuilder.groovy</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Created" />
@@ -416,7 +426,6 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="CREATED" />
-            <PATH vcs="svn" revision="963">C:\Users\Dean Iverson\Documents\devel\jvm\groovy\groovyfx\src\groovyx\javafx\factory\ClipFactory.groovy</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Deleted" />
@@ -424,9 +433,6 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="true" />
             <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-            <PATH vcs="svn" revision="963">C:\Users\Dean Iverson\Documents\devel\jvm\groovy\groovyfx\src\demo\HttpRequestExample.groovy</PATH>
-            <PATH vcs="svn" revision="963">C:\Users\Dean Iverson\Documents\devel\jvm\groovy\groovyfx\src\groovyx\javafx\factory\HttpHeader.groovy</PATH>
-            <PATH vcs="svn" revision="963">C:\Users\Dean Iverson\Documents\devel\jvm\groovy\groovyfx\src\groovyx\javafx\factory\HttpFactory.groovy</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Restored" />
@@ -470,6 +476,8 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="MERGED" />
+          <PATH vcs="svn" revision="965">C:\Users\Dean Iverson\Documents\devel\jvm\groovy\groovyfx\src\demo\Main.groovy</PATH>
+          <PATH vcs="svn" revision="965">C:\Users\Dean Iverson\Documents\devel\jvm\groovy\groovyfx\src\groovyx\javafx\factory\ControlFactory.groovy</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Not in repository" />
@@ -509,29 +517,7 @@
       </UpdatedFiles>
     </UpdateInfo>
   </component>
-  <component name="RunManager" selected="Groovy Script.BlendEffectDemo">
-    <configuration default="false" name="FactoryStyleTest" type="GroovyScriptRunConfiguration" factoryName="Groovy Script" temporary="true">
-      <module name="Groovyfx" />
-      <setting name="path" value="$PROJECT_DIR$/src/demo/FactoryStyleTest.groovy" />
-      <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workDir" value="$PROJECT_DIR$/src/demo" />
-      <setting name="debug" value="false" />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
-    <configuration default="false" name="GradientDemo" type="GroovyScriptRunConfiguration" factoryName="Groovy Script" temporary="true">
-      <module name="Groovyfx" />
-      <setting name="path" value="$PROJECT_DIR$/src/demo/GradientDemo.groovy" />
-      <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workDir" value="$PROJECT_DIR$/src/demo" />
-      <setting name="debug" value="false" />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Groovy Script.Main">
     <configuration default="false" name="FillAndStrokeDemo" type="GroovyScriptRunConfiguration" factoryName="Groovy Script" temporary="true">
       <module name="Groovyfx" />
       <setting name="path" value="$PROJECT_DIR$/src/demo/FillAndStrokeDemo.groovy" />
@@ -557,6 +543,28 @@
     <configuration default="false" name="BlendEffectDemo" type="GroovyScriptRunConfiguration" factoryName="Groovy Script" temporary="true">
       <module name="Groovyfx" />
       <setting name="path" value="$PROJECT_DIR$/src/demo/BlendEffectDemo.groovy" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workDir" value="$PROJECT_DIR$/src/demo" />
+      <setting name="debug" value="false" />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="AccordionTest" type="GroovyScriptRunConfiguration" factoryName="Groovy Script" temporary="true">
+      <module name="Groovyfx" />
+      <setting name="path" value="$PROJECT_DIR$/src/demo/AccordionTest.groovy" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workDir" value="$PROJECT_DIR$/src/demo" />
+      <setting name="debug" value="false" />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Main" type="GroovyScriptRunConfiguration" factoryName="Groovy Script" temporary="true">
+      <module name="Groovyfx" />
+      <setting name="path" value="$PROJECT_DIR$/src/demo/Main.groovy" />
       <setting name="vmparams" value="" />
       <setting name="params" value="" />
       <setting name="workDir" value="$PROJECT_DIR$/src/demo" />
@@ -670,11 +678,11 @@
       </method>
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Groovy Script.FactoryStyleTest" />
-      <item index="1" class="java.lang.String" itemvalue="Groovy Script.GradientDemo" />
-      <item index="2" class="java.lang.String" itemvalue="Groovy Script.FillAndStrokeDemo" />
-      <item index="3" class="java.lang.String" itemvalue="Groovy Script.SwingGroovyFX" />
-      <item index="4" class="java.lang.String" itemvalue="Groovy Script.BlendEffectDemo" />
+      <item index="0" class="java.lang.String" itemvalue="Groovy Script.FillAndStrokeDemo" />
+      <item index="1" class="java.lang.String" itemvalue="Groovy Script.SwingGroovyFX" />
+      <item index="2" class="java.lang.String" itemvalue="Groovy Script.BlendEffectDemo" />
+      <item index="3" class="java.lang.String" itemvalue="Groovy Script.AccordionTest" />
+      <item index="4" class="java.lang.String" itemvalue="Groovy Script.Main" />
     </list>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -738,15 +746,15 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39811543" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32979977" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979977" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32744405" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24966262" sideWeight="0.6702002" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3886926" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24966262" sideWeight="0.61130744" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3886926" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32744405" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -779,7 +787,7 @@
     <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
     <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated blend demo again to include the mouse press handler from the interview code." />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor changes: demo title and import cleanup." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -799,6 +807,7 @@
     <MESSAGE value="Updated the SwingGroovyFX demo to make it a simple browser application." />
     <MESSAGE value="Changed the blend demo a little to make the effect more obvious.  Fixed a close problem with the swing demo." />
     <MESSAGE value="Updated blend demo again to include the mouse press handler from the interview code." />
+    <MESSAGE value="Minor changes: demo title and import cleanup." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -808,16 +817,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/groovyx/javafx/GroovyFX.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="21" selection-start="1151" selection-end="1151" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.6.0_20/src.zip!/java/lang/Class.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="166" column="4" selection-start="6199" selection-end="6199" vertical-scroll-proportion="0.3678647" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/groovyx/javafx/factory/ShapeFactory.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state line="25" column="58" selection-start="905" selection-end="905" vertical-scroll-proportion="0.0" />
@@ -895,7 +894,31 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/groovyx/javafx/factory/ControlFactory.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="97" selection-start="1082" selection-end="1141" vertical-scroll-proportion="0.0665362">
+        <state line="7" column="0" selection-start="231" selection-end="231" vertical-scroll-proportion="0.0">
+          <folding>
+            <marker date="1310950101128" expanded="true" signature="2975:5093" placeholder="{...}" />
+            <marker date="1310950101128" expanded="true" signature="3495:4016" placeholder="{...}" />
+            <marker date="1310950101128" expanded="true" signature="3855:3965" placeholder="{...}" />
+            <marker date="1310950101128" expanded="true" signature="4113:4185" placeholder="{...}" />
+            <marker date="1310950101128" expanded="true" signature="4248:4274" placeholder="{...}" />
+            <marker date="1310950101128" expanded="true" signature="4312:4901" placeholder="{...}" />
+            <marker date="1310950101128" expanded="true" signature="4441:4830" placeholder="{...}" />
+            <marker date="1310950101128" expanded="true" signature="4907:5015" placeholder="{...}" />
+            <marker date="1310950101128" expanded="true" signature="5297:5342" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/demo/AccordionTest.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="35" selection-start="1015" selection-end="1015" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/demo/Main.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="97" column="20" selection-start="3479" selection-end="3479" vertical-scroll-proportion="0.48373103">
           <folding />
         </state>
       </provider>
