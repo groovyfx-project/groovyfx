@@ -56,7 +56,8 @@ import javafx.scene.shape.LineTo
 import javafx.scene.shape.MoveTo
 import javafx.scene.shape.QuadCurveTo
 import javafx.scene.shape.VLineTo
-import javafx.scene.shape.Path;
+import javafx.scene.shape.Path
+import javafx.scene.chart.PieChart;
 /**
  *
  * @author jimclarke
@@ -373,9 +374,12 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         addAttributeDelegate(bindFactory.&bindingAttributeDelegate);
     }
 
-
     public def registerThreading() {
         registerExplicitMethod "defer", this.&defer
+    }
+
+    public def registerCharts() {
+        registerFactory('pieChart', new ChartFactory(PieChart))
     }
     
     public def registerTransforms() {
