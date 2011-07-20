@@ -58,6 +58,7 @@ import javafx.scene.shape.QuadCurveTo
 import javafx.scene.shape.VLineTo
 import javafx.scene.shape.Path
 import javafx.scene.chart.PieChart;
+import javafx.application.Platform;
 /**
  *
  * @author jimclarke
@@ -271,7 +272,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         if (!(c instanceof MethodClosure)) {
             c = c.curry([this])
         }
-        FX.deferAction(c);
+        Platform.runLater(c);
         return this;
     }
 
@@ -562,6 +563,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         WebFactory wf = new  WebFactory();
         registerFactory( 'webView', wf)
         registerFactory( 'webEngine', wf)
+        // TODO registerFactory( 'HTMLEditor', wf)
 
     }
     
