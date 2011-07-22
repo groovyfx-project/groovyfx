@@ -29,22 +29,22 @@ GroovyFX.start({
         scene(fill: "antiquewhite" ) {
             vbox(spacing: 30, fillWidth: false, alignment: "center") {
                 stackPane(style: "-fx-background-color: burlywood", padding: 20) {
-                    text(content: "Padding: 20", fill: "sienna", font: "48pt")
+                    text(text: "Padding: 20", fill: "sienna", font: "48pt")
                 }
                 stackPane(style: "-fx-background-color: burlywood", padding: [10]) {
-                    text(content: "Padding: [10]", fill: "sienna", font: "48pt")
+                    text(text: "Padding: [10]", fill: "sienna", font: "48pt")
                 }
                 stackPane(style: "-fx-background-color: burlywood", padding: [50, 25]) {
-                    text(content: "Padding: [50, 25]", fill: "sienna", font: "48pt")
+                    text(text: "Padding: [50, 25]", fill: "sienna", font: "48pt")
                 }
                 stackPane(style: "-fx-background-color: burlywood", padding: [10, 20, -10]) {
-                    text(content: "Padding: [10, 20, -10]", fill: "sienna", font: "48pt")
+                    text(text: "Padding: [10, 20, -10]", fill: "sienna", font: "48pt")
                 }
                 stackPane(style: "-fx-background-color: burlywood", padding: [0, 50, 0, 0]) {
-                    text(content: "Padding: [0, 50, 0, 0]", fill: "sienna", font: "48pt")
+                    text(text: "Padding: [0, 50, 0, 0]", fill: "sienna", font: "48pt")
                 }
                 stackPane(style: "-fx-background-color: burlywood", padding: [20, 0, 0, 20]) {
-                    text(content: "Padding: [20, 0, 0, 20]", fill: "sienna", font: "48pt")
+                    text(text: "Padding: [20, 0, 0, 20]", fill: "sienna", font: "48pt")
                 }
                 dropShadow()
             }

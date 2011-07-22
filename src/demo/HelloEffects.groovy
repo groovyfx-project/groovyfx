@@ -53,14 +53,14 @@ GroovyFX.start({
                  /// Persepctive
                  group( cache: true, layoutX: 0, layoutY: 0) {
                      rectangle(x: 10, y: 10, width: 280, height: 80, fill: "blue")
-                     text(x: 20, y: 65, content: "Perspective", fill: "yellow", font: "bold 36pt C")
+                     text(x: 20, y: 65, text: "Perspective", fill: "yellow", font: "bold 36pt C")
                      perspectiveTransform(ulx: 10, uly: 10, urx: 310, ury:40,
                         lrx: 310, lry: 60, llx: 10, lly: 60)
                  }
                  /// DropShadow
                  group(layoutX: 0, layoutY: 270) {
                      text(cache: true, x: 10, y: 0, fill: "red", 
-                            content: "JavaFX drop shadow...", font: "bold 32pt Amble") {
+                            text: "JavaFX drop shadow...", font: "bold 32pt Amble") {
                          dropShadow(offsetY: 3, color: [0.4, 0.4, 0.4])
                      }
                      circle(centerX: 50, centerY: 55, radius: 30, fill: "orange", cache: true) {
@@ -75,57 +75,57 @@ GroovyFX.start({
                  /// Bloom
                  group(cache: true, translateX: 350) {
                      rectangle(x: 10, y: 10, width: 160, height: 80, fill: "darkblue")
-                     text(content: "Bloom!", fill: "yellow", font: "bold 36pt Amble", x: 25, y: 65)
+                     text(text: "Bloom!", fill: "yellow", font: "bold 36pt Amble", x: 25, y: 65)
                      bloom()
 
                  }
-                 text(content: "ColorAdjust Text!", fill: red, font: "bold 20pt Amble", x: 10, y: 10, textOrigin: "top") {
+                 text(text: "ColorAdjust Text!", fill: red, font: "bold 20pt Amble", x: 10, y: 10, textOrigin: "top") {
                     colorAdjust(contrast: 4, brightness: -0.8, hue: 0.2)
                  }
                  /// BoxBlur
-                 text(content: "Blurry Text!", fill: "red", font: "bold 36pt Amble", x: 10, y: 40,
+                 text(text: "Blurry Text!", fill: "red", font: "bold 36pt Amble", x: 10, y: 40,
                      translateX: 300, translateY: 100) {
                      boxBlur(width: 15, height: 15, iterations: 3)
                  }
                  /// DisplacementMap
                  group(effect: displacementMap(220, 100), translateX: 300, translateY: 200) {
                      rectangle(x: 20, y: 20, width: 220, height: 100, fill: "blue")
-                     text(x:40, y: 80, content: "Wavy Text", fill: "yellow", font: "bold 36pt Amble")
+                     text(x:40, y: 80, text: "Wavy Text", fill: "yellow", font: "bold 36pt Amble")
                  }
                  /// InnerShadow
-                 text(x: 20, y: 100, content: "InnerShadow", fill: "yellow", font: "bold 80pt Amble",
+                 text(x: 20, y: 100, text: "InnerShadow", fill: "yellow", font: "bold 80pt Amble",
                     translateX: 300, translateY: 300) {
                      innerShadow(offsetX: 4, offsetY: 4)
                  }
                  /// Lighting
-                 text(content: "Lighting!", fill: "red", font: "bold 70pt Amble",
+                 text(text: "Lighting!", fill: "red", font: "bold 70pt Amble",
                     x: 10, y: 10, textOrigin: "TOP", translateX: 0, translateY: 320) {
                     lighting(surfaceScale: 5.0) {
                        distant(azimuth: -135.0)
                     }
                  }
                  /// MotionBlur
-                 text(x: 20, y: 100, content: "Motion", fill: "red", font: "bold 60pt Amble",
+                 text(x: 20, y: 100, text: "Motion", fill: "red", font: "bold 60pt Amble",
                      translateX: 300, translateY: 150) {
                      motionBlur(radius: 15, angle: -30)
                  }
                  /// Reflection
                  text(translateY: 400, x: 10, y: 50, cache: true,
-                        content: "Reflections on JavaFX...", fill: "red", font: "bold 30pt Amble") {
+                        text: "Reflections on JavaFX...", fill: "red", font: "bold 30pt Amble") {
                      reflection(fraction: 0.7)
                  }
                  /// GaussianBlur
-                 text(x: 10, y: 140, cache: true, content: "Blurry Text", fill: "red", font: "bold 36pt Amble") {
+                 text(x: 10, y: 140, cache: true, text: "Blurry Text", fill: "red", font: "bold 36pt Amble") {
                      gaussianBlur()
                  }
                  // ColorInput
-                 text(content: "Some Text!", fill: "red", font: "bold 36pt Amble", x: 10, y: 200, textOrigin: "top") {
+                 text(text: "Some Text!", fill: "red", font: "bold 36pt Amble", x: 10, y: 200, textOrigin: "top") {
                      colorInput(paint: blue, x: 55, y: 205, width: 50, height: 20)
                  }
                  /// Distant Light
                  group (translateY: 460) {
                      rectangle( fill: "black")
-                     text(content: "Distant Light", fill: "red", font: "bold 70pt Amble",
+                     text(text: "Distant Light", fill: "red", font: "bold 70pt Amble",
                         x: 10, y: 10, textOrigin: "TOP") {
                         lighting(surfaceScale: 5.0) {
                            distant(azimuth: -135.0, elevation: 30.0)
