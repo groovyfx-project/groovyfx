@@ -13,6 +13,11 @@ GroovyFX.start {
             tilePane {
                 pieChart(data: [first: 0.25f, second: 0.25f, third: 0.25f])
                 pieChart(data: pieData)
+
+//                lineChart {
+//                    valueAxis()
+//                    valueAxis()
+//                }
             }
         }
     }

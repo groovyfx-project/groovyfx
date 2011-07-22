@@ -57,7 +57,9 @@ import javafx.scene.shape.MoveTo
 import javafx.scene.shape.QuadCurveTo
 import javafx.scene.shape.VLineTo
 import javafx.scene.shape.Path
-import javafx.scene.chart.PieChart;
+import javafx.scene.chart.PieChart
+import javafx.scene.chart.ValueAxis
+import javafx.scene.chart.CategoryAxis;
 import javafx.application.Platform;
 /**
  *
@@ -381,6 +383,8 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
 
     public def registerCharts() {
         registerFactory('pieChart', new ChartFactory(PieChart))
+        registerFactory('valueAxis', new AxisFactory(ValueAxis))
+        registerFactory('categoryAxis', new AxisFactory(CategoryAxis))
     }
     
     public def registerTransforms() {
@@ -563,7 +567,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         WebFactory wf = new  WebFactory();
         registerFactory( 'webView', wf)
         registerFactory( 'webEngine', wf)
-        // TODO registerFactory( 'HTMLEditor', wf)
+        registerFactory( 'htmlEditor', wf)
 
     }
     

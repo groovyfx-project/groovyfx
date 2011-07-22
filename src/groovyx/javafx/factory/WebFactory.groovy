@@ -32,8 +32,10 @@ class WebFactory extends NodeFactory {
                 instance = new WebEngine(location);
             else
                 instance = new WebEngine();
-        }else if(name == "webView") {
+        } else if(name == "webView") {
             instance = new WebView();
+        } else if(name == "htmlEditor") {
+            instance = new HTMLEditor()
         }
 
         //FXHelper.fxAttributes(instance, attributes);

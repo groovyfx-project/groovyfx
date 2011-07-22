@@ -45,7 +45,8 @@ class ChartFactory extends NodeFactory {
         if (data instanceof ObservableList) {
             return data
         } else if (data instanceof Map) {
-            return FXCollections.observableArrayList(((Map)data).collect {k, v -> new PieChart.Data(k,v)})
+            def dataList = ((Map) data).collect {String k, Double v -> new PieChart.Data(k, v)}
+            return FXCollections.observableArrayList(dataList)
         } else {
             throw new RuntimeException("Could not recognize the pie chart data '$data'.  Try an ObservableList " +
                     "of PieChart.Data objects or a Map of strings to values: ['Label 1': 75, 'Label 2': 25]")
