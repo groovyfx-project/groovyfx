@@ -107,7 +107,7 @@ GroovyFX.start {
                     }
                     separator()
                     hbox(spacing: 10, padding: [10, 10, 10, 10]) {
-                        scrollBar(min: 0, max: 100, value: 50, orientation: "horizontal", prefWidth: 200)
+                        scrollBar(min: 0, max: 100, value: 50, orientation: horizontal, prefWidth: 200)
                         slider(min: 0, max: 100, value: 50, orientation: "horizontal", showTickMarks: true, prefWidth: 200)
                     }
                     listView(items: ["one", "two", "three"], prefWidth: 200, prefHeight: 400)
