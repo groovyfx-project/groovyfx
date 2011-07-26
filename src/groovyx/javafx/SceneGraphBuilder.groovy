@@ -17,50 +17,27 @@
 package groovyx.javafx
 
 import java.util.logging.Logger
-import groovyx.javafx.factory.*
-import org.codehaus.groovy.runtime.MethodClosure
-import javafx.scene.paint.Color;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-
-
-import javafx.stage.Stage;
-
-import org.codehaus.groovy.runtime.InvokerHelper;
-
-
-import org.codehaus.groovyfx.javafx.binding.ClosureTriggerBinding
-
-import javafx.geometry.Orientation;
-import javafx.util.Duration;
-
-import javafx.builders.*;
-import javafx.scene.media.MediaPlayer;
+import javafx.application.Platform
+import javafx.builders.MediaPlayerBuilder
+import javafx.builders.SceneBuilder
+import javafx.geometry.Orientation
+import javafx.scene.Node
+import javafx.scene.Parent
+import javafx.scene.Scene
+import javafx.scene.chart.CategoryAxis
+import javafx.scene.chart.LineChart
+import javafx.scene.chart.NumberAxis
+import javafx.scene.media.MediaPlayer
 import javafx.scene.media.MediaView
-import javafx.scene.shape.Rectangle
-import javafx.scene.shape.QuadCurve
-import javafx.scene.shape.Polyline
-import javafx.scene.shape.Polygon
-import javafx.scene.shape.Line
-import javafx.scene.shape.Ellipse
-import javafx.scene.shape.CubicCurve
-import javafx.scene.shape.Circle
-import javafx.scene.shape.Arc
-import javafx.scene.shape.SVGPath
-import javafx.scene.shape.ArcTo
-import javafx.scene.shape.ClosePath
-import javafx.scene.shape.CubicCurveTo
-import javafx.scene.shape.HLineTo
-import javafx.scene.shape.LineTo
-import javafx.scene.shape.MoveTo
-import javafx.scene.shape.QuadCurveTo
-import javafx.scene.shape.VLineTo
-import javafx.scene.shape.Path
-import javafx.scene.chart.PieChart
-import javafx.scene.chart.ValueAxis
-import javafx.scene.chart.CategoryAxis;
-import javafx.application.Platform;
+import javafx.scene.paint.Color
+import javafx.stage.Stage
+import javafx.util.Duration
+import org.codehaus.groovy.runtime.InvokerHelper
+import org.codehaus.groovy.runtime.MethodClosure
+import org.codehaus.groovyfx.javafx.binding.ClosureTriggerBinding
+import groovyx.javafx.factory.*
+import javafx.scene.shape.*
+
 /**
  *
  * @author jimclarke
@@ -382,8 +359,9 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
     }
 
     public def registerCharts() {
-        registerFactory('pieChart', new ChartFactory(PieChart))
-        registerFactory('valueAxis', new AxisFactory(ValueAxis))
+        registerFactory('pieChart', new PieChartFactory())
+        registerFactory('lineChart', new XYChartFactory(LineChart))
+        registerFactory('numberAxis', new AxisFactory(NumberAxis))
         registerFactory('categoryAxis', new AxisFactory(CategoryAxis))
     }
     

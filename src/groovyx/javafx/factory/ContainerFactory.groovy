@@ -18,13 +18,18 @@ package groovyx.javafx.factory
 
 import javafx.scene.layout.*;
 import javafx.scene.*;
-import javafx.geometry.Pos;
+import javafx.geometry.Pos
+import javafx.collections.FXCollections
+import javafx.scene.chart.XYChart
+import javafx.scene.chart.LineChart;
 
 /**
  *
  * @author jimclarke
  */
 class ContainerFactory extends NodeFactory {
+    private static final String BUILDER_LIST_PROPERTY = "__builderList"
+
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Parent container;
         switch(name) {
@@ -90,8 +95,23 @@ class ContainerFactory extends NodeFactory {
                     grid.getColumnInfo().add(rci.columnInfo)
                 }
             }
-        }else {
+        } else if (child.class.name.endsWith('Builder')) {
+            def builderList = builder.parentContext.get(BUILDER_LIST_PROPERTY, [])
+            builderList << child
+        } else {
             super.setChild(builder, parent, child);
+        }
+    }
+
+    @Override
+    void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
+        def builderList = builder.context.remove(BUILDER_LIST_PROPERTY)
+        builderList?.each {
+            LineChart chart =  it.build()
+            def data = FXCollections.observableArrayList(new XYChart.Data(0.1, 0.1), new XYChart.Data(0.5, 0.5))
+            def series = FXCollections.observableArrayList(new XYChart.Series("Series One", data))
+            chart.setData(series)
+            ((Parent)node).getChildren().add(chart)
         }
     }
 }

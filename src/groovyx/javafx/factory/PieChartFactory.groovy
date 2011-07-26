@@ -1,27 +1,31 @@
+/*
+* Copyright 2011 the original author or authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 package groovyx.javafx.factory
 
-import javafx.scene.chart.Chart
-import javafx.scene.chart.PieChart
-import javafx.collections.ObservableList
 import javafx.collections.FXCollections
+import javafx.collections.ObservableList
+import javafx.scene.chart.PieChart
 
 /**
  * @author Dean Iverson
  */
-class ChartFactory extends NodeFactory {
-    private final Class<? extends Chart> chartClass
-
-
-    ChartFactory(Class<? extends Chart> chartClass) {
-        if (chartClass == null)
-            throw new IllegalArgumentException("chartClass cannot be null")
-
-        this.chartClass = chartClass
-    }
-
+class PieChartFactory extends NodeFactory {
     @Override
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) {
-        if (FactoryBuilderSupport.checkValueIsType(value, name, chartClass)) {
+        if (FactoryBuilderSupport.checkValueIsType(value, name, PieChart)) {
             return value
         } else {
             return createChart(attributes)
@@ -29,13 +33,11 @@ class ChartFactory extends NodeFactory {
     }
 
     private def createChart(Map attributes) {
-        def chart = chartClass.newInstance()
+        def chart = new PieChart()
         def data = attributes.remove("data")
 
         if (data) {
-            if (chart instanceof PieChart) {
-                chart.data = createPieChartData(data)
-            }
+            chart.data = createPieChartData(data)
         }
 
         return chart
