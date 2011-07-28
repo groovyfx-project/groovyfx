@@ -1,0 +1,19 @@
+apply plugin: 'groovy'
+
+version = 0.1
+javafxHome = System.env['JAVAFX_HOME']
+
+sourceSets {
+  main.groovy.srcDir 'src'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    groovy 'org.codehaus.groovy:groovy-all:1.8.0'
+    groovy 'asm:asm:3.2'
+    groovy files("${javafxHome}/rt/lib/jfxrt.jar")
+}
+
