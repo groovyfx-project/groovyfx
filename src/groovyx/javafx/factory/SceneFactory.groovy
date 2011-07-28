@@ -120,13 +120,13 @@ class SceneFactory extends AbstractFactory {
         }
         // onMouseWheelRotated is not defined on node??
         if(attributes.containsKey("onMouseWheelRotated")) {
-            def val = attributes.remove(v);
+            def val = attributes.remove("onMouseWheelRotated");
             if(val instanceof Closure) {
-                def handler = new GroovyMouseHandler(v);
+                def handler = new GroovyMouseHandler("onMouseWheelRotated");
                 handler.setClosure((Closure)val);
-                node.addInputHandler(v, handler);
+                node.addInputHandler("onMouseWheelRotated", handler);
             }else if(val instanceof EventHandler) {
-                node.addInputHandler(v, (EventHandler)val);
+                node.addInputHandler("onMouseWheelRotated", (EventHandler)val);
             }
         }
         for(v in NodeFactory.keyEvents) {
