@@ -20,6 +20,7 @@ import javafx.stage.Stage
 import javafx.scene.Scene
 import javafx.stage.StageStyle
 import javafx.stage.Popup;
+import javafx.stage.FileChooser;
 
 /**
  *
@@ -59,26 +60,31 @@ class StageFactory extends AbstractFactory {
             }
         }else if(name == "popup") {
             window = new Popup();
+        }else if(name == "fileChooser") {
+            window = new FileChooser();
         }
-        def onHidden = attributes.remove("onHidden");
-        if(onHidden != null) {
-            def handler = new ClosureEventHandler(closure: onHidden);
-            window.onHidden = handler;
-        }
-        def onHidding = attributes.remove("onHidding");
-        if(onHidding != null) {
-            def handler = new ClosureEventHandler(closure: onHidding);
-            window.onHidding = handler;
-        }
-        def onShowing = attributes.remove("onShowing");
-        if(onShowing != null) {
-            def handler = new ClosureEventHandler(closure: onShowing);
-            window.onShowing = handler;
-        }
-        def onShown = attributes.remove("onShown");
-        if(onShown != null) {
-            def handler = new ClosureEventHandler(closure: onShown);
-            window.onShown = handler;
+        
+        if(! (window instanceof FileChooser)) {
+            def onHidden = attributes.remove("onHidden");
+            if(onHidden != null) {
+                def handler = new ClosureEventHandler(closure: onHidden);
+                window.onHidden = handler;
+            }
+            def onHidding = attributes.remove("onHidding");
+            if(onHidding != null) {
+                def handler = new ClosureEventHandler(closure: onHidding);
+                window.onHidding = handler;
+            }
+            def onShowing = attributes.remove("onShowing");
+            if(onShowing != null) {
+                def handler = new ClosureEventHandler(closure: onShowing);
+                window.onShowing = handler;
+            }
+            def onShown = attributes.remove("onShown");
+            if(onShown != null) {
+                def handler = new ClosureEventHandler(closure: onShown);
+                window.onShown = handler;
+            }
         }
 
         return window;
@@ -87,6 +93,8 @@ class StageFactory extends AbstractFactory {
     public void setChild(FactoryBuilderSupport build, Object parent, Object child) {
         if(parent instanceof Popup) {
             parent.content.add(child);
+        }else if(parent instanceof FileChooser && child instanceof FileChooser.ExtensionFilter) {
+            parent.getExtensionFilters().add(child);
         }
     }
 

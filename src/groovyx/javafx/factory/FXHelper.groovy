@@ -42,6 +42,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import javafx.geometry.VPos;
 import javafx.scene.text.TextAlignment;
+import java.io.File;
 /**
  *
  * @author jimclarke
@@ -122,6 +123,16 @@ class FXHelper {
     private static def doFont = { delegate, metaProperty, value ->
         def font = FontFactory.get(getValue(value));
         metaProperty.setProperty(delegate, font);
+        return true;   
+    };
+    private static def doFile = { delegate, metaProperty, value ->
+        def file = value;
+        if(file instanceof String || file instanceof URI )
+            file = new File(value);
+        else if(file instanceof URL) {
+            file = new File(value.toURI());
+        }
+        metaProperty.setProperty(delegate, file);
         return true;   
     };
     private static def doObservableList = { delegate, metaProperty, value ->
@@ -343,6 +354,7 @@ class FXHelper {
         // class types that do have special attribute processing
         classMap.put(Paint, doPaint);
         classMap.put(Font, doFont);
+        classMap.put(File, doFile);
         classMap.put(ObservableList, doObservableList);
         classMap.put(Sequence, doSequence);
         classMap.put(Insets, doInsets);
