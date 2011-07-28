@@ -18,6 +18,9 @@ package groovyx.javafx.factory
 
 import javafx.scene.chart.NumberAxis
 import javafx.scene.chart.XYChart
+import javafx.collections.FXCollections
+import javafx.scene.chart.BarChart
+import javafx.scene.chart.CategoryAxis
 
 /**
  * @author Dean Iverson
@@ -41,8 +44,13 @@ class XYChartFactory extends AbstractFactory {
             def chartBuilder = builderClass.newInstance()
 
             // Set default axes so the builder doesn't blow up with a NPE
-            chartBuilder.XAxis(new NumberAxis(0, 1, 0.2))
-            chartBuilder.YAxis(new NumberAxis(0, 1, 0.2))
+            // TODO: Set the axes correctly depending on bar chart orientation
+            if (chartClass == BarChart)
+                chartBuilder.XAxis(new CategoryAxis())
+            else
+                chartBuilder.XAxis(new NumberAxis())
+
+            chartBuilder.YAxis(new NumberAxis())
 
             return chartBuilder
         }
@@ -54,6 +62,12 @@ class XYChartFactory extends AbstractFactory {
         FXHelper.setPropertyOrMethod(node, 'animated', animated)
     }
 
-
+    @Override
+    void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
+        def seriesList = builder.context.remove(XYSeriesFactory.SERIES_LIST_PROPERTY)
+        if (seriesList) {
+            node.data(FXCollections.observableArrayList(seriesList))
+        }
+    }
 }
 

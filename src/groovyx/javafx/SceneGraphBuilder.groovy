@@ -37,6 +37,10 @@ import org.codehaus.groovy.runtime.MethodClosure
 import org.codehaus.groovyfx.javafx.binding.ClosureTriggerBinding
 import groovyx.javafx.factory.*
 import javafx.scene.shape.*
+import javafx.scene.chart.AreaChart
+import javafx.scene.chart.BubbleChart
+import javafx.scene.chart.BarChart
+import javafx.scene.chart.ScatterChart
 
 /**
  *
@@ -323,6 +327,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'stylesheets', new StylesheetFactory());
 
         ContainerFactory cf = new ContainerFactory();
+        registerFactory( 'pane', cf)
         registerFactory( 'anchorPane', cf)
         registerFactory( 'borderPane', cf)
         registerFactory( 'flowPane', cf)
@@ -365,8 +370,13 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
     public def registerCharts() {
         registerFactory('pieChart', new PieChartFactory())
         registerFactory('lineChart', new XYChartFactory(LineChart))
+        registerFactory('areaChart', new XYChartFactory(AreaChart))
+        registerFactory('bubbleChart', new XYChartFactory(BubbleChart))
+        registerFactory('barChart', new XYChartFactory(BarChart))
+        registerFactory('scatterChart', new XYChartFactory(ScatterChart))
         registerFactory('numberAxis', new AxisFactory(NumberAxis))
         registerFactory('categoryAxis', new AxisFactory(CategoryAxis))
+        registerFactory('series', new XYSeriesFactory())
     }
     
     public def registerTransforms() {
@@ -550,7 +560,6 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'webView', wf)
         registerFactory( 'webEngine', wf)
         registerFactory( 'htmlEditor', wf)
-
     }
     
     public def registerTransition() {
@@ -567,7 +576,6 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'pathTransition', tf);
         registerFactory( 'strokeTransition', tf);
         registerFactory( 'transition', tf);
-
     }
     
     public def registerMedia() {
@@ -576,7 +584,6 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
 
         registerFactory( 'mediaView', mf)
         registerFactory( 'player', pf)
-
     }
 
 

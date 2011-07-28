@@ -16,8 +16,9 @@
 
 package groovyx.javafx.factory
 
+import javafx.collections.FXCollections
+import javafx.collections.ObservableList
 import javafx.scene.chart.XYChart
-import javafx.scene.chart.XYChart.Series
 
 /**
  * This factory allows the definition of a series of data points for a XYChart (LineChart, BubbleChart,
@@ -27,10 +28,12 @@ import javafx.scene.chart.XYChart.Series
  *      data: A List of data points.  If the list is of type ObservableList<XYChart.Data> then it
  *            is used directly.  The list can also be in the format of [x1, y1, x2, y2, ...] or
  *            [[x1, y1], [x2, y2], ...] and it will be translated to an ObservableList<XYChart.Data>.
- *            
+ *
  * @author Dean Iverson
  */
 class XYSeriesFactory extends AbstractFactory {
+    public static final String SERIES_LIST_PROPERTY = "__seriesList"
+
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) {
         if (FactoryBuilderSupport.checkValueIsType(value, name, XYChart.Series)) {
             return value
@@ -41,6 +44,12 @@ class XYSeriesFactory extends AbstractFactory {
     }
 
     @Override
+    void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
+        def seriesList = builder.parentContext.get(SERIES_LIST_PROPERTY, [])
+        seriesList << node
+    }
+
+    @Override
     boolean isHandlesNodeChildren() { true }
 
     @Override
@@ -48,24 +57,39 @@ class XYSeriesFactory extends AbstractFactory {
         return true;
     }
 
-    private def createSeriesForData(data) {
-        if (data == null)
-            return new XYChart.Series()
-
-        if (data instanceof List) {
-
-        } else if (data instanceof Map) {
-
+    private XYChart.Series createSeriesForData(data) {
+        if (data instanceof ObservableList<XYChart.Series>) {
+            return new XYChart.Series(data)
+        } else if (data instanceof List) {
+            return new XYChart.Series(createXYDataFromList(data))
         }
+
+        return new XYChart.Series()
     }
 
     /**
      * Transforms a list of data values into XYChart.Data objects.
-     * 
-     * @param list The list of data points
+     *
+     * @param list The list of data points.  Can be either [x1, y1, x2, y2, ...] or [[x1, y1], [x2, y2], ...].
      * @return An ObservableList of XYChart.Data objects.
      */
     private ObservableList<XYChart.Data> createXYDataFromList(List list) {
+        def result = []
 
+        if (list) {
+            if (list[0] instanceof List) {
+                list.each { result << (it as XYChart.Data) }
+            } else {
+                for (int i = 0; i < list.size() - 1; i += 2) {
+                    result << new XYChart.Data(list[i], list[i + 1] )
+                }
+
+                if (list.size() % 2) {
+                    result << new XYChart.Data(list[-1], 0)
+                }
+            }
+        }
+
+        return FXCollections.observableArrayList(result)
     }
 }
