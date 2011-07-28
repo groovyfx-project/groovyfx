@@ -3,11 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="a01a2837-804f-463d-8e73-933a2c535eab" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/demo/ChartDemo.groovy" afterPath="$PROJECT_DIR$/src/demo/ChartDemo.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/groovyx/javafx/SceneGraphBuilder.groovy" afterPath="$PROJECT_DIR$/src/groovyx/javafx/SceneGraphBuilder.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/groovyx/javafx/factory/ContainerFactory.groovy" afterPath="$PROJECT_DIR$/src/groovyx/javafx/factory/ContainerFactory.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/groovyx/javafx/factory/XYChartFactory.groovy" afterPath="$PROJECT_DIR$/src/groovyx/javafx/factory/XYChartFactory.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/groovyx/javafx/factory/XYSeriesFactory.groovy" afterPath="$PROJECT_DIR$/src/groovyx/javafx/factory/XYSeriesFactory.groovy" />
     </list>
     <ignored path="GroovyFX.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -66,10 +62,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ChartDemo.groovy" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ChartDemo.groovy" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/demo/ChartDemo.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="50" column="16" selection-start="2383" selection-end="2383" vertical-scroll-proportion="1.0159575">
+            <state line="50" column="16" selection-start="2383" selection-end="2383" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -102,10 +98,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SceneGraphBuilder.groovy" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="SceneGraphBuilder.groovy" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/groovyx/javafx/SceneGraphBuilder.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="574" column="33" selection-start="21541" selection-end="21541" vertical-scroll-proportion="0.0">
+            <state line="615" column="0" selection-start="22961" selection-end="22961" vertical-scroll-proportion="1.7795275">
               <folding />
             </state>
           </provider>
@@ -152,9 +148,9 @@
         <option value="$PROJECT_DIR$/src/demo/ChartExample.groovy" />
         <option value="$PROJECT_DIR$/src/groovyx/javafx/factory/AxisFactory.groovy" />
         <option value="$PROJECT_DIR$/src/groovyx/javafx/factory/ChartFactory.groovy" />
-        <option value="$PROJECT_DIR$/src/groovyx/javafx/SceneGraphBuilder.groovy" />
         <option value="$PROJECT_DIR$/src/groovyx/javafx/factory/WebFactory.groovy" />
         <option value="$PROJECT_DIR$/src/demo/ChartDemo.groovy" />
+        <option value="$PROJECT_DIR$/src/groovyx/javafx/SceneGraphBuilder.groovy" />
       </list>
     </option>
   </component>
@@ -543,14 +539,14 @@
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32979977" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32637364" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32637364" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24923454" sideWeight="0.67362636" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38865095" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24923454" sideWeight="0.6120879" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3879121" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32744405" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -673,13 +669,6 @@
         <state line="33" column="0" selection-start="1057" selection-end="1057" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/groovyx/javafx/SceneGraphBuilder.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="574" column="33" selection-start="21541" selection-end="21541" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/groovyx/javafx/factory/WebFactory.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state line="37" column="17" selection-start="1293" selection-end="1293" vertical-scroll-proportion="0.0" />
@@ -692,7 +681,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/demo/ChartDemo.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="16" selection-start="2383" selection-end="2383" vertical-scroll-proportion="1.0159575">
+        <state line="50" column="16" selection-start="2383" selection-end="2383" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/groovyx/javafx/SceneGraphBuilder.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="615" column="0" selection-start="22961" selection-end="22961" vertical-scroll-proportion="1.7795275">
           <folding />
         </state>
       </provider>

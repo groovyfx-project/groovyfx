@@ -610,8 +610,8 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
             parent.mediaPlayer = node;
         }else if(parent instanceof Stage && node instanceof Scene) {
             parent.scene = node
-        }else if(node instanceof FXMLLoaderBuilder) {
-            node = node.build();
+//        }else if(node instanceof FXMLLoaderBuilder) {
+//            node = node.build();
         }
         return super.postNodeCompletion(parent, node);
      }
