@@ -180,6 +180,12 @@ public class PropertyBinding implements SourceBinding, TargetBinding, TriggerBin
             }
         }
 
+        
+        
+        @Override
+        public String toString() {
+            return sourceBinding.getSourceValue().toString();
+        }
 
 
     }
