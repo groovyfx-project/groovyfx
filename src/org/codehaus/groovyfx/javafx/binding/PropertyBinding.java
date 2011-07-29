@@ -181,6 +181,9 @@ public class PropertyBinding implements SourceBinding, TargetBinding, TriggerBin
         }
 
         
+        public Object getSourceValue() {
+            return sourceBinding.getSourceValue();
+        }
         
         @Override
         public String toString() {

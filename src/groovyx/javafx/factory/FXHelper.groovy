@@ -32,6 +32,7 @@ import javafx.scene.Cursor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.codehaus.groovyfx.javafx.binding.ClosureTriggerBinding;
+import org.codehaus.groovyfx.javafx.binding.FullBinding;
 import javafx.event.EventHandler;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.Node;
@@ -378,6 +379,11 @@ class FXHelper {
         }
         
         def metaProperty = delegate.getClass().metaClass.getMetaProperty(key);
+        
+        if(value instanceof FullBinding) {
+            value.update();
+            return true;
+        }
         if(metaProperty) {
             // first do quick check from map
             def closure = classMap.get(metaProperty.getType());
