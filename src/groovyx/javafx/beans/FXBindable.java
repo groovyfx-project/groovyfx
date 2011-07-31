@@ -23,13 +23,29 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+
 /**
+ * Annotates a groovy property or a class to support JavaFX properties.
  *
- * @author jimclarke
+ * When annotating a property it indicates that the property should be a
+ * bound property according to  JavaFX beans, announcing to listeners
+ * that the value has changed. <br/><br/>
+ *
+ * When annotating a class it indicates that all groovy properties in that
+ * class should be bound as though each property had the annotation (even
+ * if it already has it explicitly).<br/><br/>
+ *
+ * It is a compilation error to place this annotation on a field (that is
+ * not a property, i.e. has scope visibility modifiers).<br/><br/>
+ *
+ * If a property with a user defined setter method is annotated the code
+ * block is wrapped with the needed code to fire off the event.<br/><br/>
+ *
+ * @author jimclarke (inspired by Danno Ferrin (shemnon) and Chris Reeved)
  */
+@java.lang.annotation.Documented
 @Retention(RetentionPolicy.SOURCE)
 @Target({ElementType.FIELD, ElementType.TYPE})
 @GroovyASTTransformationClass("groovyx.javafx.beans.FXBindableASTTransformation")
 public @interface FXBindable {
 }
-
