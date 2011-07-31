@@ -319,7 +319,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         
         registerFactory("clip", new ClipFactory());
         
-        //registerFactory("fxml", new FXMLFactory());
+        registerFactory("fxml", new FXMLFactory());
     }
 
     public def registerContainers() {
@@ -610,8 +610,8 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
             parent.mediaPlayer = node;
         }else if(parent instanceof Stage && node instanceof Scene) {
             parent.scene = node
-//        }else if(node instanceof FXMLLoaderBuilder) {
-//            node = node.build();
+        }else if(node instanceof FXMLLoaderBuilder) {
+            node = node.build();
         }
         return super.postNodeCompletion(parent, node);
      }
