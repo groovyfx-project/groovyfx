@@ -82,7 +82,6 @@ public class PropertyPathFullBinding extends AbstractFullBinding implements Prop
 
     @Override
     public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-        System.out.println(observable);
         if (updateObjects.contains(observable)) {
             for (BindPath bp : bindPaths) {
                 Set newUpdates = new HashSet();
