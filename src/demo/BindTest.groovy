@@ -17,6 +17,7 @@
 package demo
 import groovyx.javafx.SceneGraphBuilder
 import groovyx.javafx.GroovyFX;
+import javafx.scene.control.TextBox;
 /**
  *
  * @author jimclarke
@@ -26,6 +27,7 @@ GroovyFX.start({
 def foo = "foobar";
 def sg = new SceneGraphBuilder(it);
 
+TextBox tf;
 
 sg.stage(
     title: "Stage Frame",
@@ -39,8 +41,9 @@ sg.stage(
         stylesheets( urls: [ "foo.css "])
         vbox ( spacing: 10) {
             tf = textBox(text: 'Change Me!')
-            button(text: bind(source: tf, sourceProperty:'text'))
-            label(text: bind{ tf.text })
+            //button(text: bind(source: tf, sourceProperty:'text'))
+            label(text: bind (tf.textProperty()) )
+            label(text: bind ({tf.text}) )
         }
     }
 }
