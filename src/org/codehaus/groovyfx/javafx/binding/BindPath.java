@@ -27,7 +27,7 @@ import groovy.lang.MissingPropertyException;
 import groovy.lang.Reference;
 import groovy.lang.Closure;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.beans.property.Property;
 
 /**
  * The bind path object.  This class represents one "step" in the bind path.
@@ -39,11 +39,13 @@ public class BindPath {
      * The local lookup for syhtnetic properties, like JTextField#text
      */
     Map<String, TriggerBinding> localSynthetics;
+    
 
     /**
      * The object we think we are bound to
      */
     Object currentObject;
+    
 
     /**
      * The property we are interested in
@@ -53,7 +55,7 @@ public class BindPath {
     /** 
      * THe JavaFX property
      */
-    ObservableValue property; 
+    Property property; 
 
     PropertyChangeListener localListener;
     PropertyChangeListener globalListener;
@@ -131,7 +133,10 @@ public class BindPath {
     private Object extractNewValue(Object newObject) {
         Object newValue;
         try {
-            newValue = InvokerHelper.getProperty(newObject, propertyName);
+            if(newObject instanceof Property)
+                newValue = ((Property)newObject).getValue();
+            else
+                newValue = InvokerHelper.getProperty(newObject, propertyName);
 
         } catch (MissingPropertyException mpe) {
             //todo we should flag this whent he path is created that this is a field not a prop...
@@ -162,10 +167,13 @@ public class BindPath {
      */
     public void addListeners(Object listener, Object newObject, Set updateSet) {
         removeListeners();
+        Object originalObject = null;
         if (newObject != null) {
+            
             // check for local synthetics
             TriggerBinding syntheticTrigger = getSyntheticTriggerBinding(newObject);
             if(newObject instanceof Closure) {
+                originalObject = newObject;
                 newObject = ((Closure)newObject).getThisObject();
             }
             MetaClass mc = InvokerHelper.getMetaClass(newObject);
@@ -179,10 +187,10 @@ public class BindPath {
             // if the object has a <propertyName>Property() function then it should be
             // a JavaFX property
             } else if (!mc.respondsTo(newObject, propertyName + "Property", null).isEmpty()) {
-                property = (ObservableValue)InvokerHelper.invokeMethod(newObject,propertyName + "Property", null);
-                InvokerHelper.invokeMethod(property, "addListener", new Object[] { listener} );
+                property = (Property)InvokerHelper.invokeMethod(newObject, propertyName + "Property", null);
                 fxListener = (ChangeListener)listener;
-                updateSet.add(newObject);
+                property.addListener(fxListener);
+                updateSet.add(property);
             } else if (!mc.respondsTo(newObject, "addPropertyChangeListener", NAME_PARAMS).isEmpty()) {
                 InvokerHelper.invokeMethod(newObject, "addPropertyChangeListener", new Object[] {propertyName, listener});
                 localListener = (PropertyChangeListener)listener;
@@ -193,7 +201,7 @@ public class BindPath {
                 updateSet.add(newObject);
             }
         }
-        currentObject = newObject;
+        currentObject = originalObject != null ? originalObject : newObject;
     }
 
     /**
@@ -218,11 +226,7 @@ public class BindPath {
             localListener = null;
         }
         if (fxListener != null && property != null) {
-            try {
-                InvokerHelper.invokeMethod(property, "removeListener", new Object[] {fxListener});
-            } catch (Exception e) {
-                //LOGME ignore the failure
-            }
+            property.removeListener(fxListener);
             localListener = null;
             fxListener = null;
         }

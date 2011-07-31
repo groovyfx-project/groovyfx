@@ -28,6 +28,7 @@ import java.beans.PropertyVetoException;
 
 import groovyx.javafx.factory.FXHelper;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.property.Property;
 
 
 /**
@@ -40,10 +41,16 @@ public class PropertyBinding implements SourceBinding, TargetBinding, TriggerBin
     Object bean;
     String propertyName;
     boolean nonChangeCheck;
+    Property fxProperty;
+    
 
     public PropertyBinding(Object bean, String propertyName) {
         this.bean = bean;
         this.propertyName = propertyName;
+    }
+    
+    public PropertyBinding(Property fxProperty) {
+        this.fxProperty = fxProperty;
     }
 
     @Override
@@ -54,16 +61,20 @@ public class PropertyBinding implements SourceBinding, TargetBinding, TriggerBin
                 return;
             }
         }
-        try {
-            Object[] args = { bean, propertyName, newValue };
-            if(!(Boolean)InvokerHelper.invokeStaticMethod(FXHelper.class, "fxAttribute", args ) )
-                InvokerHelper.setProperty(bean, propertyName, newValue);
-        } catch (InvokerInvocationException iie) {
-            if (!(iie.getCause() instanceof PropertyVetoException)) {
-                throw iie;
+        
+            if(fxProperty != null) {
+                fxProperty.setValue(newValue);
+            }else {
+                try {
+                    Object[] args = { bean, propertyName, newValue };
+                    InvokerHelper.setProperty(bean, propertyName, newValue);
+                } catch (InvokerInvocationException iie) {
+                    if (!(iie.getCause() instanceof PropertyVetoException)) {
+                        throw iie;
+                    }
+                    // ignore veto exceptions, just let the binding fail like a validaiton does
+                }
             }
-            // ignore veto exceptions, just let the binding fail like a validaiton does
-        }
     }
 
     public boolean isNonChangeCheck() {
@@ -76,7 +87,8 @@ public class PropertyBinding implements SourceBinding, TargetBinding, TriggerBin
 
     @Override
     public Object getSourceValue() {
-        return InvokerHelper.getPropertySafe(bean, propertyName);
+        return fxProperty != null ? fxProperty.getValue() :
+                        InvokerHelper.getPropertySafe(bean, propertyName);
     }
 
     @Override
@@ -86,12 +98,9 @@ public class PropertyBinding implements SourceBinding, TargetBinding, TriggerBin
 
     class PropertyFullBinding extends AbstractFullBinding implements PropertyChangeListener, ChangeListener {
 
-        Object boundBean;
-        Object boundProperty;
         boolean bound;
         boolean boundToProperty;
-        ObservableValue property;
-
+        
         PropertyFullBinding(SourceBinding source, TargetBinding target) {
             setSourceBinding(source);
             setTargetBinding(target);
@@ -99,7 +108,7 @@ public class PropertyBinding implements SourceBinding, TargetBinding, TriggerBin
 
         @Override
         public void propertyChange(PropertyChangeEvent event) {
-            if (boundToProperty || event.getPropertyName().equals(boundProperty)) {
+            if (boundToProperty || event.getPropertyName().equals(propertyName)) {
                 update();
             }
         }
@@ -107,7 +116,7 @@ public class PropertyBinding implements SourceBinding, TargetBinding, TriggerBin
         
         @Override
         public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-            if(boundToProperty && (observable == bean || observable == property) ) {
+            if(boundToProperty && (observable == bean || observable == fxProperty) ) {
                 update();
             }
         }
@@ -116,25 +125,24 @@ public class PropertyBinding implements SourceBinding, TargetBinding, TriggerBin
         public void bind() {
             if (!bound) {
                 bound = true;
-                boundBean = bean;
-                boundProperty = propertyName;
-                try {
-                    property = (ObservableValue)InvokerHelper.invokeMethodSafe(boundBean, propertyName + "Property", null);
+                if(fxProperty == null && bean != null && propertyName != null) {
                     try {
-                        InvokerHelper.invokeMethodSafe(property, "addListener", new Object[] {this});
-                        boundToProperty = true;
-                    } catch (MissingMethodException mme1) {
-                        boundToProperty = false;
-                        throw new RuntimeException("Properties in beans of type " + boundBean.getClass().getName() + " are not a JavaFX Bean).");
+                        fxProperty = (Property)InvokerHelper.invokeMethodSafe(bean, propertyName + "Property", null);
+                    }catch (MissingMethodException ignore) {
+                        
                     }
-                }catch (MissingMethodException mme) {
+                }
+                if(fxProperty != null) {
+                    fxProperty.addListener(this);
+                    boundToProperty = true;
+                }else {
                     try {
-                        InvokerHelper.invokeMethodSafe(boundBean, "addPropertyChangeListener", new Object[] {boundProperty, this});
+                        InvokerHelper.invokeMethodSafe(bean, "addPropertyChangeListener", new Object[] {propertyName, this});
                         boundToProperty = true;
                     } catch (MissingMethodException mme1) {
                         try {
                             boundToProperty = false;
-                            InvokerHelper.invokeMethodSafe(boundBean, "addPropertyChangeListener", new Object[] {this});
+                            InvokerHelper.invokeMethodSafe(bean, "addPropertyChangeListener", new Object[] {this});
                         } catch (MissingMethodException mme2) {
                             throw new RuntimeException("Properties in beans of type " + bean.getClass().getName() + " are not observable in any capacity (no PropertyChangeListener support).");
                         }
@@ -146,28 +154,21 @@ public class PropertyBinding implements SourceBinding, TargetBinding, TriggerBin
         @Override
         public void unbind() {
             if (bound) {
-                if(property != null) {
-                    try {
-                         InvokerHelper.invokeMethodSafe(property, "removeListener", new Object[] {this});
-                    } catch (MissingMethodException mme) {
-                        // ignore, too bad so sad they don't follow conventions, we'll just leave the listener attached
-                    }
+                if(fxProperty != null) {
+                    fxProperty.removeListener(this);
                 }else if (boundToProperty) {
                     try {
-                        InvokerHelper.invokeMethodSafe(boundBean, "removePropertyChangeListener", new Object[] {boundProperty, this});
+                        InvokerHelper.invokeMethodSafe(bean, "removePropertyChangeListener", new Object[] {propertyName, this});
                     } catch (MissingMethodException mme) {
                         // ignore, too bad so sad they don't follow conventions, we'll just leave the listener attached
                     }
                 } else {
                     try {
-                        InvokerHelper.invokeMethodSafe(boundBean, "removePropertyChangeListener", new Object[] {this});
+                        InvokerHelper.invokeMethodSafe(bean, "removePropertyChangeListener", new Object[] {this});
                     } catch (MissingMethodException mme2) {
                         // ignore, too bad so sad they don't follow conventions, we'll just leave the listener attached
                     }
                 }
-                boundBean = null;
-                boundProperty = null;
-                property = null;
                 bound = false;
             }
         }
@@ -180,11 +181,6 @@ public class PropertyBinding implements SourceBinding, TargetBinding, TriggerBin
             }
         }
 
-        
-        public Object getSourceValue() {
-            return sourceBinding.getSourceValue();
-        }
-        
         @Override
         public String toString() {
             return sourceBinding.getSourceValue().toString();

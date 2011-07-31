@@ -26,11 +26,20 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import javafx.beans.value.InvalidationListener;
+// TODO import javafx.beans.InvalidationListener;
+//TODO import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 
-public class ClosureTriggerBinding implements TriggerBinding, SourceBinding {
+public class ClosureTriggerBinding implements TriggerBinding, SourceBinding,
+           ObservableValue<Object> {
 
     Map<String, TriggerBinding> syntheticBindings;
     Closure closure;
+    
+    private JavaFXTargetProperty javafxProperty;
 
     public ClosureTriggerBinding(Map<String, TriggerBinding> syntheticBindings) {
         this.syntheticBindings = syntheticBindings;
@@ -59,7 +68,7 @@ public class ClosureTriggerBinding implements TriggerBinding, SourceBinding {
     @Override
     public FullBinding createBinding(SourceBinding source, TargetBinding target) {
         if (source != this) {
-            throw new RuntimeException("Source binding must the Trigger Binding as well");
+            throw new RuntimeException("Source binding must be the Trigger Binding as well");
         }
         final BindPathSnooper delegate = new BindPathSnooper();
         try {
@@ -130,6 +139,47 @@ public class ClosureTriggerBinding implements TriggerBinding, SourceBinding {
     public Object getSourceValue() {
         return closure.call();
     }
+    
+    private void initJavaFXProperty() {
+        if(javafxProperty == null) {
+            javafxProperty = new JavaFXTargetProperty();
+            FullBinding fb = createBinding(this, javafxProperty);
+            fb.bind();
+        }
+    }
+
+    @Override
+    public void addListener(ChangeListener<? super Object> listener) {
+        initJavaFXProperty();
+        javafxProperty.addListener(listener);
+    }
+
+    @Override
+    public void removeListener(ChangeListener<? super Object> listener) {
+        if(javafxProperty != null)
+            javafxProperty.removeListener(listener);
+    }
+
+    @Override
+    public Object getValue() {
+        Object a = getSourceValue();
+        javafxProperty.setValue(a);
+        Object b = javafxProperty.getValue();
+        
+        return a;
+    }
+
+    @Override
+    public void addListener(InvalidationListener listener) {
+        initJavaFXProperty();
+        javafxProperty.addListener(listener);
+    }
+
+    @Override
+    public void removeListener(InvalidationListener listener) {
+        if(javafxProperty != null)
+            javafxProperty.removeListener(listener);
+    }
 }
 
 class DeadEndException extends RuntimeException {
@@ -165,4 +215,12 @@ class BindPathSnooper extends GroovyObjectSupport {
     public Object invokeMethod(String name, Object args) {
         return DEAD_END;
     }
+}
+
+class JavaFXTargetProperty extends /* TODO SimpleObjectProperty */ ObjectProperty implements TargetBinding {
+    @Override
+    public void updateTargetValue(Object value) {
+        this.setValue(value);
+    }
+    
 }
