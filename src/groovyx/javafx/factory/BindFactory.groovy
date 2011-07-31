@@ -19,6 +19,7 @@ import groovyx.javafx.SceneGraphBuilder;
 import groovyx.javafx.factory.binding.*
 import java.util.Map.Entry;
 import org.codehaus.groovyfx.javafx.binding.*;
+import javafx.beans.property.Property;
 
 /**
  *
@@ -72,7 +73,12 @@ class BindFactory extends AbstractFactory {
         } else if (spa && !(sea && sva)) {
             // partially property driven binding
             String property = attributes.remove("sourceProperty") ?: value
-            PropertyBinding pb = new PropertyBinding(source, property)
+            SourceBinding pb;
+            if(value instanceof Property) {
+                pb = new PropertyBinding((Property)value);
+            }else {
+                pb = new PropertyBinding(source, property)
+            }
 
             TriggerBinding trigger
             if (sea) {

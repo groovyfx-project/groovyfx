@@ -114,7 +114,7 @@ class FXHelper {
         leftAnchor: setLeftAnchor
     ]
     
-    private static classMap = new HashMap<Class, Closure>();
+    
     
     private static def doPaint = { delegate, metaProperty, value ->
          def paint = ColorFactory.get(getValue(value));
@@ -328,48 +328,47 @@ class FXHelper {
         metaProperty.setProperty(delegate, value);
         return true;
     };
-
-    static {
-        // standard Java class types that have no special processing
-        classMap.put(String, doNothing);
-        classMap.put(Double, doNothing);
-        classMap.put(Double.TYPE, doNothing);
-        classMap.put(Short, doNothing);
-        classMap.put(Short.TYPE, doNothing);
-        classMap.put(Integer, doNothing);
-        classMap.put(Integer.TYPE, doNothing);
-        classMap.put(Float, doNothing);
-        classMap.put(Float.TYPE, doNothing);
-        classMap.put(Long, doNothing);
-        classMap.put(Long.TYPE, doNothing);
-        classMap.put(Boolean, doNothing);
-        classMap.put(Boolean.TYPE, doNothing);
-        classMap.put(Byte, doNothing);
-        classMap.put(Byte.TYPE, doNothing);
-        classMap.put(Character, doNothing);
-        classMap.put(Character.TYPE, doNothing);
-        classMap.put(BigDecimal, doNothing);
-        classMap.put(BigInteger, doNothing);
-        classMap.put(Runnable, doNothing);
+    
+    private static def classMap = [
+        (String.class): doNothing,
+        (Double.class): doNothing,
+        (Double.TYPE): doNothing,
+        (Short.class): doNothing,
+        (Short.TYPE): doNothing,
+        (Integer.class): doNothing,
+        (Integer.TYPE): doNothing,
+        (Float.class): doNothing,
+        (Float.TYPE): doNothing,
+        (Long.class): doNothing,
+        (Long.TYPE): doNothing,
+        (Boolean.class): doNothing,
+        (Boolean.TYPE): doNothing,
+        (Byte.class): doNothing,
+        (Byte.TYPE): doNothing,
+        (Character.class): doNothing,
+        (Character.TYPE): doNothing,
+        (BigDecimal.class): doNothing,
+        (BigInteger.class): doNothing,
+        (Runnable.class): doNothing,
         
         // class types that do have special attribute processing
-        classMap.put(Paint, doPaint);
-        classMap.put(Font, doFont);
-        classMap.put(File, doFile);
-        classMap.put(ObservableList, doObservableList);
-        classMap.put(Sequence, doSequence);
-        classMap.put(Insets, doInsets);
-        classMap.put(BoundingBox, doBoundingBox);
-        classMap.put(Dimension2D, doDimension2D);
-        classMap.put(Point2D, doPoint2D);
-        classMap.put(Point3D, doPoint3D);
-        classMap.put(Rectangle2D, doRectangle2D);
-        classMap.put(Image, doImage);
-        classMap.put(Cursor, doCursor);
-        classMap.put(Orientation, doOrientation);
-        classMap.put(EventHandler, doEventHandler);
-        classMap.put(ToggleGroup, doToggleGroup);
-    }
+        (Paint.class): doPaint,
+        (Font.class): doFont,
+        (File.class): doFile,
+        (ObservableList.class): doObservableList,
+        (Sequence.class): doSequence, // do we need this any more??????
+        (Insets.class): doInsets,
+        (BoundingBox.class): doBoundingBox,
+        (Dimension2D.class): doDimension2D,
+        (Point2D.class): doPoint2D,
+        (Point3D.class): doPoint3D,
+        (Rectangle2D.class): doRectangle2D,
+        (Image.class): doImage,
+        (Cursor.class): doCursor,
+        (Orientation.class): doOrientation,
+        (EventHandler.class): doEventHandler,
+        (ToggleGroup.class): doToggleGroup,
+    ];
 
     public static boolean fxAttribute(delegate, key, value) {
         def setAnchor = anchorMap[key];
