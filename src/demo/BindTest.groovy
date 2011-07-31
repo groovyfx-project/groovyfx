@@ -41,7 +41,7 @@ sg.stage(
         stylesheets( urls: [ "foo.css "])
         vbox ( spacing: 10) {
             tf = textBox(text: 'Change Me!')
-            //button(text: bind(source: tf, sourceProperty:'text'))
+            button(text: bind(source: tf, sourceProperty:'text'))
             label(text: bind (tf.textProperty()) )
             label(text: bind ({tf.text}) )
         }
