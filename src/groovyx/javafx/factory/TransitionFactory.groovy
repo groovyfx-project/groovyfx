@@ -99,6 +99,15 @@ class TransitionFactory extends AbstractGradientFactory {
                 }
                 node.onFinished = onFinished;
             }
+            
+            def cycleCount = attributes.remove("cycleCount");
+            if(cycleCount != null) {
+                if(cycleCount instanceof String && cycleCount.equalsIgnoreCase("indefinite") ) {
+                    node.cycleCount = Transition.INDEFINITE;
+                }else {
+                    node.cycleCount = cycleCount;
+                }
+            }
             if (node instanceof FadeTransition) {
 
                 List<Double> range = attributes.remove("range") as List<Double>
