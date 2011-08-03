@@ -16,11 +16,11 @@
 
 package groovyx.javafx.factory
 
+import javafx.builders.NodeBuilder
 import javafx.scene.Group
 import javafx.scene.Node
 import javafx.scene.Parent
 import javafx.scene.layout.*
-import javafx.builders.NodeBuilder
 
 /**
  *
@@ -96,7 +96,7 @@ class ContainerFactory extends NodeFactory {
                     grid.getColumnInfo().add(rci.columnInfo)
                 }
             }
-        } else if (child.class.name.endsWith('Builder')) {
+        } else if (child instanceof NodeBuilder) {
             def builderList = builder.parentContext.get(BUILDER_LIST_PROPERTY, [])
             builderList << child
         } else {
@@ -108,9 +108,7 @@ class ContainerFactory extends NodeFactory {
     void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
         def builderList = builder.context.remove(BUILDER_LIST_PROPERTY)
         builderList?.each {
-            if (it instanceof NodeBuilder) {
-                ((Parent) node).getChildren().add(it.build())
-            }
+            ((Parent) node).getChildren().add(it.build())
         }
     }
 }
