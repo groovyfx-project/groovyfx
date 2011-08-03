@@ -25,6 +25,7 @@ import javafx.scene.paint.Color
  * Author: Dean Iverson
  */
 class StopFactory extends AbstractFactory {
+    public final static STOPS_PROPERTY = "__stops"
 
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) {
         if (FactoryBuilderSupport.checkValueIsType(value, name, Stop)) {
@@ -43,11 +44,11 @@ class StopFactory extends AbstractFactory {
 
     @Override
     void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
-        def stopList = builder.parentContext["stops"]
+        def stopList = builder.parentContext[STOPS_PROPERTY]
         if (stopList) {
             stopList << node
         } else {
-            builder.parentContext["stops"] = [node]
+            builder.parentContext[STOPS_PROPERTY] = [node]
         }
     }
 

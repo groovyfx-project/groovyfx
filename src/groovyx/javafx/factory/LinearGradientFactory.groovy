@@ -16,8 +16,8 @@
 
 package groovyx.javafx.factory
 
-import javafx.scene.paint.LinearGradient
 import javafx.builders.LinearGradientBuilder
+import javafx.scene.paint.LinearGradient
 
 /**
  * @author Dean Iverson
@@ -55,13 +55,6 @@ class LinearGradientFactory extends AbstractGradientFactory {
 
     @Override
     void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
-//        if (parentHasFill(parent)) {
-//            if (node instanceof LinearGradient)
-//                parent.fill = (node as LinearGradient)
-//            else{
-                handleStopNodesIfPresent(builder, node)
-//                parent.fill = node.build()
-//            }
-//        }
+        handleStopNodesIfPresent(builder, node)
     }
 }

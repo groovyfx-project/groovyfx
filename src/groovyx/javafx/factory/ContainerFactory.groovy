@@ -16,12 +16,11 @@
 
 package groovyx.javafx.factory
 
+import javafx.scene.Group
+import javafx.scene.Node
+import javafx.scene.Parent
 import javafx.scene.layout.*
-import javafx.scene.*
-import javafx.geometry.Pos
-import javafx.collections.FXCollections
-import javafx.scene.chart.XYChart
-import javafx.scene.chart.LineChart
+import javafx.builders.NodeBuilder
 
 /**
  *
@@ -32,7 +31,7 @@ class ContainerFactory extends NodeFactory {
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Parent container
-        switch(name) {
+        switch (name) {
             case 'group':
                 container = new Group()
                 break
@@ -54,7 +53,7 @@ class ContainerFactory extends NodeFactory {
             case 'tilePane':
                 container = new TilePane()
                 break
-            case 'gridPane': 
+            case 'gridPane':
                 container = new GridPane()
                 break
             case 'anchorPane':
@@ -67,34 +66,33 @@ class ContainerFactory extends NodeFactory {
         return container
     }
 
-    public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
-
-        if(child instanceof Node) {
-            if(parent instanceof BorderPane) {
+    public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
+        if (child instanceof Node) {
+            if (parent instanceof BorderPane) {
                 parent.setCenter(child)
-            }else {
-                ((Parent)parent).getChildren().add((Node)child)
+            } else {
+                ((Parent) parent).getChildren().add((Node) child)
             }
-        } else if(child instanceof List) {
-             ((Parent)parent).getChildren().addAll((List)child)
-            
-        } else if(parent instanceof GridPane && child instanceof RowColumnInfo) {
-            GridPane grid = (GridPane)parent
+        } else if (child instanceof List) {
+            ((Parent) parent).getChildren().addAll((List) child)
+
+        } else if (parent instanceof GridPane && child instanceof RowColumnInfo) {
+            GridPane grid = (GridPane) parent
             RowColumnInfo rci = (RowColumnInfo) child
-            if(rci.rowInfo != null) {
-                if(rci.range != null) {
-                    for(i in rci.range) {
+            if (rci.rowInfo != null) {
+                if (rci.range != null) {
+                    for (i in rci.range) {
                         grid.getRowInfo().add(i, rci.rowInfo)
                     }
-                }else {
+                } else {
                     grid.getRowInfo().add(rci.rowInfo)
                 }
-            }else if(rci.columnInfo != null) {
-                if(rci.range != null) {
-                    for(i in rci.range) {
+            } else if (rci.columnInfo != null) {
+                if (rci.range != null) {
+                    for (i in rci.range) {
                         grid.getColumnInfo().add(i, rci.columnInfo)
                     }
-                }else {
+                } else {
                     grid.getColumnInfo().add(rci.columnInfo)
                 }
             }
@@ -110,7 +108,9 @@ class ContainerFactory extends NodeFactory {
     void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
         def builderList = builder.context.remove(BUILDER_LIST_PROPERTY)
         builderList?.each {
-            ((Parent)node).getChildren().add(it.build())
+            if (it instanceof NodeBuilder) {
+                ((Parent) node).getChildren().add(it.build())
+            }
         }
     }
 }

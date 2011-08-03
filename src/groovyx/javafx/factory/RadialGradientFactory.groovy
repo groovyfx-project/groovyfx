@@ -16,8 +16,8 @@
 
 package groovyx.javafx.factory
 
-import javafx.scene.paint.RadialGradient
 import javafx.builders.RadialGradientBuilder
+import javafx.scene.paint.RadialGradient
 
 /**
  * @author Dean Iverson
@@ -50,13 +50,6 @@ class RadialGradientFactory extends AbstractGradientFactory {
 
     @Override
     void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
-//        if (parentHasFill(parent)) {
-//            if (node instanceof RadialGradient)
-//                parent.fill = (node as RadialGradient)
-//            else{
-                handleStopNodesIfPresent(builder, node)
-//                parent.fill = node.build()
-//            }
-//        }
+        handleStopNodesIfPresent(builder, node)
     }
 }

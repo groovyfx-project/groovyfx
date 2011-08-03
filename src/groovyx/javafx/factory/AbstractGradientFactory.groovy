@@ -28,78 +28,6 @@ import javafx.builders.RadialGradientBuilder
  * @author Dean Iverson
  */
 abstract class AbstractGradientFactory extends AbstractFactory {
-    private static final String GRADIENT_BUILDER = "gradientBuilder"
-
-    /**
-     * @return True if the child object is a gradient or a gradient builder.
-     */
-    public static Boolean childIsGradient(child) {
-        return (isGradient(child) || isGradientBuilder(child))
-    }
-
-    /**
-     * Used as a delegate from the setChild method for factories that need to handle gradients as
-     * potential children.  The factory can use the AbstractGradientFactory.childIsGradient method
-     * to check whether this method needs to be called for the child it is currently processing.
-     *
-     * IMPORTANT: If a factory calls this method from it's setChild method then it MUST also call
-     * AbstractGradientFactory.onNodeCompletedWithGradient from its onNodeCompleted method.
-     *
-     * @param builder The FactoryBuilderSupport object
-     * @param parent The parent object
-     * @param child The child object in question
-     */
-    public static void setChildGradient(FactoryBuilderSupport builder, Object parent, Object child) {
-        if (hasFill(parent)) {
-            if (isGradient(child)) {
-                parent.fill = child
-            } else if (isGradientBuilder(child) && !builder.parentContext.containsKey(GRADIENT_BUILDER)) {
-                // Set a flag so the gradient builder can be processed
-                // when this node is complete
-                builder.parentContext[GRADIENT_BUILDER] = child
-            }
-        }
-    }
-
-    /**
-     * Used as a delegate from the onNodeCompleted method for factories that need to handle gradients as
-     * potential children.
-     *
-     * IMPORTANT: If a factory calls this method from it's onNodeCompleted method then it MUST also call
-     * AbstractGradientFactory.setChildGradient from its setChild method.
-     *
-     * @param builder The FactoryBuilderSupport object
-     * @param parent The parent object
-     * @param node The node being completed.
-     */
-    public static void onNodeCompletedWithGradient(FactoryBuilderSupport builder, Object parent, Object node) {
-        def gradientBuilder = builder.context.remove(GRADIENT_BUILDER)
-        if (gradientBuilder) {
-            node.fill = gradientBuilder.build()
-        }
-    }
-
-    /**
-     * @return True if the child object is either a linear or radial gradient.
-     */
-    private static boolean isGradient(child) {
-        return (child instanceof LinearGradient) || (child instanceof RadialGradient)
-    }
-
-    /**
-     * @return True if the child object is either a linear or radial gradient builder.
-     */
-    private static boolean isGradientBuilder(child) {
-        return (child instanceof LinearGradientBuilder) || (child instanceof RadialGradientBuilder)
-    }
-
-    /**
-     * @return True if the parent object has a setFill method or a "fill" property.
-     */
-    private static boolean hasFill(node) {
-        return node.metaClass.respondsTo(node, "setFill") || node.metaClass.hasProperty(node, "fill")
-    }
-
     /**
      * Checks for the "stops" attribute in the Map.  The value of the stops attribute should be a List
      * of 2-element Lists containing an offset and color: [[0.0, black], [1.0, red]].
@@ -110,7 +38,7 @@ abstract class AbstractGradientFactory extends AbstractFactory {
      * @param gradientBuilder Either a LinearGradientBuilder or a RadialGradientBuilder.
      */
     protected void handleStopsAttributeIfPresent(Map attributes, gradientBuilder) {
-        List stops = attributes.remove("stops")
+        def stops = attributes.remove("stops")
         if (stops) {
             gradientBuilder.stops(stops.collect {it as Stop})
         }
@@ -118,14 +46,14 @@ abstract class AbstractGradientFactory extends AbstractFactory {
 
     /**
      * If any "stop" nodes were specified as child nodes of the gradient node, this method will remove
-     * them from the gradient's context (where they are stored during the build process) and set them
-     * on the gradientBuilder.
+     * them from the gradient's context (where they are stored by the StopFactory during the build process)
+     * and set them on the gradientBuilder.
      *
-     * @param builderSupport The FactoryBuilderSupport that stores the stop nodes in its context.
+     * @param builder The FactoryBuilderSupport that stores the stop nodes in its context.
      * @param gradientBuilder Either a LinearGradientBuilder or a RadialGradientBuilder.
      */
-    protected void handleStopNodesIfPresent(FactoryBuilderSupport builderSupport, gradientBuilder) {
-        List stops = builderSupport.context.remove("stops")
+    protected void handleStopNodesIfPresent(FactoryBuilderSupport builder, gradientBuilder) {
+        def stops = builder.context.remove(StopFactory.STOPS_PROPERTY)
         if (stops) {
             gradientBuilder.stops = stops
         }
