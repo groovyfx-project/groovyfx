@@ -16,24 +16,22 @@
 
 package groovyx.javafx.factory
 
-import javafx.scene.Scene
-import javafx.scene.paint.Color
-import java.util.List;
-import javafx.scene.Node;
-import groovyx.javafx.SceneGraphBuilder;
-import javafx.scene.Group;
-import javafx.scene.layout.Region;
-import javafx.scene.Parent;
-
-import groovyx.javafx.input.*;
-import javafx.scene.input.*;
-import javafx.event.EventHandler;
+import groovyx.javafx.SceneGraphBuilder
+import groovyx.javafx.input.GroovyKeyHandler
+import groovyx.javafx.input.GroovyMouseHandler
+import javafx.event.EventHandler
+import javafx.scene.Group
+import javafx.scene.Node
+import javafx.scene.Parent
+import javafx.scene.layout.Region
+import javafx.builders.NodeBuilder
 
 /**
  *
  * @author jimclarke
  */
 class SceneFactory extends AbstractFactory {
+    private static final String BUILDER_LIST_PROPERTY = "__builderList"
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         SceneWrapper scene;
@@ -73,6 +71,9 @@ class SceneFactory extends AbstractFactory {
             sceneWrapper.addInputHandler(((GroovyMouseHandler)child).getType(), (EventHandler)child);
         } else if(child instanceof GroovyKeyHandler) {
             sceneWrapper.addInputHandler(((GroovyKeyHandler)child).getType(), (EventHandler)child);
+        } else if (child instanceof NodeBuilder) {
+            def builderList = builder.parentContext.get(BUILDER_LIST_PROPERTY, [])
+            builderList << child
         }
     }
 
@@ -148,6 +149,11 @@ class SceneFactory extends AbstractFactory {
     void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
         if (node instanceof SceneWrapper && node.sceneRoot == null) {
             node.root(new Group())
+        }
+        
+        def builderList = builder.context.remove(BUILDER_LIST_PROPERTY)
+        builderList?.each {
+            ((SceneWrapper)node).sceneRoot.getChildren().add(it.build());
         }
     }
 }

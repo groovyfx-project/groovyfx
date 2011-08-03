@@ -58,8 +58,9 @@ class XYChartFactory extends AbstractFactory {
 
     @Override
     boolean onHandleNodeAttributes(FactoryBuilderSupport builder, Object node, Map attributes) {
-        def animated = attributes.remove('animated') ?: false
-        FXHelper.setPropertyOrMethod(node, 'animated', animated)
+        attributes.each { name, value -> FXHelper.setPropertyOrMethod(node, name, value) }
+        attributes.clear()
+        return false;
     }
 
     @Override
