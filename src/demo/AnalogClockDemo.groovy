@@ -20,6 +20,7 @@ import groovyx.javafx.GroovyFX
 import groovyx.javafx.SceneGraphBuilder
 import javafx.scene.Group
 import groovyx.javafx.beans.FXBindable;
+import javafx.beans.binding.Bindings;
 
 /**
 *
@@ -28,37 +29,42 @@ import groovyx.javafx.beans.FXBindable;
 
 
 class Time {
-    int hours;
-    int minutes;
-    int seconds;
+    @FXBindable int hours;
+    @FXBindable int minutes;
+    @FXBindable int seconds;
     
     @FXBindable double hourAngle;
     @FXBindable double minuteAngle;
     @FXBindable double secondAngle;
     
     public Time() {
-        def calendar = Calendar.instance;
-        hours = calendar.get(Calendar.HOUR);
-        minutes = calendar.get(Calendar.MINUTE);
-        seconds = calendar.get(Calendar.SECOND);
+        // bind the angle properties to the clock time
+        hourAngleProperty().bind(
+            Bindings.add(hoursProperty().multiply(30.0), 
+                minutesProperty().multiply(0.5)));
+        minuteAngleProperty().bind( minutesProperty().multiply(6.0));
+        secondAngleProperty().bind( secondsProperty().multiply(6.0));
         
-        // TODO change this to use binds on hours/minutes/seconds
-        setHourAngle(hours*30 + minutes*0.5);
-        setMinuteAngle(minutes*6);
-        setSecondAngle(seconds * 6);
+        
+        // Set the initial clock time
+        def calendar = Calendar.instance;
+        setHours(calendar.get(Calendar.HOUR));
+        setMinutes(calendar.get(Calendar.MINUTE));
+        setSeconds(calendar.get(Calendar.SECOND));
+        
     }
     
+    /**
+     * Add a second to the time
+     */
     public void addOneSecond() {
-         seconds = (seconds+1) % 60;
-         if(seconds == 0) {
-            minutes = (minutes + 1) % 60;
-            if(minutes == 0) {
-                hours = (hours + 1) % 12;
+         setSeconds((getSeconds()+1) % 60);
+         if(getSeconds() == 0) {
+            setMinutes ( (getMinutes() + 1) % 60 );
+            if(getMinutes() == 0) {
+                setHours((getHours() + 1) % 12);
             } 
-            setHourAngle(hours*30 + minutes*0.5);
-            setMinuteAngle(minutes*6);
          }
-         setSecondAngle(seconds * 6);
     }
 }
 
@@ -72,7 +78,6 @@ GroovyFX.start({
     def radius = width/3.0;
     def centerX = width/2.0;
     def centerY = height/2.0;
-    
     
     
     sg.stage(
@@ -97,31 +102,38 @@ GroovyFX.start({
         }   
          scene(fill: white ) {
              group(layoutX: centerX, layoutY: centerY) {
+                 // outer rim
                  circle(radius: radius+20) {
                     fill(radialGradient(radius: 1.0, center:[0.0, 0.0], 
                         focusDistance: 0.5, focusAngle: 0,
                         stops:[[0.9, silver], [1.0, black]]))
                  }
+                 // clock face
                  circle( radius: radius+10, stroke: black ) {
                     fill(radialGradient(radius: 1.0, center:[0.0, 0.0], 
                         focusDistance: 4.0, focusAngle: 90,
                         stops:[[0.0, white], [1.0, cadetblue]]))
                  }
+                 // dots around the clock for the hours
                  nodes(hourDots)
+                 // center
                  circle(radius: 5, fill: black)
-                 hourArm = path(fill: black) {
+                 // hour hand
+                 path(fill: black) {
                      rotate(angle: bind(time.hourAngleProperty()))
                      moveTo(x: 4, y: -4)
                      arcTo(radiusX: -1, radiusY: -1, x: -4, y: -4)
                      lineTo(x: 0, y: -radius/4*3)
                  }
-                 minuteArm = path(fill: black) {
+                 // minute hand
+                 path(fill: black) {
                      rotate(angle: bind(time.minuteAngleProperty()))
                      moveTo(x: 4, y: -4)
                      arcTo(radiusX: -1, radiusY: -1, x: -4, y: -4)
                      lineTo(x: 0, y: -radius)
                  }
-                 secondArm = line(endY: -radius - 3, strokeWidth: 2, 
+                 // second hand
+                 line(endY: -radius - 3, strokeWidth: 2, 
                         stroke: red) {
                      rotate(angle: bind(time.secondAngleProperty()))
                  }
