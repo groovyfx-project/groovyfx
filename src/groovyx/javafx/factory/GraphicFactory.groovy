@@ -15,6 +15,8 @@
 */
 package groovyx.javafx.factory
 
+import javafx.scene.Node;
+
 /**
  *
  * @author jimclarke
@@ -23,6 +25,8 @@ class GraphicFactory extends AbstractFactory {
     
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
        Graphic graphic = new Graphic();
+       if(value instanceof Node)
+               graphic.node = value;
        return graphic;
     }
     

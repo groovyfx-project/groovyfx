@@ -367,6 +367,24 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerExplicitMethod "defer", this.&defer
     }
 
+    public def registerMenus() {
+        MenuFactory mf = new MenuFactory();
+        MenuItemFactory mif = new MenuItemFactory();
+        
+        registerFactory( 'menuBar', mf);
+        registerFactory( 'contextMenu', mf);
+        registerFactory( 'menuButton', mf);
+        registerFactory( 'splitMenuButton', mf);
+        
+        registerFactory( 'menu', mif);
+        registerFactory( 'menuItem', mif);
+        registerFactory( 'checkMenuItem', mif);
+        registerFactory( 'customMenuItem', mif);
+        registerFactory( 'separatorMenuItem', mif);
+        registerFactory( 'radioMenuItem', mif);
+        
+        
+    }
     public def registerCharts() {
         registerFactory('pieChart', new PieChartFactory())
         registerFactory('lineChart', new XYChartFactory(LineChart))
@@ -466,8 +484,8 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'toolBar', cf); // items
         
         //TODO
-        registerFactory( 'menu', cf); // experimental
-        registerFactory( 'menuBar', cf); // experimental
+        //registerFactory( 'menu', cf); // experimental
+        //registerFactory( 'menuBar', cf); // experimental
         
         registerFactory( 'treeView', cf);
         registerFactory( 'treeItem', treeItemf);

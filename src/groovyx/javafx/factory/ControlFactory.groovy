@@ -74,6 +74,8 @@ class ControlFactory extends NodeFactory {
     public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         if (child instanceof Tooltip) {
             ((Control) parent).setTooltip(child);
+        }else if(child instanceof ContextMenu) {
+            child.contextMenu = contextMenu;
         } else if (parent instanceof ScrollPane) {
             ((ScrollPane) parent).setNode((Node) child);
         } else if (parent instanceof TableView) {

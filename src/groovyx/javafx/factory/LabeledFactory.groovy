@@ -76,6 +76,8 @@ class LabeledFactory extends NodeFactory {
             ((Control)parent).setTooltip(child);
         }else if(child instanceof Node) {
             ((Labeled)parent).setGraphic(child);
+        }else if(child instanceof ContextMenu) {
+            parent.contextMenu = child;
         }else {
             super.setChild(builder, parent, child);
         }
