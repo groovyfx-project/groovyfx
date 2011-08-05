@@ -15,38 +15,31 @@
 */
 
 package demo
+
+import groovyx.javafx.GroovyFX
 import groovyx.javafx.SceneGraphBuilder
-import groovyx.javafx.GroovyFX;
-import javafx.scene.control.TextBox;
+import javafx.scene.control.TextBox
+
 /**
  *
  * @author jimclarke
  */
+GroovyFX.start {
+    def sg = new SceneGraphBuilder(it)
 
-GroovyFX.start({
-def foo = "foobar";
-def sg = new SceneGraphBuilder(it);
+    sg.stage(title: "GroovyFX Bind Demo", x: 100, y: 100, width: 400, height: 400, visible: true,
+             style: "decorated", onHidden: { println "Close"}) {
 
-TextBox tf;
+        scene(fill: groovyblue) {
+            stylesheets(urls: ["foo.css "])
 
-sg.stage(
-    title: "Stage Frame",
-    x: 100, y: 100, width: 400, height:400,
-    visible: true,
-    style: "decorated",
-    onHidden: { println "Close"}
-) {
-
-    scene(fill: hsb(128, 0.5, 0.5, 0.5) ) {
-        stylesheets( urls: [ "foo.css "])
-        vbox ( spacing: 10) {
-            tf = textBox(text: 'Change Me!')
-            button(text: bind(source: tf, sourceProperty:'text'))
-            label(text: bind (tf.textProperty()) )
-            label(text: bind ({tf.text}) )
+            vbox(spacing: 10, padding: 10) {
+                TextBox tf = textBox(text: 'Change Me!')
+                button(text: bind(source: tf, sourceProperty: 'text'))
+                label(text: bind(tf.textProperty()))
+                label(text: bind({tf.text}))
+            }
         }
     }
 }
-
-});
 

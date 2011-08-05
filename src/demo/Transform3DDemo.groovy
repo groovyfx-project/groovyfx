@@ -32,7 +32,7 @@ GroovyFX.start({ primaryStage ->
             System.out.println("*************************************************************");
         }
     sg.stage(
-        title: "CircleT3D (Groovy)",
+        title: "GroovyFX Transform3D Demo",
         width: 400, height:300,
         visible: true,
         resizable: true

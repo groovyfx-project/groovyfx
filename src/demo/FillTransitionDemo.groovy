@@ -14,26 +14,25 @@
 * limitations under the License.
 */
 
-package demo
-import groovyx.javafx.GroovyFX
+package demo;
+
+import groovyx.javafx.GroovyFX;
 import groovyx.javafx.SceneGraphBuilder
+import javafx.animation.Transition;
 
-GroovyFX.start({
-    def sg = new SceneGraphBuilder();
+GroovyFX.start { primaryStage ->
+    def sg = new SceneGraphBuilder(primaryStage)
+    Transition rectTransition = null
 
-    sg.stage(
-        title: "AnchorPane Example (Groovy)",
-        width: 650, height:450,
-        visible: true,
-    ) {
-         scene(fill: lightgreen ) {
-             anchorPane() {
-                 button(text: "ONE", topAnchor: 10, bottomAnchor: 10,
-                    rightAnchor: 110, leftAnchor: 10)
-                 button(text: "TWO", rightAnchor: 10, topAnchor: 10)
+    sg.stage(title: "GroovyFX Fill Transition Demo", width: 400, height:300, visible: true, resizable: true) {
+         scene(fill: groovyblue) {
+             rectangle(x: 20, y: 20, width: 100, height: 50, fill: blue) {
+                rectTransition = fillTransition(4.s, delay: 1000.ms, interpolator: "ease_in", to: red,
+                                                onFinished: { println "done"})
              }
          }
     }
-});
 
+    rectTransition.playFromStart()
+}
 

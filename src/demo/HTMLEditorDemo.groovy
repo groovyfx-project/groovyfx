@@ -16,34 +16,26 @@
 
 package demo
 
+import groovyx.javafx.GroovyFX
 import groovyx.javafx.SceneGraphBuilder
-import groovyx.javafx.GroovyFX;
+
 /**
  *
  * @author jimclarke
  */
+GroovyFX.start {
+    def sg = new SceneGraphBuilder(it)
 
-GroovyFX.start({
-def sg = new SceneGraphBuilder(it);
-
-sg.stage(
-    title: "HTMLEditor Example",
-    x: 100, y: 100,
-    visible: true,
-    style: "decorated",
-    primary: true
-) {
-
-    scene(fill: hsb(128, 0.5, 0.5, 0.5), width: 400, height:400 ) {
-        borderPane() {
-            html = htmlEditor()
-            bottom(align: "center", margin: [10,0]) {
-                button(text: "Print HTML", onAction: { println html.htmlText})
+    sg.stage(title: "HTMLEditor Demo", x: 100, y: 100, visible: true, style: "decorated") {
+        scene(fill: groovyblue, width: 400, height: 400) {
+            borderPane() {
+                html = htmlEditor()
+                bottom(align: "center", margin: [10, 0]) {
+                    button(text: "Print HTML", onAction: { println html.htmlText })
+                }
             }
         }
     }
 }
-
-});
 
 

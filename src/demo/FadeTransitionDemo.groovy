@@ -20,21 +20,18 @@ import groovyx.javafx.GroovyFX;
 import groovyx.javafx.SceneGraphBuilder
 import javafx.animation.Transition;
 
-GroovyFX.start({ primaryStage -> 
-    def sg = new SceneGraphBuilder(primaryStage);
-    Transition rectTransition = null;
-    sg.stage(
-        title: "Fill Transition Test",
-        width: 400, height:300,
-        visible: true,
-        resizable: true
-    ) {
-         scene(fill: lightgreen) {
+GroovyFX.start { primaryStage ->
+    def sg = new SceneGraphBuilder(primaryStage)
+    Transition rectFade = null
+
+    sg.stage(title: "GroovyFX Fade Transition Demo", width: 400, height:300, visible: true, resizable: true) {
+         scene(fill: groovyblue) {
              rectangle(x: 20, y: 20, width: 100, height: 50, fill: blue) {
-                rectTransition = fillTransition(20.s, delay: 100.ms, interpolator: "ease_in", to: red, onFinished: { println "done"})
+                rectFade = fadeTransition(4.s, delay: 1.s, from: 1.0, to: 0.0, onFinished: { println "done"})
              }
          }
     }
-    rectTransition.playFromStart();
-})
+
+    rectFade.playFromStart()
+}
 

@@ -18,23 +18,18 @@ package demo
 
 import groovyx.javafx.SceneGraphBuilder
 import groovyx.javafx.GroovyFX;
+
 /**
  *
  * @author jimclarke
  */
-
 GroovyFX.start {
-    def sg = new SceneGraphBuilder(it);
+    def sg = new SceneGraphBuilder(it)
 
-    sg.stage(
-            title: "Accordion Example",
-            x: 100, y: 100, width: 400, height: 400,
-            visible: true,
-            style: "decorated",
-            primary: true
-    ) {
+    sg.stage(title: "GroovyFX Accordion Demo", x: 100, y: 100, width: 400, height: 400, visible: true,
+             style: "decorated", primary: true) {
 
-        scene(fill: hsb(128, 0.5, 0.5, 0.5)) {
+        scene(fill: groovyblue) {
             accordion {
                 titledPane(id: "t1") {
                     title {

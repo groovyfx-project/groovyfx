@@ -16,25 +16,26 @@
 
 package demo
 
+import groovyx.javafx.GroovyFX
 import groovyx.javafx.SceneGraphBuilder
-import groovyx.javafx.GroovyFX;
+
 /**
  *
  * @author jimclarke
  */
 
 GroovyFX.start { primaryStage ->
-    def sg = new SceneGraphBuilder(primaryStage);
+    def sg = new SceneGraphBuilder(primaryStage)
     
-    sg.stage(title: "Blend Effect Demo", width: 420, height: 420, visible: true ) {
-        scene(fill: hsb(128, 1.0, 1.0, 0.5) ) {
+    sg.stage(title: "GroovyFX Blend Effect Demo", width: 420, height: 420, visible: true ) {
+        scene(fill: groovyblue) {
             rectangle(width: 400, height: 400) {
-                onMousePressed (onEvent: {e -> println "mouse press @" + e.x + "," + e.y })
+                onMousePressed (onEvent: {e -> println "mouse press @$e.x, $e.y"})
                 blend(mode: "multiply") {
-                    topInput() {
+                    topInput {
                         colorInput(paint: blue, x: 50, y: 50, width: 200, height: 200)
                     }
-                    bottomInput() {
+                    bottomInput {
                         colorInput(paint: red, x: 150, y: 150, width: 200, height: 200)
                     }
                 }

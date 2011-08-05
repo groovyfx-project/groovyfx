@@ -28,9 +28,9 @@ import groovyx.javafx.SceneGraphBuilder
 GroovyFX.start {
     def sg = new SceneGraphBuilder()
 
-    sg.stage(title: "Gradient Example (GroovyFX)", width: 1020, height: 450, visible: true) {
+    sg.stage(title: "GroovyFX Gradient Demo", width: 1020, height: 450, visible: true) {
         scene {
-            fill linearGradient(endX: 0, stops: [[0.0, white], [1.0, lightgray]])
+            fill groovyblue
 
             def width = 240
             def height = 180

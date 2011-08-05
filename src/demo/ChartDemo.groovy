@@ -24,7 +24,7 @@ import groovyx.javafx.SceneGraphBuilder
 def pieData = FXCollections.observableArrayList([new PieChart.Data("Yours", 42), new PieChart.Data("Mine", 58)])
 
 GroovyFX.start {
-    new SceneGraphBuilder().stage(title: 'Chart Demo (GroovyFX)', width: 1024, height: 960, visible: true) {
+    new SceneGraphBuilder().stage(title: 'GroovyFX Chart Demo', width: 1024, height: 960, visible: true) {
         scene {
             stackPane {
                 scrollPane {
@@ -39,8 +39,10 @@ GroovyFX.start {
                         lineChart(data: [First: [0, 0.25, 0.5, 1.5, 2, 1.0], Second: [0.25, 0, 0.5, 0.5, 1.5, 0.75]])
 
                         lineChart {
-                            numberAxis(lowerBound: 0, upperBound: 3.5, tickUnit: 0.5, autoRanging: false, label: "X Axis")
-                            numberAxis(lowerBound: -1.2, upperBound: 1.2, tickUnit: 0.2, autoRanging: false, label: "Y Axis")
+                            numberAxis(lowerBound: 0, upperBound: 3.5, tickUnit: 0.5, autoRanging: false,
+                                       label: "X Axis")
+                            numberAxis(lowerBound: -1.2, upperBound: 1.2, tickUnit: 0.2, autoRanging: false,
+                                       label: "Y Axis")
                             series(name: 'First Series', data: [0, 0, 0.5, 1, 1.5, -1, 2])
                             series(name: 'Second Series', data: [[0, 0], [0.5, -1], [1.5, 1], [2, 0]])
                         }

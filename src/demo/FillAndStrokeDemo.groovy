@@ -20,11 +20,12 @@ import groovyx.javafx.SceneGraphBuilder
 
 GroovyFX.start {
     def sg = new SceneGraphBuilder()
-    sg.stage(title: "Fill & Stroke Demo (GroovyFX)", width: 600, height: 700, visible: true) {
+    sg.stage(title: "GroovyFX Fill & Stroke Demo", width: 600, height: 700, visible: true) {
         scene {
+            fill groovyblue
+            
             def width = 240
             def height = 180
-            fill linearGradient(endX: 0, stops: [[0.0, white], [1.0, gray]])
 
             tilePane(hgap: 10, vgap: 20, padding: 10) {
                 def redToBlack = linearGradient(stops: [[0, red], [1, black]])

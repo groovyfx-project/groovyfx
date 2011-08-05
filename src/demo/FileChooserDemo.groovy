@@ -19,34 +19,24 @@ package demo
 import groovyx.javafx.GroovyFX;
 import groovyx.javafx.SceneGraphBuilder
 
-GroovyFX.start({ primaryStage -> 
-    def sg = new SceneGraphBuilder(primaryStage);
+GroovyFX.start { primaryStage ->
+    def sg = new SceneGraphBuilder(primaryStage)
     
     def fileChooser = sg.fileChooser(initialDirectory: ".", title: "FileChooser Demo") {
         filter("images", extensions: ["jpg", "gif", "bmp"])
     }
-    def stage = sg.stage(
-        title: "File Chooser Demo",
-        width: 400, height:300,
-        visible: true,
-        resizable: true
-    ) {
-         scene(fill: lightgreen) {
-             stackPane() {
-                 hbox(spacing: 10) {
-                    button("Open file", onAction: { println(fileChooser.showOpenDialog(stage));})
-                    button("Save file", onAction: { println(fileChooser.showSaveDialog(stage));})
+
+    def stage = sg.stage(title: "GroovyFX FileChooser Demo", width: 400, height:300, visible: true, resizable: true) {
+         scene(fill: groovyblue) {
+             stackPane {
+                 hbox(spacing: 10, padding: 10) {
+                    button("Open file", onAction: { println(fileChooser.showOpenDialog(stage)) })
+                    button("Save file", onAction: { println(fileChooser.showSaveDialog(stage)) })
                  }
-             } 
+             }
          }
     }
-    
-     
-    
-    
-    
-    
-})
+}
 
 
 

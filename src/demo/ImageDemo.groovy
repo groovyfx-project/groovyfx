@@ -14,27 +14,26 @@
 * limitations under the License.
 */
 
-package demo;
+package demo
 
-import groovyx.javafx.GroovyFX;
 import groovyx.javafx.SceneGraphBuilder
-import javafx.animation.Transition;
+import groovyx.javafx.GroovyFX
 
-GroovyFX.start({ primaryStage -> 
-    def sg = new SceneGraphBuilder(primaryStage);
-    Transition rectFade = null;
-    sg.stage(
-        title: "Fade Transition Test",
-        width: 400, height:300,
-        visible: true,
-        resizable: true
-    ) {
-         scene(fill: lightgreen) {
-             rectangle(x: 20, y: 20, width: 100, height: 50, fill: blue) {
-                rectFade = fadeTransition(20.s, delay: 10.s, from: 1.0, to: 0.0, onFinished: { println "done"})
-             }
-         }
+/**
+ *
+ * @author jimclarke
+ */
+
+def imageURL = "file:PIA01320_hires.jpg";
+
+GroovyFX.start {
+    def sg = new SceneGraphBuilder();
+    sg.stage(title: "GroovyFX Image Demo", visible: true,) {
+        scene(fill: groovyblue, width: 600, height:500,) {
+            imageView(x: 25, y: 40) {
+                image(imageURL, width: 500, height: 450, preserveRatio: true)
+            }
+        }
     }
-    rectFade.playFromStart();
-})
+}
 

@@ -15,25 +15,20 @@
 */
 
 package demo
-
-import groovyx.javafx.SceneGraphBuilder
 import groovyx.javafx.GroovyFX
-/**
- *
- * @author jimclarke
- */
-def imageURL = "file:PIA01320_hires.jpg";
-GroovyFX.start({
+import groovyx.javafx.SceneGraphBuilder
+
+GroovyFX.start {
     def sg = new SceneGraphBuilder();
-    sg.stage(
-        title: "Hello Image (Groovy)",
-        visible: true,
-    ) {
-        scene(fill: "lightgray", width: 600, height:500,) {
-            imageView(x: 25, y: 40) {
-                image(imageURL, width: 500, height: 450, preserveRatio: true);
-            }
-        }
+
+    sg.stage(title: "GroovyFX AnchorPane Demo", width: 650, height:450, visible: true) {
+         scene(fill: groovyblue) {
+             anchorPane {
+                 button(text: "ONE", topAnchor: 10, bottomAnchor: 10, rightAnchor: 110, leftAnchor: 10)
+                 button(text: "TWO", rightAnchor: 10, topAnchor: 10)
+             }
+         }
     }
-});
+}
+
 

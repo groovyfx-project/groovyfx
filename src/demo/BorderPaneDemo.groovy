@@ -21,16 +21,12 @@ import javafx.scene.paint.Color;
 import groovyx.javafx.SceneGraphBuilder
 import javafx.scene.control.*;
 
-GroovyFX.start({
-    def sg = new SceneGraphBuilder();
+GroovyFX.start {
+    def sg = new SceneGraphBuilder()
 
-    sg.stage(
-        title: "BorderPane Example (Groovy)",
-        width: 650, height:450,
-        visible: true,
-    ) {
-         scene(fill: lightgreen ) {
-             borderPane() {
+    sg.stage(title: "GroovyFX BorderPane Demo", width: 650, height:450, visible: true) {
+         scene(fill: groovyblue) {
+             borderPane {
                  top(align: "center", margin: [10,0,10,0]) {
                      button(text: "top")
                  }
@@ -43,11 +39,9 @@ GroovyFX.start({
                  bottom(align: "center", margin: [10,0]) {
                      button(text: "bottom")
                  }
-                 //center(align: "center") {
-                     label(text: "center")
-                 //}
+                 label(text: "center")
              }
          }
     }
-});
+}
 

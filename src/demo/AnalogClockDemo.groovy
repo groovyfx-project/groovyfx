@@ -44,14 +44,12 @@ class Time {
                 minutesProperty().multiply(0.5)));
         minuteAngleProperty().bind( minutesProperty().multiply(6.0));
         secondAngleProperty().bind( secondsProperty().multiply(6.0));
-        
-        
+
         // Set the initial clock time
         def calendar = Calendar.instance;
         setHours(calendar.get(Calendar.HOUR));
         setMinutes(calendar.get(Calendar.MINUTE));
         setSeconds(calendar.get(Calendar.SECOND));
-        
     }
     
     /**
@@ -100,7 +98,7 @@ GroovyFX.start({
             hourDots << circle(fill: black, layoutX: x, layoutY: y, radius: r);
 
         }   
-         scene(fill: white ) {
+         scene(fill: groovyblue) {
              group(layoutX: centerX, layoutY: centerY) {
                  // outer rim
                  circle(radius: radius+20) {

@@ -16,11 +16,11 @@
 
 package groovyx.javafx.factory
 
-import javafx.scene.chart.NumberAxis
-import javafx.scene.chart.XYChart
 import javafx.collections.FXCollections
 import javafx.scene.chart.BarChart
 import javafx.scene.chart.CategoryAxis
+import javafx.scene.chart.NumberAxis
+import javafx.scene.chart.XYChart
 
 /**
  * @author Dean Iverson
@@ -28,7 +28,7 @@ import javafx.scene.chart.CategoryAxis
 class XYChartFactory extends AbstractFactory {
     private final Class<? extends XYChart> chartClass
 
-    XYChartFactory (Class<? extends XYChart> chartClass) {
+    XYChartFactory(Class<? extends XYChart> chartClass) {
         if (chartClass == null)
             throw new IllegalArgumentException("chartClass cannot be null")
 
@@ -58,7 +58,18 @@ class XYChartFactory extends AbstractFactory {
 
     @Override
     boolean onHandleNodeAttributes(FactoryBuilderSupport builder, Object node, Map attributes) {
-        attributes.each { name, value -> FXHelper.setPropertyOrMethod(node, name, value) }
+        def data = attributes.remove('data')
+        if (data) {
+            if (data instanceof Map) {
+                // Parse series data
+            } else
+                FXHelper.setPropertyOrMethod(node, 'data', data)
+        }
+
+        attributes.each { name, value ->
+            FXHelper.setPropertyOrMethod(node, name, value)
+        }
+
         attributes.clear()
         return false;
     }

@@ -47,10 +47,6 @@ import javafx.scene.chart.ScatterChart
  * @author jimclarke
  */
 public class SceneGraphBuilder extends FactoryBuilderSupport {
-    // local fields
-    private static final Logger LOG = Logger.getLogger(SceneGraphBuilder.name)
-    private static boolean headless = false
-
     public static final String DELEGATE_PROPERTY_OBJECT_ID = "_delegateProperty:id";
     public static final String DEFAULT_DELEGATE_PROPERTY_OBJECT_ID = "id";
 
@@ -59,193 +55,26 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
 
     public static final String DELEGATE_PROPERTY_OBJECT_STROKE = "_delegateProperty:stroke";
     public static final String DEFAULT_DELEGATE_PROPERTY_OBJECT_STROKE = "stroke";
-    
+
     public static final String CONTEXT_SCENE_KEY = "CurrentScene";
     public static final String CONTEXT_DIVIDER_KEY = "CurrentDividers";
 
-
+    private static final Logger LOG = Logger.getLogger(SceneGraphBuilder.name)
     private static final Random random = new Random()
 
     private Scene currentScene;
-    
-
-    static HashSet<String> colors = new HashSet<String>();
-
-    static {
-        colors.add("aliceblue");
-        colors.add("antiquewhite");
-        colors.add("aqua");
-        colors.add("aquamarine");
-        colors.add("azure");
-        colors.add("beige");
-        colors.add("bisque");
-        colors.add("black");
-        colors.add("blanchedalmond");
-        colors.add("blue");
-        colors.add("blueviolet");
-        colors.add("brown");
-        colors.add("burlywood");
-        colors.add("cadetblue");
-        colors.add("chartreuse");
-        colors.add("chocolate");
-        colors.add("coral");
-        colors.add("cornflowerblue");
-        colors.add("cornsilk");
-        colors.add("crimson");
-        colors.add("cyan");
-        colors.add("darkblue");
-        colors.add("darkcyan");
-        colors.add("darkgoldenrod");
-        colors.add("darkgray");
-        colors.add("darkgreen");
-        colors.add("darkgrey");
-        colors.add("darkkhaki");
-        colors.add("darkmagenta");
-        colors.add("darkolivegreen");
-        colors.add("darkorange");
-        colors.add("darkorchid");
-        colors.add("darkred");
-        colors.add("darksalmon");
-        colors.add("darkseagreen");
-        colors.add("darkslateblue");
-        colors.add("darkslategray");
-        colors.add("darkslategrey");
-        colors.add("darkturquoise");
-        colors.add("darkviolet");
-        colors.add("deeppink");
-        colors.add("deepskyblue");
-        colors.add("dimgray");
-        colors.add("dimgrey");
-        colors.add("dodgerblue");
-        colors.add("firebrick");
-        colors.add("floralwhite");
-        colors.add("forestgreen");
-        colors.add("fuchsia");
-        colors.add("gainsboro");
-        colors.add("ghostwhite");
-        colors.add("gold");
-        colors.add("goldenrod");
-        colors.add("gray");
-        colors.add("green");
-        colors.add("greenyellow");
-        colors.add("grey");
-        colors.add("honeydew");
-        colors.add("hotpink");
-        colors.add("indianred");
-        colors.add("indigo");
-        colors.add("ivory");
-        colors.add("khaki");
-        colors.add("lavender");
-        colors.add("lavenderblush");
-        colors.add("lawngreen");
-        colors.add("lemonchiffon");
-        colors.add("lightblue");
-        colors.add("lightcoral");
-        colors.add("lightcyan");
-        colors.add("lightgoldenrodyellow");
-        colors.add("lightgray");
-        colors.add("lightgreen");
-        colors.add("lightgrey");
-        colors.add("lightpink");
-        colors.add("lightsalmon");
-        colors.add("lightseagreen");
-        colors.add("lightskyblue");
-        colors.add("lightslategray");
-        colors.add("lightslategrey");
-        colors.add("lightsteelblue");
-        colors.add("lightyellow");
-        colors.add("lime");
-        colors.add("limegreen");
-        colors.add("linen");
-        colors.add("magenta");
-        colors.add("maroon");
-        colors.add("mediumaquamarine");
-        colors.add("mediumblue");
-        colors.add("mediumorchid");
-        colors.add("mediumpurple");
-        colors.add("mediumseagreen");
-        colors.add("mediumslateblue");
-        colors.add("mediumspringgreen");
-        colors.add("mediumturquoise");
-        colors.add("mediumvioletred");
-        colors.add("midnightblue");
-        colors.add("mintcream");
-        colors.add("mistyrose");
-        colors.add("moccasin");
-        colors.add("navajowhite");
-        colors.add("navy");
-        colors.add("oldlace");
-        colors.add("olive");
-        colors.add("olivedrab");
-        colors.add("orange");
-        colors.add("orangered");
-        colors.add("orchid");
-        colors.add("palegoldenrod");
-        colors.add("palegreen");
-        colors.add("paleturquoise");
-        colors.add("palevioletred");
-        colors.add("papayawhip");
-        colors.add("peachpuff");
-        colors.add("peru");
-        colors.add("pink");
-        colors.add("plum");
-        colors.add("powderblue");
-        colors.add("purple");
-        colors.add("red");
-        colors.add("rosybrown");
-        colors.add("royalblue");
-        colors.add("saddlebrown");
-        colors.add("salmon");
-        colors.add("sandybrown");
-        colors.add("seagreen");
-        colors.add("seashell");
-        colors.add("sienna");
-        colors.add("silver");
-        colors.add("skyblue");
-        colors.add("slateblue");
-        colors.add("slategray");
-        colors.add("slategrey");
-        colors.add("snow");
-        colors.add("springgreen");
-        colors.add("steelblue");
-        colors.add("tan");
-        colors.add("teal");
-        colors.add("thistle");
-        colors.add("tomato");
-        colors.add("transparent");
-        colors.add("turquoise");
-        colors.add("violet");
-        colors.add("wheat");
-        colors.add("white");
-        colors.add("whitesmoke");
-        colors.add("yellow");
-        colors.add("yellowgreen");
-
-    }
 
     public Stage stage;
 
     public SceneGraphBuilder(boolean init = true) {
         super(init)
-        this[DELEGATE_PROPERTY_OBJECT_ID] = DEFAULT_DELEGATE_PROPERTY_OBJECT_ID
-        ExpandoMetaClass.enableGlobally()
-        Number.metaClass.getM = { -> new Duration(delegate*1000.0*60.0)};
-        Number.metaClass.getS = { -> new Duration(delegate*1000.0)};
-        Number.metaClass.getMs = { -> new Duration(delegate)};
-        Number.metaClass.getH = { -> new Duration(delegate*1000.0*60.0*60.0)};
-
+        initialize()
     }
-    
+
     public SceneGraphBuilder(Stage primaryStage, boolean init = true) {
         super(init)
-        this.stage = primaryStage;
-        this[DELEGATE_PROPERTY_OBJECT_ID] = DEFAULT_DELEGATE_PROPERTY_OBJECT_ID
-        ExpandoMetaClass.enableGlobally()
-        Number.metaClass.getM = { -> new Duration(delegate*1000.0*60.0)};
-        Number.metaClass.getS = { -> new Duration(delegate*1000.0)};
-        Number.metaClass.getMs = { -> new Duration(delegate)};
-        Number.metaClass.getH = { -> new Duration(delegate*1000.0*60.0*60.0)};
-
+        this.stage = primaryStage
+        initialize()
     }
 
     public Scene getCurrentScene() { return currentScene }
@@ -260,16 +89,22 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
     }
 
     def propertyMissing(String name) {
-        String lname = name.toLowerCase();
-        if(lname.startsWith("#") || colors.contains(lname)) {
+        if (name.startsWith("#")) {
             return Color.web(name);
         }
-        switch(lname) {
+
+        String lname = name.toLowerCase();
+
+        Color color = Color.NamedColors.namedColors[lname]
+        if (color) { return color }
+
+        switch (lname) {
             case 'horizontal':
                 return Orientation.HORIZONTAL;
             case 'vertical':
                 return Orientation.VERTICAL;
         }
+        
         throw new MissingPropertyException("Unrecognized property: ${name}", name, this.class);
     }
 
@@ -287,18 +122,23 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
                 InvokerHelper.setProperty(node, property, value);
         }
     }
+
     def rgb(int r, int g, int b) {
         Color.rgb(r,g,b);
     }
+
     def rgb(int r, int g, int b, float alpha) {
         Color.rgb(r,g,b, alpha);
     }
+
     def hsb(int hue, float saturation, float brightness, float alpha) {
         Color.hsb(hue, saturation, brightness, alpha);
     }
+
     def hsb(int hue, float saturation, float brightness) {
         Color.hsb(hue, saturation, brightness);
     }
+
     public def registerStages() {
         StageFactory factory = new StageFactory();
         registerFactory("stage", factory)
@@ -634,5 +474,16 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         return super.postNodeCompletion(parent, node);
      }
 
+    private void initialize() {
+        this[DELEGATE_PROPERTY_OBJECT_ID] = DEFAULT_DELEGATE_PROPERTY_OBJECT_ID
+
+        ExpandoMetaClass.enableGlobally()
+        Number.metaClass.getM = {-> new Duration(delegate * 1000.0 * 60.0)}
+        Number.metaClass.getS = {-> new Duration(delegate * 1000.0)}
+        Number.metaClass.getMs = {-> new Duration(delegate)}
+        Number.metaClass.getH = {-> new Duration(delegate * 1000.0 * 60.0 * 60.0)}
+
+        Color.NamedColors.namedColors.put("groovyblue", Color.rgb(99, 152, 170))
+    }
 }
 
