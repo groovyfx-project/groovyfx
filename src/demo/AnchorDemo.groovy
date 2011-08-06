@@ -24,8 +24,8 @@ GroovyFX.start {
     sg.stage(title: "GroovyFX AnchorPane Demo", width: 650, height:450, visible: true) {
          scene(fill: groovyblue) {
              anchorPane {
-                 button(text: "ONE", topAnchor: 10, bottomAnchor: 10, rightAnchor: 110, leftAnchor: 10)
-                 button(text: "TWO", rightAnchor: 10, topAnchor: 10)
+                 button("ONE", topAnchor: 10, bottomAnchor: 10, rightAnchor: 110, leftAnchor: 10)
+                 button("TWO", rightAnchor: 10, topAnchor: 10)
              }
          }
     }

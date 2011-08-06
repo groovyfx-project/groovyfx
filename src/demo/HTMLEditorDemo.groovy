@@ -31,7 +31,7 @@ GroovyFX.start {
             borderPane() {
                 html = htmlEditor()
                 bottom(align: "center", margin: [10, 0]) {
-                    button(text: "Print HTML", onAction: { println html.htmlText })
+                    button("Print HTML", onAction: { println html.htmlText })
                 }
             }
         }

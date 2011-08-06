@@ -28,18 +28,18 @@ GroovyFX.start {
          scene(fill: groovyblue) {
              borderPane {
                  top(align: "center", margin: [10,0,10,0]) {
-                     button(text: "top")
+                     button("Top")
                  }
                  right(align: "center", margin: [0,10,0,1]) {
-                     button(text: "right")
+                     button("Right")
                  }
                  left(align: "center", margin: [0,10]) {
-                     button(text: "left")
+                     button("Left")
                  }
                  bottom(align: "center", margin: [10,0]) {
-                     button(text: "bottom")
+                     button("Bottom")
                  }
-                 label(text: "center")
+                 label("Center")
              }
          }
     }

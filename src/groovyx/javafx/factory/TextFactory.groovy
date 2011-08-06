@@ -27,10 +27,10 @@ class TextFactory extends NodeFactory {
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Text text;
-        if (FactoryBuilderSupport.checkValueIsType(value, name, Text.class)) {
+        if (value instanceof Text) {
             text = value
         } else {
-            text = new Text();
+            text = new Text(value?.toString());
         }
 
         //FXHelper.fxAttributes(text, attributes);

@@ -67,13 +67,13 @@ GroovyFX.start {
             }
 
             vbox(layoutX: 25, layoutY: 125, spacing: 10) {
-                label(textFill: "rgb(255,255,0)", text: "I'm a label")
-                text(textOrigin: "top", textAlignment: "center", font: "32pt", text: "This is Text", fill: cyan)
+                label("I'm a label", textFill: "rgb(255,255,0)")
+                text("This is Text", textOrigin: "top", textAlignment: "center", font: "32pt", fill: cyan)
 
                 vbox(spacing: 10) {
                     hbox(spacing: 10) {
-                        button(font: "16pt Courier", text: "This is a Button", onAction: { println "button pressed"})
-                        checkBox(font: "16pt Courier", text: "Check", selected: true)
+                        button("This is a Button", font: "16pt Courier", onAction: { println "button pressed"})
+                        checkBox("Check", font: "16pt Courier", selected: true)
                     }
                     separator()
                     hbox(spacing: 10, padding: [10, 10, 10, 10]) {
