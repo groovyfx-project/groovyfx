@@ -1,7 +1,7 @@
 /*
 * Copyright 2011 the original author or authors.
 *
-* Licensed under the Apache License, Version 2.0 (the "License");
+* Licensed under the Apache License, Version 2.0 (the "License")
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
@@ -16,40 +16,37 @@
 
 package demo
 
+import groovyx.javafx.GroovyFX
 import groovyx.javafx.SceneGraphBuilder
-import groovyx.javafx.GroovyFX;
+
 /**
  *
  * @author jimclarke
  */
 
-GroovyFX.start({
-def sg = new SceneGraphBuilder(it);
+GroovyFX.start {
+    def sg = new SceneGraphBuilder(it)
 
-sg.stage(
-    title: "ToolBar Example",
-    x: 100, y: 100, width: 400, height:400,
-    visible: true,
-    style: "decorated",
-) {
-
-    scene(fill: hsb(128, 0.5, 0.5, 0.5) ) {
-        toolBar ( orientation: "vertical") {
-            button(text: "button 1") 
-            button(text: "button 2")
-            button(text: "button 3")
-            button(text: "button 4")
-            button(text: "button 5")
-            button(text: "button 6")
-            button(text: "button 7")
-            button(text: "button 8")
-            button(text: "button 9")
-            button(text: "button 10")
-            
+    sg.stage(title: "GroovyFX ToolBar Demo", width: 820, height: 400, visible: true, style: "decorated") {
+        scene(fill: groovyblue) {
+            borderPane {
+                top {
+                    toolBar(orientation: "horizontal") {
+                        button("button 1")
+                        button("button 2")
+                        button("button 3")
+                        button("button 4")
+                        button("button 5")
+                        button("button 6")
+                        button("button 7")
+                        button("button 8")
+                        button("button 9")
+                        button("button 10")
+                    }
+                }
+            }
         }
     }
 }
-
-});
 
 

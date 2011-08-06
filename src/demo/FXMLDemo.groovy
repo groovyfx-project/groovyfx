@@ -1,7 +1,7 @@
 /*
 * Copyright 2011 the original author or authors.
 *
-* Licensed under the Apache License, Version 2.0 (the "License");
+* Licensed under the Apache License, Version 2.0 (the "License")
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
@@ -29,20 +29,16 @@ def xml = """
                  <Rectangle x="10.0" y="200.0" width="70.0" height="20" fill="GREEN" />
             </children>
     </Group>
-    """;
+    """
 
-GroovyFX.start({
-    def sg = new SceneGraphBuilder();
+GroovyFX.start {
+    def sg = new SceneGraphBuilder()
 
-    def stage = sg.stage(
-        title: "FXML (Groovy)",
-        visible: true,
-    ) {
-        scene(fill: gray, width: 640, height: 500) {
-            vbox() {
-                stackPane() {
-                    fxml(
-                        """
+    sg.stage(title: "GroovyFX FXML Demo", visible: true) {
+        scene(fill: groovyblue, width: 640, height: 500) {
+            vbox(padding: 10) {
+                stackPane {
+                    fxml("""
                         <?import javafx.scene.*?>
                         <?import javafx.scene.shape.*?>
                         <Group xmlns:fx="http://javafx.com/fxml">
@@ -56,15 +52,15 @@ GroovyFX.start({
                                 </children>
                         </Group>
                         """
-                     )
+                    )
                 }
-                stackPane() {
+                stackPane {
                     fxml(xml)
                 }
             }
         }
     }
-});
+}
 
 
 

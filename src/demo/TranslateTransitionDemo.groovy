@@ -18,23 +18,20 @@ package demo
 
 import groovyx.javafx.GroovyFX
 import groovyx.javafx.SceneGraphBuilder
+import javafx.animation.Transition
 
-/**
- * @author jimclarke
- */
-GroovyFX.start {
-    def sg = new SceneGraphBuilder(it)
+GroovyFX.start { primaryStage ->
+    def sg = new SceneGraphBuilder(primaryStage)
+    Transition rectTransition = null
 
-    sg.stage(title: "GroovyFX TextField Demo", x: 100, y: 100, visible: true, style: "decorated", primary: true) {
-        scene(fill: groovyblue, width: 400, height: 400) {
-            borderPane() {
-                text = textField(promptText: 'Type here', prefColumnCount: 80, onAction: { println "T: " + text.text})
-                bottom(align: "center", margin: [10, 0]) {
-                    button("Print Text", onAction: { println text.text })
-                }
+    sg.stage(title: "GroovyFX TranslateTransition Demo", visible: true, resizable: true) {
+        scene(fill: groovyblue, width: 400, height: 300) {
+            rectangle(x: 20, y: 20, width: 100, height: 50, fill: green) {
+                rectTransition = translateTransition(5.s, delay: 500.ms, interpolator: "ease_out", to: 100,
+                                                     onFinished: { println "done" })
             }
         }
     }
+    rectTransition.playFromStart()
 }
-
 

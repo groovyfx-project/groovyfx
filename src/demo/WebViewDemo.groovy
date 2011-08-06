@@ -27,7 +27,7 @@ GroovyFX.start {
     def webEngine = sg.webEngine(location: url)
     def goAction = { webEngine.load(urlBox.getText()) }
 
-    sg.stage(title: "Web Engine (Groovy)", visible: true) {
+    sg.stage(title: "GroovyFX WebView Demo", visible: true) {
         scene(fill: groovyblue, width: 640, height: 500) {
             vbox() {
                 hbox(padding: 10, spacing: 5) {

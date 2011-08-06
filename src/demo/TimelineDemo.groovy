@@ -1,7 +1,7 @@
 /*
 * Copyright 2011 the original author or authors.
 *
-* Licensed under the Apache License, Version 2.0 (the "License");
+* Licensed under the Apache License, Version 2.0 (the "License")
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
@@ -16,33 +16,27 @@
 
 package demo
 
-import groovyx.javafx.TimelineBuilder;
-import javafx.animation.Interpolator;
 import groovyx.javafx.GroovyFX
-import org.codehaus.groovyfx.javafx.binding.PropertyBinding;
-import javafx.application.Platform;
+import groovyx.javafx.TimelineBuilder
+import javafx.application.Platform
 
-x = 5.0;
-y = 5.0;
+x = 5.0
+y = 5.0
 
-
-GroovyFX.start({
-    def tlb = new TimelineBuilder();
+GroovyFX.start {
+    def tlb = new TimelineBuilder()
     def tl = tlb.timeline(cycleCount: 2, onFinished: { Platform.exit()}) {
-        at (1.m,
-           onFinished: { println "x = ${this.x}, y = ${this.y}"}
-           )
-           {
-                change (this,"x") {
+        at (1.m, onFinished: { println "x = ${this.x}, y = ${this.y}"}) {
+            change(this,"x") {
                     to 2.0
                     tween  "ease_both"
                 }
-                change (this,"y") {
+                change(this,"y") {
                     to 125
                 }
             }
     }
-    tl.play();
-});
+    tl.play()
+}
 
 

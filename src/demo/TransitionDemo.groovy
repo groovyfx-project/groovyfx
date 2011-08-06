@@ -13,28 +13,25 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
 package demo
 
 import groovyx.javafx.GroovyFX
 import groovyx.javafx.SceneGraphBuilder
+import javafx.animation.Transition
 
-/**
- * @author jimclarke
- */
-GroovyFX.start {
-    def sg = new SceneGraphBuilder(it)
+GroovyFX.start { primaryStage ->
+    def sg = new SceneGraphBuilder(primaryStage)
+    Transition rectTransition = null
 
-    sg.stage(title: "GroovyFX TextField Demo", x: 100, y: 100, visible: true, style: "decorated", primary: true) {
-        scene(fill: groovyblue, width: 400, height: 400) {
-            borderPane() {
-                text = textField(promptText: 'Type here', prefColumnCount: 80, onAction: { println "T: " + text.text})
-                bottom(align: "center", margin: [10, 0]) {
-                    button("Print Text", onAction: { println text.text })
-                }
+    def testTransition = sg.fadeTransition(5.s, delay: 500.ms, from: 1.0, to: 0.0, onFinished: { println "done" })
+
+    sg.stage(title: "GroovyFX Transition Demo", width: 400, height: 300, visible: true, resizable: true) {
+        scene(fill: groovyblue) {
+            rectangle(x: 20, y: 20, width: 100, height: 50, fill: blue) {
+                rectTransition = transition(testTransition)
             }
         }
     }
+    rectTransition.playFromStart()
 }
-
 

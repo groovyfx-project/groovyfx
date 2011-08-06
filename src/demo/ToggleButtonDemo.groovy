@@ -19,28 +19,16 @@ package demo
 import groovyx.javafx.GroovyFX
 import groovyx.javafx.SceneGraphBuilder
 
-/**
- *
- * @author jimclarke
- */
-
 GroovyFX.start {
-    def sg = new SceneGraphBuilder(it)
-
-    sg.stage(title: "GroovyfX, SplitPane Demo", x: 100, y: 100, width: 800, height: 400, visible: true,
-             style: "decorated") {
-
+    def sg = new SceneGraphBuilder()
+    sg.stage(title: "GroovyFX ToggleButton Demo", x: 100, y: 100, width: 400, height:400, visible: true,
+             style: "decorated", onHidden: { println "Close" }) {
+        
         scene(fill: groovyblue) {
-            splitPane(orientation: "horizontal", prefHeight: 200) {
-                dividerPosition(index: 0, position: 0.25)
-                dividerPosition(index: 1, position: 0.50)
-                dividerPosition(index: 2, position: 1.0)
-                label("This is Label 1\n\nAnd there were a few empty lines just there!") // left or top
-                label("This is Label 2\n\nAnd there were a few empty lines just there!") // right or bottom
-                label("This is Label 3\n\nAnd there were a few empty lines just there!")
+            hbox(spacing: 10, padding: 10) {
+                toggleButton ("One", font: "16pt Courier", selected: true, toggleGroup: "Group1")
+                toggleButton ("Two", font: "16pt Courier", toggleGroup: "Group1")
             }
         }
     }
 }
-
-

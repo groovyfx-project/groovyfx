@@ -16,18 +16,19 @@
 
 package demo
 
-import groovyx.javafx.SceneGraphBuilder
-import groovyx.javafx.GroovyFX;
-import javafx.embed.swing.JFXPanel
-import groovy.swing.SwingBuilder
 import java.awt.BorderLayout as BL
 import javax.swing.WindowConstants as WC
+
+import groovy.swing.SwingBuilder
+import groovyx.javafx.GroovyFX
+import groovyx.javafx.SceneGraphBuilder
 import java.awt.Dimension
-import javafx.application.Platform;
+import javafx.application.Platform
+import javafx.embed.swing.JFXPanel
 
 def DEFAULT_URL = "http://www.yahoo.com"
 def swing = new SwingBuilder();
-def fxPanel = new JFXPanel(preferredSize: new Dimension(800,400));
+def fxPanel = new JFXPanel(preferredSize: new Dimension(800,400))
 
 def setUrl = { url ->
     Platform.runLater {
@@ -36,8 +37,7 @@ def setUrl = { url ->
 }
 
 swing.edt {
-    frame = frame(title:'Swing Embedded Browser', show: true,
-          defaultCloseOperation: WC.EXIT_ON_CLOSE) {
+    frame = frame(title:'GroovyFX Swing Demo', show: true, defaultCloseOperation: WC.EXIT_ON_CLOSE) {
         borderLayout()
         panel(constraints: BL.NORTH) {
             textField(id: "urlField", actionPerformed: {setUrl(urlField.text)}, columns: 40)

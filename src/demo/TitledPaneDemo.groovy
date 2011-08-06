@@ -27,26 +27,31 @@ import groovyx.javafx.SceneGraphBuilder
 GroovyFX.start {
     def sg = new SceneGraphBuilder(it)
 
-    sg.stage(title: "TabPane Example", x: 100, y: 100, width: 400, height: 400, visible: true, style: "decorated") {
+    sg.stage(title: "GroovyFX TitledPane Demo", width: 400, height: 400, visible: true, style: "decorated") {
         scene(fill: groovyblue) {
-            tabPane {
-                tab('Tab 1') {
-                    label("This is Label 1\n\nAnd there were a few empty lines just there!")
-                    graphic {
-                        rectangle(width: 20, height: 20, fill: red)
+            vbox(spacing: 10) {
+                titledPane(id: "t1") {
+                    title {
+                        label("Label 1")
+                    }
+                    content {
+                        label("This is Label 1\n\nAnd there were a few empty lines just there!")
                     }
                 }
-                tab('Tab 2') {
-                    label("This is Label 2\n\nAnd there were a few empty lines just there!")
-                    graphic {
-                        rectangle(width: 20, height: 20, fill: blue)
+                titledPane(id: "t2") {
+                    title {
+                        label("Label 2")
+                    }
+                    content {
+                        label(text: "This is Label 2\n\nAnd there were a few empty lines just there!")
                     }
                 }
-                tab('Tab 3') {
+                titledPane(id: "t3") {
+                    title {
+                        label("Label 3")
+                    }
+                    // this is content
                     label("This is Label 3\n\nAnd there were a few empty lines just there!")
-                    graphic {
-                        rectangle(width: 20, height: 20, fill: green)
-                    }
                 }
             }
         }

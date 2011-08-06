@@ -1,7 +1,7 @@
 /*
 * Copyright 2011 the original author or authors.
 *
-* Licensed under the Apache License, Version 2.0 (the "License");
+* Licensed under the Apache License, Version 2.0 (the "License")
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
@@ -16,34 +16,26 @@
 
 package demo
 
+import groovyx.javafx.GroovyFX
 import groovyx.javafx.SceneGraphBuilder
-import groovyx.javafx.GroovyFX;
+
 /**
  *
  * @author jimclarke
  */
+GroovyFX.start {
+    def sg = new SceneGraphBuilder(it)
 
-GroovyFX.start({
-def sg = new SceneGraphBuilder(it);
-
-sg.stage(
-    title: "TextArea Demo",
-    x: 100, y: 100,
-    visible: true,
-    style: "decorated",
-    primary: true
-) {
-
-    scene(fill: hsb(128, 0.5, 0.5, 0.5), width: 400, height:400 ) {
-        borderPane() {
-            text = textArea(prefRowCount: 10, prefColumnCount:80)
-            bottom(align: "center", margin: [10,0]) {
-                button(text: "Print Text", onAction: { println text.text })
+    sg.stage(title: "GroovyFX TextArea Demo", x: 100, y: 100, visible: true, style: "decorated", primary: true) {
+        scene(fill: groovyblue, width: 400, height: 400) {
+            borderPane(padding: 10) {
+                text = textArea(prefRowCount: 10, prefColumnCount: 80)
+                bottom(align: "center", margin: [10, 0]) {
+                    button("Print Text", onAction: { println text.text })
+                }
             }
         }
     }
 }
-
-});
 
 
