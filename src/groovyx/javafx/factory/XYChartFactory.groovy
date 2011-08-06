@@ -21,6 +21,7 @@ import javafx.scene.chart.BarChart
 import javafx.scene.chart.CategoryAxis
 import javafx.scene.chart.NumberAxis
 import javafx.scene.chart.XYChart
+import javafx.collections.ObservableList
 
 /**
  * @author Dean Iverson
@@ -51,7 +52,6 @@ class XYChartFactory extends AbstractFactory {
                 chartBuilder.XAxis(new NumberAxis())
 
             chartBuilder.YAxis(new NumberAxis())
-
             return chartBuilder
         }
     }
@@ -61,9 +61,9 @@ class XYChartFactory extends AbstractFactory {
         def data = attributes.remove('data')
         if (data) {
             if (data instanceof Map) {
-                // Parse series data
-            } else
-                FXHelper.setPropertyOrMethod(node, 'data', data)
+                data = createXYSeriesFromMap(data)
+            }
+            FXHelper.setPropertyOrMethod(node, 'data', data)
         }
 
         attributes.each { name, value ->
@@ -80,6 +80,16 @@ class XYChartFactory extends AbstractFactory {
         if (seriesList) {
             node.data(FXCollections.observableArrayList(seriesList))
         }
+    }
+
+    private ObservableList<XYChart.Series> createXYSeriesFromMap(Map map) {
+        def seriesList = []
+        map.each { name, data ->
+            if (data instanceof List)
+                seriesList << new XYChart.Series(name, XYSeriesFactory.createXYDataFromList(data))
+        }
+        
+        return FXCollections.observableArrayList(seriesList)
     }
 }
 
