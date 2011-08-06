@@ -25,26 +25,26 @@ import groovyx.javafx.GroovyFX;
 GroovyFX.start({
     def sg = new SceneGraphBuilder()
 
-    sg.stage(title: "Padding Test", width: 800, height: 800, visible: true) {
-        scene(fill: "antiquewhite" ) {
+    sg.stage(title: "GroovyFX Padding Demo", width: 800, height: 800, visible: true) {
+        scene(fill: groovyblue ) {
             vbox(spacing: 30, fillWidth: false, alignment: "center") {
                 stackPane(style: "-fx-background-color: burlywood", padding: 20) {
-                    text(text: "Padding: 20", fill: "sienna", font: "48pt")
+                    text("Padding: 20", fill: "sienna", font: "48pt")
                 }
                 stackPane(style: "-fx-background-color: burlywood", padding: [10]) {
-                    text(text: "Padding: [10]", fill: "sienna", font: "48pt")
+                    text("Padding: [10]", fill: "sienna", font: "48pt")
                 }
                 stackPane(style: "-fx-background-color: burlywood", padding: [50, 25]) {
-                    text(text: "Padding: [50, 25]", fill: "sienna", font: "48pt")
+                    text("Padding: [50, 25]", fill: "sienna", font: "48pt")
                 }
                 stackPane(style: "-fx-background-color: burlywood", padding: [10, 20, -10]) {
-                    text(text: "Padding: [10, 20, -10]", fill: "sienna", font: "48pt")
+                    text("Padding: [10, 20, -10]", fill: "sienna", font: "48pt")
                 }
                 stackPane(style: "-fx-background-color: burlywood", padding: [0, 50, 0, 0]) {
-                    text(text: "Padding: [0, 50, 0, 0]", fill: "sienna", font: "48pt")
+                    text("Padding: [0, 50, 0, 0]", fill: "sienna", font: "48pt")
                 }
                 stackPane(style: "-fx-background-color: burlywood", padding: [20, 0, 0, 20]) {
-                    text(text: "Padding: [20, 0, 0, 20]", fill: "sienna", font: "48pt")
+                    text("Padding: [20, 0, 0, 20]", fill: "sienna", font: "48pt")
                 }
                 dropShadow()
             }

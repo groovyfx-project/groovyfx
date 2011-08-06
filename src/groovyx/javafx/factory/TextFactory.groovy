@@ -16,8 +16,7 @@
 
 package groovyx.javafx.factory
 
-import javafx.scene.text.*;
-import javafx.scene.shape.*;
+import javafx.scene.text.Text
 
 /**
  *
@@ -25,7 +24,8 @@ import javafx.scene.shape.*;
  */
 class TextFactory extends NodeFactory {
 
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
+        throws InstantiationException, IllegalAccessException {
         Text text;
         if (value instanceof Text) {
             text = value
@@ -33,7 +33,6 @@ class TextFactory extends NodeFactory {
             text = new Text(value?.toString());
         }
 
-        //FXHelper.fxAttributes(text, attributes);
         return text;
     }
 }

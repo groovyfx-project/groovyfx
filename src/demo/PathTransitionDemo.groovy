@@ -1,7 +1,7 @@
 /*
 * Copyright 2011 the original author or authors.
 *
-* Licensed under the Apache License, Version 2.0 (the "License");
+* Licensed under the Apache License, Version 2.0 (the "License")
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
@@ -13,23 +13,20 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package demo;
+package demo
 
-import groovyx.javafx.GroovyFX;
+import groovyx.javafx.GroovyFX
 import groovyx.javafx.SceneGraphBuilder
-import javafx.animation.Transition;
+import javafx.animation.Transition
+import javafx.animation.PathTransition.OrientationType
 
-GroovyFX.start({ primaryStage -> 
-    def sg = new SceneGraphBuilder(primaryStage);
-    Transition rectTransition = null;
-    sg.stage(
-        title: "Path Transition Test",
-        width: 400, height:300,
-        visible: true,
-        resizable: true
-    ) {
-         scene(fill: lightgreen) {
-             def thePath  = path( translateX: 50, translateY: 50, fill: transparent, stroke: red, strokeWidth: 5) {
+GroovyFX.start { primaryStage -> 
+    def sg = new SceneGraphBuilder(primaryStage)
+    Transition rectTransition = null
+
+    sg.stage(title: "GroovyFX Path Transition Demo", width: 400, height:300, visible: true, resizable: true) {
+         scene(fill: groovyblue) {
+             def thePath = path( translateX: 50, translateY: 50, fill: transparent, stroke: green, strokeWidth: 5) {
                 moveTo(x: 0, y: 0)
                 lineTo(x: 100, y: 0)
                 arcTo(x: 200, y: 0, radiusX: 25, radiusY: 20)
@@ -38,10 +35,11 @@ GroovyFX.start({ primaryStage ->
                 closePath()
              }
              rectangle(width: 20, height: 50, fill: blue) {
-                rectTransition = pathTransition(20.s, delay: 100.ms, path: thePath,  onFinished: { println "done"}) 
+                rectTransition = pathTransition(20.s, delay: 100.ms, path: thePath, onFinished: {println "done"},
+                                                orientation: OrientationType.ORTHOGONAL_TO_TANGENT)
              }
          }
     }
-    rectTransition.playFromStart();
-})
+    rectTransition.playFromStart()
+}
 

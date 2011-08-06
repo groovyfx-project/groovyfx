@@ -1,7 +1,7 @@
 /*
 * Copyright 2011 the original author or authors.
 *
-* Licensed under the Apache License, Version 2.0 (the "License");
+* Licensed under the Apache License, Version 2.0 (the "License")
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
@@ -14,27 +14,24 @@
 * limitations under the License.
 */
 
-package demo;
+package demo
 
-import groovyx.javafx.GroovyFX;
+import groovyx.javafx.GroovyFX
 import groovyx.javafx.SceneGraphBuilder
-import javafx.animation.Transition;
+import javafx.animation.Transition
 
-GroovyFX.start({ primaryStage -> 
-    def sg = new SceneGraphBuilder(primaryStage);
-    Transition rectTransition = null;
-    sg.stage(
-        title: "Rotate Transition Test",
-        width: 400, height:300,
-        visible: true,
-        resizable: true
-    ) {
-         scene(fill: lightgreen) {
+GroovyFX.start { primaryStage ->
+    def sg = new SceneGraphBuilder(primaryStage)
+    Transition rectTransition = null
+
+    sg.stage(title: "GroovyFX Scale Transition Demo", width: 400, height:300, visible: true, resizable: true) {
+         scene(fill: groovyblue) {
              rectangle(x: 20, y: 20, width: 100, height: 50, fill: blue) {
-                rectTransition = rotateTransition(20.s, delay: 100.ms, interpolator: "linear", to: 180.0, onFinished: { println "done"})
+                rectTransition = scaleTransition(3.s, delay: 100.ms, interpolator: "linear", to: 0.5,
+                                                 onFinished: { println "done" })
              }
          }
     }
-    rectTransition.playFromStart();
-})
+    rectTransition.playFromStart()
+}
 

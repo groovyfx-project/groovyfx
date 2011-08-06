@@ -1,7 +1,7 @@
 /*
 * Copyright 2011 the original author or authors.
 *
-* Licensed under the Apache License, Version 2.0 (the "License");
+* Licensed under the Apache License, Version 2.0 (the "License")
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
@@ -23,18 +23,14 @@ package demo
 import groovyx.javafx.GroovyFX
 import groovyx.javafx.SceneGraphBuilder
 
-GroovyFX.start({ primaryStage ->
-    def sg = new SceneGraphBuilder(primaryStage);
+GroovyFX.start { primaryStage ->
+    def sg = new SceneGraphBuilder(primaryStage)
     
-    sg.stage(
-        title: "Menu Example (Groovy)",
-        width: 650, height:450,
-        visible: true,
-    ) {
-         scene(fill: lightgreen ) {
+    sg.stage(title: "GroovyFX Menu Demo", width: 650, height:450, visible: true) {
+         scene(fill: groovyblue) {
              borderPane {
                  top {
-                     mb = menuBar() {
+                     menuBar {
                          menu("File") {
                              menuItem("Open", onAction: { println "Open" }) {
                                  rectangle(width: 16, height: 16, fill: red)
@@ -42,7 +38,7 @@ GroovyFX.start({ primaryStage ->
                              menuItem("Save", onAction: { println "Save" }) {
                                  graphic(circle(radius: 8, fill: blue))
                              }
-                             saveAs = menuItem("SaveAs..", onAction: {  println "Save As";  })
+                             saveAs = menuItem("SaveAs..", onAction: {  println "Save As"  })
                              separatorMenuItem()
                              menuItem("Exit", onAction: { primaryStage.close() })
                          }
@@ -61,7 +57,7 @@ GroovyFX.start({ primaryStage ->
                      }
                  }
                  center {
-                     hbox(spacing: 20) {
+                     hbox(spacing: 20, padding: 10) {
                          menuButton("Choose") {
                              menuItem("one", onAction: { println: "One"})
                              menuItem("two", onAction: { println: "Two"})
@@ -81,10 +77,9 @@ GroovyFX.start({ primaryStage ->
                      }
                  }
              }
-             
          }
     }
-});
+}
 
 
 
