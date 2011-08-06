@@ -80,7 +80,7 @@ def data = [
 GroovyFX.start {
     def sg = new SceneGraphBuilder()
 
-    sg.stage(title: "GroovyFX Table Demo", width: 650, height:450, visible: true) {
+    sg.stage(title: "GroovyFX TableView Demo", width: 650, height:450, visible: true) {
          scene(fill: groovyblue) {
              tableView(items: data) {
                  tableColumn(text: "First Name", property: 'firstName')
