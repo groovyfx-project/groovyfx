@@ -28,13 +28,13 @@ import javafx.beans.binding.Bindings
 
 
 class Time {
-    @FXBindable int hours
-    @FXBindable int minutes
-    @FXBindable int seconds
+    @FXBindable Integer hours
+    @FXBindable Integer minutes
+    @FXBindable Integer seconds
 
-    @FXBindable double hourAngle
-    @FXBindable double minuteAngle
-    @FXBindable double secondAngle
+    @FXBindable Double hourAngle
+    @FXBindable Double minuteAngle
+    @FXBindable Double secondAngle
 
     public Time() {
         // bind the angle properties to the clock time
@@ -44,20 +44,20 @@ class Time {
 
         // Set the initial clock time
         def calendar = Calendar.instance
-        setHours(calendar.get(Calendar.HOUR))
-        setMinutes(calendar.get(Calendar.MINUTE))
-        setSeconds(calendar.get(Calendar.SECOND))
+        hours = calendar.get(Calendar.HOUR)
+        minutes = calendar.get(Calendar.MINUTE)
+        seconds = calendar.get(Calendar.SECOND)
     }
 
     /**
      * Add a second to the time
      */
     public void addOneSecond() {
-        setSeconds((getSeconds() + 1) % 60)
-        if (getSeconds() == 0) {
-            setMinutes((getMinutes() + 1) % 60)
-            if (getMinutes() == 0) {
-                setHours((getHours() + 1) % 12)
+        seconds = (seconds + 1) % 60
+        if (seconds == 0) {
+            minutes = (minutes + 1) // % 60
+            if (minutes == 0) {
+                hours = (hours + 1) % 12
             }
         }
     }

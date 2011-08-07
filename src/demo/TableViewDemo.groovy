@@ -16,63 +16,27 @@
 
 package demo
 
+import groovy.transform.Canonical
 import groovyx.javafx.GroovyFX
 import groovyx.javafx.SceneGraphBuilder
-import javafx.beans.property.StringProperty
 import groovyx.javafx.beans.FXBindable
-import groovy.transform.Canonical
 
-//@Canonical
+@Canonical
 class Person {
-    @FXBindable firstName
-    @FXBindable lastName
-    @FXBindable city
-    @FXBindable state
-
-    public Person(String first, String last, String city, String state) {
-        setFirstName(first)
-        setLastName(last)
-        setCity(city)
-        setState(state)
-    }
-    
-//     private StringProperty firstName
-//     public void setFirstName(String value) { firstNameProperty().set(value) }
-//     public String getFirstName() { return firstName == null? "" : firstName.get() }
-//     public StringProperty firstNameProperty() {
-//         if (firstName == null) firstName = new StringProperty()
-//         return firstName
-//     }
-//
-//     private StringProperty lastName
-//     public void setLastName(String value) { lastNameProperty().set(value) }
-//     public String getLastName() { return lastName == null? "" : lastName.get() }
-//     public StringProperty lastNameProperty() {
-//         if (lastName == null) lastName = new StringProperty()
-//         return lastName
-//     }
-//
-//     private StringProperty city
-//     public void setCity(String value) { cityProperty().set(value) }
-//     public String getCity() { return city == null? "" : city.get() }
-//     public StringProperty cityProperty() {
-//         if (city == null) city = new StringProperty()
-//         return city
-//     }
-//
-//     private StringProperty state
-//     public void setState(String value) { stateProperty().set(value) }
-//     public String getState() { return state == null? "" : state.get() }
-//     public StringProperty stateProperty() {
-//         if (state == null) state = new StringProperty()
-//         return state
-//     }
+    @FXBindable String firstName
+    @FXBindable String lastName
+    @FXBindable String city
+    @FXBindable String state
 }
 
 def data = [
     new Person('Jim', 'Clarke', 'Orlando', 'Fl'),
     new Person('Jim', 'Connors', 'Long Island', 'NY'),
     new Person('Eric', 'Bruno', 'Long Island', 'NY'),
+    new Person('Dean', 'Iverson', 'Fort Collins', 'CO'),
+    new Person('Jim', 'Weaver', 'Marion', 'IN'),
+    new Person('Stephen', 'Chin', 'Belmont', 'CA'),
+    new Person('Weiqi', 'Gao', 'Ballwin', 'MO'),
 ]
 
 //todo cell factory
@@ -82,11 +46,13 @@ GroovyFX.start {
 
     sg.stage(title: "GroovyFX TableView Demo", width: 650, height:450, visible: true) {
          scene(fill: groovyblue) {
-             tableView(items: data) {
-                 tableColumn(text: "First Name", property: 'firstName')
-                 tableColumn(text: "Last Name", property: 'lastName') 
-                 tableColumn(text: "City", property: 'city')
-                 tableColumn(text: "State", property: 'state')
+             stackPane(padding: 20) {
+                 tableView(items: data) {
+                     tableColumn(text: "First Name", property: 'firstName')
+                     tableColumn(text: "Last Name", property: 'lastName')
+                     tableColumn(text: "City", property: 'city')
+                     tableColumn(text: "State", property: 'state')
+                 }
              }
          }
     }
