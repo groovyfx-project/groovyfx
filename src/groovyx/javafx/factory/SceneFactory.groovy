@@ -65,7 +65,6 @@ class SceneFactory extends AbstractFactory {
         if(child instanceof Node) {
             sceneWrapper.sceneRoot.getChildren().add((Node) child);
         } else if(child instanceof List) {
-            // TODO add stylesheets
             sceneWrapper.stylesheets((List)child);
         } else if(child instanceof GroovyMouseHandler) {
             sceneWrapper.addInputHandler(((GroovyMouseHandler)child).getType(), (EventHandler)child);

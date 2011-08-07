@@ -48,32 +48,23 @@ class GroovyVariable  implements ChangeListener, WritableValue {
     private void initialize() {
         if(bean != null && property != null) {
             if(bean.class == Boolean.TYPE || bean.class == Boolean.class) {
-                  // TODO variable = new SimpleBooleanProperty(bean, property);
-                  variable = new BooleanProperty(bean, property);
+                  variable = new SimpleBooleanProperty(bean, property);
             }else if (bean.class == Byte.TYPE || bean.class == Byte.class) {
-                  // TODO variable = new SimpleIntegerProperty(bean, property);
-                  variable = new IntegerProperty(bean, property);
+                  variable = new SimpleIntegerProperty(bean, property);
             }else if (bean.class == Double.TYPE || bean.class == Double.class) {
-                  // TODO variable = new SimpleDoubleProperty(bean, property);
-                  variable = new DoubleProperty(bean, property);
+                  variable = new SimpleDoubleProperty(bean, property);
             }else if (bean.class == Float.TYPE || bean.class == Float.class) {
-                  // TODO variable = new SimpleFloatProperty(bean, property);
-                  variable = new FloatProperty(bean, property);
+                  variable = new SimpleFloatProperty(bean, property);
             }else if (bean.class == Integer.TYPE || bean.class == Integer.class) {
-                  // TODO variable = new SimpleIntegerProperty(bean, property);
-                  variable = new IntegerProperty(bean, property);
+                  variable = new SimpleIntegerProperty(bean, property);
             }else if (bean.class == Long.TYPE || bean.class == Long.class) {
-                  // TODO variable = new SimpleLongProperty(bean, property);
-                  variable = new LongProperty(bean, property);
+                  variable = new SimpleLongProperty(bean, property);
             }else if (bean.class == Short.TYPE || bean.class == Short.class) {
-                  // TODO variable = new SimpleIntegerProperty(bean, property);
-                  variable = new IntegerProperty(bean, property);
+                  variable = new SimpleIntegerProperty(bean, property);
             }else if (bean.class == String.class) {
-                  // TODO variable = new SimpleStringProperty(bean, property);
-                  variable = new StringProperty(bean, property);
+                  variable = new SimpleStringProperty(bean, property);
             }else {
-                  // TODO variable = new SimpleObjectProperty(bean, property);
-                  variable = new ObjectProperty(bean, property);
+                  variable = new SimpleObjectProperty(bean, property);
             }
             variable.addListener(this);
         }

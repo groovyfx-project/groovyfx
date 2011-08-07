@@ -20,7 +20,6 @@ import javafx.scene.control.*
 import javafx.scene.Node
 import groovyx.javafx.SceneGraphBuilder;
 import groovyx.javafx.ClosureEventHandler
-// TODO is moving to javafx.scene.control import com.javafx.preview.control.TextArea;
 
 /**
  *

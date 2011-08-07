@@ -26,10 +26,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javafx.beans.value.InvalidationListener;
-// TODO import javafx.beans.InvalidationListener;
-//TODO import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.ObjectProperty;
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
@@ -217,10 +215,10 @@ class BindPathSnooper extends GroovyObjectSupport {
     }
 }
 
-class JavaFXTargetProperty extends /* TODO SimpleObjectProperty */ ObjectProperty implements TargetBinding {
+class JavaFXTargetProperty extends SimpleObjectProperty implements TargetBinding {
     @Override
     public void updateTargetValue(Object value) {
-        this.setValue(value);
+        this.set(value);
     }
     
 }

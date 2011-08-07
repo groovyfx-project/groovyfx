@@ -17,7 +17,7 @@ class MenuItemFactory extends AbstractFactory {
             "menu": { builder, name, value, attributes -> return new Menu("") },
             "menuItem": { builder, name, value, attributes -> return new MenuItem() },
             "checkMenuItem": { builder, name, value, attributes -> return new CheckMenuItem() },
-            "customMenuItem": { builder, name, value, attributes -> return new NodeMenuItem() },
+            "customMenuItem": { builder, name, value, attributes -> return new CustomMenuItem() },
             "separatorMenuItem": { builder, name, value, attributes -> return new SeparatorMenuItem() },
             "radioMenuItem": { builder, name, value, attributes -> return new RadioMenuItem() },
         ];
@@ -34,7 +34,7 @@ class MenuItemFactory extends AbstractFactory {
             if(value instanceof String) {
                 mi.text = value;
             } else if(value instanceof Node) {
-                if(mi instanceof NodeMenuItem)
+                if(mi instanceof CustomMenuItem)
                      mi.content = node
                 else
                     mi.graphic = value;    
@@ -44,13 +44,10 @@ class MenuItemFactory extends AbstractFactory {
     }
     
     public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
-        if(parent instanceof NodeMenuItem && child instanceof Node) {
-            parent.content = child;
-        }
-        else if(parent instanceof Menu && child instanceof MenuItem) {
+        if(parent instanceof Menu && child instanceof MenuItem) {
             parent.items.add(child);        
         } else if(child instanceof Node) {
-            if(parent instanceof NodeMenuItem)
+            if(parent instanceof CustomMenuItem)
                  parent.content = child
             else
                  parent.graphic = child;  

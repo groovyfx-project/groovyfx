@@ -50,13 +50,21 @@ import java.util.Map;
 public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
     protected static final ClassNode boundClassNode = ClassHelper.make(FXBindable.class);
 
-//    protected static final ClassNode objectPropertyClass = ClassHelper.make(ObjectProperty.class);
+    protected static final ClassNode objectPropertyClass = ClassHelper.make(ObjectProperty.class);
     protected static final ClassNode booleanPropertyClass = ClassHelper.make(BooleanProperty.class);
     protected static final ClassNode doublePropertyClass = ClassHelper.make(DoubleProperty.class);
     protected static final ClassNode floatPropertyClass = ClassHelper.make(FloatProperty.class);
     protected static final ClassNode intPropertyClass = ClassHelper.make(IntegerProperty.class);
     protected static final ClassNode longPropertyClass = ClassHelper.make(LongProperty.class);
     protected static final ClassNode stringPropertyClass = ClassHelper.make(StringProperty.class);
+    
+    protected static final ClassNode simpleBooleanPropertyClass = ClassHelper.make(SimpleBooleanProperty.class);
+    protected static final ClassNode simpleDoublePropertyClass = ClassHelper.make(SimpleDoubleProperty.class);
+    protected static final ClassNode simpleFloatPropertyClass = ClassHelper.make(SimpleFloatProperty.class);
+    protected static final ClassNode simpleIntPropertyClass = ClassHelper.make(SimpleIntegerProperty.class);
+    protected static final ClassNode simpleLongPropertyClass = ClassHelper.make(SimpleLongProperty.class);
+    protected static final ClassNode simpleStringPropertyClass = ClassHelper.make(SimpleStringProperty.class);
+    protected static final ClassNode simpleObjectPropertyClass = ClassHelper.make(SimpleObjectProperty.class);
 //    protected static final ClassNode numberClassNode = ClassHelper.make(Number.class);
 
     private static final Map<ClassNode, ClassNode> propertyTypeMap = new HashMap<ClassNode, ClassNode>();
@@ -79,6 +87,18 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
         propertyTypeMap.put(ClassHelper.Byte_TYPE, intPropertyClass);
         //propertyTypeMap.put(ClassHelper.char_TYPE, intPropertyClass);
         //propertyTypeMap.put(ClassHelper.Character_TYPE, intPropertyClass);
+    }
+    
+    private static final Map<ClassNode, ClassNode> propertyImplMap = new HashMap<ClassNode, ClassNode>();
+    
+    static {
+        propertyImplMap.put(booleanPropertyClass, simpleBooleanPropertyClass);
+        propertyImplMap.put(doublePropertyClass, simpleDoublePropertyClass);
+        propertyImplMap.put(floatPropertyClass, simpleFloatPropertyClass);
+        propertyImplMap.put(intPropertyClass, simpleIntPropertyClass);
+        propertyImplMap.put(longPropertyClass, simpleLongPropertyClass);
+        propertyImplMap.put(stringPropertyClass, simpleStringPropertyClass);
+        propertyImplMap.put(objectPropertyClass, simpleObjectPropertyClass);
     }
 
 //    private static final Expression intZero = new ConstantExpression(0, true);
@@ -360,7 +380,6 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
             new ArgumentListExpression(initExp);
 
         BlockStatement block = new BlockStatement();
-
         IfStatement ifStmt = new IfStatement(
             new BooleanExpression(
                 new BinaryExpression(
@@ -373,7 +392,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
                 new BinaryExpression(
                     fieldExpression,
                     Token.newSymbol(Types.EQUAL, 0, 0),
-                    new ConstructorCallExpression(fxProperty.getType(),
+                    new ConstructorCallExpression(propertyImplMap.get(fxProperty.getType()),
                                                   ctorArgs)
                 )
             ),
