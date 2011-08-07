@@ -46,7 +46,22 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.FloatProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.LongProperty;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ObservableNumberValue;
+import javafx.beans.value.ObservableBooleanValue;
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.binding.FloatBinding;
+import javafx.beans.binding.IntegerBinding;
+import javafx.beans.binding.LongBinding;
+import javafx.beans.binding.BooleanBinding;
+//import javafx.beans.property.ReadOnlyBooleanWrapper;
+import javafx.beans.property.BooleanProperty;
+
+import javafx.beans.binding.DoubleExpression;
+import javafx.beans.binding.FloatExpression;
+import javafx.beans.binding.IntegerExpression;
+import javafx.beans.binding.LongExpression;
+import javafx.beans.binding.BooleanExpression;
 
 /**
  *
@@ -534,6 +549,44 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
             
         }
         
+        FloatProperty.metaClass {
+            plus << { Number operand -> delegate.add(operand)}
+            plus << { ObservableNumberValue operand -> delegate.add(operand)}
+            
+            minus << { Number operand -> delegate.subtract(operand)}
+            minus << { ObservableNumberValue operand -> delegate.subtract(operand)}
+            
+            // multiply is already defined.
+            //multiply << { Number operand -> delegate.multiply(operand)}
+            //multiply << { ObservableNumberValue operand -> delegate.multiply(operand)}
+            
+            div << { Number operand -> delegate.divide(operand)}
+            div << { ObservableNumberValue operand -> delegate.divide(operand)}
+            
+            negative << {   delegate.negate() }
+            
+            // aliases
+            gt << { Number operand -> delegate.greaterThan(operand)}
+            gt << { ObservableNumberValue operand -> delegate.greaterThan(operand)}
+            
+            ge << { Number operand -> delegate.greaterThanOrEqualTo(operand)}
+            ge << { ObservableNumberValue operand -> delegate.greaterThanOrEqualTo(operand)}
+            
+            lt << { Number operand -> delegate.lessThan(operand)}
+            lt << { ObservableNumberValue operand -> delegate.lessThan(operand)}
+            
+            le << { Number operand -> delegate.lessThanOrEqualTo(operand)}
+            le << { ObservableNumberValue operand -> delegate.lessThanOrEqualTo(operand)}
+            
+            eq << { Number operand -> delegate.isEqualTo(operand)}
+            eq << { ObservableNumberValue operand -> delegate.isEqualTo(operand)}
+            
+            ne << { Number operand -> delegate.isNotEqualTo(operand)}
+            ne << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
+            
+        }
+        
+        
         IntegerProperty.metaClass {
             plus << { Number operand -> delegate.add(operand)}
             plus << { ObservableNumberValue operand -> delegate.add(operand)}
@@ -568,6 +621,246 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
             
             ne << { Number operand -> delegate.isNotEqualTo(operand)}
             ne << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
+            
+        }
+        
+        
+        LongProperty.metaClass {
+            plus << { Number operand -> delegate.add(operand)}
+            plus << { ObservableNumberValue operand -> delegate.add(operand)}
+            
+            minus << { Number operand -> delegate.subtract(operand)}
+            minus << { ObservableNumberValue operand -> delegate.subtract(operand)}
+            
+            // multiply is already defined.
+            //multiply << { Number operand -> delegate.multiply(operand)}
+            //multiply << { ObservableNumberValue operand -> delegate.multiply(operand)}
+            
+            div << { Number operand -> delegate.divide(operand)}
+            div << { ObservableNumberValue operand -> delegate.divide(operand)}
+            
+            negative << {   delegate.negate() }
+            
+            // aliases
+            gt << { Number operand -> delegate.greaterThan(operand)}
+            gt << { ObservableNumberValue operand -> delegate.greaterThan(operand)}
+            
+            ge << { Number operand -> delegate.greaterThanOrEqualTo(operand)}
+            ge << { ObservableNumberValue operand -> delegate.greaterThanOrEqualTo(operand)}
+            
+            lt << { Number operand -> delegate.lessThan(operand)}
+            lt << { ObservableNumberValue operand -> delegate.lessThan(operand)}
+            
+            le << { Number operand -> delegate.lessThanOrEqualTo(operand)}
+            le << { ObservableNumberValue operand -> delegate.lessThanOrEqualTo(operand)}
+            
+            eq << { Number operand -> delegate.isEqualTo(operand)}
+            eq << { ObservableNumberValue operand -> delegate.isEqualTo(operand)}
+            
+            ne << { Number operand -> delegate.isNotEqualTo(operand)}
+            ne << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
+            
+        }
+        
+        BooleanProperty.metaClass {
+            // or, and, and xor are already in the class groovy symbols | and &
+            
+            negative << {   delegate.not() }
+            
+            eq << { Boolean operand -> 
+                def prop = new BooleanProperty();
+                prop.set(operand);
+                delegate.isEqualTo(prop)
+            }
+            eq << { ObservableNumberValue operand -> delegate.isEqualTo(operand)}
+            
+            ne << { Boolean operand -> 
+                def prop = new BooleanProperty();
+                prop.set(operand);
+                delegate.isNotEqualTo(prop)
+            }
+            ne << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
+            
+            xor << { Boolean operand -> 
+                def prop = new BooleanProperty();
+                prop.set(operand);
+                delegate.isNotEqualTo(prop)
+            }
+            xor << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
+            
+            
+        }
+        
+        DoubleBinding.metaClass {
+            plus << { Number operand -> delegate.add(operand)}
+            plus << { ObservableNumberValue operand -> delegate.add(operand)}
+            
+            minus << { Number operand -> delegate.subtract(operand)}
+            minus << { ObservableNumberValue operand -> delegate.subtract(operand)}
+            
+            // multiply is already defined.
+            //multiply << { Number operand -> delegate.multiply(operand)}
+            //multiply << { ObservableNumberValue operand -> delegate.multiply(operand)}
+            
+            div << { Number operand -> delegate.divide(operand)}
+            div << { ObservableNumberValue operand -> delegate.divide(operand)}
+            
+            negative << {   delegate.negate() }
+            
+            // aliases
+            gt << { Number operand -> delegate.greaterThan(operand)}
+            gt << { ObservableNumberValue operand -> delegate.greaterThan(operand)}
+            
+            ge << { Number operand -> delegate.greaterThanOrEqualTo(operand)}
+            ge << { ObservableNumberValue operand -> delegate.greaterThanOrEqualTo(operand)}
+            
+            lt << { Number operand -> delegate.lessThan(operand)}
+            lt << { ObservableNumberValue operand -> delegate.lessThan(operand)}
+            
+            le << { Number operand -> delegate.lessThanOrEqualTo(operand)}
+            le << { ObservableNumberValue operand -> delegate.lessThanOrEqualTo(operand)}
+            
+            eq << { Number operand -> delegate.isEqualTo(operand)}
+            eq << { ObservableNumberValue operand -> delegate.isEqualTo(operand)}
+            
+            ne << { Number operand -> delegate.isNotEqualTo(operand)}
+            ne << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
+        }
+
+        FloatBinding.metaClass {
+            plus << { Number operand -> delegate.add(operand)}
+            plus << { ObservableNumberValue operand -> delegate.add(operand)}
+            
+            minus << { Number operand -> delegate.subtract(operand)}
+            minus << { ObservableNumberValue operand -> delegate.subtract(operand)}
+            
+            // multiply is already defined.
+            //multiply << { Number operand -> delegate.multiply(operand)}
+            //multiply << { ObservableNumberValue operand -> delegate.multiply(operand)}
+            
+            div << { Number operand -> delegate.divide(operand)}
+            div << { ObservableNumberValue operand -> delegate.divide(operand)}
+            
+            negative << {   delegate.negate() }
+            
+            // aliases
+            gt << { Number operand -> delegate.greaterThan(operand)}
+            gt << { ObservableNumberValue operand -> delegate.greaterThan(operand)}
+            
+            ge << { Number operand -> delegate.greaterThanOrEqualTo(operand)}
+            ge << { ObservableNumberValue operand -> delegate.greaterThanOrEqualTo(operand)}
+            
+            lt << { Number operand -> delegate.lessThan(operand)}
+            lt << { ObservableNumberValue operand -> delegate.lessThan(operand)}
+            
+            le << { Number operand -> delegate.lessThanOrEqualTo(operand)}
+            le << { ObservableNumberValue operand -> delegate.lessThanOrEqualTo(operand)}
+            
+            eq << { Number operand -> delegate.isEqualTo(operand)}
+            eq << { ObservableNumberValue operand -> delegate.isEqualTo(operand)}
+            
+            ne << { Number operand -> delegate.isNotEqualTo(operand)}
+            ne << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
+        }
+
+        IntegerBinding.metaClass {
+            plus << { Number operand -> delegate.add(operand)}
+            plus << { ObservableNumberValue operand -> delegate.add(operand)}
+            
+            minus << { Number operand -> delegate.subtract(operand)}
+            minus << { ObservableNumberValue operand -> delegate.subtract(operand)}
+            
+            // multiply is already defined.
+            //multiply << { Number operand -> delegate.multiply(operand)}
+            //multiply << { ObservableNumberValue operand -> delegate.multiply(operand)}
+            
+            div << { Number operand -> delegate.divide(operand)}
+            div << { ObservableNumberValue operand -> delegate.divide(operand)}
+            
+            negative << {   delegate.negate() }
+            
+            // aliases
+            gt << { Number operand -> delegate.greaterThan(operand)}
+            gt << { ObservableNumberValue operand -> delegate.greaterThan(operand)}
+            
+            ge << { Number operand -> delegate.greaterThanOrEqualTo(operand)}
+            ge << { ObservableNumberValue operand -> delegate.greaterThanOrEqualTo(operand)}
+            
+            lt << { Number operand -> delegate.lessThan(operand)}
+            lt << { ObservableNumberValue operand -> delegate.lessThan(operand)}
+            
+            le << { Number operand -> delegate.lessThanOrEqualTo(operand)}
+            le << { ObservableNumberValue operand -> delegate.lessThanOrEqualTo(operand)}
+            
+            eq << { Number operand -> delegate.isEqualTo(operand)}
+            eq << { ObservableNumberValue operand -> delegate.isEqualTo(operand)}
+            
+            ne << { Number operand -> delegate.isNotEqualTo(operand)}
+            ne << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
+        }
+
+        LongBinding.metaClass {
+            plus << { Number operand -> delegate.add(operand)}
+            plus << { ObservableNumberValue operand -> delegate.add(operand)}
+            
+            minus << { Number operand -> delegate.subtract(operand)}
+            minus << { ObservableNumberValue operand -> delegate.subtract(operand)}
+            
+            // multiply is already defined.
+            //multiply << { Number operand -> delegate.multiply(operand)}
+            //multiply << { ObservableNumberValue operand -> delegate.multiply(operand)}
+            
+            div << { Number operand -> delegate.divide(operand)}
+            div << { ObservableNumberValue operand -> delegate.divide(operand)}
+            
+            negative << {   delegate.negate() }
+            
+            // aliases
+            gt << { Number operand -> delegate.greaterThan(operand)}
+            gt << { ObservableNumberValue operand -> delegate.greaterThan(operand)}
+            
+            ge << { Number operand -> delegate.greaterThanOrEqualTo(operand)}
+            ge << { ObservableNumberValue operand -> delegate.greaterThanOrEqualTo(operand)}
+            
+            lt << { Number operand -> delegate.lessThan(operand)}
+            lt << { ObservableNumberValue operand -> delegate.lessThan(operand)}
+            
+            le << { Number operand -> delegate.lessThanOrEqualTo(operand)}
+            le << { ObservableNumberValue operand -> delegate.lessThanOrEqualTo(operand)}
+            
+            eq << { Number operand -> delegate.isEqualTo(operand)}
+            eq << { ObservableNumberValue operand -> delegate.isEqualTo(operand)}
+            
+            ne << { Number operand -> delegate.isNotEqualTo(operand)}
+            ne << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
+        }
+        
+        BooleanBinding.metaClass {
+            // or, and, and xor are already in the class groovy symbols | and &
+            
+            negative << {   delegate.not() }
+            
+            eq << { Boolean operand -> 
+                def prop = new BooleanProperty();
+                prop.set(operand);
+                delegate.isEqualTo(prop)
+            }
+            eq << { ObservableNumberValue operand -> delegate.isEqualTo(operand)}
+            
+            ne << { Boolean operand -> 
+                def prop = new BooleanProperty();
+                prop.set(operand);
+                delegate.isNotEqualTo(prop)
+            }
+            ne << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
+            
+            xor << { Boolean operand -> 
+                def prop = new BooleanProperty();
+                prop.set(operand);
+                delegate.isNotEqualTo(prop)
+            }
+            xor << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
+            
             
         }
 

@@ -39,7 +39,7 @@ class Time {
 
     public Time() {
         // bind the angle properties to the clock time
-        hourAngleProperty.bind(Bindings.add(hoursProperty * 30.0, minutesProperty * 0.5))
+        hourAngleProperty.bind((hoursProperty * 30.0) + (minutesProperty * 0.5))
         minuteAngleProperty.bind(minutesProperty * 6.0)
         secondAngleProperty.bind(secondsProperty * 6.0)
 
