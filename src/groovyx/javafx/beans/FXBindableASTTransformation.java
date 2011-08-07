@@ -50,14 +50,14 @@ import java.util.Map;
 public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
     protected static final ClassNode boundClassNode = ClassHelper.make(FXBindable.class);
 
-    protected static final ClassNode objectPropertyClass = ClassHelper.make(ObjectProperty.class);
+//    protected static final ClassNode objectPropertyClass = ClassHelper.make(ObjectProperty.class);
     protected static final ClassNode booleanPropertyClass = ClassHelper.make(BooleanProperty.class);
     protected static final ClassNode doublePropertyClass = ClassHelper.make(DoubleProperty.class);
     protected static final ClassNode floatPropertyClass = ClassHelper.make(FloatProperty.class);
     protected static final ClassNode intPropertyClass = ClassHelper.make(IntegerProperty.class);
     protected static final ClassNode longPropertyClass = ClassHelper.make(LongProperty.class);
     protected static final ClassNode stringPropertyClass = ClassHelper.make(StringProperty.class);
-    protected static final ClassNode numberClassNode = ClassHelper.make(Number.class);
+//    protected static final ClassNode numberClassNode = ClassHelper.make(Number.class);
 
     private static final Map<ClassNode, ClassNode> propertyTypeMap = new HashMap<ClassNode, ClassNode>();
 
@@ -81,32 +81,32 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
         //propertyTypeMap.put(ClassHelper.Character_TYPE, intPropertyClass);
     }
 
-    private static final Expression intZero = new ConstantExpression(0, true);
-    private static final Expression longZero = new ConstantExpression(0L, true);
-    private static final Expression floatZero = new ConstantExpression(0.0f, true);
-    private static final Expression doubleZero = new ConstantExpression(0.0d, true);
-
-    private static final Map<ClassNode, Expression> defaultReturnMap = new HashMap<ClassNode, Expression>();
-
-    static {
-        defaultReturnMap.put(ClassHelper.STRING_TYPE, ConstantExpression.NULL);
-        defaultReturnMap.put(ClassHelper.boolean_TYPE, ConstantExpression.FALSE);
-        defaultReturnMap.put(ClassHelper.Boolean_TYPE, ConstantExpression.FALSE);
-        defaultReturnMap.put(ClassHelper.double_TYPE, doubleZero);
-        defaultReturnMap.put(ClassHelper.Double_TYPE, doubleZero);
-        defaultReturnMap.put(ClassHelper.float_TYPE, floatZero);
-        defaultReturnMap.put(ClassHelper.Float_TYPE, floatZero);
-        defaultReturnMap.put(ClassHelper.int_TYPE, intZero);
-        defaultReturnMap.put(ClassHelper.Integer_TYPE, intZero);
-        defaultReturnMap.put(ClassHelper.long_TYPE, longZero);
-        defaultReturnMap.put(ClassHelper.Long_TYPE, longZero);
-        defaultReturnMap.put(ClassHelper.short_TYPE, intZero);
-        defaultReturnMap.put(ClassHelper.Short_TYPE, intZero);
-        defaultReturnMap.put(ClassHelper.byte_TYPE, intZero);
-        defaultReturnMap.put(ClassHelper.Byte_TYPE, intZero);
-        defaultReturnMap.put(ClassHelper.char_TYPE, intZero);
-        defaultReturnMap.put(ClassHelper.Character_TYPE, intZero);
-    }
+//    private static final Expression intZero = new ConstantExpression(0, true);
+//    private static final Expression longZero = new ConstantExpression(0L, true);
+//    private static final Expression floatZero = new ConstantExpression(0.0f, true);
+//    private static final Expression doubleZero = new ConstantExpression(0.0d, true);
+//
+//    private static final Map<ClassNode, Expression> defaultReturnMap = new HashMap<ClassNode, Expression>();
+//
+//    static {
+//        defaultReturnMap.put(ClassHelper.STRING_TYPE, ConstantExpression.NULL);
+//        defaultReturnMap.put(ClassHelper.boolean_TYPE, ConstantExpression.FALSE);
+//        defaultReturnMap.put(ClassHelper.Boolean_TYPE, ConstantExpression.FALSE);
+//        defaultReturnMap.put(ClassHelper.double_TYPE, doubleZero);
+//        defaultReturnMap.put(ClassHelper.Double_TYPE, doubleZero);
+//        defaultReturnMap.put(ClassHelper.float_TYPE, floatZero);
+//        defaultReturnMap.put(ClassHelper.Float_TYPE, floatZero);
+//        defaultReturnMap.put(ClassHelper.int_TYPE, intZero);
+//        defaultReturnMap.put(ClassHelper.Integer_TYPE, intZero);
+//        defaultReturnMap.put(ClassHelper.long_TYPE, longZero);
+//        defaultReturnMap.put(ClassHelper.Long_TYPE, longZero);
+//        defaultReturnMap.put(ClassHelper.short_TYPE, intZero);
+//        defaultReturnMap.put(ClassHelper.Short_TYPE, intZero);
+//        defaultReturnMap.put(ClassHelper.byte_TYPE, intZero);
+//        defaultReturnMap.put(ClassHelper.Byte_TYPE, intZero);
+//        defaultReturnMap.put(ClassHelper.char_TYPE, intZero);
+//        defaultReturnMap.put(ClassHelper.Character_TYPE, intZero);
+//    }
 
     /**
      * Convenience method to see if an annotated node is {@code @Bindable}.
@@ -234,7 +234,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
 
         String getterName = "get" + MetaClassHelper.capitalize(originalProp.getName());
         if (classNode.getMethods(getterName).isEmpty()) {
-            Statement getterBlock = createGetterStatement(originalProp, fxProperty);
+            Statement getterBlock = createGetterStatement(fxProperty);
             createGetterMethod(classNode, originalProp, getterName, getterBlock);
         } else {
             wrapGetterMethod(classNode, originalProp.getName());
@@ -413,17 +413,18 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
      *     Object $property = this.someProperty()
      *     return $property.getValue()
      *
-     * @param originalProperty The original Groovy property that we're creating a getter for.
+     * @param fxProperty The new JavaFX property.
      * @return A Statement that is the body of the new getter.
      */
-    protected Statement createGetterStatement(PropertyNode originalProperty, PropertyNode fxProperty) {
+    protected Statement createGetterStatement(PropertyNode fxProperty) {
         String fxPropertyName = fxProperty.getName();
         VariableExpression thisExpression = VariableExpression.THIS_EXPRESSION;
         ArgumentListExpression emptyArguments = ArgumentListExpression.EMPTY_ARGUMENTS;
 
-        Expression defaultReturn = defaultReturnMap.get(originalProperty.getType());
-        if (defaultReturn == null)
-            defaultReturn = ConstantExpression.NULL;
+        // We're relying on the *Property() method to provide the return value - is this still needed??
+//        Expression defaultReturn = defaultReturnMap.get(originalProperty.getType());
+//        if (defaultReturn == null)
+//            defaultReturn = ConstantExpression.NULL;
 
         MethodCallExpression getProperty = new MethodCallExpression(thisExpression, fxPropertyName, emptyArguments);
         MethodCallExpression getValue = new MethodCallExpression(getProperty, "getValue", emptyArguments);
