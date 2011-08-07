@@ -42,6 +42,12 @@ import javafx.scene.chart.BubbleChart
 import javafx.scene.chart.BarChart
 import javafx.scene.chart.ScatterChart
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.FloatProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.LongProperty;
+import javafx.beans.value.ObservableNumberValue;
+
 /**
  *
  * @author jimclarke
@@ -478,10 +484,92 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         this[DELEGATE_PROPERTY_OBJECT_ID] = DEFAULT_DELEGATE_PROPERTY_OBJECT_ID
 
         ExpandoMetaClass.enableGlobally()
-        Number.metaClass.getM = {-> new Duration(delegate * 1000.0 * 60.0)}
-        Number.metaClass.getS = {-> new Duration(delegate * 1000.0)}
-        Number.metaClass.getMs = {-> new Duration(delegate)}
-        Number.metaClass.getH = {-> new Duration(delegate * 1000.0 * 60.0 * 60.0)}
+        Number.metaClass{
+            getM = {-> new Duration(delegate * 1000.0 * 60.0)}
+            getS = {-> new Duration(delegate * 1000.0)}
+            getMs = {-> new Duration(delegate)}
+            getH = {-> new Duration(delegate * 1000.0 * 60.0 * 60.0)}
+            
+            // FX Properties
+            plus << { ObservableNumberValue operand -> operand.add(delegate)}
+            minus << { ObservableNumberValue operand -> operand.subtract(delegate)}
+            multiply << { ObservableNumberValue operand -> operand.multiply(delegate)}
+            div << { ObservableNumberValue operand -> operand.divide(delegate)}
+        }
+        
+        DoubleProperty.metaClass {
+            plus << { Number operand -> delegate.add(operand)}
+            plus << { ObservableNumberValue operand -> delegate.add(operand)}
+            
+            minus << { Number operand -> delegate.subtract(operand)}
+            minus << { ObservableNumberValue operand -> delegate.subtract(operand)}
+            
+            // multiply is already defined.
+            //multiply << { Number operand -> delegate.multiply(operand)}
+            //multiply << { ObservableNumberValue operand -> delegate.multiply(operand)}
+            
+            div << { Number operand -> delegate.divide(operand)}
+            div << { ObservableNumberValue operand -> delegate.divide(operand)}
+            
+            negative << {   delegate.negate() }
+            
+            // aliases
+            gt << { Number operand -> delegate.greaterThan(operand)}
+            gt << { ObservableNumberValue operand -> delegate.greaterThan(operand)}
+            
+            ge << { Number operand -> delegate.greaterThanOrEqualTo(operand)}
+            ge << { ObservableNumberValue operand -> delegate.greaterThanOrEqualTo(operand)}
+            
+            lt << { Number operand -> delegate.lessThan(operand)}
+            lt << { ObservableNumberValue operand -> delegate.lessThan(operand)}
+            
+            le << { Number operand -> delegate.lessThanOrEqualTo(operand)}
+            le << { ObservableNumberValue operand -> delegate.lessThanOrEqualTo(operand)}
+            
+            eq << { Number operand -> delegate.isEqualTo(operand)}
+            eq << { ObservableNumberValue operand -> delegate.isEqualTo(operand)}
+            
+            ne << { Number operand -> delegate.isNotEqualTo(operand)}
+            ne << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
+            
+        }
+        
+        IntegerProperty.metaClass {
+            plus << { Number operand -> delegate.add(operand)}
+            plus << { ObservableNumberValue operand -> delegate.add(operand)}
+            
+            minus << { Number operand -> delegate.subtract(operand)}
+            minus << { ObservableNumberValue operand -> delegate.subtract(operand)}
+            
+            // multiply is already defined.
+            //multiply << { Number operand -> delegate.multiply(operand)}
+            //multiply << { ObservableNumberValue operand -> delegate.multiply(operand)}
+            
+            div << { Number operand -> delegate.divide(operand)}
+            div << { ObservableNumberValue operand -> delegate.divide(operand)}
+            
+            negative << {   delegate.negate() }
+            
+            // aliases
+            gt << { Number operand -> delegate.greaterThan(operand)}
+            gt << { ObservableNumberValue operand -> delegate.greaterThan(operand)}
+            
+            ge << { Number operand -> delegate.greaterThanOrEqualTo(operand)}
+            ge << { ObservableNumberValue operand -> delegate.greaterThanOrEqualTo(operand)}
+            
+            lt << { Number operand -> delegate.lessThan(operand)}
+            lt << { ObservableNumberValue operand -> delegate.lessThan(operand)}
+            
+            le << { Number operand -> delegate.lessThanOrEqualTo(operand)}
+            le << { ObservableNumberValue operand -> delegate.lessThanOrEqualTo(operand)}
+            
+            eq << { Number operand -> delegate.isEqualTo(operand)}
+            eq << { ObservableNumberValue operand -> delegate.isEqualTo(operand)}
+            
+            ne << { Number operand -> delegate.isNotEqualTo(operand)}
+            ne << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
+            
+        }
 
         Color.NamedColors.namedColors.put("groovyblue", Color.rgb(99, 152, 170))
     }

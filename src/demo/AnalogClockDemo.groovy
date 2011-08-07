@@ -25,6 +25,9 @@ import javafx.beans.binding.Bindings
  *
  * @author jimclarke
  */
+ 
+def sg = new SceneGraphBuilder()
+
 class Time {
     @FXBindable Integer hours
     @FXBindable Integer minutes
@@ -36,9 +39,9 @@ class Time {
 
     public Time() {
         // bind the angle properties to the clock time
-        hourAngleProperty.bind(Bindings.add(hoursProperty.multiply(30.0), minutesProperty.multiply(0.5)))
-        minuteAngleProperty.bind(minutesProperty.multiply(6.0))
-        secondAngleProperty.bind(secondsProperty.multiply(6.0))
+        hourAngleProperty.bind(Bindings.add(hoursProperty * 30.0, minutesProperty * 0.5))
+        minuteAngleProperty.bind(minutesProperty * 6.0)
+        secondAngleProperty.bind(secondsProperty * 6.0)
 
         // Set the initial clock time
         def calendar = Calendar.instance
@@ -53,7 +56,7 @@ class Time {
     public void addOneSecond() {
         seconds = (seconds + 1) % 60
         if (seconds == 0) {
-            minutes = (minutes + 1) // % 60
+            minutes = (minutes + 1)  % 60
             if (minutes == 0) {
                 hours = (hours + 1) % 12
             }
@@ -64,7 +67,7 @@ class Time {
 time = new Time()
 
 GroovyFX.start {
-    def sg = new SceneGraphBuilder()
+    
 
     def width = 240.0
     def height = 240.0
