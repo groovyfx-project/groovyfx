@@ -25,8 +25,6 @@ import javafx.beans.binding.Bindings
  *
  * @author jimclarke
  */
-
-
 class Time {
     @FXBindable Integer hours
     @FXBindable Integer minutes
@@ -38,9 +36,9 @@ class Time {
 
     public Time() {
         // bind the angle properties to the clock time
-        hourAngleProperty().bind(Bindings.add(hoursProperty().multiply(30.0), minutesProperty().multiply(0.5)))
-        minuteAngleProperty().bind(minutesProperty().multiply(6.0))
-        secondAngleProperty().bind(secondsProperty().multiply(6.0))
+        hourAngleProperty.bind(Bindings.add(hoursProperty.multiply(30.0), minutesProperty.multiply(0.5)))
+        minuteAngleProperty.bind(minutesProperty.multiply(6.0))
+        secondAngleProperty.bind(secondsProperty.multiply(6.0))
 
         // Set the initial clock time
         def calendar = Calendar.instance
@@ -102,21 +100,21 @@ GroovyFX.start {
                 circle(radius: 5, fill: black)
                 // hour hand
                 path(fill: black) {
-                    rotate(angle: bind(time.hourAngleProperty()))
+                    rotate(angle: bind(time.hourAngleProperty))
                     moveTo(x: 4, y: -4)
                     arcTo(radiusX: -1, radiusY: -1, x: -4, y: -4)
                     lineTo(x: 0, y: -radius / 4 * 3)
                 }
                 // minute hand
                 path(fill: black) {
-                    rotate(angle: bind(time.minuteAngleProperty()))
+                    rotate(angle: bind(time.minuteAngleProperty))
                     moveTo(x: 4, y: -4)
                     arcTo(radiusX: -1, radiusY: -1, x: -4, y: -4)
                     lineTo(x: 0, y: -radius)
                 }
                 // second hand
                 line(endY: -radius - 3, strokeWidth: 2, stroke: red) {
-                    rotate(angle: bind(time.secondAngleProperty()))
+                    rotate(angle: bind(time.secondAngleProperty))
                 }
             }
         }

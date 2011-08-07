@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="a01a2837-804f-463d-8e73-933a2c535eab" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+    <list default="true" readonly="true" id="a01a2837-804f-463d-8e73-933a2c535eab" name="Default" comment="Changed the generated code.  The FX property is now named &quot;somethingProp&quot; while its accessor is now &quot;getSomethingProperty&quot;.  This allows writing things like myClass.somethingProperty.bind( ... )">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/demo/AnalogClockDemo.groovy" afterPath="$PROJECT_DIR$/src/demo/AnalogClockDemo.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/demo/TableViewDemo.groovy" afterPath="$PROJECT_DIR$/src/demo/TableViewDemo.groovy" />
@@ -68,37 +67,37 @@
       <file leaf-file-name="TableViewDemo.groovy" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/demo/TableViewDemo.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="0" selection-start="911" selection-end="911" vertical-scroll-proportion="0.0">
+            <state line="23" column="6" selection-start="766" selection-end="766" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AnalogClockDemo.groovy" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="AnalogClockDemo.groovy" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/demo/AnalogClockDemo.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="32" selection-start="937" selection-end="937" vertical-scroll-proportion="0.0">
+            <state line="104" column="45" selection-start="3512" selection-end="3512" vertical-scroll-proportion="2.1478992">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FXBindable.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/groovyx/javafx/beans/FXBindable.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="73" selection-start="1279" selection-end="1279" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FXBindableASTTransformation.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="FXBindableASTTransformation.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/groovyx/javafx/beans/FXBindableASTTransformation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="378" column="42" selection-start="17823" selection-end="17823" vertical-scroll-proportion="0.4554622">
+            <state line="355" column="39" selection-start="17188" selection-end="17188" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PropertyNode.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../groovy-1.8.0-src/src/main/org/codehaus/groovy/ast/PropertyNode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="27" column="13" selection-start="975" selection-end="975" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -125,8 +124,8 @@
         <option value="$PROJECT_DIR$/src/demo/WebExample.groovy" />
         <option value="$PROJECT_DIR$/src/demo/WebViewDemo.groovy" />
         <option value="$PROJECT_DIR$/src/demo/XMLLoadTest.groovy" />
-        <option value="$PROJECT_DIR$/src/groovyx/javafx/beans/FXBindable.java" />
         <option value="$PROJECT_DIR$/src/demo/TableViewDemo.groovy" />
+        <option value="$PROJECT_DIR$/src/groovyx/javafx/beans/FXBindable.java" />
         <option value="$PROJECT_DIR$/src/groovyx/javafx/beans/FXBindableASTTransformation.java" />
         <option value="$PROJECT_DIR$/src/demo/AnalogClockDemo.groovy" />
       </list>
@@ -292,28 +291,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="TableViewDemo.groovy" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="GroovyFX" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="groovyfx" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="demo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="GroovyFXDemo.groovy" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
             </PATH_ELEMENT>
@@ -370,29 +347,29 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1" value="187" />
-    <property name="project.structure.last.edited" value="Artifacts" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0" value="169" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1" value="225" />
+    <property name="project.structure.last.edited" value="Global Libraries" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0" value="207" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth3" value="46" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="project.structure.proportion" value="0.15" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth2" value="189" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth2" value="227" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder0" value="0" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder3" value="3" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder2" value="2" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth2" value="156" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth2" value="186" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="recentsLimit" value="5" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth1" value="155" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth1" value="185" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder4" value="4" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth0" value="156" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth4" value="831" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth3" value="156" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth0" value="186" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth4" value="861" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth3" value="187" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth4" value="863" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth4" value="900" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder3" value="3" />
@@ -679,7 +656,7 @@
     <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
     <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed name and title of demo to be consistent with TreeViewDemo." />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleaned up a few warnings." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -715,6 +692,8 @@
     <MESSAGE value="Made the rectangle translucent and added a click handler to restart the animation." />
     <MESSAGE value="Last batch of demo cleanup and renaming.  Fixed popup but in TreeViewDemo and made other minor changes.  Added ability to restart the transitions in some of the transition demos.  Allowed TabFactory to take a text value by default for tab names.  Switched TableDemo to using the new @FXBindable notation." />
     <MESSAGE value="Changed name and title of demo to be consistent with TreeViewDemo." />
+    <MESSAGE value="Updated the FXBindable transform: the property name is changed to prevent conflicts with the original property and with other AST transforms.  Lots of documentation and refactoring.  Removed the intermediate $property object in the getter/setter method bodies to greatly simplify the resulting byte code." />
+    <MESSAGE value="Cleaned up a few warnings." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -724,34 +703,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/demo/TreeViewDemo.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="2" selection-start="693" selection-end="693" vertical-scroll-proportion="0.07692308">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/demo/TriggerDemo.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/demo/WebViewDemo.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="37" selection-start="918" selection-end="918" vertical-scroll-proportion="0.5168919">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/demo/FXMLDemo.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="17" selection-start="1335" selection-end="1335" vertical-scroll-proportion="0.7466216">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/demo/BorderPaneDemo.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.4256757">
@@ -794,13 +745,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/groovyx/javafx/beans/FXBindable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="73" selection-start="1279" selection-end="1279" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/../groovy-1.8.0/lib/groovy-1.8.0.jar!/org/codehaus/groovy/ast/ClassHelper.class">
       <provider selected="true" editor-type-id="text-editor">
         <state line="71" column="52" selection-start="4521" selection-end="4521" vertical-scroll-proportion="0.34736842">
@@ -815,26 +759,61 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/demo/TableViewDemo.groovy">
+    <entry file="file://$PROJECT_DIR$/src/groovyx/javafx/beans/FXBindable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="0" selection-start="911" selection-end="911" vertical-scroll-proportion="0.0">
+        <state line="47" column="44" selection-start="1815" selection-end="1815" vertical-scroll-proportion="0.7277311">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/demo/AnalogClockDemo.groovy">
+    <entry file="file://$PROJECT_DIR$/../groovy-1.8.0-src/src/main/groovy/transform/Canonical.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="32" selection-start="937" selection-end="937" vertical-scroll-proportion="0.0">
+        <state line="96" column="18" selection-start="4229" selection-end="4229" vertical-scroll-proportion="0.7882353">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../groovy-1.8.0-src/src/main/org/codehaus/groovy/ast/ClassHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="13" selection-start="1330" selection-end="1330" vertical-scroll-proportion="0.84705883">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../groovy-1.8.0-src/src/main/org/codehaus/groovy/ast/PropertyNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="13" selection-start="975" selection-end="975" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/demo/TableViewDemo.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="6" selection-start="766" selection-end="766" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/groovyx/javafx/beans/FXBindableASTTransformation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="378" column="42" selection-start="17823" selection-end="17823" vertical-scroll-proportion="0.4554622">
+        <state line="355" column="39" selection-start="17188" selection-end="17188" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/groovyx/javafx/GroovyFX.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="0" selection-start="976" selection-end="976" vertical-scroll-proportion="0.3344538">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/demo/AnalogClockDemo.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="104" column="45" selection-start="3512" selection-end="3512" vertical-scroll-proportion="2.1478992">
+          <folding />
         </state>
       </provider>
     </entry>
@@ -869,7 +848,7 @@
       </state>
       <state key="GlobalLibrariesConfigurable.UI">
         <settings>
-          <last-edited>JavaFX 2.0 Beta</last-edited>
+          <last-edited>groovy-1.8.0</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

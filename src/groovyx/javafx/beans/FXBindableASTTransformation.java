@@ -240,9 +240,13 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
             wrapGetterMethod(classNode, originalProp.getName());
         }
 
-        createPropertyAccessor(classNode, fxProperty, initExp);
+        // We want the actual name of the field to be different from the getter (Prop vs Property) so
+        // that the getter takes precedence when we say this.somethingProperty.
+        FieldNode fxFieldShortName = createFieldNodeCopy(originalProp.getName() + "Prop", null, fxProperty.getField());
+        createPropertyAccessor(classNode, fxProperty, fxFieldShortName, initExp);
+
         classNode.removeField(originalProp.getName());
-        classNode.addField(fxProperty.getField());
+        classNode.addField(fxFieldShortName);
     }
 
     /**
@@ -253,22 +257,20 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
      * @return A new PropertyNode for the JavaFX property
      */
     private PropertyNode createFXProperty(PropertyNode orig) {
-        ClassNode type = orig.getType();
-        ClassNode newType = propertyTypeMap.get(type);
+        ClassNode origType = orig.getType();
+        ClassNode newType = propertyTypeMap.get(origType);
 
         // For the ObjectProperty, we need to add the generic type to it.
         if (newType == null) {
             newType = ClassHelper.make(ObjectProperty.class);
-            ClassNode genericType = type;
+            ClassNode genericType = origType;
             if (genericType.isPrimaryClassNode()) {
                 genericType = ClassHelper.getWrapper(genericType);
             }
             newType.setGenericsTypes(new GenericsType[]{new GenericsType(genericType)});
         }
 
-        FieldNode f = orig.getField();
-        FieldNode fieldNode = new FieldNode(f.getName() + "Property", f.getModifiers(), newType, f.getOwner(),
-                                            f.getInitialValueExpression());
+        FieldNode fieldNode = createFieldNodeCopy(orig.getName() + "Property", newType, orig.getField());
         return new PropertyNode(fieldNode, orig.getModifiers(), orig.getGetterBlock(), orig.getSetterBlock());
     }
 
@@ -346,10 +348,12 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
      *
      * @param classNode The declaring class to which the JavaFX property will be added
      * @param fxProperty The new JavaFX property
+     * @param fxFieldShortName
      * @param initExp The initializer expression from the original Groovy property declaration
      */
-    private void createPropertyAccessor(ClassNode classNode, PropertyNode fxProperty, Expression initExp) {
-        FieldExpression fld = new FieldExpression(fxProperty.getField());
+    private void createPropertyAccessor(ClassNode classNode, PropertyNode fxProperty, FieldNode fxFieldShortName,
+                                        Expression initExp) {
+        FieldExpression fieldExpression = new FieldExpression(fxFieldShortName);
 
         ArgumentListExpression ctorArgs = initExp == null ?
             ArgumentListExpression.EMPTY_ARGUMENTS :
@@ -360,14 +364,14 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
         IfStatement ifStmt = new IfStatement(
             new BooleanExpression(
                 new BinaryExpression(
-                    fld,
+                    fieldExpression,
                     Token.newSymbol(Types.COMPARE_EQUAL, 0, 0),
                     ConstantExpression.NULL
                 )
             ),
             new ExpressionStatement(
                 new BinaryExpression(
-                    fld,
+                    fieldExpression,
                     Token.newSymbol(Types.EQUAL, 0, 0),
                     new ConstructorCallExpression(fxProperty.getType(),
                                                   ctorArgs)
@@ -376,9 +380,10 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
             EmptyStatement.INSTANCE
         );
         block.addStatement(ifStmt);
-        block.addStatement(new ReturnStatement(fld));
+        block.addStatement(new ReturnStatement(fieldExpression));
 
-        MethodNode accessor = new MethodNode(fxProperty.getName(), fxProperty.getModifiers(), fxProperty.getType(),
+        String getterName = getFXPropertyGetterName(fxProperty);
+        MethodNode accessor = new MethodNode(getterName, fxProperty.getModifiers(), fxProperty.getType(),
                                              Parameter.EMPTY_ARRAY, ClassNode.EMPTY_ARRAY, block);
         accessor.setSynthetic(true);
         classNode.addMethod(accessor);
@@ -395,10 +400,11 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
      * @return A Statement that is the body of the new setter.
      */
     protected Statement createSetterStatement(PropertyNode fxProperty) {
+        String fxPropertyGetter = getFXPropertyGetterName(fxProperty);
         VariableExpression thisExpression = VariableExpression.THIS_EXPRESSION;
         ArgumentListExpression emptyArgs = ArgumentListExpression.EMPTY_ARGUMENTS;
 
-        MethodCallExpression getProperty = new MethodCallExpression(thisExpression, fxProperty.getName(), emptyArgs);
+        MethodCallExpression getProperty = new MethodCallExpression(thisExpression, fxPropertyGetter, emptyArgs);
 
         ArgumentListExpression valueArg = new ArgumentListExpression(new Expression[]{new VariableExpression("value")});
         MethodCallExpression setValue = new MethodCallExpression(getProperty, "setValue", valueArg);
@@ -417,7 +423,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
      * @return A Statement that is the body of the new getter.
      */
     protected Statement createGetterStatement(PropertyNode fxProperty) {
-        String fxPropertyName = fxProperty.getName();
+        String fxPropertyGetter = getFXPropertyGetterName(fxProperty);
         VariableExpression thisExpression = VariableExpression.THIS_EXPRESSION;
         ArgumentListExpression emptyArguments = ArgumentListExpression.EMPTY_ARGUMENTS;
 
@@ -426,7 +432,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
 //        if (defaultReturn == null)
 //            defaultReturn = ConstantExpression.NULL;
 
-        MethodCallExpression getProperty = new MethodCallExpression(thisExpression, fxPropertyName, emptyArguments);
+        MethodCallExpression getProperty = new MethodCallExpression(thisExpression, fxPropertyGetter, emptyArguments);
         MethodCallExpression getValue = new MethodCallExpression(getProperty, "getValue", emptyArguments);
 
         return new ReturnStatement(new ExpressionStatement(getValue));
@@ -443,5 +449,43 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
     private void generateSyntaxErrorMessage(SourceUnit sourceUnit, AnnotationNode node, String msg) {
         SyntaxException error = new SyntaxException(msg, node.getLineNumber(), node.getColumnNumber());
         sourceUnit.getErrorCollector().addErrorAndContinue(new SyntaxErrorMessage(error, sourceUnit));
+    }
+
+    /**
+     * Creates a copy of a FieldNode with a new name and, optionally, a new type.
+     *
+     * @param newName The name for the new field node.
+     * @param newType The new type of the field.  If null, the old FieldNode's type will be used.
+     * @param f The FieldNode to copy.
+     * @return The new FieldNode.
+     */
+    private FieldNode createFieldNodeCopy(String newName, ClassNode newType, FieldNode f) {
+        if (newType == null)
+            newType = f.getType();
+
+        return new FieldNode(newName, f.getModifiers(), newType, f.getOwner(), f.getInitialValueExpression());
+    }
+
+    /**
+     * Generates the correct getter method name for a JavaFX property.
+     * 
+     * @param fxProperty The property for which the getter should be generated.
+     * @return The getter name as a String.
+     */
+    private String getFXPropertyGetterName(PropertyNode fxProperty) {
+        return "get" + capitalize(fxProperty.getName());
+    }
+
+    /**
+     * Capitalize the first letter of the given string.
+     *
+     * @param string The source string
+     * @return The capitalized string
+     */
+    private String capitalize(String string) {
+        if (string == null || string.equals(""))
+            return string;
+
+        return Character.toUpperCase(string.charAt(0)) + string.substring(1);
     }
 }

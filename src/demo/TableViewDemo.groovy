@@ -22,11 +22,12 @@ import groovyx.javafx.SceneGraphBuilder
 import groovyx.javafx.beans.FXBindable
 
 @Canonical
+@FXBindable
 class Person {
-    @FXBindable String firstName
-    @FXBindable String lastName
-    @FXBindable String city
-    @FXBindable String state
+    String firstName
+    String lastName
+    String city
+    String state
 }
 
 def data = [
