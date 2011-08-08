@@ -33,9 +33,9 @@ import javafx.builders.SceneBuilder;
  * @author jimclarke
  */
 class SceneWrapper extends SceneBuilder {
-    public List<ClosureChangeListener> changeListeners = new ArrayList<ClosureChangeListener>();
-    public Parent sceneRoot;
-    
+    List<ClosureChangeListener> changeListeners = new ArrayList<ClosureChangeListener>();
+    Parent sceneRoot;
+    EventHandler<? super MouseEvent> mouseWheelRotated;
     
     public SceneWrapper() {
         super();
@@ -55,6 +55,9 @@ class SceneWrapper extends SceneBuilder {
 
     public Scene build() {
         Scene scene =  super.build();
+        if(mouseWheelRotated != null) {
+            scene.impl_setOnMouseWheelRotated(mouseWheelRotated)
+        }
         changeListeners.each { listener ->
             def property = InvokerHelper.invokeMethod(scene, listener.property + "Property", null);
             InvokerHelper.invokeMethod(property, "addListener", listener );
@@ -64,6 +67,10 @@ class SceneWrapper extends SceneBuilder {
     
     public void addInputHandler(String type, EventHandler handler) {
         InvokerHelper.invokeMethod(this, type, [handler]);
+    }
+    
+    public void onMouseWheelRotated(EventHandler<? super MouseEvent> value) {
+        mouseWheelRotated = value;
     }
     
  
