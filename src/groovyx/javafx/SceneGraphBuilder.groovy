@@ -43,6 +43,7 @@ import javafx.scene.chart.BarChart
 import javafx.scene.chart.ScatterChart
 
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.FloatProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.LongProperty;
@@ -55,14 +56,8 @@ import javafx.beans.binding.FloatBinding;
 import javafx.beans.binding.IntegerBinding;
 import javafx.beans.binding.LongBinding;
 import javafx.beans.binding.BooleanBinding;
-//import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.BooleanProperty;
 
-import javafx.beans.binding.DoubleExpression;
-import javafx.beans.binding.FloatExpression;
-import javafx.beans.binding.IntegerExpression;
-import javafx.beans.binding.LongExpression;
-import javafx.beans.binding.BooleanExpression;
 
 /**
  *
@@ -505,9 +500,13 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
             
             // FX Properties
             plus << { ObservableNumberValue operand -> operand.add(delegate)}
-            minus << { ObservableNumberValue operand -> operand.subtract(delegate)}
+            minus << { ObservableNumberValue operand -> 
+                new SimpleDoubleProperty(delgate).subtract(operand)
+            }
             multiply << { ObservableNumberValue operand -> operand.multiply(delegate)}
-            div << { ObservableNumberValue operand -> operand.divide(delegate)}
+            div << { ObservableNumberValue operand -> 
+                new SimpleDoubleProperty(delgate).divide(operand)
+            }
         }
         
         DoubleProperty.metaClass {
@@ -666,23 +665,17 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
             negative << {   delegate.not() }
             
             eq << { Boolean operand -> 
-                def prop = new SimpleBooleanProperty();
-                prop.set(operand);
-                delegate.isEqualTo(prop)
+                delegate.isEqualTo(new SimpleBooleanProperty(operand))
             }
             eq << { ObservableNumberValue operand -> delegate.isEqualTo(operand)}
             
             ne << { Boolean operand -> 
-                def prop = new SimpleBooleanProperty();
-                prop.set(operand);
-                delegate.isNotEqualTo(prop)
+                delegate.isNotEqualTo(new SimpleBooleanProperty(operand))
             }
             ne << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
             
             xor << { Boolean operand -> 
-                def prop = new SimpleBooleanProperty();
-                prop.set(operand);
-                delegate.isNotEqualTo(prop)
+                delegate.isNotEqualTo(new SimpleBooleanProperty(operand))
             }
             xor << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
             
