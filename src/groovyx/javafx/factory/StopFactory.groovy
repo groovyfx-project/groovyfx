@@ -32,7 +32,7 @@ class StopFactory extends AbstractFactory {
             return value
         } else {
             def offset = attributes.remove('offset') ?: 0.0
-            def color = attributes.remove('color') ?: Color.BLACK
+            def color = ColorFactory.get(attributes.remove('color') ?: Color.BLACK)
             return new Stop(offset, color)
         }
     }
