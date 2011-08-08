@@ -66,16 +66,28 @@ class TransitionFactory extends AbstractGradientFactory {
                     result = value;
                     break;
             }
-            if(result != null && value != null && value instanceof Duration) {
-                result.duration = value;
+            if(result != null && value != null ) {
+                if(value instanceof Duration) {
+                    result.duration = value;
+                } else if((result instanceof ParallelTransition || result instanceof SequentialTransition)) {
+                    if(value instanceof Transition) {
+                        result.children.add(value);
+                    }else if(value instanceof List) {
+                        result.children.addAll(value);
+                    }
+                }
             }
             return result;
         }
     }
     
     public void setChild(FactoryBuilderSupport build, Object parent, Object child) {
-        if((parent instanceof ParallelTransition || parent instanceof SequentialTransition) && child instanceof Transition) {
-            parent.children.add(child);
+        if((parent instanceof ParallelTransition || parent instanceof SequentialTransition)) {
+            if(child instanceof Transition) {
+                parent.children.add(child);
+            }else if(child instanceof List) {
+                parent.children.addAll(child);
+            }
         }else if(parent instanceof PathTransition && child instanceof Path) {
             parent.path = child
         }
