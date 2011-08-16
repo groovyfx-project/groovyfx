@@ -30,7 +30,7 @@ GroovyFX.start { primaryStage ->
     sg.stage(title: "GroovyFX Blend Effect Demo", width: 420, height: 420, visible: true ) {
         scene(fill: groovyblue) {
             rectangle(width: 400, height: 400) {
-                onMousePressed (onEvent: {e -> println "mouse press @$e.x, $e.y"})
+                onMousePressed {e -> println "mouse press @$e.x, $e.y"}
                 blend(mode: "multiply") {
                     topInput {
                         colorInput(paint: blue, x: 50, y: 50, width: 200, height: 200)

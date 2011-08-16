@@ -17,12 +17,12 @@
 package groovyx.javafx.factory
 
 import groovyx.javafx.SceneGraphBuilder
-import groovyx.javafx.input.GroovyKeyHandler
-import groovyx.javafx.input.GroovyMouseHandler
+import groovyx.javafx.event.GroovyKeyHandler
+import groovyx.javafx.event.GroovyMouseHandler
 import javafx.event.EventHandler
 import javafx.scene.Group
 import javafx.scene.Node
-import javafx.scene.Parent
+
 import javafx.scene.layout.Region
 import javafx.builders.NodeBuilder
 
@@ -76,72 +76,72 @@ class SceneFactory extends AbstractFactory {
         }
     }
 
-    public boolean onHandleNodeAttributes( FactoryBuilderSupport builder, Object node,
-            Map attributes ) {
-        def attr = attributes.remove("fill");
+    public boolean onHandleNodeAttributes( FactoryBuilderSupport builder, Object node, Map attributes ) {
+        def scene = (SceneWrapper)node
+        def attr = attributes.remove("fill")
         if(attr) {
-            node.fill(ColorFactory.get(attr));
+            scene.fill(ColorFactory.get(attr))
         }
-        attr = attributes.remove("camera");
+        attr = attributes.remove("camera")
         if(attr) {
-            node.camera(attr);
+            scene.camera(attr)
         }
-        attr = attributes.remove("cursor");
+        attr = attributes.remove("cursor")
         if(attr) {
-            node.cursor(attr);
+            scene.cursor(attr)
         }
-        attr = attributes.remove("height");
+        attr = attributes.remove("height")
         if(attr) {
-            node.height(attr);
+            scene.height(attr)
         }
-        attr = attributes.remove("root");
+        attr = attributes.remove("root")
         if(attr) {
-            node.root(root);
+            scene.root(root)
         }
-        attr = attributes.remove("stylesheets");
+        attr = attributes.remove("stylesheets")
         if(attr) {
-            node.stylesheets(attr);
+            scene.stylesheets(attr)
         }
-        attr = attributes.remove("width");
+        attr = attributes.remove("width")
         if(attr) {
-            node.width(attr);
+            scene.width(attr)
         }
         for(v in NodeFactory.mouseEvents) {
             if(attributes.containsKey(v)) {
-                def val = attributes.remove(v);
+                def val = attributes.remove(v)
                 if(val instanceof Closure) {
-                    def handler = new GroovyMouseHandler(v);
-                    handler.setClosure((Closure)val);
-                    node.addInputHandler(v, handler);
+                    def handler = new GroovyMouseHandler(v)
+                    handler.setClosure((Closure)val)
+                    scene.addInputHandler(v, handler)
                 }else if(val instanceof EventHandler) {
-                    node.addInputHandler(v, (EventHandler)val);
+                    scene.addInputHandler(v, (EventHandler)val)
                 }
             }
         }
         // onMouseWheelRotated is not defined on node??
         if(attributes.containsKey("onMouseWheelRotated")) {
-            def val = attributes.remove("onMouseWheelRotated");
+            def val = attributes.remove("onMouseWheelRotated")
             if(val instanceof Closure) {
-                def handler = new GroovyMouseHandler("onMouseWheelRotated");
-                handler.setClosure((Closure)val);
-                node.addInputHandler("onMouseWheelRotated", handler);
+                def handler = new GroovyMouseHandler("onMouseWheelRotated")
+                handler.setClosure((Closure)val)
+                scene.addInputHandler("onMouseWheelRotated", handler)
             }else if(val instanceof EventHandler) {
-                node.addInputHandler("onMouseWheelRotated", (EventHandler)val);
+                scene.addInputHandler("onMouseWheelRotated", (EventHandler)val)
             }
         }
         for(v in NodeFactory.keyEvents) {
             if(attributes.containsKey(v)) {
-                def val = attributes.remove(v);
+                def val = attributes.remove(v)
                 if(val instanceof Closure) {
-                    def handler = new GroovyKeyHandler(v);
-                    handler.setClosure((Closure)val);
-                    node.addInputHandler(v, handler);
+                    def handler = new GroovyKeyHandler(v)
+                    handler.setClosure((Closure)val)
+                    scene.addInputHandler(v, handler)
                 }else if(val instanceof EventHandler) {
-                    node.addInputHandler(v, (EventHandler)val);
+                    scene.addInputHandler(v, (EventHandler)val)
                 }
             }
         }
-        return true;
+        return true
     }
 
     @Override

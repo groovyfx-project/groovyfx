@@ -18,39 +18,34 @@ package demo.docexamples
 
 import groovyx.javafx.SceneGraphBuilder
 import groovyx.javafx.GroovyFX
-import javafx.scene.shape.Rectangle;
-import javafx.scene.paint.Color;
-import javafx.scene.layout.Region;
+import javafx.scene.shape.Rectangle
+import javafx.scene.paint.Color
+import javafx.scene.layout.Region
 
 class MyCustomNode extends Region {
-
     public MyCustomNode() {
-        getChildren().add(create());
+        getChildren().add(create())
     }
 
     protected javafx.scene.Node create() {
-        Rectangle rect = new Rectangle(width: 10, height: 10, fill: Color.BLUE);
-        rect.widthProperty().bind(this.widthProperty().divide(4));
-        rect.heightProperty().bind(this.heightProperty().divide(4));
-        return rect;
+        Rectangle rect = new Rectangle(width: 10, height: 10, fill: Color.BLUE)
+        rect.widthProperty().bind(this.widthProperty().divide(4))
+        rect.heightProperty().bind(this.heightProperty().divide(4))
+        return rect
     }
 }
 
 GroovyFX.start({
-    def sg = new SceneGraphBuilder();
-    sg.stage(
-        title: "Custom Node example",
-        x: 100, y: 100, width: 200, height:200,
-        visible: true,
-        style: "decorated",
-        onHidden: { println "Close"}
-    ) {
-        
-        scene(fill: hsb(128, 0.5, 0.5, 0.5)) {
+    def sg = new SceneGraphBuilder()
+    sg.stage(title: "Custom Node example", x: 100, y: 100, width: 200, height:200, visible: true, style: "decorated",
+             onHidden: { println "Close"}) {
+        scene(fill: groovyblue) {
             node(new MyCustomNode(), layoutX: 10, layoutY: 10) {
                 scale(x: 5, y: 5)
-                onChange(property: "hover", action: {observable, oldValue, newValue -> println "hover: " + oldValue + " ==> " + newValue})
+                onChange(property: "hover") { observable, oldValue, newValue ->
+                    println "hover: " + oldValue + " ==> " + newValue
+                }
             }
         }
     }
-});
+})

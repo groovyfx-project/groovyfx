@@ -1,0 +1,359 @@
+package idesupport
+/**
+ * @author dean
+ */
+
+title = [title: 'java.lang.String']
+visible = [visible: 'java.lang.Boolean']
+position2d = [x: 'java.lang.Double', y: 'java.lang.Double']
+size2d = [width: 'java.lang.Double', height: 'java.lang.Double']
+fill = [fill: 'javafx.scene.paint.Paint']
+
+def sgbContext = context(ctype: 'groovyx.javafx.SceneGraphBuilder')
+
+contributor(sgbContext) {
+    final args = title + size2d + position2d + visible
+    method(name: 'stage', params: [args: args, scene: {}], type: 'javafx.scene.Stage')
+}
+
+def sgbClosureBody = context(scope: closureScope())
+
+contributor(sgbClosureBody) {
+    if (enclosingCall('stage')) {
+        contributeColors(delegate)
+        contributeWindows(delegate)
+        contributeContainers(delegate)
+        contributeNodes(delegate)
+        contributeMedia(delegate)
+        contributeMenus(delegate)
+        contributeControls(delegate)
+        contributeCharts(delegate)
+        contributeGraphics(delegate)
+        contributeListeners(delegate)
+        contributeWeb(delegate)
+        contributeAnimation(delegate)
+    }
+}
+
+private def method(delegate, String name, String type, Map params) {
+    delegate.method(name: name, type: type, params: [value: 'java.lang.Object'])
+    delegate.method(name: name, type: type, params: params)
+}
+
+private def methodWithClosure(delegate, String name, String type, Map params) {
+    delegate.method(name: name, type: type, params: [value: 'java.lang.Object', body: {}])
+    delegate.method(name: name, type: type, params: params + [value: 'java.lang.Object', body: {}])
+    method(delegate, name, type, params + [body: {}])
+}
+
+private def noArgsMethod(delegate, String name, String type) {
+    delegate.method(name: name, type: type)
+}
+
+private def noArgsMethodWithClosure(delegate, String name, String type) {
+    delegate.method(name: name, type: type, params: [body: {}])
+}
+
+private void methodAndNoArgsAndClosure(delegate, String name, String type, Map params) {
+    method(delegate, name, type, params)
+    methodWithClosure(delegate, name, type, params)
+    noArgsMethod(delegate, name, type)
+    noArgsMethodWithClosure(delegate, name, type)
+}
+
+private void contributeWindows(delegate) {
+    delegate.method(name: 'popup', type: 'javafx.stage.Popup', params: [args: [:]])
+    delegate.method(name: 'fileChooser', type: 'javafx.stage.FileChooser', params: [args: [:]])
+    delegate.method(name: 'filter', type: 'javafx.stage.FilterChooser.ExtensionFilter', params: [args: [:]])
+}
+
+private void contributeContainers(delegate) {
+    delegate.method(name: 'scene', type: 'javafx.scene.Scene', params: [args: size2d + fill, body: {}] )
+    delegate.method(name: 'stylesheets', type: 'java.util.List', params: [args: [urls: 'java.util.List']])
+
+    delegate.method(name: 'group', type: 'javafx.scene.Group',
+                    params: [args: [autoSizeChildren: 'java.lang.Boolean'], body: {}])
+
+    def containerArgs = [
+            minHeight: 'java.lang.Double', prefHeight: 'java.lang.Double', maxHeight: 'java.lang.Double', 
+            minWidth: 'java.lang.Double', prefWidth: 'java.lang.Double', maxWidth: 'java.lang.Double',
+            padding: 'java.lang.Object', snapToPixel: 'java.lang.Boolean'] + size2d
+
+    def anchorArgs = [
+            top: 'javafx.scene.Node', bottom: 'javafx.scene.Node', center: 'javafx.scene.Node',
+            left: 'javafx.scene.Node', right: 'javafx.scene.Node'
+    ]
+
+    delegate.method(name: 'pane', type: 'javafx.scene.layout.Pane', params: [args: containerArgs, body: {}])
+    delegate.method(name: 'stackPane', type: 'javafx.scene.layout.StackPane',
+                    params: [args: containerArgs + [alignment: 'javafx.geometry.Pos'], body: {}] )
+    delegate.method(name: 'anchorPane', type: 'javafx.scene.layout.AnchorPane',
+                    params: [args: containerArgs, body: {}] )
+    delegate.method(name: 'borderPane', type: 'javafx.scene.layout.BorderPane',
+                    params: [args: anchorArgs + containerArgs, body: {}] )
+    delegate.method(name: 'flowPane', type: 'javafx.scene.layout.FlowPane', params: [args: containerArgs, body: {}] )
+    delegate.method(name: 'hbox', type: 'javafx.scene.layout.HBox', params: [args: containerArgs, body: {}] )
+    delegate.method(name: 'vbox', type: 'javafx.scene.layout.VBox', params: [args: containerArgs, body: {}] )
+    delegate.method(name: 'tilePane', type: 'javafx.scene.layout.TilePane', params: [args: containerArgs, body: {}] )
+    delegate.method(name: 'gridPane', type: 'javafx.scene.layout.GridPane', params: [args: containerArgs, body: {}] )
+
+    if (delegate.enclosingCall('gridPane')) {
+        ['row', 'column'].each {
+            delegate.method(name: it, type: 'groovyx.javafx.factory.GridRowColumn',
+                            params: [args: [index: 'java.lang.Integer'], body: {}])
+        }
+        delegate.method(name: 'constraint', type: 'groovyx.javafx.factory.GridConstraint',
+                        params: [args: [column: 'java.lang.Integer', row: 'java.lang.Integer',
+                                 columnSpan: 'java.lang.Integer', rowSpan: 'java.lang.Intger',
+                                 halignment: 'javafx.geometry.HPos', valignment: 'javafx.geometry.VPos',
+                                 hgrow: 'javafx.scene.layout.Priority', vgrow: 'javafx.scene.layout.Priority',
+                                 margin: 'javafx.geometry.Insets']])
+    }
+
+    if (delegate.enclosingCall('borderPane')) {
+        ['top', 'bottom', 'left', 'right', 'center'].each {
+            delegate.method(name: it, type: 'groovyx.javafx.factory.BorderPanePosition',
+                            params: [args: [:], body: {}])
+        }
+    }
+}
+
+private void contributeNodes(delegate) {
+    delegate.method(name: 'node', type: 'javafx.scene.Node', params: [args: [:], body: {}] )
+    delegate.method(name: 'nodes', type: 'java.util.List', params: [list: 'java.util.List'] )
+    delegate.method(name: 'container', type: 'javafx.scene.Parent', params: [args: [:], body: {}] )
+    delegate.method(name: 'fxml', type: 'javafx.scene.Node', params: [args: [:], body: {}] )
+}
+
+private void contributeMedia(delegate) {
+    delegate.method(name: 'mediaView', type: 'javafx.scene.media.MediaView')
+    delegate.method(name: 'mediaPlayer', type: 'javafx.scene.media.MediaPlayer')
+    delegate.method(name: 'imageView', type: 'javafx.scene.image.ImageView')
+    delegate.method(name: 'image', type: 'javafx.scene.image.Image')
+}
+
+private void contributeMenus(delegate) {
+    delegate.method(name: 'menuBar', type: 'javafx.scene.control.MenuBar', params: [args: [:], body: {}])
+    delegate.method(name: 'contextMenu', type: 'javafx.scene.control.ContextMenu', params: [args: [:], body: {}])
+    delegate.method(name: 'menuButton', type: 'javafx.scene.control.MenuBar', params: [args: [:], body: {}])
+    delegate.method(name: 'splitMenuButton', type: 'javafx.scene.control.MenuBar', params: [args: [:], body: {}])
+    delegate.method(name: 'menu', type: 'javafx.scene.control.MenuBar', params: [args: [:], body: {}])
+    delegate.method(name: 'menuItem', type: 'javafx.scene.control.MenuBar', params: [args: [:], body: {}])
+    delegate.method(name: 'checkMenuItem', type: 'javafx.scene.control.MenuBar', params: [args: [:], body: {}])
+    delegate.method(name: 'customMenuItem', type: 'javafx.scene.control.MenuBar', params: [args: [:], body: {}])
+    delegate.method(name: 'separatorMenuItem', type: 'javafx.scene.control.MenuBar', params: [args: [:], body: {}])
+    delegate.method(name: 'radioMenuItem', type: 'javafx.scene.control.MenuBar', params: [args: [:], body: {}])
+}
+
+private void contributeControls(delegate) {
+    // labeled
+    methodAndNoArgsAndClosure(delegate, 'button', 'javafx.scene.control.Button', [args: [:]])
+    delegate.method(name: 'checkBox', type: 'javafx.scene.control.CheckBox', params: [args: [:], body: {}])
+    methodAndNoArgsAndClosure(delegate, 'label', 'javafx.scene.control.Label', [args: [:]])
+    delegate.method(name: 'choiceBox', type: 'javafx.scene.control.ChoiceBox', params: [args: [:], body: {}])
+    delegate.method(name: 'hyperlink', type: 'javafx.scene.control.Hyperlink', params: [args: [:], body: {}])
+    delegate.method(name: 'tooltip', type: 'javafx.scene.control.Tooltip', params: [args: [:], body: {}])
+    delegate.method(name: 'radioButton', type: 'javafx.scene.control.RadioButton', params: [args: [:], body: {}])
+    delegate.method(name: 'toggleButton', type: 'javafx.scene.control.ToggleButton', params: [args: [:], body: {}])
+
+    // regular controls
+    delegate.method(name: 'scrollBar', type: 'javafx.scene.control.ScrollBar', params: [args: [:], body: {}])
+    delegate.method(name: 'scrollPane', type: 'javafx.scene.control.ScrollPane', params: [args: [:], body: {}])
+    delegate.method(name: 'slider', type: 'javafx.scene.control.Slider', params: [args: [:], body: {}])
+    delegate.method(name: 'separator', type: 'javafx.scene.control.Separator', params: [args: [:], body: {}])
+    delegate.method(name: 'textArea', type: 'javafx.scene.control.TextArea', params: [args: [:], body: {}])
+    delegate.method(name: 'textField', type: 'javafx.scene.control.TextField', params: [args: [:], body: {}])
+    delegate.method(name: 'progressBar', type: 'javafx.scene.control.ProgressBar', params: [args: [:], body: {}])
+    delegate.method(name: 'progressIndicator', type: 'javafx.scene.control.ProgressIndicator',
+                    params: [args: [:], body: {}])
+
+    // data-driven
+    delegate.method(name: 'listView', type: 'javafx.scene.control.ListView', params: [args: [:], body: {}])
+
+    delegate.method(name: 'tableView', type: 'javafx.scene.control.TableView',
+                    params: [args: [items:'java.util.Collection'], body: {}])
+    delegate.method(name: 'tableColumn', type: 'javafx.scene.control.TableColumn',
+                    params: [args: [text:'java.lang.String', property:'java.lang.String']])
+    delegate.method(name: 'tableRow', type: 'javafx.scene.control.TableRow',
+                    params: [args: [text:'java.lang.String', property:'java.lang.String']])
+
+    delegate.method(name: 'treeView', type: 'javafx.scene.control.TreeView', params: [args: [:], body: {}])
+    delegate.method(name: 'treeItem', type: 'javafx.scene.control.TreeItem', params: [args: [:], body: {}])
+
+    // container controls
+    methodAndNoArgsAndClosure(delegate, 'accordion','javafx.scene.control.Accordion', [args: [:]])
+    delegate.method(name: 'titledPane', type: 'javafx.scene.control.TitledPane', params: [args: [:], body: {}])
+    delegate.method(name: 'splitPane', type: 'javafx.scene.control.SplitPane', params: [args: [:], body: {}])
+    delegate.method(name: 'dividerPosition', type: 'javafx.scene.control.DividerPosition',
+                    params: [args: [:], body: {}])
+    delegate.method(name: 'tabPane', type: 'javafx.scene.control.TabPane', params: [args: [:], body: {}])
+    delegate.method(name: 'tab', type: 'javafx.scene.control.Tab', params: [args: [:], body: {}])
+    delegate.method(name: 'toolBar', type: 'javafx.scene.control.ToolBar', params: [args: [:], body: {}])
+
+    noArgsMethodWithClosure(delegate, 'title', 'groovyx.javafx.factory.Titled')
+    noArgsMethodWithClosure(delegate, 'content', 'groovyx.javafx.factory.Titled')
+    noArgsMethodWithClosure(delegate, 'graphic', 'groovyx.javafx.factory.Graphic')
+
+    // tree events
+    delegate.method(name: 'onBranchCollapse', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
+    delegate.method(name: 'onBranchExpand', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
+    delegate.method(name: 'onChildrenModification', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
+    delegate.method(name: 'onGraphicChanged', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
+    delegate.method(name: 'onTreeItemCountChange', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
+    delegate.method(name: 'onTreeNotification', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
+    delegate.method(name: 'onValueChanged', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
+    delegate.method(name: 'onEditCancel', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
+    delegate.method(name: 'onEditCommit', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
+    delegate.method(name: 'onEditStart', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
+}
+
+private void contributeCharts(delegate) {
+    delegate.method(name: 'pieChart', type: 'javafx.scene.chart.PieChart', params: [args: [:], body: {}])
+    delegate.method(name: 'lineChart', type: 'javafx.builders.LineChartBuilder', params: [args: [:], body: {}])
+    delegate.method(name: 'areaChart', type: 'javafx.builders.AreaChartBuilder', params: [args: [:], body: {}])
+    delegate.method(name: 'bubbleChart', type: 'javafx.builders.BubbleChartBuilder', params: [args: [:], body: {}])
+    delegate.method(name: 'barChart', type: 'javafx.builders.BarChartBuilder', params: [args: [:], body: {}])
+    delegate.method(name: 'scatterChart', type: 'javafx.builders.ScatterChartBuilder', params: [args: [:], body: {}])
+
+    delegate.method(name: 'numberAxis', type: 'javafx.scene.chart.NumberAxis', params: [args: [:], body: {}])
+    delegate.method(name: 'categoryAxis', type: 'javafx.scene.chart.CategoryAxis', params: [args: [:], body: {}])
+    delegate.method(name: 'series', type: 'javafx.scene.chart.XYChart.Series', params: [args: [:], body: {}])
+}
+
+private void contributeGraphics(delegate) {
+    delegate.method(name: 'affine', params: [args: [:]])
+    delegate.method(name: 'rotate', params: [args: [:]])
+    delegate.method(name: 'scale', params: [args: [:]])
+    delegate.method(name: 'shear', params: [args: [:]])
+    delegate.method(name: 'translate', params: [args: [:]])
+
+    delegate.method(name: 'arc', type: 'javafx.scene.shape.Arc', params: [args: [:], body: {}])
+    delegate.method(name: 'circle', type: 'javafx.scene.shape.Circle', params: [args: [:], body: {}])
+    delegate.method(name: 'cubicCurve', type: 'javafx.scene.shape.CubicCurve', params: [args: [:], body: {}])
+    delegate.method(name: 'ellipse', type: 'javafx.scene.shape.Ellipse', params: [args: [:], body: {}])
+    delegate.method(name: 'line', type: 'javafx.scene.shape.Line', params: [args: [:], body: {}])
+    delegate.method(name: 'polygon', type: 'javafx.scene.shape.Polygon', params: [args: [:], body: {}])
+    delegate.method(name: 'polyline', type: 'javafx.scene.shape.Polyline', params: [args: [:], body: {}])
+    delegate.method(name: 'quadCurve', type: 'javafx.scene.shape.QuadCurve', params: [args: [:], body: {}])
+    delegate.method(name: 'rectangle', type: 'javafx.scene.shape.Rectangle', params: [args: [:], body: {}])
+    delegate.method(name: 'svgPath', type: 'javafx.scene.shape.SVGPath', params: [args: [:], body: {}])
+
+    delegate.method(name: 'path', type: 'javafx.scene.shape.Path', params: [args: [:], body: {}])
+    delegate.method(name: 'arcTo', type: 'javafx.scene.shape.ArcTo', params: [args: [:], body: {}])
+    delegate.method(name: 'closePath', type: 'javafx.scene.shape.ClosePath', params: [args: [:], body: {}])
+    delegate.method(name: 'cubicCurveTo', type: 'javafx.scene.shape.CubicCurveTo', params: [args: [:], body: {}])
+    delegate.method(name: 'hLineTo', type: 'javafx.scene.shape.HLineTo', params: [args: [:], body: {}])
+    delegate.method(name: 'lineTo', type: 'javafx.scene.shape.LineTo', params: [args: [:], body: {}])
+    delegate.method(name: 'moveTo', type: 'javafx.scene.shape.MoveTo', params: [args: [:], body: {}])
+    delegate.method(name: 'quadCurveTo', type: 'javafx.scene.shape.QuadCurveTo', params: [args: [:], body: {}])
+    delegate.method(name: 'vLineTo', type: 'javafx.scene.shape.VLineTo', params: [args: [:], body: {}])
+
+    delegate.method(name: 'text', type: 'javafx.scene.text.Text', params: [args: [:], body: {}])
+
+    delegate.method(name: 'linearGradient', type: 'javafx.builders.LinearGradientBuilder',
+                    params: [args: [:], body: {}])
+    delegate.method(name: 'radialGradient', type: 'javafx.builders.RadialGradientBuilder',
+                    params: [args: [:], body: {}])
+    delegate.method(name: 'stop', type: 'javafx.scene.paint.Stop', params: [args: [:], body: {}])
+    delegate.method(name: 'fill', type: 'javafx.scene.paint.Paint', params: [args: [:], body: {}])
+    delegate.method(name: 'stroke', type: 'javafx.scene.paint.Paint', params: [args: [:], body: {}])
+
+    delegate.method(name: 'blend', type: 'javafx.scene.effect.Blend', params: [args: [:], body: {}])
+    delegate.method(name: 'bloom', type: 'javafx.scene.effect.Bloom', params: [args: [:], body: {}])
+    delegate.method(name: 'boxBlur', type: 'javafx.scene.effect.BoxBlur', params: [args: [:], body: {}])
+    delegate.method(name: 'colorAdjust', type: 'javafx.scene.effect.ColorAdjust', params: [args: [:], body: {}])
+    delegate.method(name: 'colorInput', type: 'javafx.scene.effect.ColorInput', params: [args: [:], body: {}])
+    delegate.method(name: 'displacementMap', type: 'javafx.scene.effect.DisplacementMap', params: [args: [:], body: {}])
+    delegate.method(name: 'dropShadow', type: 'javafx.scene.effect.DropShadow', params: [args: [:], body: {}])
+    delegate.method(name: 'gaussianBlur', type: 'javafx.scene.effect.GaussianBlur', params: [args: [:], body: {}])
+    delegate.method(name: 'glow', type: 'javafx.scene.effect.Glow', params: [args: [:], body: {}])
+    delegate.method(name: 'imageInput', type: 'javafx.scene.effect.ImageInput', params: [args: [:], body: {}])
+    delegate.method(name: 'innerShadow', type: 'javafx.scene.effect.InnerShadow', params: [args: [:], body: {}])
+    delegate.method(name: 'lighting', type: 'javafx.scene.effect.Lighting', params: [args: [:], body: {}])
+    delegate.method(name: 'motionBlur', type: 'javafx.scene.effect.MotionBlur', params: [args: [:], body: {}])
+    delegate.method(name: 'perspectiveTransform', type: 'javafx.scene.effect.PerspectiveTransform', params: [args: [:], body: {}])
+    delegate.method(name: 'reflection', type: 'javafx.scene.effect.Reflection', params: [args: [:], body: {}])
+    delegate.method(name: 'sepiaTone', type: 'javafx.scene.effect.SepiaTone', params: [args: [:], body: {}])
+    delegate.method(name: 'shadow', type: 'javafx.scene.effect.Shadow', params: [args: [:], body: {}])
+    delegate.method(name: 'distant', type: 'javafx.scene.effect.Light.Distant', params: [args: [:], body: {}])
+    delegate.method(name: 'point', type: 'javafx.scene.effect.Light.Point', params: [args: [:], body: {}])
+    delegate.method(name: 'spot', type: 'javafx.scene.effect.Light.Spot', params: [args: [:], body: {}])
+
+    delegate.method(name: 'topInput', params: [body: {}])
+    delegate.method(name: 'bottomInput', params: [body: {}])
+    delegate.method(name: 'bumpInput', params: [body: {}])
+    delegate.method(name: 'contentInput', params: [body: {}])
+
+    delegate.method(name: 'clip', params: [body: {}])
+}
+
+private void contributeListeners(delegate) {
+    delegate.method(name: 'onMouseClicked', type: 'javafx.event.EventHandler', params: [body: {}])
+    delegate.method(name: 'onMouseDragged', type: 'javafx.event.EventHandler', params: [body: {}])
+    delegate.method(name: 'onMouseEntered', type: 'javafx.event.EventHandler', params: [body: {}])
+    delegate.method(name: 'onMouseExited', type: 'javafx.event.EventHandler', params: [body: {}])
+    delegate.method(name: 'onMousePressed', type: 'javafx.event.EventHandler', params: [body: {}])
+    delegate.method(name: 'onMouseReleased', type: 'javafx.event.EventHandler', params: [body: {}])
+    delegate.method(name: 'onMouseWheelMoved', type: 'javafx.event.EventHandler', params: [body: {}])
+    delegate.method(name: 'onDragDetected', type: 'javafx.event.EventHandler', params: [body: {}])
+    delegate.method(name: 'onDragDone', type: 'javafx.event.EventHandler', params: [body: {}])
+    delegate.method(name: 'onDragEntered', type: 'javafx.event.EventHandler', params: [body: {}])
+    delegate.method(name: 'onDragExited', type: 'javafx.event.EventHandler', params: [body: {}])
+    delegate.method(name: 'onDragOver', type: 'javafx.event.EventHandler', params: [body: {}])
+    delegate.method(name: 'onDragDropped', type: 'javafx.event.EventHandler', params: [body: {}])
+
+    delegate.method(name: 'onMouseClicked', type: 'javafx.event.EventHandler', params: [body: {}])
+    delegate.method(name: 'onMouseClicked', type: 'javafx.event.EventHandler', params: [body: {}])
+    delegate.method(name: 'onMouseClicked', type: 'javafx.event.EventHandler', params: [body: {}])
+
+    delegate.method(name: 'onAction', type: 'javafx.event.EventHandler', params: [body: {}])
+}
+
+private void contributeWeb(delegate) {
+    delegate.method(name: 'webView', type: 'javafx.scene.web.WebView', params: [args: [:], body: {}])
+    delegate.method(name: 'webEngine', type: 'javafx.scene.web.WebEngine', params: [args: [:]])
+    delegate.method(name: 'htmlEditor', type: 'javafx.scene.web.HTMLEditor', params: [args: [:], body: {}])
+}
+
+private void contributeAnimation(delegate) {
+    delegate.method(name: 'fadeTransition', type: 'javafx.animation.FadeTransition', params: [args: [:], body: {}])
+    delegate.method(name: 'fillTransition', type: 'javafx.animation.FadeTransition', params: [args: [:], body: {}])
+    delegate.method(name: 'parallelTransition', type: 'javafx.animation.ParallelTransition',
+                    params: [args: [:], body: {}])
+    delegate.method(name: 'pauseTransition', type: 'javafx.animation.PauseTransition', params: [args: [:], body: {}])
+    delegate.method(name: 'rotateTransition', type: 'javafx.animation.RotateTransition', params: [args: [:], body: {}])
+    delegate.method(name: 'scaleTransition', type: 'javafx.animation.ScaleTransition', params: [args: [:], body: {}])
+    delegate.method(name: 'translateTransition', type: 'javafx.animation.TranslateTransition',
+                    params: [args: [:], body: {}])
+    delegate.method(name: 'sequentialTransition', type: 'javafx.animation.SequentialTransition',
+                    params: [args: [:], body: {}])
+    delegate.method(name: 'pathTransition', type: 'javafx.animation.PathTransition', params: [args: [:], body: {}])
+    delegate.method(name: 'strokeTransition', type: 'javafx.animation.StrokeTransition', params: [args: [:], body: {}])
+    delegate.method(name: 'transition', type: 'javafx.animation.Transition', params: [args: [:], body: {}])
+}
+
+private void contributeColors(delegate) {
+    [
+        'groovyblue', 'aliceblue', 'antiquewhite', 'aqua', 'aquamarine', 'azure', 'beige', 'bisque', 'black',
+        'blanchedalmond', 'blue', 'blueviolet', 'brown', 'burlywood', 'cadetblue', 'chartreuse', 'chocolate', 'coral',
+        'cornflowerblue', 'cornsilk', 'crimson', 'cyan', 'darkblue', 'darkcyan', 'darkgoldenrod', 'darkgray',
+        'darkgreen', 'darkgrey', 'darkkhaki', 'darkmagenta', 'darkolivegreen', 'darkorange', 'darkorchid', 'darkred',
+        'darksalmon', 'darkseagreen', 'darkslateblue', 'darkslategray', 'darkslategrey', 'darkturquoise', 'darkviolet',
+        'deeppink', 'deepskyblue', 'dimgray', 'dimgrey', 'dodgerblue', 'firebrick', 'floralwhite', 'forestgreen',
+        'fuchsia', 'gainsboro', 'ghostwhite', 'gold', 'goldenrod', 'gray', 'green', 'greenyellow', 'grey', 'honeydew',
+        'hotpink', 'indianred', 'indigo', 'ivory', 'khaki', 'lavender', 'lavenderblush', 'lawngreen', 'lemonchiffon',
+        'lightblue', 'lightcoral', 'lightcyan', 'lightgoldenrodyellow', 'lightgray', 'lightgreen', 'lightgrey',
+        'lightpink', 'lightsalmon', 'lightseagreen', 'lightskyblue', 'lightslategray', 'lightslategrey',
+        'lightsteelblue', 'lightyellow', 'lime', 'limegreen', 'linen', 'magenta', 'maroon', 'mediumaquamarine',
+        'mediumblue', 'mediumorchid', 'mediumpurple', 'mediumseagreen', 'mediumslateblue', 'mediumspringgreen',
+        'mediumturquoise', 'mediumvioletred', 'midnightblue', 'mintcream', 'mistyrose', 'moccasin', 'navajowhite',
+        'navy', 'oldlace', 'olive', 'olivedrab', 'orange', 'orangered', 'orchid', 'palegoldenrod', 'palegreen',
+        'paleturquoise', 'palevioletred', 'papayawhip', 'peachpuff', 'peru', 'pink', 'plum', 'powderblue', 'purple',
+        'red', 'rosybrown', 'royalblue', 'saddlebrown', 'salmon', 'sandybrown', 'seagreen', 'seashell', 'sienna',
+        'silver', 'skyblue', 'slateblue', 'slategray', 'slategrey', 'snow', 'springgreen', 'steelblue', 'tan', 'teal',
+        'thistle', 'tomato', 'transparent', 'turquoise', 'violet', 'wheat', 'white', 'whitesmoke', 'yellow',
+        'yellowgreen'
+    ].each {
+        delegate.property(name: it, type: 'javafx.scene.paint.Color')
+    }
+}

@@ -32,7 +32,7 @@ class PieChartFactory extends NodeFactory {
         }
     }
 
-    private def createChart(Map attributes) {
+    private PieChart createChart(Map attributes) {
         def chart = new PieChart()
         def data = attributes.remove("data")
 

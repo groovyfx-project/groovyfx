@@ -17,9 +17,7 @@
 package demo
 
 import groovyx.javafx.GroovyFX
-import javafx.scene.paint.Color;
 import groovyx.javafx.SceneGraphBuilder
-import javafx.scene.control.*;
 
 GroovyFX.start {
     def sg = new SceneGraphBuilder()

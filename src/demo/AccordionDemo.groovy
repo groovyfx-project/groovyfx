@@ -33,7 +33,7 @@ GroovyFX.start {
             accordion {
                 titledPane(id: "t1") {
                     title {
-                        label(text: "Label 1")
+                        label("Label 1")
                     }
                     content {
                         label(text: "This is Label 1\n\nAnd there were a few empty lines just there!")

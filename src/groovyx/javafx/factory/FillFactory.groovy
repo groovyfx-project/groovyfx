@@ -35,6 +35,7 @@ class FillFactory extends AbstractFactory {
             throw new RuntimeException("The value passed to the 'fill' node must be an instance of Paint, " +
                     "LinearGradientBuilder, or RadialGradientBuilder")
         }
+        return paint
     }
 
     @Override

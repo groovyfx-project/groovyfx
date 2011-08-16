@@ -16,18 +16,17 @@
 
 package groovyx.javafx.factory
 
-import groovyx.javafx.input.GroovyKeyHandler
-import groovyx.javafx.input.GroovyMouseHandler
+import groovyx.javafx.event.GroovyKeyHandler
+import groovyx.javafx.event.GroovyMouseHandler
 import javafx.event.EventHandler
 import javafx.scene.Node
 import javafx.scene.effect.Effect
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
-import javafx.scene.input.KeyEvent
-import javafx.scene.input.MouseEvent
-import javafx.scene.transform.Transform
 
-import org.codehaus.groovy.runtime.InvokerHelper;
+import javafx.scene.transform.Transform
+import groovyx.javafx.event.GroovyEventHandler
+
 /**
  *
  * @author jimclarke
@@ -50,6 +49,7 @@ public class NodeFactory extends AbstractFactory {
         'onDragOver',
         'onDragDropped'
     ]
+
     public static def keyEvents = [
         'onKeyPressed',
         'onKeyReleased',
@@ -82,9 +82,9 @@ public class NodeFactory extends AbstractFactory {
                 if(val instanceof Closure) {
                     def handler = new GroovyMouseHandler(v);
                     handler.setClosure((Closure)val);
-                    addInputHandler((Node)node, v, handler);
+                    addEventHandler((Node)node, v, handler);
                 }else if(val instanceof EventHandler) {
-                    addInputHandler((Node)node, v, (EventHandler)val);
+                    addEventHandler((Node)node, v, (EventHandler)val);
                 }
             }
         }
@@ -94,9 +94,9 @@ public class NodeFactory extends AbstractFactory {
                 if(val instanceof Closure) {
                     def handler = new GroovyKeyHandler(v);
                     handler.setClosure((Closure)val);
-                    addInputHandler((Node)node, v, handler);
+                    addEventHandler((Node)node, v, handler);
                 }else if(val instanceof EventHandler) {
-                    addInputHandler((Node)node, v, (EventHandler)val);
+                    addEventHandler((Node)node, v, (EventHandler)val);
                 }
             }
         }
@@ -104,10 +104,8 @@ public class NodeFactory extends AbstractFactory {
     }
 
     public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
-        if(child instanceof GroovyMouseHandler) {
-            addInputHandler((Node)parent, ((GroovyMouseHandler)child).getType(), (EventHandler)child);
-        } else if(child instanceof GroovyKeyHandler) {
-            addInputHandler((Node)parent, ((GroovyKeyHandler)child).getType(), (EventHandler)child);
+        if(child instanceof GroovyEventHandler) {
+            addEventHandler((Node)parent, ((GroovyEventHandler)child).getType(), (EventHandler)child);
         } else if(child instanceof Effect) {
             ((Node)parent).setEffect((Effect)child);
         } else if(child instanceof Transform) {
@@ -117,7 +115,7 @@ public class NodeFactory extends AbstractFactory {
         }
     }
     
-    public void addInputHandler(Object node, String type, EventHandler handler) {
+    public void addEventHandler(Object node, String type, EventHandler handler) {
         FXHelper.setPropertyOrMethod(node, type, handler)
     }
 

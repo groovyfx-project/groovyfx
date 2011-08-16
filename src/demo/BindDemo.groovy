@@ -18,7 +18,7 @@ package demo
 
 import groovyx.javafx.GroovyFX
 import groovyx.javafx.SceneGraphBuilder
-import javafx.scene.control.TextBox
+import javafx.scene.control.TextField
 
 /**
  *
@@ -34,7 +34,7 @@ GroovyFX.start {
             stylesheets(urls: ["foo.css "])
 
             vbox(spacing: 10, padding: 10) {
-                TextBox tf = textBox(text: 'Change Me!')
+                TextField tf = textField(text: 'Change Me!')
                 button(text: bind(source: tf, sourceProperty: 'text'))
                 label(text: bind(tf.textProperty()))
                 label(text: bind({tf.text}))

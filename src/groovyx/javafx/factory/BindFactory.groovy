@@ -16,7 +16,6 @@
 
 package groovyx.javafx.factory
 import groovyx.javafx.SceneGraphBuilder;
-import groovyx.javafx.factory.binding.*
 import java.util.Map.Entry;
 import org.codehaus.groovyfx.javafx.binding.*;
 import javafx.beans.property.Property;

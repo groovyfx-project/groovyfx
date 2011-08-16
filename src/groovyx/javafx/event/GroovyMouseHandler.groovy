@@ -14,35 +14,16 @@
 * limitations under the License.
 */
 
-package groovyx.javafx.input
+package groovyx.javafx.event
 
-import javafx.event.EventHandler;
-import javafx.scene.input.InputEvent;
+import javafx.scene.input.MouseEvent
+
 /**
- *
  * @author jimclarke
  */
-class GroovyMouseHandler implements EventHandler<InputEvent> {
-
-    String type;
-    Closure closure;
-
+class GroovyMouseHandler extends GroovyEventHandler<MouseEvent> {
     public GroovyMouseHandler(String type) {
-        this.type = type;
-    }
-
-    public void setClosure(closure) {
-         this.closure = closure;
-    }
-
-    public String getType() { return type; }
-
-    public void handle(InputEvent event) {
-        closure.call(event);
-    }
-
-    public String toString() {
-        "GroovyMouseHandler: type = ${type}"
+        super(type)
     }
 }
 

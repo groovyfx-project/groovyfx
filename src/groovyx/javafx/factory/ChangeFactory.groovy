@@ -20,29 +20,44 @@ import groovyx.javafx.ClosureChangeListener
 import org.codehaus.groovy.runtime.InvokerHelper;
 
 /**
- *
  * @author jimclarke
  */
 class ChangeFactory extends AbstractFactory {
+    @Override
+    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
+            throws InstantiationException, IllegalAccessException {
+        ClosureChangeListener cl
 
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        ClosureChangeListener cl = new ClosureChangeListener();
-        
-        def closure = attributes.remove("action");
-        cl.closure = closure;
+        if (value instanceof ClosureChangeListener)
+            cl = value
+        else if (value instanceof String)
+            cl = new ClosureChangeListener((String)value);
+        else
+            cl = new ClosureChangeListener()
         
         return cl;
     }
-    
+
+    @Override
+    boolean isHandlesNodeChildren() { true }
+
+    @Override
+    boolean onNodeChildren(FactoryBuilderSupport builder, Object node, Closure childContent) {
+        ((ClosureChangeListener)node).closure = childContent
+        return false
+    }
+
+    @Override
     public void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
+        final ccl = (ClosureChangeListener) node
         if(parent instanceof SceneWrapper) {
-            parent.addChangeListener(node);
+            parent.addChangeListener(ccl);
         }else {
             try {
-                def property = InvokerHelper.invokeMethod(parent,node.property + "Property", null);
-                InvokerHelper.invokeMethod(property, "addListener", node );
+                def property = InvokerHelper.invokeMethod(parent, ccl.property + "Property", null);
+                InvokerHelper.invokeMethod(property, "addListener", ccl );
             }catch(MissingMethodException ex) {
-                println("No JavaFX property '" + node.property + "' for class " + parent.class);
+                println("No JavaFX property '" + ccl.property + "' for class " + parent.class);
             }
         }
     }

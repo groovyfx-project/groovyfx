@@ -197,7 +197,6 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         
         registerFactory( 'constraint', new GridConstraintFactory());
         
-
         GridRowColumnFactory rcf = new GridRowColumnFactory();
         registerFactory( 'row', rcf)
         registerFactory( 'column', rcf)
@@ -239,9 +238,8 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'customMenuItem', mif);
         registerFactory( 'separatorMenuItem', mif);
         registerFactory( 'radioMenuItem', mif);
-        
-        
     }
+
     public def registerCharts() {
         registerFactory('pieChart', new PieChartFactory())
         registerFactory('lineChart', new XYChartFactory(LineChart))
@@ -273,7 +271,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory('polyline',   new ShapeFactory(Polyline))
         registerFactory('quadCurve',  new ShapeFactory(QuadCurve))
         registerFactory('rectangle',  new ShapeFactory(Rectangle))
-        registerFactory('SVGPath',    new ShapeFactory(SVGPath))
+        registerFactory('svgPath',    new ShapeFactory(SVGPath))
 
         registerFactory('path', new PathFactory(Path))
 
@@ -322,8 +320,6 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'slider', cf)
         registerFactory( 'separator', cf)
         registerFactory( 'listView', cf)
-        registerFactory( 'passwordBox', cf)
-        registerFactory( 'textBox', cf)
         registerFactory( 'textArea', cf)
         registerFactory( 'textField', cf)
         registerFactory( 'progressBar', cf)
@@ -357,13 +353,13 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'graphic', gf);
 
         // tree events
-        registerFactory( "branchCollapse", treeItemEventf)
-        registerFactory( "branchExpand",treeItemEventf)
-        registerFactory( "childrenModification",treeItemEventf)
-        registerFactory( "graphicChanged",treeItemEventf)
-        registerFactory( "treeItemCountChange",treeItemEventf)
-        registerFactory( "treeNotification",treeItemEventf)
-        registerFactory( "valueChanged",treeItemEventf)
+        registerFactory( "onBranchCollapse", treeItemEventf)
+        registerFactory( "onBranchExpand",treeItemEventf)
+        registerFactory( "onChildrenModification",treeItemEventf)
+        registerFactory( "onGraphicChanged",treeItemEventf)
+        registerFactory( "onTreeItemCountChange",treeItemEventf)
+        registerFactory( "onTreeNotification",treeItemEventf)
+        registerFactory( "onValueChanged",treeItemEventf)
         
         registerFactory( "onEditCancel", treeViewEventf)
         registerFactory( "onEditCommit", treeViewEventf)
@@ -371,55 +367,59 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
     }
 
     public def registerEffects() {
-        def ef = new EffectFactory();
-        registerFactory( 'blend', ef);
-        registerFactory( 'bloom', ef);
+        def ef = new EffectFactory()
+        registerFactory( 'blend', ef)
+        registerFactory( 'bloom', ef)
         registerFactory( 'boxBlur', ef)
-        registerFactory( 'colorAdjust', ef);
-        registerFactory( "colorInput", ef);
-        registerFactory( 'displacementMap', ef);
-        registerFactory( 'dropShadow', ef);
-        registerFactory( 'gaussianBlur', ef);
-        registerFactory( 'glow', ef);
-        registerFactory( 'imageInput', ef);
-        registerFactory( 'innerShadow', ef);
-        registerFactory( 'lighting', ef);
-        registerFactory( 'motionBlur', ef);
-        registerFactory( 'perspectiveTransform', ef);
-        registerFactory( 'reflection', ef);
-        registerFactory( 'sepiaTone', ef);
-        registerFactory( 'shadow', ef);
+        registerFactory( 'colorAdjust', ef)
+        registerFactory( "colorInput", ef)
+        registerFactory( 'displacementMap', ef)
+        registerFactory( 'dropShadow', ef)
+        registerFactory( 'gaussianBlur', ef)
+        registerFactory( 'glow', ef)
+        registerFactory( 'imageInput', ef)
+        registerFactory( 'innerShadow', ef)
+        registerFactory( 'lighting', ef)
+        registerFactory( 'motionBlur', ef)
+        registerFactory( 'perspectiveTransform', ef)
+        registerFactory( 'reflection', ef)
+        registerFactory( 'sepiaTone', ef)
+        registerFactory( 'shadow', ef)
         
-        registerFactory( 'topInput', ef);
-        registerFactory( 'bottomInput', ef);
-        registerFactory( 'bumpInput', ef);
-        registerFactory( 'contentInput', ef);
-        registerFactory( "distant", ef);
-        registerFactory( "point", ef);
-        registerFactory( "spot", ef);
+        registerFactory( 'topInput', ef)
+        registerFactory( 'bottomInput', ef)
+        registerFactory( 'bumpInput', ef)
+        registerFactory( 'contentInput', ef)
+        registerFactory( "distant", ef)
+        registerFactory( "point", ef)
+        registerFactory( "spot", ef)
     }
 
     public def registerInputListeners() {
-        MouseHandlerFactory mf = new MouseHandlerFactory();
-        KeyHandlerFactory kf = new KeyHandlerFactory();
-        registerFactory( 'onMouseClicked', mf)
-        registerFactory( 'onMouseDragged', mf)
-        registerFactory( 'onMouseEntered', mf)
-        registerFactory( 'onMouseExited', mf)
-        registerFactory( 'onMouseMoved', mf)
-        registerFactory( 'onMousePressed', mf)
-        registerFactory( 'onMouseReleased', mf)
-        registerFactory( 'onDragDetected', mf)
-        registerFactory( 'onDragDone', mf)
-        registerFactory( 'onDragEntered', mf)
-        registerFactory( 'onDragExited', mf)
-        registerFactory( 'onDragOver', mf)
-        registerFactory( 'onDragDropped', mf)
-        registerFactory( 'onMouseWheelMoved', mf) // only works for scene.
-        
-        registerFactory( 'onKeyPressed', kf)
-        registerFactory( 'onKeyReleased', kf)
-        registerFactory( 'onKeyTyped', kf)
+        MouseHandlerFactory mf = new MouseHandlerFactory()
+        KeyHandlerFactory kf = new KeyHandlerFactory()
+        ActionHandlerFactory af = new ActionHandlerFactory()
+
+        registerFactory('onMouseClicked', mf)
+        registerFactory('onMouseDragged', mf)
+        registerFactory('onMouseEntered', mf)
+        registerFactory('onMouseExited', mf)
+        registerFactory('onMouseMoved', mf)
+        registerFactory('onMousePressed', mf)
+        registerFactory('onMouseReleased', mf)
+        registerFactory('onDragDetected', mf)
+        registerFactory('onDragDone', mf)
+        registerFactory('onDragEntered', mf)
+        registerFactory('onDragExited', mf)
+        registerFactory('onDragOver', mf)
+        registerFactory('onDragDropped', mf)
+        registerFactory('onMouseWheelMoved', mf) // only works for scene.
+
+        registerFactory('onKeyPressed', kf)
+        registerFactory('onKeyReleased', kf)
+        registerFactory('onKeyTyped', kf)
+
+        registerFactory('onAction', af)
     }
 
     public def registerWeb() {

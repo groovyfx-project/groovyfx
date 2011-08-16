@@ -38,28 +38,30 @@ GroovyFX.start {
              onHidden: { println "Close"}) {
 
         scene(fill: groovyblue, root: group(), stylesheets: ["file://another.css"]) {
-            onMousePressed(onEvent: {e -> println "scene press @" + e.x + "," + e.y  })
-            onKeyReleased(onEvent: { event -> println "scene key" + event.text})
-            onChange(property: "width",
-                     action: {observable, oldValue, newValue -> println "Width: " + oldValue + " ==> " + newValue})
+            onMousePressed {e -> println "scene press @" + e.x + "," + e.y  }
+            onKeyReleased { e -> println "scene key" + e.text}
+            onChange(property: "width") { observable, oldValue, newValue ->
+                println "Width: " + oldValue + " ==> " + newValue
+            }
             //stylesheets( urls: ["file://foo.css"])
 
             node(new Custom(), layoutX: 10, layoutY: 10) {
                 scale(x: 5, y: 5)
-                onChange(property: "hover",
-                         action: {observable, oldValue, newValue -> println "hover: " + oldValue + " ==> " + newValue})
+                onChange("hover") { observable, oldValue, newValue ->
+                    println "hover: " + oldValue + " ==> " + newValue
+                }
             }
 
             circle(centerX: 50, centerY: 50, radius: 25, fill: rgb(0, 0, 255), onMousePressed: {println 'jim'})
 
             rectangle(x: 100, y: 50, width: 50, height: 50, fill: red) {
-                reflection() {
+                reflection {
                     dropShadow()
                 }
             }
 
             path(fill: yellow) {
-                onMousePressed(onEvent: {println "foo"})
+                onMousePressed {println "foo"}
                 moveTo(x: 150, y: 50)
                 lineTo(x: 150, y: 100)
                 arcTo(x: 200, y: 75, radiusX: 10, radiusY: 20)

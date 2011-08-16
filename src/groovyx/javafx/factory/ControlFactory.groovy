@@ -32,8 +32,7 @@ class ControlFactory extends NodeFactory {
             "slider": { builder, name, value, attributes -> return new Slider() },
             "separator": { builder, name, value, attributes -> return new Separator() },
             "listView": { builder, name, value, attributes -> return new ListView() },
-            "passwordBox": { builder, name, value, attributes -> return new PasswordBox() },
-            "textBox": { builder, name, value, attributes -> return new TextBox() },
+            "passwordField": { builder, name, value, attributes -> return new PasswordField() },
             "textArea": { builder, name, value, attributes -> return new TextArea() },
             "textField": { builder, name, value, attributes-> return new TextField() },
             "progressBar": { builder, name, value, attributes -> return new ProgressBar() },
@@ -76,7 +75,7 @@ class ControlFactory extends NodeFactory {
         }else if(child instanceof ContextMenu) {
             child.contextMenu = contextMenu;
         } else if (parent instanceof ScrollPane) {
-            ((ScrollPane) parent).setNode((Node) child);
+            ((ScrollPane)parent).setContent((Node)child);
         } else if (parent instanceof TableView) {
             TableView table = (TableView) parent;
             if(child instanceof List)

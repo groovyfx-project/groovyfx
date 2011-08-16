@@ -16,14 +16,13 @@
 
 package groovyx.javafx.factory
 
-import groovyx.javafx.event.GroovyKeyHandler
+import groovyx.javafx.event.GroovyActionHandler
 import javafx.event.EventHandler
 
 /**
- * @author jimclarke
  * @author Dean Iverson
  */
-class KeyHandlerFactory extends AbstractFactory {
+class ActionHandlerFactory extends AbstractFactory {
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
             throws InstantiationException, IllegalAccessException {
@@ -32,7 +31,7 @@ class KeyHandlerFactory extends AbstractFactory {
         if (FactoryBuilderSupport.checkValueIsType(value, name, EventHandler.class)) {
             handler = (EventHandler)value
         } else {
-            handler = new GroovyKeyHandler(name.toString())
+            handler = new GroovyActionHandler(name.toString())
         }
 
         return handler
@@ -44,8 +43,7 @@ class KeyHandlerFactory extends AbstractFactory {
     @Override
     boolean onNodeChildren(FactoryBuilderSupport builder, Object node, Closure childContent) {
         if(childContent)
-            ((GroovyKeyHandler)node).setClosure(childContent)
-
+            ((GroovyActionHandler)node).setClosure(childContent)
         return false
     }
 }

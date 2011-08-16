@@ -14,20 +14,16 @@
 * limitations under the License.
 */
 
-package groovyx.javafx.factory
+package groovyx.javafx.event
 
-import java.util.*;
+import javafx.scene.input.KeyEvent
 
 /**
- *
  * @author jimclarke
  */
-class StylesheetFactory extends AbstractFactory {
-
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
-        throws InstantiationException, IllegalAccessException {
-        Object urls = attributes.remove("urls");
-        return urls;
+class GroovyKeyHandler extends GroovyEventHandler<KeyEvent> {
+    public GroovyKeyHandler(String type) {
+        super(type)
     }
 }
 

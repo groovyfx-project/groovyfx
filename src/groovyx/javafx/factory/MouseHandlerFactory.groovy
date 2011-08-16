@@ -16,31 +16,37 @@
 
 package groovyx.javafx.factory
 
-import javafx.scene.input.*;
-import groovyx.javafx.input.GroovyMouseHandler;
-import javafx.event.EventHandler;
+import groovyx.javafx.event.GroovyMouseHandler
+import javafx.event.EventHandler
 
 /**
- *
  * @author jimclarke
+ * @author Dean Iverson
  */
 class MouseHandlerFactory extends AbstractFactory {
+    
+    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
+            throws InstantiationException, IllegalAccessException {
+        EventHandler handler
 
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        EventHandler handler;
         if (FactoryBuilderSupport.checkValueIsType(value, name, EventHandler.class)) {
-            handler = value
+            handler = (EventHandler)value
         } else {
-            handler = new GroovyMouseHandler(name);
-            def closure = attributes.remove("onEvent");
-            if(closure != null && closure instanceof Closure)
-                ((GroovyMouseHandler)handler).setClosure(closure);
-            else if(value instanceof Closure) {
-                handler.closure = value;
-            }
+            handler = new GroovyMouseHandler(name.toString())
         }
-        return handler;
+
+        return handler
     }
 
+    @Override
+    boolean onNodeChildren(FactoryBuilderSupport builder, Object node, Closure childContent) {
+        if(childContent)
+            ((GroovyMouseHandler)node).setClosure(childContent)
+
+        return false
+    }
+
+    @Override
+    boolean isHandlesNodeChildren() { true }
 }
 

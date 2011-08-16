@@ -26,10 +26,10 @@ import javafx.beans.value.ObservableValue;
 class ClosureChangeListener implements ChangeListener {
     public String property;
     public Closure closure;
+
+    public ClosureChangeListener() {}
     
-    public ClosureEventHandler() {}
-    
-    public ClosureEventHandler(String property) {
+    public ClosureChangeListener(String property) {
         this.property = property;
     }
     
@@ -38,6 +38,5 @@ class ClosureChangeListener implements ChangeListener {
             closure(observable, oldValue, newValue);
         }
     }
-
 }
 

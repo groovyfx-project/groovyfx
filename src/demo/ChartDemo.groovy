@@ -33,7 +33,11 @@ GroovyFX.start {
 
                         stackPane(alignment: 'top_right') {
                             pieChart(data: pieData, animated: true)
-                            button('Add Slice', onAction: {pieData.add(new PieChart.Data('Other', 25))})
+                            button('Add Slice') {
+                                onAction {
+                                    pieData.add(new PieChart.Data('Other', 25))
+                                }
+                            }
                         }
 
                         lineChart(data: [First: [0, 0.25, 0.5, 1.5, 2, 1.0], Second: [0.25, 0, 0.5, 0.5, 1.5, 0.75]])

@@ -18,8 +18,8 @@ package demo
 
 import groovyx.javafx.GroovyFX
 import groovyx.javafx.SceneGraphBuilder
-import javafx.scene.paint.Color;
-import groovyx.javafx.Trigger;
+import groovyx.javafx.Trigger
+import javafx.scene.paint.Color
 
 /**
  *
@@ -28,10 +28,10 @@ import groovyx.javafx.Trigger;
 GroovyFX.start {
     def sg = new SceneGraphBuilder()
 
-    sg.stage(title: "GroovyFX Trigger Demo", width: 600, height:450, visible: true) {
-         scene(fill: groovyblue) {
-             rect = rectangle(x: 25, y: 40, width: 200, height: 150, fill: red)
-         }
+    sg.stage(title: "GroovyFX Trigger Demo", width: 600, height: 450, visible: true) {
+        scene(fill: groovyblue) {
+            rect = rectangle(x: 25, y: 40, width: 200, height: 150, fill: red)
+        }
     }
 
     new Trigger(rect, "hover", { rect.fill = rect.isHover() ? Color.GREEN : Color.RED })

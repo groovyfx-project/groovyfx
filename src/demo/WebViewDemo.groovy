@@ -25,13 +25,13 @@ GroovyFX.start {
     def sg = new SceneGraphBuilder()
 
     def webEngine = sg.webEngine(location: url)
-    def goAction = { webEngine.load(urlBox.getText()) }
+    def goAction = { webEngine.load(urlField.getText()) }
 
     sg.stage(title: "GroovyFX WebView Demo", visible: true) {
         scene(fill: groovyblue, width: 640, height: 500) {
             vbox() {
                 hbox(padding: 10, spacing: 5) {
-                    urlBox = textBox( text: url, action: goAction, prefWidth:400)
+                    urlField = textField(text: url, onAction: goAction, prefWidth:400)
                     button("Go", onAction: goAction)
                 }
                 wv = webView(engine: webEngine)

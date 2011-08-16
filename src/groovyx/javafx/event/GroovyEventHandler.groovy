@@ -1,7 +1,7 @@
 /*
 * Copyright 2011 the original author or authors.
 *
-* Licensed under the Apache License, Version 2.0 (the "License");
+* Licensed under the Apache License, Version 2.0 (the "License")
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
@@ -14,31 +14,28 @@
 * limitations under the License.
 */
 
-package groovyx.javafx.input
+package groovyx.javafx.event
 
-import javafx.scene.input.*;
-import javafx.event.EventHandler;
-import javafx.scene.input.InputEvent;
+import javafx.event.EventHandler
+import javafx.event.Event
+
 /**
- *
  * @author jimclarke
+ * @author Dean Iverson
  */
-class GroovyKeyHandler implements EventHandler<InputEvent> {
-    String type;
-    Closure closure;
+ class GroovyEventHandler<E extends Event> implements EventHandler<E> {
+    final String type
+    Closure closure
 
-    public GroovyKeyHandler(String type) {
-       this.type = type;
+    public GroovyEventHandler(String type) {
+        this.type = type
     }
 
-    public void setClosure(closure) {
-         this.closure = closure;
+    public void handle(E event) {
+        closure.call(event)
     }
 
-    public String getType() { return type; }
-
-    public void handle(InputEvent event) {
-        closure.call(event);
+    public String toString() {
+        "GroovyEventHandler: type = ${type}"
     }
 }
-

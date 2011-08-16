@@ -22,22 +22,21 @@ import groovyx.javafx.SceneGraphBuilder
 import groovyx.javafx.beans.FXBindable
 
 @Canonical
-@FXBindable
 class Person {
-    String firstName
-    String lastName
-    String city
-    String state
+    @FXBindable String firstName
+    @FXBindable String lastName
+    @FXBindable String city
+    @FXBindable String state
 }
 
 def data = [
     new Person('Jim', 'Clarke', 'Orlando', 'Fl'),
     new Person('Jim', 'Connors', 'Long Island', 'NY'),
     new Person('Eric', 'Bruno', 'Long Island', 'NY'),
-    new Person('Dean', 'Iverson', 'Fort Collins', 'CO'),
     new Person('Jim', 'Weaver', 'Marion', 'IN'),
-    new Person('Stephen', 'Chin', 'Belmont', 'CA'),
     new Person('Weiqi', 'Gao', 'Ballwin', 'MO'),
+    new Person('Stephen', 'Chin', 'Belmont', 'CA'),
+    new Person('Dean', 'Iverson', 'Fort Collins', 'CO'),
 ]
 
 //todo cell factory
@@ -45,16 +44,16 @@ def data = [
 GroovyFX.start {
     def sg = new SceneGraphBuilder()
 
-    sg.stage(title: "GroovyFX TableView Demo", width: 650, height:450, visible: true) {
-         scene(fill: groovyblue) {
-             stackPane(padding: 20) {
-                 tableView(items: data) {
-                     tableColumn(text: "First Name", property: 'firstName')
-                     tableColumn(text: "Last Name", property: 'lastName')
-                     tableColumn(text: "City", property: 'city')
-                     tableColumn(text: "State", property: 'state')
-                 }
-             }
-         }
+    sg.stage(title: "GroovyFX TableView Demo", visible: true) {
+        scene(fill: groovyblue, width: 650, height: 450) {
+            stackPane(padding: 20) {
+                tableView(items: data) {
+                    tableColumn(text: "First Name", property: 'firstName')
+                    tableColumn(text: "Last Name", property: 'lastName')
+                    tableColumn(text: "City", property: 'city')
+                    tableColumn(text: "State", property: 'state')
+                }
+            }
+        }
     }
 }

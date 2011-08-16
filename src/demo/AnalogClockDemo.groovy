@@ -25,17 +25,18 @@ import javafx.beans.binding.Bindings
  *
  * @author jimclarke
  */
- 
+
 def sg = new SceneGraphBuilder()
 
+@FXBindable
 class Time {
-    @FXBindable Integer hours
-    @FXBindable Integer minutes
-    @FXBindable Integer seconds
+    Integer hours
+    Integer minutes
+    Integer seconds
 
-    @FXBindable Double hourAngle
-    @FXBindable Double minuteAngle
-    @FXBindable Double secondAngle
+    Double hourAngle
+    Double minuteAngle
+    Double secondAngle
 
     public Time() {
         // bind the angle properties to the clock time
@@ -67,8 +68,6 @@ class Time {
 time = new Time()
 
 GroovyFX.start {
-    
-
     def width = 240.0
     def height = 240.0
     def radius = width / 3.0
