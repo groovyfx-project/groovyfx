@@ -41,8 +41,8 @@ GroovyFX.start { primaryStage ->
                 //onEditCommit()
                 treeItem(expanded: true, value: "Root") {
                     treeItem(value: "one") {
-                        branchCollapse(onEvent: {popup.show(primaryStage, 150, 150)})
-                        branchExpand(onEvent: {println "one expand"})
+                        onBranchCollapse { popup.show(primaryStage, 150, 150) }
+                        onBranchExpand {println "one expand"}
                         treeItem(value: "one.one")
                         treeItem(value: "one.two")
                         treeItem(value: "one.three")

@@ -16,26 +16,27 @@
 
 package groovyx.javafx.factory
 
-import javafx.scene.input.*;
 import groovyx.javafx.ClosureEventHandler
-import javafx.event.EventHandler;
 
 /**
- *
  * @author jimclarke
  */
 class TreeItemEventFactory extends AbstractFactory {
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        EventHandler handler = new ClosureEventHandler(name);
-        def closure = attributes.remove("onEvent");
-        if(closure != null && closure instanceof Closure)
-            handler.action = closure;
-        else if(value instanceof Closure) {
-            handler.action = value;
-        }
-        return handler;
+        def eventName = name[2].toLowerCase() + name[3..-1]
+        return new ClosureEventHandler(eventName);
     }
 
+    @Override
+    boolean isHandlesNodeChildren() { true }
+
+    @Override
+    boolean onNodeChildren(FactoryBuilderSupport builder, Object node, Closure childContent) {
+        ClosureEventHandler handler = (ClosureEventHandler)node
+        if(childContent != null)
+            handler.action = childContent;
+        return false
+    }
 }
 
