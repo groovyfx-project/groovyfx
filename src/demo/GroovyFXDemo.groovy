@@ -55,7 +55,7 @@ GroovyFX.start {
             circle(centerX: 50, centerY: 50, radius: 25, fill: rgb(0, 0, 255), onMousePressed: {println 'jim'})
 
             rectangle(x: 100, y: 50, width: 50, height: 50, fill: red) {
-                reflection {
+                effect reflection {
                     dropShadow()
                 }
             }

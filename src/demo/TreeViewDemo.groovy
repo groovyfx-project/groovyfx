@@ -29,7 +29,7 @@ GroovyFX.start { primaryStage ->
         stackPane() {
             rectangle(width: 200, height: 200, fill: lightgray)
             button("Dismiss", layoutX: 10, layoutY: 20, onAction: {popup.hide()})
-            dropShadow()
+            effect dropShadow()
         }
     }
 

@@ -46,7 +46,7 @@ GroovyFX.start({
                 stackPane(style: "-fx-background-color: burlywood", padding: [20, 0, 0, 20]) {
                     text("Padding: [20, 0, 0, 20]", fill: "sienna", font: "48pt")
                 }
-                dropShadow()
+                effect dropShadow()
             }
         }
     }
