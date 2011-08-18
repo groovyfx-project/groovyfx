@@ -47,10 +47,12 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.FloatProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.LongProperty;
-import javafx.beans.property.BooleanProperty;
+
+
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableNumberValue;
-import javafx.beans.value.ObservableBooleanValue;
+
+
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.binding.FloatBinding;
 import javafx.beans.binding.IntegerBinding;
@@ -81,8 +83,6 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
 
     private Scene currentScene;
 
-    public Stage stage;
-
     public SceneGraphBuilder(boolean init = true) {
         super(init)
         initialize()
@@ -90,7 +90,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
 
     public SceneGraphBuilder(Stage primaryStage, boolean init = true) {
         super(init)
-        this.stage = primaryStage
+        this.variables.primaryStage = primaryStage
         initialize()
     }
 
@@ -162,8 +162,8 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory("popup", factory)
         registerFactory("fileChooser", factory)
         registerFactory("filter", new FilterFactory());
-        
     }
+
     // register this one first
     public def registerNodes() {
         registerFactory("node", new CustomNodeFactory(Node.class, false));
@@ -368,6 +368,10 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
 
     public def registerEffects() {
         def ef = new EffectFactory()
+
+        // Dummy node for attaching child effects
+        registerFactory( 'effect', ef)
+
         registerFactory( 'blend', ef)
         registerFactory( 'bloom', ef)
         registerFactory( 'boxBlur', ef)
@@ -458,7 +462,6 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'player', pf)
     }
 
-
     /**
      * Compatibility API.
      *
@@ -469,29 +472,31 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         return c.call()
     }
     
-    protected Object postNodeCompletion(Object parent, Object node) {
-        if (node instanceof MediaPlayerBuilder || node instanceof SceneBuilder) {
+    private def postCompletionDelegate = { FactoryBuilderSupport builder, Object parent, Object node ->
+        if(node instanceof MediaPlayerBuilder || node instanceof SceneBuilder) {
             node = node.build();
             if(parent instanceof MediaView && node instanceof MediaPlayer) {
                 parent.mediaPlayer = node;
-            }else if(parent instanceof Stage && node instanceof Scene) {
+            } else if(parent instanceof Stage && node instanceof Scene) {
                 parent.scene = node
             }
-            // IF A non builder is passed in do the parent check.
-        }else if(parent instanceof MediaView && node instanceof MediaPlayer) {
+        // If a non-builder is passed in do the parent check.
+        } else if(parent instanceof MediaView && node instanceof MediaPlayer) {
             parent.mediaPlayer = node;
-        }else if(parent instanceof Stage && node instanceof Scene) {
+        } else if(parent instanceof Stage && node instanceof Scene) {
             parent.scene = node
-        }else if(node instanceof FXMLLoaderBuilder) {
+        } else if(node instanceof FXMLLoaderBuilder) {
             node = node.build();
         }
-        return super.postNodeCompletion(parent, node);
      }
 
     private void initialize() {
         this[DELEGATE_PROPERTY_OBJECT_ID] = DEFAULT_DELEGATE_PROPERTY_OBJECT_ID
 
         ExpandoMetaClass.enableGlobally()
+        addPostNodeCompletionDelegate(postCompletionDelegate)
+        Color.NamedColors.namedColors.put("groovyblue", Color.rgb(99, 152, 170))
+
         Number.metaClass{
             getM = {-> new Duration(delegate * 1000.0 * 60.0)}
             getS = {-> new Duration(delegate * 1000.0)}
@@ -854,8 +859,6 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
             
             
         }
-
-        Color.NamedColors.namedColors.put("groovyblue", Color.rgb(99, 152, 170))
     }
 }
 

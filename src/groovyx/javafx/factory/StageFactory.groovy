@@ -16,11 +16,10 @@
 
 package groovyx.javafx.factory
 
+import javafx.stage.FileChooser
+import javafx.stage.Popup
 import javafx.stage.Stage
-import javafx.scene.Scene
 import javafx.stage.StageStyle
-import javafx.stage.Popup;
-import javafx.stage.FileChooser;
 
 /**
  *
@@ -29,7 +28,8 @@ import javafx.stage.FileChooser;
 class StageFactory extends AbstractFactory {
     SceneWrapper sceneWrapper;
 
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
+            throws InstantiationException, IllegalAccessException {
         def window = null;
         if(name == "stage") {
 
@@ -43,20 +43,17 @@ class StageFactory extends AbstractFactory {
             def centerOnScreen = attributes.remove("centerOnScreen");
             builder.context.put("centerOnScreen", centerOnScreen);
 
+            def primary = attributes.remove("primary") ?: true
 
-            def primary = attributes.remove("primary")
-            if(primary == null) {
-                primary = true;
-            }
             if (FactoryBuilderSupport.checkValueIsType(value, name, Stage.class)) {
                 window = value
-            } else if (primary && builder.stage != null) {
-                window = builder.stage;
+            } else if (primary && builder.variables.primaryStage != null) {
+                window = builder.variables.primaryStage;
                 window.style = style;
             } else {
                 window = new Stage(style)
                 if(primary)
-                    builder.stage = window;
+                    builder.variables.primaryStage = window;
             }
         }else if(name == "popup") {
             window = new Popup();
@@ -97,8 +94,6 @@ class StageFactory extends AbstractFactory {
             parent.getExtensionFilters().add(child);
         }
     }
-
-   
 
     public void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
         if(node instanceof Stage) {

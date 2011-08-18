@@ -29,9 +29,7 @@ class FillFactory extends AbstractFactory {
 
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) {
         Paint paint = ColorFactory.get(value)
-        if (paint) {
-            builder.context[FILL_PROPERTY] = paint
-        } else {
+        if (!paint) {
             throw new RuntimeException("The value passed to the 'fill' node must be an instance of Paint, " +
                     "LinearGradientBuilder, or RadialGradientBuilder")
         }
@@ -40,9 +38,8 @@ class FillFactory extends AbstractFactory {
 
     @Override
     void setParent(FactoryBuilderSupport builder, Object parent, Object child) {
-        def paint = builder.context.remove(FILL_PROPERTY)
-        if (paint) {
-            FXHelper.setPropertyOrMethod(parent, "fill", paint)
+        if (child) {
+            FXHelper.setPropertyOrMethod(parent, "fill", child)
         }
     }
 

@@ -40,12 +40,12 @@ GroovyFX.start {
                           fill: "linear (0%,0%) to (0%,100%) stops (0.0, green) (1.0, black)")
 
                 rectangle(width: width, height: height, fill: linearGradient(stops: [[0.0, red], [1.0, blue]])) {
-                    dropShadow()
+                    effect dropShadow()
                 }
 
                 rectangle(width: width, height: height) {
                     fill linearGradient(start: [0, 0.4], end: [0, 0.6], stops: [[0.0, red], [1.0, pink]])
-                    dropShadow()
+                    effect dropShadow()
                 }
 
                 rectangle(width: width, height: height) {
@@ -63,7 +63,7 @@ GroovyFX.start {
 
                 circle(radius: height / 2,
                        fill: radialGradient(radius: 0.95, center:[0.5, 0.5], stops:[[0, cyan], [0.75, black]])) {
-                    dropShadow()
+                    effect dropShadow()
                 }
 
                 circle(radius: height / 2) {
@@ -71,7 +71,7 @@ GroovyFX.start {
                 }
 
                 circle(radius: height / 2) {
-                    dropShadow()
+                    effect dropShadow()
                     fill radialGradient(radius: 0.6, center:[0.5, 0.5], focusDistance: 0.6, focusAngle: -65) {
                         stop(offset: 0.0, color: gold)
                         stop(offset: 0.3, color: darkgoldenrod)

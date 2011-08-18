@@ -62,6 +62,7 @@ class SceneWrapper extends SceneBuilder {
             def property = InvokerHelper.invokeMethod(scene, listener.property + "Property", null);
             InvokerHelper.invokeMethod(property, "addListener", listener );
         }
+
         return scene;
     }
     

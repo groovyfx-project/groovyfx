@@ -26,10 +26,8 @@ import groovyx.javafx.GroovyFX;
 GroovyFX.start {
     def sg = new SceneGraphBuilder(it)
 
-    sg.stage(title: "GroovyFX Accordion Demo", x: 100, y: 100, width: 400, height: 400, visible: true,
-             style: "decorated", primary: true) {
-
-        scene(fill: groovyblue) {
+    sg.stage(title: "GroovyFX Accordion Demo", x: 100, y: 100, visible: true, style: "decorated", primary: true) {
+        scene(fill: groovyblue, width: 400, height: 400) {
             accordion {
                 titledPane(id: "t1") {
                     title {

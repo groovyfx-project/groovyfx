@@ -21,7 +21,12 @@ repositories {
 
 dependencies {
     groovy 'org.codehaus.groovy:groovy-all:1.8.0'
+    compile 'asm:asm:3.2'
     compile files("${javafxHome}/rt/lib/jfxrt.jar")
+}
+
+jar {
+  exclude 'demo/**'
 }
 
 new File('src/demo').eachFileMatch(~/.*Demo.groovy/) { file ->

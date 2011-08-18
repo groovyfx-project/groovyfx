@@ -25,14 +25,10 @@ import javafx.scene.paint.Paint
  * @author Dean Iverson
  */
 class StrokeFactory extends AbstractFactory {
-    private static final String STROKE_PROPERTY = "__stroke"
-
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) {
         Paint paint = ColorFactory.get(value)
-        if (paint) {
-            builder.context[STROKE_PROPERTY] = paint
-        } else {
-            throw new RuntimeException("The value passed to the 'fill' node must be an instance of Paint, " +
+        if (!paint) {
+            throw new RuntimeException("The value passed to the 'stroke' node must be an instance of Paint, " +
                     "LinearGradientBuilder, or RadialGradientBuilder")
         }
         return paint
@@ -40,14 +36,13 @@ class StrokeFactory extends AbstractFactory {
 
     @Override
     void setParent(FactoryBuilderSupport builder, Object parent, Object child) {
-        def paint = builder.context.remove(STROKE_PROPERTY)
-        if (paint) {
-            FXHelper.setPropertyOrMethod(parent, "stroke", paint)
+        if (child) {
+            FXHelper.setPropertyOrMethod(parent, "stroke", child)
         }
     }
 
     /**
-     * @return True. The fill node is a leaf.
+     * @return True. The stroke node is a leaf.
      */
     @Override
     boolean isLeaf() {

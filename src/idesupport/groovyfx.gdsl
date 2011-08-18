@@ -258,6 +258,7 @@ private void contributeGraphics(delegate) {
     delegate.method(name: 'fill', type: 'javafx.scene.paint.Paint', params: [args: [:], body: {}])
     delegate.method(name: 'stroke', type: 'javafx.scene.paint.Paint', params: [args: [:], body: {}])
 
+    delegate.method(name: 'effect', type: 'javafx.scene.effect.Effect', params: [args: [:], body: {}])
     delegate.method(name: 'blend', type: 'javafx.scene.effect.Blend', params: [args: [:], body: {}])
     delegate.method(name: 'bloom', type: 'javafx.scene.effect.Bloom', params: [args: [:], body: {}])
     delegate.method(name: 'boxBlur', type: 'javafx.scene.effect.BoxBlur', params: [args: [:], body: {}])

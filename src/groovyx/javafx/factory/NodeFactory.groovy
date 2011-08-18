@@ -106,8 +106,6 @@ public class NodeFactory extends AbstractFactory {
     public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
         if(child instanceof GroovyEventHandler) {
             addEventHandler((Node)parent, ((GroovyEventHandler)child).getType(), (EventHandler)child);
-        } else if(child instanceof Effect) {
-            ((Node)parent).setEffect((Effect)child);
         } else if(child instanceof Transform) {
             ((Node)parent).getTransforms().add((Transform)child);
         } else if(child instanceof Image && parent instanceof ImageView) {
