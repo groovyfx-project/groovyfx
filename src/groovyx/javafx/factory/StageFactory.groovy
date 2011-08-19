@@ -25,7 +25,7 @@ import javafx.stage.StageStyle
  *
  * @author jimclarke
  */
-class StageFactory extends AbstractFactory {
+class StageFactory extends AbstractGroovyFXFactory {
     SceneWrapper sceneWrapper;
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)

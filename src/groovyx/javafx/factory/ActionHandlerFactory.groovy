@@ -22,7 +22,7 @@ import javafx.event.EventHandler
 /**
  * @author Dean Iverson
  */
-class ActionHandlerFactory extends AbstractFactory {
+class ActionHandlerFactory extends AbstractGroovyFXFactory {
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
             throws InstantiationException, IllegalAccessException {

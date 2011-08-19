@@ -30,7 +30,7 @@ import javafx.builders.NodeBuilder
  *
  * @author jimclarke
  */
-class SceneFactory extends AbstractFactory {
+class SceneFactory extends AbstractGroovyFXFactory {
     private static final String BUILDER_LIST_PROPERTY = "__builderList"
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
@@ -141,7 +141,7 @@ class SceneFactory extends AbstractFactory {
                 }
             }
         }
-        return true
+        return super.onHandleNodeAttributes(builder, node, attributes);
     }
 
     @Override

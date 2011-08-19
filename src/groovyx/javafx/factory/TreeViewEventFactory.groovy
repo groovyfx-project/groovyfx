@@ -24,7 +24,7 @@ import javafx.event.EventHandler;
  *
  * @author jimclarke
  */
-class TreeViewEventFactory extends AbstractFactory {
+class TreeViewEventFactory extends AbstractGroovyFXFactory {
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         EventHandler handler = new ClosureEventHandler(name);

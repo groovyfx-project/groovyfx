@@ -23,7 +23,7 @@ import javafx.event.EventHandler
  * @author jimclarke
  * @author Dean Iverson
  */
-class MouseHandlerFactory extends AbstractFactory {
+class MouseHandlerFactory extends AbstractGroovyFXFactory {
     
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
             throws InstantiationException, IllegalAccessException {

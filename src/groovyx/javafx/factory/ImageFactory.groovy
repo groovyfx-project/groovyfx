@@ -22,7 +22,7 @@ import javafx.scene.image.Image;
  *
  * @author jimclarke
  */
-class ImageFactory extends AbstractFactory {
+class ImageFactory extends AbstractGroovyFXFactory {
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         if(value instanceof Image) {
             return value;

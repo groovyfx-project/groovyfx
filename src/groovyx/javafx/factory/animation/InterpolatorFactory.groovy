@@ -16,13 +16,14 @@
 
 package groovyx.javafx.factory.animation
 
-import javafx.animation.Interpolator;
+import javafx.animation.Interpolator
+import groovyx.javafx.factory.AbstractGroovyFXFactory;
 
 /**
  *
  * @author jimclarke
  */
-class InterpolatorFactory extends AbstractFactory {
+class InterpolatorFactory extends AbstractGroovyFXFactory {
 	public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
             switch(value.toString().toLowerCase()) {
                 case "ease_both":

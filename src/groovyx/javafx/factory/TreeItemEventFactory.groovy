@@ -21,7 +21,7 @@ import groovyx.javafx.ClosureEventHandler
 /**
  * @author jimclarke
  */
-class TreeItemEventFactory extends AbstractFactory {
+class TreeItemEventFactory extends AbstractGroovyFXFactory {
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         def eventName = name[2].toLowerCase() + name[3..-1]

@@ -22,7 +22,7 @@ import javafx.scene.shape.*;
  *
  * @author jimclarke
  */
-class PathElementFactory extends AbstractFactory {
+class PathElementFactory extends AbstractGroovyFXFactory {
     private final Class<? extends PathElement> pathElementClass
 
     PathElementFactory(Class<? extends PathElement> pathElementClass) {

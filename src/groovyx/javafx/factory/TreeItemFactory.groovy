@@ -25,7 +25,7 @@ import groovyx.javafx.ClosureEventHandler;
  *
  * @author jimclarke
  */
-class TreeItemFactory extends AbstractFactory {
+class TreeItemFactory extends AbstractGroovyFXFactory {
     
     private static def treeItemEvents = [
         "branchCollapse",
@@ -73,7 +73,7 @@ class TreeItemFactory extends AbstractFactory {
                 }
             }
         }
-        return true;
+        return super.onHandleNodeAttributes(builder, node, attributes);
     }
     
     void setEventHandler(TreeItem item, EventHandler handler) {

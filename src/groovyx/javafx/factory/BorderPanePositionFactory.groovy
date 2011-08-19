@@ -23,7 +23,7 @@ import javafx.scene.layout.BorderPane;
  *
  * @author jimclarke
  */
-class BorderPanePositionFactory extends AbstractFactory {
+class BorderPanePositionFactory extends AbstractGroovyFXFactory {
     
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
        BorderPanePosition bpp = new BorderPanePosition();

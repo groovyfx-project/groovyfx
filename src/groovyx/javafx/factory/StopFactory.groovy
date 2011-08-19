@@ -24,7 +24,7 @@ import javafx.scene.paint.Color
  *
  * Author: Dean Iverson
  */
-class StopFactory extends AbstractFactory {
+class StopFactory extends AbstractGroovyFXFactory {
     public final static STOPS_PROPERTY = "__stops"
 
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) {

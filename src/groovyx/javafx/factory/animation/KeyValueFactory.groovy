@@ -17,14 +17,15 @@
 package groovyx.javafx.factory.animation
 import javafx.animation.*;
 import javafx.beans.value.WritableValue;
-import groovyx.javafx.animation.TargetHolder;
+import groovyx.javafx.animation.TargetHolder
+import groovyx.javafx.factory.AbstractGroovyFXFactory;
 
 /**
  *
  * @author jimclarke
  */
 
-class KeyValueFactory  extends AbstractFactory {
+class KeyValueFactory  extends AbstractGroovyFXFactory {
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         if(value instanceof List && value.size() == 2) {
             TargetHolder th = new TargetHolder(bean: value.get(0), propertyName: value.get(1));

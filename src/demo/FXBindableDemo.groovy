@@ -34,10 +34,10 @@ class FXPerson {
 FXPerson person = new FXPerson();
 
 println("======================");
-println(person.lastNameProperty());
-println(person.firstNameProperty());
-println(person.ageProperty());
-println(person.likesProperty());
+println(person.lastNameProperty);
+println(person.firstNameProperty);
+println(person.ageProperty);
+println(person.likesProperty);
 println("======================");
 
 println("LastName: " + person.lastName);
@@ -59,8 +59,8 @@ println("Likes: " + person.likes);
 for ( l in person.likes) 
     println("    " +  l );
 println("======================");
-println(person.lastNameProperty());
-println(person.firstNameProperty());
-println(person.ageProperty());
-println(person.likesProperty());
+println(person.lastNameProperty);
+println(person.firstNameProperty);
+println(person.ageProperty);
+println(person.likesProperty);
 println("======================");

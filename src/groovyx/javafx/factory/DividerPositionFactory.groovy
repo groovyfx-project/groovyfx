@@ -19,7 +19,7 @@ package groovyx.javafx.factory
  *
  * @author jimclarke
  */
-class DividerPositionFactory extends AbstractFactory {
+class DividerPositionFactory extends AbstractGroovyFXFactory {
 	
     
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {

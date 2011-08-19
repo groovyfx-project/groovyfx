@@ -22,7 +22,7 @@ import javafx.scene.Node;
  *
  * @author jimclarke
  */
-class TitledFactory extends AbstractFactory {
+class TitledFactory extends AbstractGroovyFXFactory {
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Titled titled;

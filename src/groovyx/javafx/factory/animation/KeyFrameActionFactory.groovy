@@ -16,11 +16,13 @@
 
 package groovyx.javafx.factory.animation
 
+import groovyx.javafx.factory.AbstractGroovyFXFactory
+
 /**
  *
  * @author jimclarke
  */
-class KeyFrameActionFactory extends AbstractFactory {
+class KeyFrameActionFactory extends AbstractGroovyFXFactory {
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         return value;
     }

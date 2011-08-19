@@ -22,7 +22,7 @@ import javafx.scene.transform.*;
  *
  * @author jimclarke
  */
-class TransformFactory extends AbstractFactory {
+class TransformFactory extends AbstractGroovyFXFactory {
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Transform transform;
         if (FactoryBuilderSupport.checkValueIsType(value, name, Transform.class)) {

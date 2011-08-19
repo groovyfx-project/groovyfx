@@ -20,7 +20,7 @@ package groovyx.javafx.factory
  *
  * @author jimclarke
  */
-class GridConstraintFactory extends AbstractFactory {
+class GridConstraintFactory extends AbstractGroovyFXFactory {
 	
      public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         GridConstraint gc = new GridConstraint();

@@ -31,7 +31,7 @@ import javafx.scene.chart.XYChart
  *
  * @author Dean Iverson
  */
-class XYSeriesFactory extends AbstractFactory {
+class XYSeriesFactory extends AbstractGroovyFXFactory {
     public static final String SERIES_LIST_PROPERTY = "__seriesList"
 
     /**

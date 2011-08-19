@@ -21,7 +21,7 @@ import javafx.scene.layout.GridPane;
  * TODO
  * @author jimclarke
  */
-class GridRowColumnFactory extends AbstractFactory {
+class GridRowColumnFactory extends AbstractGroovyFXFactory {
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
        GridRowColumn grc = new GridRowColumn();
        grc.row = name.toString().equalsIgnoreCase("row");

@@ -23,7 +23,7 @@ import javafx.scene.control.*;
  *
  * @author jimclarke
  */
-class TableFactory extends AbstractFactory {
+class TableFactory extends AbstractGroovyFXFactory {
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Object result = null;
         switch(name) {

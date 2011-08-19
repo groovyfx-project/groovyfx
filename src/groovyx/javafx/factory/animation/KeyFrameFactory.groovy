@@ -19,12 +19,13 @@ package groovyx.javafx.factory.animation
 import javafx.animation.*;
 import javafx.beans.*;
 import javafx.util.Duration;
-import groovyx.javafx.ClosureEventHandler;
+import groovyx.javafx.ClosureEventHandler
+import groovyx.javafx.factory.AbstractGroovyFXFactory;
 /**
  *
  * @author jimclarke
  */
-class KeyFrameFactory extends AbstractFactory {
+class KeyFrameFactory extends AbstractGroovyFXFactory {
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         KeyFrameWrapper keyFrame = new KeyFrameWrapper();
         keyFrame.time = (Duration)value;

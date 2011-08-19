@@ -12,7 +12,7 @@ import javafx.builders.MediaPlayerBuilder;
  *
  * @author jimclarke
  */
-class MediaPlayerFactory extends AbstractFactory{
+class MediaPlayerFactory extends AbstractGroovyFXFactory{
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Object mediaPlayer;
         if (FactoryBuilderSupport.checkValueIsType(value, name, MediaPlayer.class)) {
@@ -121,7 +121,7 @@ class MediaPlayerFactory extends AbstractFactory{
         attr = attributes.remove("source");
         if(attr != null) 
             mpb.media(new Media(attr));
-        return true;
+        return super.onHandleNodeAttributes(builder, node, attributes);
     }
     
      protected Object postNodeCompletion(Object parent, Object node) {

@@ -11,7 +11,7 @@ import javafx.stage.FileChooser;
  *
  * @author jimclarke
  */
-class FilterFactory extends AbstractFactory {
+class FilterFactory extends AbstractGroovyFXFactory {
     
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
        def extName = value;

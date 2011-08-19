@@ -201,7 +201,7 @@ class TransitionFactory extends AbstractGradientFactory {
                 }
             }
         }
-        return true;
+        return super.onHandleNodeAttributes(builder, node, attributes);
     }
     
     @Override

@@ -21,7 +21,7 @@ import javafx.scene.Node;
  *
  * @author jimclarke
  */
-class GraphicFactory extends AbstractFactory {
+class GraphicFactory extends AbstractGroovyFXFactory {
     
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
        Graphic graphic = new Graphic();

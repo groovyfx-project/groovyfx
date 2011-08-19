@@ -24,7 +24,7 @@ import javafx.scene.paint.Paint
  * 
  * @author Dean Iverson
  */
-class StrokeFactory extends AbstractFactory {
+class StrokeFactory extends AbstractGroovyFXFactory {
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) {
         Paint paint = ColorFactory.get(value)
         if (!paint) {

@@ -22,7 +22,7 @@ import org.codehaus.groovy.runtime.InvokerHelper;
 /**
  * @author jimclarke
  */
-class ChangeFactory extends AbstractFactory {
+class ChangeFactory extends AbstractGroovyFXFactory {
     @Override
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
             throws InstantiationException, IllegalAccessException {

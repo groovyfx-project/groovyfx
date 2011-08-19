@@ -22,7 +22,7 @@ import javafx.scene.Node;
  *
  * @author jimclarke
  */
-public class ClipFactory extends AbstractFactory {
+public class ClipFactory extends AbstractGroovyFXFactory {
     
     private static final String CLIP_PROPERTY = "__clip"
     

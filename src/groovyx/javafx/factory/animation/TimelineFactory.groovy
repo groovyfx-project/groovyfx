@@ -16,19 +16,15 @@
 
 package groovyx.javafx.factory.animation
 
-import javafx.animation.*;
-import groovyx.javafx.ClosureEventHandler;
-
-
+import groovyx.javafx.ClosureEventHandler
+import groovyx.javafx.factory.AbstractGroovyFXFactory
+import javafx.animation.Timeline
 
 /**
  *
  * @author jimclarke
  */
-
-
-
-class TimelineFactory extends AbstractFactory {
+class TimelineFactory extends AbstractGroovyFXFactory {
 
     public List<KeyFrameWrapper> frames;
 

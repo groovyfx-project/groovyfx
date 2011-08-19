@@ -24,20 +24,16 @@ import javafx.beans.property.Property;
  *
  * @author jimclarke
  */
-class BindFactory extends AbstractFactory {
+class BindFactory extends AbstractGroovyFXFactory {
     public static final String CONTEXT_DATA_KEY = "BindFactoryData";
-    final Map<String, TriggerBinding> syntheticBindings;
-    public BindFactory() {
-        syntheticBindings = new HashMap();
+    private static final Map<String, TriggerBinding> syntheticBindings = new HashMap();
 
-    }
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
+            throws InstantiationException, IllegalAccessException {
         Object source = attributes.remove("source");
         Object target = attributes.remove("target");
-        Map bindContext = builder.context.get(CONTEXT_DATA_KEY) ?: [:]
-        if (bindContext.isEmpty()) {
-            builder.context.put(CONTEXT_DATA_KEY, bindContext)
-        }
+
+        Map bindContext = builder.variables.get(CONTEXT_DATA_KEY, [:])
 
         TargetBinding tb = null;
         if (target != null) {
@@ -120,9 +116,8 @@ class BindFactory extends AbstractFactory {
             bindContext.put(fb, [value:attributes.remove("value")])
         }
         Object o = attributes.remove("bind")
-        if (    ((o == null) && !attributes.containsKey('group'))
-            || ((o instanceof Boolean) && ((Boolean)o).booleanValue()))
-        {
+        if (((o == null) && !attributes.containsKey('group')) ||
+            ((o instanceof Boolean) && ((Boolean)o).booleanValue())) {
             fb.bind()
         }
 
@@ -165,7 +160,7 @@ class BindFactory extends AbstractFactory {
             node.closure = childContent
             return false;
         } else if (node instanceof TriggerBinding) {
-            def bindAttrs = builder.context.get(CONTEXT_DATA_KEY)[node] ?: [:]
+            def bindAttrs = builder.variables.get(CONTEXT_DATA_KEY)[node] ?: [:]
             if (!bindAttrs.containsKey("converter")) {
                 bindAttrs["converter"] = childContent
                 return false;
@@ -174,23 +169,10 @@ class BindFactory extends AbstractFactory {
 
         throw new RuntimeException("Binding nodes do not accept child content when a converter is already specified")
     }
-    public TriggerBinding getTriggerBinding(PropertyBinding psb) {
-        String property = psb.propertyName
-        Class currentClass = psb.bean.getClass()
-        while (currentClass != null) {
-            // should we check interfaces as well?  if so at what level?
-            def trigger = (TriggerBinding) syntheticBindings.get("$currentClass.name#$property" as String)
-            if (trigger != null) {
-                return trigger
-            }
-            currentClass = currentClass.getSuperclass()
-        }
-        //TODO inspect the bean info and throw an error if the property is not obserbable and not bind:false?
-        return psb
-    }
-    public bindingAttributeDelegate(FactoryBuilderSupport builder, def node, def attributes) {
+
+    public static def bindingAttributeDelegate = { FactoryBuilderSupport builder, def node, def attributes ->
         Iterator iter = attributes.entrySet().iterator()
-        Map bindContext = builder.context.get(CONTEXT_DATA_KEY) ?: [:]
+        Map bindContext = builder.variables.get(CONTEXT_DATA_KEY, [:])
 
         while (iter.hasNext()) {
             Entry entry = (Entry) iter.next()
@@ -248,8 +230,22 @@ class BindFactory extends AbstractFactory {
         
     }
 
-    private def finishContextualBinding(FullBinding fb, FactoryBuilderSupport builder, bindAttrs, id) {
+    private static TriggerBinding getTriggerBinding(PropertyBinding psb) {
+        String property = psb.propertyName
+        Class currentClass = psb.bean.getClass()
+        while (currentClass != null) {
+            // should we check interfaces as well?  if so at what level?
+            def trigger = (TriggerBinding) syntheticBindings.get("$currentClass.name#$property" as String)
+            if (trigger != null) {
+                return trigger
+            }
+            currentClass = currentClass.getSuperclass()
+        }
+        //TODO inspect the bean info and throw an error if the property is not obserbable and not bind:false?
+        return psb
+    }
 
+    private static void finishContextualBinding(FullBinding fb, FactoryBuilderSupport builder, bindAttrs, id) {
         Object bindValue = bindAttrs.remove("bind")
         bindAttrs.each {k, v -> fb."$k" = v}
 
@@ -265,6 +261,5 @@ class BindFactory extends AbstractFactory {
         //builder.getVariables().each{ Map.Entry me -> if (value.is(me.value)) me.setValue fb}
         if (id) builder.setVariable(id, fb)
     }
-
 }
 

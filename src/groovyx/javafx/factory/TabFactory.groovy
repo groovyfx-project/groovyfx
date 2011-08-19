@@ -24,7 +24,7 @@ import javafx.scene.control.Tooltip
  *
  * @author jimclarke
  */
-class TabFactory extends AbstractFactory {
+class TabFactory extends AbstractGroovyFXFactory {
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Tab tab
         if (value instanceof Tab) {

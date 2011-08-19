@@ -23,7 +23,7 @@ import javafx.event.EventHandler
  * @author jimclarke
  * @author Dean Iverson
  */
-class KeyHandlerFactory extends AbstractFactory {
+class KeyHandlerFactory extends AbstractGroovyFXFactory {
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
             throws InstantiationException, IllegalAccessException {

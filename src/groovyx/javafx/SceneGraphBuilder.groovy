@@ -125,21 +125,6 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         throw new MissingPropertyException("Unrecognized property: ${name}", name, this.class);
     }
 
-    protected void setNodeAttributes(Object node, Map attributes) {
-        // set the properties
-        //noinspection unchecked
-        for (Map.Entry entry : (Set<Map.Entry>) attributes.entrySet()) {
-            String property = entry.getKey().toString();
-            Object value = entry.getValue();
-            if(value instanceof ClosureTriggerBinding) {
-                def ctb = (ClosureTriggerBinding)value;
-                value = ctb.getSourceValue();
-            }
-            if(!FXHelper.fxAttribute(node, property, value))
-                InvokerHelper.setProperty(node, property, value);
-        }
-    }
-
     def rgb(int r, int g, int b) {
         Color.rgb(r,g,b);
     }
@@ -169,13 +154,10 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory("node", new CustomNodeFactory(Node.class, false));
         registerFactory("nodes", new CustomNodeFactory(List.class, true));
         registerFactory("container", new CustomNodeFactory(Parent.class, false));
-        def nf = new NodeFactory();
-        addAttributeDelegate(nf.&bindingAttributeDelegate);
-        registerFactory("imageView", nf);
+
+        registerFactory("imageView", new NodeFactory());
         registerFactory("image", new ImageFactory());
-        
         registerFactory("clip", new ClipFactory());
-        
         registerFactory("fxml", new FXMLFactory());
     }
 
@@ -215,8 +197,6 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         
         registerFactory("bind", bindFactory);
         registerFactory("onChange", changeFactory);
-        
-        addAttributeDelegate(bindFactory.&bindingAttributeDelegate);
     }
 
     public def registerThreading() {
@@ -472,8 +452,10 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         return c.call()
     }
     
-    private def postCompletionDelegate = { FactoryBuilderSupport builder, Object parent, Object node ->
+    private Object postCompletionDelegate = { FactoryBuilderSupport builder, Object parent, Object node ->
+        println "in PostCompletionDelegate!!"
         if(node instanceof MediaPlayerBuilder || node instanceof SceneBuilder) {
+            println ("node is a ${node.class.simpleName}")
             node = node.build();
             if(parent instanceof MediaView && node instanceof MediaPlayer) {
                 parent.mediaPlayer = node;
@@ -488,6 +470,8 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         } else if(node instanceof FXMLLoaderBuilder) {
             node = node.build();
         }
+        println "returning a ${node.class.simpleName}"
+        return node;
      }
 
     private void initialize() {
@@ -495,6 +479,9 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
 
         ExpandoMetaClass.enableGlobally()
         addPostNodeCompletionDelegate(postCompletionDelegate)
+        addAttributeDelegate(NodeFactory.attributeDelegate);
+        addAttributeDelegate(BindFactory.bindingAttributeDelegate);
+
         Color.NamedColors.namedColors.put("groovyblue", Color.rgb(99, 152, 170))
 
         Number.metaClass{

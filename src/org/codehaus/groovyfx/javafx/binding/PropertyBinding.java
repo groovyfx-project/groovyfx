@@ -128,8 +128,12 @@ public class PropertyBinding implements SourceBinding, TargetBinding, TriggerBin
                 if(fxProperty == null && bean != null && propertyName != null) {
                     try {
                         fxProperty = (Property)InvokerHelper.invokeMethodSafe(bean, propertyName + "Property", null);
-                    }catch (MissingMethodException ignore) {
-                        
+                    } catch (MissingMethodException ignore) {
+                        try {
+                            // Maybe it's a @FXBindable property?
+                            fxProperty = (Property)InvokerHelper.getPropertySafe(bean, propertyName+"Property");
+                        } catch (MissingMethodException ignoreAgain) {
+                        }
                     }
                 }
                 if(fxProperty != null) {

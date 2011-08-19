@@ -17,12 +17,13 @@
 package groovyx.javafx.factory.animation
 
 import javafx.animation.Interpolator
+import groovyx.javafx.factory.AbstractGroovyFXFactory
 
 /**
  *
  * @author jimclarke
  */
-class KeyValueSubFactory  extends AbstractFactory  {
+class KeyValueSubFactory  extends AbstractGroovyFXFactory  {
 
      public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         switch(name) {

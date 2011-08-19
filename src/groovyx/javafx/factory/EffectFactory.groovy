@@ -22,12 +22,12 @@ import javafx.scene.effect.*
  *
  * @author jimclarke
  */
-class EffectFactory extends AbstractFactory {
+class EffectFactory extends AbstractGroovyFXFactory {
     public static final String ATTACH_EFFECT_KEY = '__attachEffect'
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
             throws InstantiationException, IllegalAccessException {
-        Effect effect;
+        def effect;
         if (FactoryBuilderSupport.checkValueIsType(value, name, Effect.class)) {
             effect = (Effect) value
             if (name == 'effect') {

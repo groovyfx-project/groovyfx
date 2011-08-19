@@ -26,7 +26,7 @@ import javafx.collections.ObservableList
 /**
  * @author Dean Iverson
  */
-class XYChartFactory extends AbstractFactory {
+class XYChartFactory extends AbstractGroovyFXFactory {
     private final Class<? extends XYChart> chartClass
 
     XYChartFactory(Class<? extends XYChart> chartClass) {

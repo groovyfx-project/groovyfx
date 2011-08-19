@@ -24,7 +24,7 @@ import javafx.scene.paint.Paint
  * 
  * @author Dean Iverson
  */
-class FillFactory extends AbstractFactory {
+class FillFactory extends AbstractGroovyFXFactory {
     private static final String FILL_PROPERTY = "__fill"
 
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) {

@@ -12,7 +12,7 @@ import javafx.scene.Node;
 *
 * @author jimclarke
 */
-class MenuItemFactory extends AbstractFactory {
+class MenuItemFactory extends AbstractGroovyFXFactory {
 	private static def menuItemBuilder = [
             "menu": { builder, name, value, attributes -> return new Menu("") },
             "menuItem": { builder, name, value, attributes -> return new MenuItem() },

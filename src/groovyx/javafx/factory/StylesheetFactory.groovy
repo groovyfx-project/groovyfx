@@ -22,7 +22,7 @@ import java.util.*;
  *
  * @author jimclarke
  */
-class StylesheetFactory extends AbstractFactory {
+class StylesheetFactory extends AbstractGroovyFXFactory {
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
         throws InstantiationException, IllegalAccessException {

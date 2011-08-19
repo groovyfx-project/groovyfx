@@ -16,22 +16,20 @@
 
 package groovyx.javafx.factory
 
+import groovyx.javafx.event.GroovyEventHandler
 import groovyx.javafx.event.GroovyKeyHandler
 import groovyx.javafx.event.GroovyMouseHandler
 import javafx.event.EventHandler
 import javafx.scene.Node
-import javafx.scene.effect.Effect
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
-
 import javafx.scene.transform.Transform
-import groovyx.javafx.event.GroovyEventHandler
 
 /**
  *
  * @author jimclarke
  */
-public class NodeFactory extends AbstractFactory {
+public class NodeFactory extends AbstractGroovyFXFactory {
     
     public static def mouseEvents = [
         'onMouseClicked',
@@ -55,7 +53,6 @@ public class NodeFactory extends AbstractFactory {
         'onKeyReleased',
         'onKeyTyped',
     ]
-    
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
     throws InstantiationException, IllegalAccessException {
@@ -100,7 +97,7 @@ public class NodeFactory extends AbstractFactory {
                 }
             }
         }
-        return true;
+         return super.onHandleNodeAttributes(builder, node, attributes);
     }
 
     public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
@@ -117,8 +114,7 @@ public class NodeFactory extends AbstractFactory {
         FXHelper.setPropertyOrMethod(node, type, handler)
     }
 
-    
-    public bindingAttributeDelegate(FactoryBuilderSupport builder, def node, def attributes) {
+    public static def attributeDelegate = { FactoryBuilderSupport builder, def node, def attributes ->
         FXHelper.fxAttributes(node, attributes);
     }
 }

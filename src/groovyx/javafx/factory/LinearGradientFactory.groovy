@@ -50,7 +50,7 @@ class LinearGradientFactory extends AbstractGradientFactory {
         }
 
         handleStopsAttributeIfPresent(attributes, lgb)
-        return true;
+        return super.onHandleNodeAttributes(builder, node, attributes);
     }
 
     @Override

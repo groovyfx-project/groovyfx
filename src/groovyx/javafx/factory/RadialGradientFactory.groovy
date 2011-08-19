@@ -44,7 +44,7 @@ class RadialGradientFactory extends AbstractGradientFactory {
         }
 
         handleStopsAttributeIfPresent(attributes, rgb)
-        return true;
+        return super.onHandleNodeAttributes(builder, node, attributes);
     }
 
 

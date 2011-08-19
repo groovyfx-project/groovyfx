@@ -26,12 +26,12 @@ GroovyFX.start { primaryStage ->
         filter("images", extensions: ["jpg", "gif", "bmp"])
     }
 
-    def stage = sg.stage(title: "GroovyFX FileChooser Demo", width: 400, height:300, visible: true, resizable: true) {
+    sg.stage(title: "GroovyFX FileChooser Demo", width: 400, height:300, visible: true, resizable: true) {
          scene(fill: groovyblue) {
              stackPane {
                  hbox(spacing: 10, padding: 10) {
-                    button("Open file", onAction: { println(fileChooser.showOpenDialog(stage)) })
-                    button("Save file", onAction: { println(fileChooser.showSaveDialog(stage)) })
+                    button("Open file", onAction: { println(fileChooser.showOpenDialog(primaryStage)) })
+                    button("Save file", onAction: { println(fileChooser.showSaveDialog(primaryStage)) })
                  }
              }
          }

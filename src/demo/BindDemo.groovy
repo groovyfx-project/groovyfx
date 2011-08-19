@@ -19,13 +19,24 @@ package demo
 import groovyx.javafx.GroovyFX
 import groovyx.javafx.SceneGraphBuilder
 import javafx.scene.control.TextField
+import groovyx.javafx.beans.FXBindable
 
 /**
  *
  * @author jimclarke
  */
+class QuickTest {
+    @FXBindable String qtText = "Quick Test"
+    private int clickCount = 0
+
+    def onClick = {
+        qtText = "Quick Test ${++clickCount}"
+    }
+}
+
 GroovyFX.start {
     def sg = new SceneGraphBuilder(it)
+    def qt = new QuickTest()
 
     sg.stage(title: "GroovyFX Bind Demo", x: 100, y: 100, width: 400, height: 400, visible: true,
              style: "decorated", onHidden: { println "Close"}) {
@@ -35,9 +46,14 @@ GroovyFX.start {
 
             vbox(spacing: 10, padding: 10) {
                 TextField tf = textField(text: 'Change Me!')
-                button(text: bind(source: tf, sourceProperty: 'text'))
+                button(text: bind(source: tf, sourceProperty: 'text'), onAction: {qt.onClick()})
                 label(text: bind(tf.textProperty()))
                 label(text: bind({tf.text}))
+
+                // Bind to POGO fields annotated with @FXBindable
+                // These two bindings are equivalent
+                label(text: bind(source: qt, sourceProperty: 'qtText'))
+                label(text: bind(qt.qtTextProperty))
             }
         }
     }
