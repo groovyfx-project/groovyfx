@@ -452,10 +452,8 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         return c.call()
     }
     
-    private Object postCompletionDelegate = { FactoryBuilderSupport builder, Object parent, Object node ->
-        println "in PostCompletionDelegate!!"
+    private def postCompletionDelegate = { FactoryBuilderSupport builder, Object parent, Object node ->
         if(node instanceof MediaPlayerBuilder || node instanceof SceneBuilder) {
-            println ("node is a ${node.class.simpleName}")
             node = node.build();
             if(parent instanceof MediaView && node instanceof MediaPlayer) {
                 parent.mediaPlayer = node;
@@ -470,8 +468,6 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         } else if(node instanceof FXMLLoaderBuilder) {
             node = node.build();
         }
-        println "returning a ${node.class.simpleName}"
-        return node;
      }
 
     private void initialize() {
