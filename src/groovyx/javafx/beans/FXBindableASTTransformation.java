@@ -406,6 +406,24 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
                                              Parameter.EMPTY_ARRAY, ClassNode.EMPTY_ARRAY, block);
         accessor.setSynthetic(true);
         classNode.addMethod(accessor);
+        
+        // Create the xxxxProperty() method that merely calls getXxxxProperty()
+        block = new BlockStatement();
+        
+        VariableExpression thisExpression = VariableExpression.THIS_EXPRESSION;
+        ArgumentListExpression emptyArguments = ArgumentListExpression.EMPTY_ARGUMENTS;
+        
+        MethodCallExpression getProperty = new MethodCallExpression(thisExpression, getterName, emptyArguments);
+        block.addStatement(new ReturnStatement(getProperty));
+        
+        String javaFXPropertyFunction = fxProperty.getName();
+        
+        accessor = new MethodNode(javaFXPropertyFunction, fxProperty.getModifiers(), fxProperty.getType(),
+                                             Parameter.EMPTY_ARRAY, ClassNode.EMPTY_ARRAY, block);
+        accessor.setSynthetic(true);
+        classNode.addMethod(accessor);
+        
+        
     }
 
     /**
