@@ -18,6 +18,8 @@ package groovyx.javafx
 
 import java.util.logging.Logger
 import javafx.application.Platform
+//TODO import javafx.scene.media.MediaPlayerBuilder
+//TODO import javafx.scene.SceneBuilder
 import javafx.builders.MediaPlayerBuilder
 import javafx.builders.SceneBuilder
 import javafx.geometry.Orientation
@@ -305,7 +307,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'progressBar', cf)
         registerFactory( 'progessIndicator', cf)
         registerFactory( 'scrollPane', cf)
-        registerFactory( 'tableView', cf)
+        registerFactory( 'tableView', tf)
         
         
         registerFactory( 'accordion', cf); // children node to panes list
@@ -325,7 +327,6 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         //'cell'
 
         registerFactory( 'tableColumn', tf)
-        registerFactory( 'tableRow', tf) // seldom used
         
         registerFactory( 'title', titledF)
         registerFactory( 'content', titledF)
