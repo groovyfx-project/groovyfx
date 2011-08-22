@@ -307,7 +307,8 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'progressBar', cf)
         registerFactory( 'progessIndicator', cf)
         registerFactory( 'scrollPane', cf)
-        registerFactory( 'tableView', tf)
+        registerFactory( 'tableView', cf)
+        //TODO b41 registerFactory( 'tableView', tf)
         
         
         registerFactory( 'accordion', cf); // children node to panes list
