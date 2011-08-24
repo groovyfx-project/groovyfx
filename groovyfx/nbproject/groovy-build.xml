@@ -20,7 +20,7 @@
                 <taskdef name="groovyc" classpath="${javac.classpath}" classname="org.codehaus.groovy.ant.Groovyc"/>
                 <property name="empty.dir" location="${build.dir}/empty"/>
                 <mkdir dir="${empty.dir}"/>
-                <groovyc srcdir="@{srcdir}" sourcepath="@{sourcepath}" destdir="@{destdir}" encoding="${source.encoding}" includes="@{includes}" excludes="@{excludes}" includeAntRuntime="false">
+                <groovyc srcdir="@{srcdir}" sourcepath="@{sourcepath}" destdir="@{destdir}" encoding="${source.encoding}" includes="@{includes}" excludes="@{excludes}" includeAntRuntime="false" fork="true">
                     <src>
                         <dirset dir="@{gensrcdir}" erroronmissingdir="false">
                             <include name="*"/>
