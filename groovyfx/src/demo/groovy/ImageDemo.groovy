@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package demo
+
 
 import groovyx.javafx.SceneGraphBuilder
 import groovyx.javafx.GroovyFX

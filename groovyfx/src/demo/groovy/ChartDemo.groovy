@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package demo
+
 
 import javafx.collections.FXCollections
 import javafx.scene.chart.PieChart

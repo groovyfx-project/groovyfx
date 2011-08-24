@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package demo
+
 
 import groovy.transform.Canonical
 import groovyx.javafx.GroovyFX
