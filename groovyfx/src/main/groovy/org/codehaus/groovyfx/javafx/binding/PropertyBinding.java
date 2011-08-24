@@ -25,8 +25,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyVetoException;
 
-
-import groovyx.javafx.factory.FXHelper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.property.Property;
 
