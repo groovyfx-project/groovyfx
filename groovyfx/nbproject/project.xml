@@ -10,10 +10,11 @@
         <data xmlns="http://www.netbeans.org/ns/j2se-project/3">
             <name>GroovyFX</name>
             <source-roots>
-                <root id="src.dir"/>
+                <root id="src.groovy.dir"/>
+                <root id="src.groovy2.dir"/>
             </source-roots>
             <test-roots>
-                <root id="test.src.dir"/>
+                <root id="test.groovy.dir"/>
             </test-roots>
         </data>
     </configuration>
