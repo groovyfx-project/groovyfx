@@ -42,6 +42,11 @@ class StageFactory extends AbstractGroovyFXFactory {
             }
             def centerOnScreen = attributes.remove("centerOnScreen");
             builder.context.put("centerOnScreen", centerOnScreen);
+            
+            def show = attributes.remove("show");
+            if(show == null)
+                show = attributes.remove("visible");
+            builder.context.put("show", show);
 
             def primary = attributes.remove("primary") ?: true
 
@@ -101,6 +106,9 @@ class StageFactory extends AbstractGroovyFXFactory {
                 node.sizeToScene();
             if(builder.context.centerOnScreen) {
                 node.centerOnScreen();
+            }
+            if (builder.context.show) {
+                node.show();
             }
         }
 

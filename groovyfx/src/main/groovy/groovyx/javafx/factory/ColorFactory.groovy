@@ -23,8 +23,8 @@ import java.util.regex.Matcher;
 import java.util.*;
 import javafx.scene.paint.Paint;
 
-import javafx.builders.RadialGradientBuilder
-import javafx.builders.LinearGradientBuilder;
+import javafx.scene.paint.RadialGradientBuilder
+import javafx.scene.paint.LinearGradientBuilder;
 
 import com.sun.javafx.css.Stylesheet;
 import com.sun.javafx.css.Value;

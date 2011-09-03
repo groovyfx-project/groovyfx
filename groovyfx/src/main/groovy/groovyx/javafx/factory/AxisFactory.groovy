@@ -16,7 +16,7 @@
 package groovyx.javafx.factory
 
 import javafx.scene.chart.Axis
-import javafx.builders.XYChartBuilder
+import javafx.scene.chart.XYChartBuilder
 
 /**
  * A factory for creating ValueAxis and CategoryAxis objects for XYCharts.

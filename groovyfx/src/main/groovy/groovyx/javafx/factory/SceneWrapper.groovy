@@ -27,7 +27,7 @@ import javafx.scene.input.*;
 import javafx.event.EventHandler;
 import groovyx.javafx.ClosureChangeListener
 import org.codehaus.groovy.runtime.InvokerHelper;
-import javafx.builders.SceneBuilder;
+import javafx.scene.SceneBuilder;
 /**
  *
  * @author jimclarke

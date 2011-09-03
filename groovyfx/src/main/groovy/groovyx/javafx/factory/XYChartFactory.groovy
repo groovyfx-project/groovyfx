@@ -41,7 +41,7 @@ class XYChartFactory extends AbstractGroovyFXFactory {
         if (FactoryBuilderSupport.checkValueIsType(value, name, chartClass)) {
             return value
         } else {
-            def builderClass = Class.forName("javafx.builders.${chartClass.getSimpleName()}Builder")
+            def builderClass = Class.forName("javafx.scene.chart.${chartClass.getSimpleName()}Builder")
             def chartBuilder = builderClass.newInstance()
 
             // Set default axes so the builder doesn't blow up with a NPE

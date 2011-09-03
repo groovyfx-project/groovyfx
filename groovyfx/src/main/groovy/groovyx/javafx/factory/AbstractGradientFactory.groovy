@@ -19,8 +19,8 @@ package groovyx.javafx.factory
 import javafx.scene.paint.Stop
 import javafx.scene.paint.LinearGradient
 import javafx.scene.paint.RadialGradient
-import javafx.builders.LinearGradientBuilder
-import javafx.builders.RadialGradientBuilder
+import javafx.scene.paint.LinearGradientBuilder
+import javafx.scene.paint.RadialGradientBuilder
 
 /**
  * Abstract base class containing methods used by both LinearGradientFactory and RadialGradientFactory.

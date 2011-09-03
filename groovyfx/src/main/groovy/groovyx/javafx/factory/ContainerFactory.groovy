@@ -16,7 +16,7 @@
 
 package groovyx.javafx.factory
 
-import javafx.builders.NodeBuilder
+import javafx.scene.NodeBuilder
 import javafx.scene.Group
 import javafx.scene.Node
 import javafx.scene.Parent

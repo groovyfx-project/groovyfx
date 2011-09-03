@@ -18,10 +18,8 @@ package groovyx.javafx
 
 import java.util.logging.Logger
 import javafx.application.Platform
-//TODO import javafx.scene.media.MediaPlayerBuilder
-//TODO import javafx.scene.SceneBuilder
-import javafx.builders.MediaPlayerBuilder
-import javafx.builders.SceneBuilder
+import javafx.scene.media.MediaPlayerBuilder
+import javafx.scene.SceneBuilder
 import javafx.geometry.Orientation
 import javafx.scene.Node
 import javafx.scene.Parent

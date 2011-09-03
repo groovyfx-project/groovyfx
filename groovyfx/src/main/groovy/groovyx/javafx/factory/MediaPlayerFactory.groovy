@@ -7,7 +7,7 @@ package groovyx.javafx.factory
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.media.Media;
-import javafx.builders.MediaPlayerBuilder;
+import javafx.scene.media.MediaPlayerBuilder;
 /**
  *
  * @author jimclarke
@@ -19,18 +19,18 @@ class MediaPlayerFactory extends AbstractGroovyFXFactory{
             mediaPlayer = value
         } else {
             mediaPlayer = new MediaPlayerBuilder();
+            // Need to this here so that we are sure to return a MediaPlayer, not the builder.
+            handleMediaPlayerAttributes(mediaPlayer, attributes);
+            return mediaPlayer.build();
         }
     }
     
-    @Override
-    boolean onHandleNodeAttributes(FactoryBuilderSupport builder, Object node, Map attributes) {
-        if (node instanceof MediaPlayer)
-            return false;
+    private void handleMediaPlayerAttributes(Object node, Map attributes) {
 
         MediaPlayerBuilder mpb = node as MediaPlayerBuilder
         
 
-        def attr = attributes.get("audioSpectrumInterval");
+        def attr = attributes.remove("audioSpectrumInterval");
         if(attr != null)
              mpg.audioSpectrumInterval(attr) 
         
@@ -82,9 +82,10 @@ class MediaPlayerFactory extends AbstractGroovyFXFactory{
         if(attr != null)
              mpb.onPaused(attr) 
 
-        attr = attributes.remove("onPlay");
+             
+        attr = attributes.remove("onPlaying");
         if(attr != null)
-             mpb.onPlay(attr) 
+             mpb.onPlaying(attr) 
 
         attr = attributes.remove("onReady");
         if(attr != null)
@@ -117,23 +118,13 @@ class MediaPlayerFactory extends AbstractGroovyFXFactory{
         attr = attributes.remove("volume");
         if(attr != null)
              mpb.volume(attr) 
-             
+        
+        
+        // shorthand for media
         attr = attributes.remove("source");
         if(attr != null) 
             mpb.media(new Media(attr));
-        return super.onHandleNodeAttributes(builder, node, attributes);
     }
     
-     protected Object postNodeCompletion(Object parent, Object node) {
-         this.onNodeCompleted();
-         if(node instanceof MediaPlayerBuilder) {
-             node = node.build();
-         }
-         
-        if(parent instanceof MediaView) {
-            parent.mediaPlayer= node;
-        }
-        return super.postNodeCompletion(parent, node);
-     }
 }
 

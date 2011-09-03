@@ -24,7 +24,7 @@ import javafx.scene.Group
 import javafx.scene.Node
 
 import javafx.scene.layout.Region
-import javafx.builders.NodeBuilder
+import javafx.scene.NodeBuilder
 
 /**
  *
