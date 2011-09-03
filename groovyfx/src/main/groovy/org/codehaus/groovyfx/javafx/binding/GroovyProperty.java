@@ -24,7 +24,7 @@ import org.codehaus.groovy.runtime.InvokerInvocationException;
  * Bridges javafx property to Groovy property
  * @author jimclarke
  */
-public class GroovyProperty extends SimpleObjectProperty /* TODO SimpleObjectProperty */{
+public class GroovyProperty extends SimpleObjectProperty {
     
     public GroovyProperty(Object bean, String propertyName) {
         super(bean, propertyName);
