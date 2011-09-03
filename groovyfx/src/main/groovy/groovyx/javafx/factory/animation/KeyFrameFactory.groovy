@@ -42,11 +42,11 @@ class KeyFrameFactory extends AbstractGroovyFXFactory {
     }
 
     public void setChild(FactoryBuilderSupport build, Object parent, Object child) {
-        println(child);
+        //println(child);
     }
 
     public void onNodeCompleted( FactoryBuilderSupport builder, Object parent, Object node )  {
-        println("KeyFrameFactory.nodeComplete node = ${node}")
+        //println("KeyFrameFactory.nodeComplete node = ${node}")
     }
 
 
