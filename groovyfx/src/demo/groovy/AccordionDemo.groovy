@@ -29,26 +29,17 @@ GroovyFX.start {
     sg.stage(title: "GroovyFX Accordion Demo", x: 100, y: 100, visible: true, style: "decorated", primary: true) {
         scene(fill: groovyblue, width: 400, height: 400) {
             accordion {
-                titledPane(id: "t1") {
-                    title {
-                        label("Label 1")
-                    }
+                titledPane(id: "t1", text: "Label 1") {
                     content {
                         label(text: "This is Label 1\n\nAnd there were a few empty lines just there!")
                     }
                 }
-                titledPane(id: "t2") {
-                    title {
-                        label(text: "Label 2")
-                    }
+                titledPane(id: "t2", text: "Label 2") {
                     content {
                         label(text: "This is Label 2\n\nAnd there were a few empty lines just there!")
                     }
                 }
-                titledPane(id: "t3") {
-                    title {
-                        label(text: "Label 3")
-                    }
+                titledPane(id: "t3", text: "Label 3") {
                     // this is content
                     label(text: "This is Label 3\n\nAnd there were a few empty lines just there!")
                 }

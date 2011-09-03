@@ -19,41 +19,72 @@
 import groovy.transform.Canonical
 import groovyx.javafx.GroovyFX
 import groovyx.javafx.SceneGraphBuilder
-import groovyx.javafx.beans.FXBindable
+import groovyx.javafx.beans.FXBindable;
+import java.text.*;
+
+
+
+enum SexType { MALE, FEMALE;}
 
 @Canonical
-class Person {
-    @FXBindable String firstName
-    @FXBindable String lastName
-    @FXBindable String city
-    @FXBindable String state
+class TablePerson {
+    @FXBindable String name;
+    @FXBindable int age;
+    @FXBindable SexType sex;
+    @FXBindable Date dob;
 }
 
-def data = [
-    new Person('Jim', 'Clarke', 'Orlando', 'Fl'),
-    new Person('Jim', 'Connors', 'Long Island', 'NY'),
-    new Person('Eric', 'Bruno', 'Long Island', 'NY'),
-    new Person('Jim', 'Weaver', 'Marion', 'IN'),
-    new Person('Weiqi', 'Gao', 'Ballwin', 'MO'),
-    new Person('Stephen', 'Chin', 'Belmont', 'CA'),
-    new Person('Dean', 'Iverson', 'Fort Collins', 'CO'),
+def persons = [ 
+    new TablePerson(name: "Jim Clarke", age: 29, sex: SexType.MALE, dob: new Date()),
+    new TablePerson(name: "Dean Iverson", age: 30, sex: SexType.MALE, dob: new Date()),
+    new TablePerson(name: "Angelina Jolie", age: 36, sex: SexType.FEMALE, dob: new Date())
 ]
 
-//todo cell factory
 
-GroovyFX.start {
-    def sg = new SceneGraphBuilder()
+def dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    sg.stage(title: "GroovyFX TableView Demo", visible: true) {
-        scene(fill: groovyblue, width: 650, height: 450) {
-            stackPane(padding: 20) {
-                tableView(items: data) {
-                    tableColumn(text: "First Name", property: 'firstName')
-                    tableColumn(text: "Last Name", property: 'lastName')
-                    tableColumn(text: "City", property: 'city')
-                    tableColumn(text: "State", property: 'state')
-                }
-            }
-        }
+
+GroovyFX.start { primaryStage ->
+    def sg = new SceneGraphBuilder(primaryStage)
+    
+    sg.stage(title: "GroovyFX Table Demo", width: 500, height:200, visible: true, resizable: true) {
+         scene(fill: groovyblue) {
+             tableView(selectionMode: "SINGLE", cellSelectionEnabled: true, editable: true, items: persons) {
+                 tableColumn(editable: true, property: "name", text: "Name", prefWidth: 150,
+                     onEditCommit: { event ->
+                         TablePerson item =
+                            event.tableView.items.get(event.tablePosition.row);
+                         item.name = event.newValue;
+                    }
+                 )
+                 tableColumn(editable: true, property: "age", text: "Age", prefWidth: 50, type: Integer,
+                     onEditCommit: { event ->
+                         TablePerson item =
+                            event.tableView.items.get(event.tablePosition.row);
+                         item.age = Integer.valueOf(event.newValue);
+                    }
+                 )
+                 tableColumn(editable: true, property: "sex", text: "SexType", prefWidth: 150, type: SexType,
+                     onEditCommit: { event ->
+                         TablePerson item =
+                            event.tableView.items.get(event.tablePosition.row);
+                         item.sex = event.newValue;
+                    }
+                 )
+                 tableColumn(editable: true, property: "dob", text: "Birth", prefWidth: 150, type: Date,
+                     converter: { from -> 
+                         // convert date object to String
+                         return dateFormat.format(from) 
+                     },
+                     onEditCommit: { event ->
+                         TablePerson item =
+                            event.tableView.items.get(event.tablePosition.row);
+                         // convert TextField string to a date object.
+                         Date date = dateFormat.parse(event.newValue);
+                         item.dob = date;
+                    }
+                 )
+             }
+         }
     }
 }

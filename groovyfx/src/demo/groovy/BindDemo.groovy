@@ -42,7 +42,6 @@ GroovyFX.start {
              style: "decorated", onHidden: { println "Close"}) {
 
         scene(fill: groovyblue) {
-            stylesheets(urls: ["foo.css "])
 
             vbox(spacing: 10, padding: 10) {
                 TextField tf = textField(text: 'Change Me!')

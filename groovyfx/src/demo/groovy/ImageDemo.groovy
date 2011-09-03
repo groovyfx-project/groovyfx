@@ -24,7 +24,7 @@ import groovyx.javafx.GroovyFX
  * @author jimclarke
  */
 
-def imageURL = "file:PIA01320_hires.jpg";
+def imageURL = "file:../PIA01320_hires.jpg";
 
 GroovyFX.start {
     def sg = new SceneGraphBuilder();

@@ -41,8 +41,8 @@ println(person.likesProperty);
 println("======================");
 
 println("LastName: " + person.lastName);
-println("FirstName: " + person.lastName);
-println("Age: " + person.lastName);
+println("FirstName: " + person.firstName);
+println("Age: " + person.age);
 println("Likes: " + person.likes);
 for ( l in person.likes) 
     println("    " +  l );
@@ -53,8 +53,8 @@ person.age = 17;  // I wish :-)
 person.likes = [ 'JavaFX', 'Groovy'];
 println("======================");
 println("LastName: " + person.lastName);
-println("FirstName: " + person.lastName);
-println("Age: " + person.lastName);
+println("FirstName: " + person.firstName);
+println("Age: " + person.age);
 println("Likes: " + person.likes);
 for ( l in person.likes) 
     println("    " +  l );
