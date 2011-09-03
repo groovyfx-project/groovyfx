@@ -114,6 +114,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         horizontal: Orientation.HORIZONTAL,
         vertical : Orientation.VERTICAL,
         ease_both: Interpolator.EASE_BOTH,
+        easeboth: Interpolator.EASE_BOTH,
         easein: Interpolator.EASE_IN,
         ease_in: Interpolator.EASE_IN,
         easeout: Interpolator.EASE_OUT,
