@@ -36,6 +36,7 @@ import org.codehaus.groovy.runtime.InvokerHelper
 import org.codehaus.groovy.runtime.MethodClosure
 import org.codehaus.groovyfx.javafx.binding.ClosureTriggerBinding
 import groovyx.javafx.factory.*
+import groovyx.javafx.factory.animation.*;
 import javafx.scene.shape.*
 import javafx.scene.chart.AreaChart
 import javafx.scene.chart.BubbleChart
@@ -59,6 +60,10 @@ import javafx.beans.binding.IntegerBinding;
 import javafx.beans.binding.LongBinding;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
+
+import javafx.animation.Interpolator;
+import javafx.animation.Timeline;
+
 
 
 /**
@@ -104,6 +109,19 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         Platform.runLater(c);
         return this;
     }
+    
+    private static def propertyMap = [
+        horizontal: Orientation.HORIZONTAL,
+        vertical : Orientation.VERTICAL,
+        ease_both: Interpolator.EASE_BOTH,
+        easein: Interpolator.EASE_IN,
+        ease_in: Interpolator.EASE_IN,
+        easeout: Interpolator.EASE_OUT,
+        ease_out: Interpolator.EASE_OUT,
+        discrete: Interpolator.DISCRETE,
+        linear: Interpolator.LINEAR,
+        indefinite: Timeline.INDEFINITE
+    ];
 
     def propertyMissing(String name) {
         if (name.startsWith("#")) {
@@ -114,13 +132,9 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
 
         Color color = Color.NamedColors.namedColors[lname]
         if (color) { return color }
-
-        switch (lname) {
-            case 'horizontal':
-                return Orientation.HORIZONTAL;
-            case 'vertical':
-                return Orientation.VERTICAL;
-        }
+        def prop = propertyMap[lname];
+        if(prop)
+            return prop;
         
         throw new MissingPropertyException("Unrecognized property: ${name}", name, this.class);
     }
@@ -419,6 +433,11 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
     
     public def registerTransition() {
         TransitionFactory tf = new TransitionFactory();
+        TimelineFactory tlf = new TimelineFactory();
+        KeyFrameFactory kf = new KeyFrameFactory();
+        KeyFrameActionFactory kfa = new KeyFrameActionFactory();
+        KeyValueFactory kv = new KeyValueFactory();
+        KeyValueSubFactory kvs = new KeyValueSubFactory();
         
         registerFactory( 'fadeTransition', tf);
         registerFactory( 'fillTransition', tf);
@@ -431,6 +450,13 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'pathTransition', tf);
         registerFactory( 'strokeTransition', tf);
         registerFactory( 'transition', tf);
+        
+        registerFactory( 'timeline', tlf);
+        registerFactory("at", kf)
+        registerFactory("action", kfa)
+        registerFactory("change", kv)
+        registerFactory("to", kvs)
+        registerFactory("tween", kvs)
     }
     
     public def registerMedia() {
@@ -480,10 +506,10 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         Color.NamedColors.namedColors.put("groovyblue", Color.rgb(99, 152, 170))
 
         Number.metaClass{
-            getM = {-> new Duration(delegate * 1000.0 * 60.0)}
-            getS = {-> new Duration(delegate * 1000.0)}
-            getMs = {-> new Duration(delegate)}
-            getH = {-> new Duration(delegate * 1000.0 * 60.0 * 60.0)}
+            getM = {-> Duration.minutes(delegate)}
+            getS = {-> Duration.seconds(delegate)}
+            getMs = {-> Duration.millis(delegate)}
+            getH = {-> Duration.hours(delegate)}
             
             // FX Properties
             plus << { ObservableNumberValue operand -> operand.add(delegate)}
