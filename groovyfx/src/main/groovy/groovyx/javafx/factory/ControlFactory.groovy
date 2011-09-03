@@ -38,7 +38,7 @@ class ControlFactory extends NodeFactory {
             "progressBar": { builder, name, value, attributes -> return new ProgressBar() },
             "progessIndicator": { builder, name, value, attributes -> return new ProgressIndicator() },
             "scrollPane": { builder, name, value, attributes -> return new ScrollPane() },
-            "tableView": { builder, name, value, attributes -> return new TableView() },
+            //"tableView": { builder, name, value, attributes -> return new TableView() },
             "treeView": { builder, name, value, attributes -> return new TreeView() },
             "accordion": { builder, name, value, attributes -> return new Accordion() },
             "titledPane": { builder, name, value, attributes -> return new TitledPane() },
