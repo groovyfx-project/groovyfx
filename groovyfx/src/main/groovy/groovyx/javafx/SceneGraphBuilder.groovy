@@ -317,6 +317,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'listView', cf)
         registerFactory( 'textArea', cf)
         registerFactory( 'textField', cf)
+        registerFactory( 'passwordField', cf)
         registerFactory( 'progressBar', cf)
         registerFactory( 'progessIndicator', cf)
         registerFactory( 'scrollPane', cf)

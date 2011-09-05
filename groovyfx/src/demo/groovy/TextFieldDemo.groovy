@@ -28,6 +28,9 @@ GroovyFX.start {
     sg.stage(title: "GroovyFX TextField Demo", x: 100, y: 100, visible: true, style: "decorated", primary: true) {
         scene(fill: groovyblue, width: 400, height: 400) {
             borderPane() {
+                top() {
+                    passwordField(prefColumnCount:20)
+                }
                 text = textField(promptText: 'Type here', prefColumnCount: 80, onAction: { println "T: " + text.text})
                 bottom(align: "center", margin: [10, 0]) {
                     button("Print Text", onAction: { println text.text })
