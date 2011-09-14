@@ -35,13 +35,45 @@ dependencies {
     compile files("${javafxHome}/rt/lib/jfxrt.jar")
 }
 
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: 'https://nexus.codehaus.org/content/repositories/snapshots/') {
+            authentication()
+        }
+        //repository(url: "file:///Users/dean/temp/m2")
+        pom.project {
+            name 'GroovyFX'
+            url 'http://groovy.codehaus.org/GroovyFX'
+            description 'Groovy bindings for JavaFX 2.x'
+            packaging 'jar'
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+            scm {
+                developerConnection 'scm:https://svn.codehaus.org/gmod/groovyfx/'
+                connection 'scm:http://svn.codehaus.org/gmod/groovyfx/'
+                tag 'trunk'
+                url 'http://fisheye.codehaus.org/browse/gmod/groovyfx/'
+            }
+            developers {
+                developer { name 'Jim Clarke' }
+                developer { name 'Dean Iverson' }
+            }
+        }
+    }
+}
+
 // Add a dynamic task to run each of the demos in src/demo/groovy
 new File('src/demo/groovy').eachFileMatch(~/.*Demo.groovy/) { file ->
     def taskName = file.name - '.groovy'
     task "$taskName"(type: JavaExec) {
         group = "Demo"
         description = "Run the $taskName program"
-        main = "demo.$taskName"
+        main = taskName
         classpath sourceSets.main.runtimeClasspath + sourceSets.demo.runtimeClasspath
     }
 }

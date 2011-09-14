@@ -319,7 +319,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'textField', cf)
         registerFactory( 'passwordField', cf)
         registerFactory( 'progressBar', cf)
-        registerFactory( 'progessIndicator', cf)
+        registerFactory( 'progressIndicator', cf)
         registerFactory( 'scrollPane', cf)
         registerFactory( 'tableView', tf)
         

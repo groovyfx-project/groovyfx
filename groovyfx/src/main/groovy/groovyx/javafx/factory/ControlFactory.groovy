@@ -36,7 +36,7 @@ class ControlFactory extends NodeFactory {
             "textArea": { builder, name, value, attributes -> return new TextArea() },
             "textField": { builder, name, value, attributes-> return new TextField() },
             "progressBar": { builder, name, value, attributes -> return new ProgressBar() },
-            "progessIndicator": { builder, name, value, attributes -> return new ProgressIndicator() },
+            "progressIndicator": { builder, name, value, attributes -> return new ProgressIndicator() },
             "scrollPane": { builder, name, value, attributes -> return new ScrollPane() },
             //"tableView": { builder, name, value, attributes -> return new TableView() },
             "treeView": { builder, name, value, attributes -> return new TreeView() },
