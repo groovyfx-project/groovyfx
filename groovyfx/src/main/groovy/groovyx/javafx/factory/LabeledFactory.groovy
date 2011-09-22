@@ -17,7 +17,9 @@
 package groovyx.javafx.factory
 
 import javafx.scene.control.*;
-import javafx.scene.paint.*;
+import javafx.scene.paint.*
+import javafx.collections.ObservableList
+import javafx.collections.FXCollections;
 
 /**
  *
@@ -48,7 +50,10 @@ class LabeledFactory extends NodeFactory {
                 case 'choiceBox':
                     control = new ChoiceBox();
                     List items = attributes.remove("items");
-                    control.getItems.setAll(items);
+                    if (!(items instanceof ObservableList)) {
+                        items = FXCollections.observableArrayList(items)
+                    }
+                    control.setItems(items);
                     break;
                 case 'hyperlink':
                     control = new Hyperlink();
