@@ -52,33 +52,16 @@ class XYChartFactory extends AbstractGroovyFXFactory {
                 chartBuilder.XAxis(new NumberAxis())
 
             chartBuilder.YAxis(new NumberAxis())
-            return chartBuilder
+            processBuilderAttributes(chartBuilder, attributes)
+            return chartBuilder.build()
         }
-    }
-
-    @Override
-    boolean onHandleNodeAttributes(FactoryBuilderSupport builder, Object node, Map attributes) {
-        def data = attributes.remove('data')
-        if (data) {
-            if (data instanceof Map) {
-                data = createXYSeriesFromMap(data)
-            }
-            FXHelper.setPropertyOrMethod(node, 'data', data)
-        }
-
-        attributes.each { name, value ->
-            FXHelper.setPropertyOrMethod(node, name, value)
-        }
-
-        attributes.clear()
-        return false;
     }
 
     @Override
     void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
         def seriesList = builder.context.remove(XYSeriesFactory.SERIES_LIST_PROPERTY)
         if (seriesList) {
-            node.data(FXCollections.observableArrayList(seriesList))
+            node.setData(FXCollections.observableArrayList(seriesList))
         }
     }
 
@@ -90,6 +73,22 @@ class XYChartFactory extends AbstractGroovyFXFactory {
         }
         
         return FXCollections.observableArrayList(seriesList)
+    }
+
+    private void processBuilderAttributes(chartBuilder, Map attributes) {
+        def data = attributes.remove('data')
+        if (data) {
+            if (data instanceof Map) {
+                data = createXYSeriesFromMap(data)
+            }
+            FXHelper.setPropertyOrMethod(chartBuilder, 'data', data)
+        }
+
+        attributes.each { name, value ->
+            FXHelper.setPropertyOrMethod(chartBuilder, name, value)
+        }
+
+        attributes.clear()
     }
 }
 
