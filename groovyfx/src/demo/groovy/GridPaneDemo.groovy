@@ -26,6 +26,9 @@ GroovyFX.start {
         scene(fill: groovyblue) {
             vbox {
                 gridPane(hgap: 4, vgap: 4, padding: [18, 18, 18, 18], alignment: "center", gridLinesVisible: true) {
+                    rowConstraints(prefHeight: 50)
+                    rowConstraints(prefHeight: 100, valignment: "top")
+                    columnConstraints(prefWidth: 150, halignment: "center")
                     label("Name: ") {
                         constraint(row: 0, column: 0, halignment: "right")
                     }

@@ -16,22 +16,49 @@
 
 package groovyx.javafx.factory
 
+import javafx.scene.layout.ColumnConstraints
+import javafx.scene.layout.RowConstraints
+import javafx.scene.layout.GridPane
+
 /**
  *
  * @author jimclarke
  */
 class GridConstraintFactory extends AbstractGroovyFXFactory {
-	
-     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        GridConstraint gc = new GridConstraint();
-        FXHelper.fxAttributes(gc, attributes);
-        return gc;
-     }
-     
+    @Override
+    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
+    throws InstantiationException, IllegalAccessException {
+        if (name == "constraint") {
+            GridConstraint gc = new GridConstraint()
+            FXHelper.fxAttributes(gc, attributes)
+            return gc
+        } else if (name == "rowConstraints") {
+            RowConstraints rc = new RowConstraints()
+            FXHelper.fxAttributes(rc, attributes)
+            return rc
+        } else if (name == "columnConstraints") {
+            ColumnConstraints cc = new ColumnConstraints()
+            FXHelper.fxAttributes(cc, attributes)
+            return cc
+        }
+    }
+
+    @Override
+    void setParent(FactoryBuilderSupport builder, Object parent, Object child) {
+        if (parent instanceof GridPane) {
+            if (child instanceof RowConstraints) {
+                parent.rowConstraints.add(child)
+            } else if (child instanceof ColumnConstraints) {
+                parent.columnConstraints.add(child)
+            }
+        }
+    }
+
+    @Override
     public void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
-        if(node instanceof GridConstraint) {
-            node.node = parent;
-            node.updateConstraints();
+        if (node instanceof GridConstraint) {
+            node.node = parent
+            node.updateConstraints()
         }
     }
 }

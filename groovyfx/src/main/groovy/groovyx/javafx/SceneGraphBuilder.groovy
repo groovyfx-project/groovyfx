@@ -191,9 +191,12 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'tilePane', cf)
         registerFactory( 'group', cf)
         registerFactory( 'gridPane', cf)
-        
-        registerFactory( 'constraint', new GridConstraintFactory());
-        
+
+        GridConstraintFactory gcf = new GridConstraintFactory()
+        registerFactory( 'constraint', gcf);
+        registerFactory( 'rowConstraints', gcf);
+        registerFactory( 'columnConstraints', gcf);
+
         GridRowColumnFactory rcf = new GridRowColumnFactory();
         registerFactory( 'row', rcf)
         registerFactory( 'column', rcf)

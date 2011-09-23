@@ -52,8 +52,7 @@ class XYChartFactory extends AbstractGroovyFXFactory {
                 chartBuilder.XAxis(new NumberAxis())
 
             chartBuilder.YAxis(new NumberAxis())
-            processBuilderAttributes(chartBuilder, attributes)
-            return chartBuilder.build()
+            return createChart(chartBuilder, attributes)
         }
     }
 
@@ -75,20 +74,22 @@ class XYChartFactory extends AbstractGroovyFXFactory {
         return FXCollections.observableArrayList(seriesList)
     }
 
-    private void processBuilderAttributes(chartBuilder, Map attributes) {
+    private XYChart createChart(chartBuilder, Map attributes) {
         def data = attributes.remove('data')
         if (data) {
             if (data instanceof Map) {
                 data = createXYSeriesFromMap(data)
             }
-            FXHelper.setPropertyOrMethod(chartBuilder, 'data', data)
         }
 
         attributes.each { name, value ->
             FXHelper.setPropertyOrMethod(chartBuilder, name, value)
         }
-
         attributes.clear()
+
+        def chart = chartBuilder.build()
+        FXHelper.setPropertyOrMethod(chart, 'data', data)
+        return chart
     }
 }
 

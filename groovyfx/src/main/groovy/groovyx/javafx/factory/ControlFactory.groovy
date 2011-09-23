@@ -90,7 +90,7 @@ class ControlFactory extends NodeFactory {
         } else if (parent instanceof TitledPane) {
             if (child instanceof Node) {
                 parent.content = child;
-            } else {
+            } else if (child.hasProperty('pane')) {
                 child.pane = parent;
             }
         } else if (parent instanceof SplitPane) {
