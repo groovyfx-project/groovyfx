@@ -19,25 +19,23 @@
 import groovyx.javafx.GroovyFX
 import groovyx.javafx.SceneGraphBuilder
 
-def url = "http://www.yahoo.com"
+final homePage = "http://www.yahoo.com"
 
 GroovyFX.start {
     def sg = new SceneGraphBuilder()
-
-    def webEngine = sg.webEngine(location: url)
-    def goAction = { webEngine.load(urlField.getText()) }
+    def goAction = { wv.engine.load(urlField.getText()) }
 
     sg.stage(title: "GroovyFX WebView Demo", visible: true) {
-        scene(fill: groovyblue, width: 640, height: 500) {
+        scene(fill: groovyblue, width: 1024, height: 800) {
             vbox() {
                 hbox(padding: 10, spacing: 5) {
-                    urlField = textField(text: url, onAction: goAction, prefWidth:400)
+                    urlField = textField(text: homePage, onAction: goAction, hgrow: "always")
                     button("Go", onAction: goAction)
                 }
-                wv = webView(engine: webEngine)
+                wv = webView(vgrow: "always")
             }
         }
     }
+    
+    wv.engine.load(homePage)
 }
-
-

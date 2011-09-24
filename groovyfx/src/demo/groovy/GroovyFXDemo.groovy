@@ -78,7 +78,7 @@ GroovyFX.start {
                         checkBox("Check", font: "16pt Courier", selected: true)
                     }
                     separator()
-                    hbox(spacing: 10, padding: [10, 10, 10, 10]) {
+                    hbox(spacing: 10, padding: 10) {
                         scrollBar(min: 0, max: 100, value: 50, orientation: horizontal, prefWidth: 200)
                         slider(min: 0, max: 100, value: 50, orientation: "horizontal", showTickMarks: true,
                                prefWidth: 200)
