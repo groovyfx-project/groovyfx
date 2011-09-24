@@ -15,10 +15,16 @@ import javafx.scene.media.MediaPlayerBuilder;
 class MediaPlayerFactory extends AbstractGroovyFXFactory{
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Object mediaPlayer;
-        if (FactoryBuilderSupport.checkValueIsType(value, name, MediaPlayer.class)) {
+        if (value != null && value instanceof MediaPlayer) {
             mediaPlayer = value
         } else {
             mediaPlayer = new MediaPlayerBuilder();
+            if(value != null) {
+                if(value instanceof Media)
+                    mediaPlayer.media(value);
+                else
+                    mediaPlayer.media(new Media(value.toString()))
+            }
             // Need to this here so that we are sure to return a MediaPlayer, not the builder.
             handleMediaPlayerAttributes(mediaPlayer, attributes);
             return mediaPlayer.build();
@@ -58,9 +64,7 @@ class MediaPlayerFactory extends AbstractGroovyFXFactory{
         if(attr != null)
              mpb.cycleCount(attr)
 
-        attr = attributes.remove("media");
-        if(attr != null)
-             mpb.media(attr) 
+        
 
         attr = attributes.remove("mute");
         if(attr != null)
@@ -120,10 +124,16 @@ class MediaPlayerFactory extends AbstractGroovyFXFactory{
              mpb.volume(attr) 
         
         
-        // shorthand for media
+        // source is alias for media
         attr = attributes.remove("source");
-        if(attr != null) 
-            mpb.media(new Media(attr));
+        if(attr == null)
+            attr = attributes.remove("media");
+        if(attr != null) {
+            if(attr instanceof Media)
+                mpb.media(attr);
+            else
+                mpb.media(new Media(attr.toString()));
+        }
     }
     
 }
