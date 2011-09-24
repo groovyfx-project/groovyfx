@@ -29,9 +29,7 @@ GroovyFX.start {
                     rowConstraints(prefHeight: 50)
                     rowConstraints(prefHeight: 100, valignment: "top")
                     columnConstraints(prefWidth: 150, halignment: "center")
-                    label("Name: ") {
-                        constraint(row: 0, column: 0, halignment: "right")
-                    }
+                    label("Name: ", hgrow: "NEVER", row: 0, column: 0, halignment: "right") 
                     label("Jim Clarke") {
                         constraint(row: 0, column: 1, columnSpan: 5, halignment: "left")
                     }
