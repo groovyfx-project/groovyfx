@@ -48,13 +48,7 @@ GroovyFX.start {
                 }
 
                 rectangle(width: width, height: height) {
-                    fill linearGradient(endY: 0) {
-                        stop(offset: 0.00, color: red)
-                        stop(offset: 0.25, color: yellow)
-                        stop(offset: 0.50, color: green)
-                        stop(offset: 0.75, color: cyan)
-                        stop(offset: 1.00, color: blue)
-                    }
+                    fill linearGradient(endY: 0, stops: [red, yellow, green, cyan, blue])
                 }
 
                 circle(radius: height / 2, fill: radialGradient(stops: [red, darkred, black]))
