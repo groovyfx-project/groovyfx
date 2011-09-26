@@ -21,6 +21,7 @@ import javafx.scene.paint.LinearGradient
 import javafx.scene.paint.RadialGradient
 import javafx.scene.paint.LinearGradientBuilder
 import javafx.scene.paint.RadialGradientBuilder
+import javafx.scene.paint.Color
 
 /**
  * Abstract base class containing methods used by both LinearGradientFactory and RadialGradientFactory.
@@ -30,7 +31,8 @@ import javafx.scene.paint.RadialGradientBuilder
 abstract class AbstractGradientFactory extends AbstractGroovyFXFactory {
     /**
      * Checks for the "stops" attribute in the Map.  The value of the stops attribute should be a List
-     * of 2-element Lists containing an offset and color: [[0.0, black], [1.0, red]].
+     * of 2-element Lists containing an offset and color: [[0.0, black], [1.0, red]].  The value can
+     * also be a List of colors: [red, black], in which case the stops will be evenly distributed.
      *
      * @param attributes A Map containing the attributes used to create the gradient.  If the stops
      *                   attribute is present, it will be removed from the map and given to the
@@ -39,8 +41,12 @@ abstract class AbstractGradientFactory extends AbstractGroovyFXFactory {
      */
     protected void handleStopsAttributeIfPresent(Map attributes, gradientBuilder) {
         def stops = attributes.remove("stops")
-        if (stops) {
-            gradientBuilder.stops(stops.collect {it as Stop})
+        if ((stops instanceof List) && stops) {
+            if (stops[0] instanceof Color) {
+                gradientBuilder.stops(createStopList(stops))
+            } else if (stops[0] instanceof List) {
+                gradientBuilder.stops(stops.collect {it as Stop})
+            }
         }
     }
 
@@ -57,5 +63,25 @@ abstract class AbstractGradientFactory extends AbstractGroovyFXFactory {
         if (stops) {
             gradientBuilder.stops = stops
         }
+    }
+
+    /**
+     * Creates and returns a list of Stop objects based on a list of colors, distributing the stops
+     * evenly from 0.0 to 1.0 depending on the number of colors.
+     * 
+     * @param colors A List of colors.
+     * @return A List of Stop objects.
+     */
+    private List<Stop> createStopList(List colors) {
+        List<Stop> stopList = []
+        if (colors.size() == 1) {
+            stopList << new Stop(0.0d, (Color) colors[0])
+        } else {
+            Double stopStep = 1.0 / (colors.size() - 1);
+            colors.eachWithIndex { color, i ->
+                stopList << new Stop(i * stopStep, (Color) color)
+            }
+        }
+        return stopList
     }
 }
