@@ -33,15 +33,18 @@ class ControlFactory extends NodeFactory {
             "separator": { builder, name, value, attributes -> return new Separator() },
             "listView": { builder, name, value, attributes -> return new ListView() },
             "passwordField": { builder, name, value, attributes -> return new PasswordField() },
-            "textArea": { builder, name, value, attributes -> return new TextArea() },
-            "textField": { builder, name, value, attributes-> return new TextField() },
+            "textArea": { builder, name, value, attributes -> 
+                return value != null ? new TextArea(value.toString()) : new TextArea() },
+            "textField": { builder, name, value, attributes-> 
+                return value != null ? new TextField(value.toString()) :  new TextField()},
             "progressBar": { builder, name, value, attributes -> return new ProgressBar() },
             "progressIndicator": { builder, name, value, attributes -> return new ProgressIndicator() },
             "scrollPane": { builder, name, value, attributes -> return new ScrollPane() },
             //"tableView": { builder, name, value, attributes -> return new TableView() },
             "treeView": { builder, name, value, attributes -> return new TreeView() },
             "accordion": { builder, name, value, attributes -> return new Accordion() },
-            "titledPane": { builder, name, value, attributes -> return new TitledPane() },
+            "titledPane": { builder, name, value, attributes -> 
+                return value != null ? new TitledPane(value.toString(), null) : new TitledPane() },
             "toolBar": { builder, name, value, attributes -> return new ToolBar() },
             "tabPane": { builder, name, value, attributes -> return new TabPane() },
             "splitPane": {builder, name, value, attributes ->
@@ -59,7 +62,7 @@ class ControlFactory extends NodeFactory {
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Control control;
-        if (FactoryBuilderSupport.checkValueIsType(value, name, Control.class)) {
+        if (value != null && value instanceof Control) {
             control = value
         } else {
             def creator = controlBuilder[name];
