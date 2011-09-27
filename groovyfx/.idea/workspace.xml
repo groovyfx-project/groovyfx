@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="425fa734-d442-4090-8fa4-38a6499d4fcd" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/demo/groovy/GradientDemo.groovy" afterPath="$PROJECT_DIR$/src/demo/groovy/GradientDemo.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/AbstractGradientFactory.groovy" afterPath="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/AbstractGradientFactory.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/demo/groovy/ColorfulCirclesDemo.groovy" afterPath="$PROJECT_DIR$/src/demo/groovy/ColorfulCirclesDemo.groovy" />
     </list>
     <ignored path="groovyfx.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -65,10 +62,100 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="GradientDemo.groovy" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="GradientDemo.groovy" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/demo/groovy/GradientDemo.groovy">
           <provider selected="true" editor-type-id="text-editor">
+            <state line="45" column="0" selection-start="1471" selection-end="1471" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GroovyFX.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/GroovyFX.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="34" column="0" selection-start="1096" selection-end="1096" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ColorfulCirclesDemo.groovy" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/demo/groovy/ColorfulCirclesDemo.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="44" column="5" selection-start="1637" selection-end="1637" vertical-scroll-proportion="0.61132073">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LabeledFactory.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/LabeledFactory.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="27" column="6" selection-start="814" selection-end="814" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ControlFactory.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/ControlFactory.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="30" column="6" selection-start="897" selection-end="897" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ColorFactory.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/ColorFactory.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="137" column="12" selection-start="4677" selection-end="4677" vertical-scroll-proportion="-73.38461">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FillFactory.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/FillFactory.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="30" column="0" selection-start="1054" selection-end="1054" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TimelineDemo.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/demo/groovy/TimelineDemo.groovy">
+          <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SceneGraphBuilder.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/SceneGraphBuilder.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="152" column="5" selection-start="4937" selection-end="4937" vertical-scroll-proportion="-17.384615">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ChoiceBoxDemo.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/demo/groovy/ChoiceBoxDemo.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="16" column="0" selection-start="602" selection-end="602" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ChartDemo.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/demo/groovy/ChartDemo.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="16" column="0" selection-start="0" selection-end="602" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -77,7 +164,7 @@
       <file leaf-file-name="LinearGradientFactory.groovy" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/LinearGradientFactory.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="47" column="28" selection-start="1639" selection-end="1639" vertical-scroll-proportion="0.0">
+            <state line="29" column="0" selection-start="1051" selection-end="1051" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -86,7 +173,7 @@
       <file leaf-file-name="AbstractGradientFactory.groovy" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/AbstractGradientFactory.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="55" column="0" selection-start="2407" selection-end="2407" vertical-scroll-proportion="0.0">
+            <state line="44" column="43" selection-start="1977" selection-end="1977" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -106,20 +193,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/animation/timeline.groovy" />
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/LabeledFactory.groovy" />
-        <option value="$PROJECT_DIR$/src/demo/groovy/ChoiceBoxDemo.groovy" />
-        <option value="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/SceneGraphBuilder.groovy" />
         <option value="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/GridConstraintFactory.groovy" />
-        <option value="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/ControlFactory.groovy" />
         <option value="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/XYChartFactory.groovy" />
         <option value="$PROJECT_DIR$/src/demo/groovy/GroovyFXDemo.groovy" />
         <option value="$PROJECT_DIR$/src/demo/groovy/WebViewDemo.groovy" />
         <option value="$PROJECT_DIR$/src/demo/groovy/GridPaneDemo.groovy" />
         <option value="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/NodeFactory.groovy" />
-        <option value="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/AbstractGradientFactory.groovy" />
+        <option value="$PROJECT_DIR$/src/demo/groovy/ChoiceBoxDemo.groovy" />
+        <option value="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/ColorFactory.groovy" />
         <option value="$PROJECT_DIR$/src/demo/groovy/GradientDemo.groovy" />
+        <option value="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/AbstractGradientFactory.groovy" />
+        <option value="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/SceneGraphBuilder.groovy" />
+        <option value="$PROJECT_DIR$/src/demo/groovy/AnalogClockDemo.groovy" />
+        <option value="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/ControlFactory.groovy" />
+        <option value="$PROJECT_DIR$/src/demo/groovy/ColorfulCirclesDemo.groovy" />
       </list>
     </option>
   </component>
@@ -470,6 +559,32 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="groovyfx" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="groovyfx" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="demo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="groovy" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AnalogClockDemo.groovy" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane" />
@@ -503,7 +618,7 @@
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="options.lastSelected" value="editing.templates" />
+    <property name="options.lastSelected" value="preferences.sourceCode.General" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder4" value="4" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder1" value="1" />
@@ -514,29 +629,119 @@
     <property name="options.searchVisible" value="true" />
     <property name="dynamic.classpath" value="false" />
   </component>
-  <component name="RunManager" selected="Groovy Script.GradientDemo">
-    <configuration default="false" name="ChoiceBoxDemo" type="GroovyScriptRunConfiguration" factoryName="Groovy Script" temporary="true">
-      <module name="GroovyFX" />
-      <setting name="path" value="$PROJECT_DIR$/src/demo/groovy/ChoiceBoxDemo.groovy" />
-      <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workDir" value="$PROJECT_DIR$/src/demo/groovy" />
-      <setting name="debug" value="false" />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
-    <configuration default="false" name="GridPaneDemo" type="GroovyScriptRunConfiguration" factoryName="Groovy Script" temporary="true">
-      <module name="GroovyFX" />
-      <setting name="path" value="$PROJECT_DIR$/src/demo/groovy/GridPaneDemo.groovy" />
-      <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workDir" value="$PROJECT_DIR$/src/demo/groovy" />
-      <setting name="debug" value="false" />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
+  <component name="RestoreUpdateTree">
+    <UpdateInfo date="Moments ago" ActionInfo="_Update">
+      <UpdatedFiles>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Updated from server" />
+          <option name="myStatusName" value="Changed on server" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="CHANGED_ON_SERVER" />
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Updated" />
+            <option name="myStatusName" value="Changed" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="UPDATED" />
+            <PATH vcs="svn" revision="1062">$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/ControlFactory.groovy</PATH>
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Created" />
+            <option name="myStatusName" value="Created" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="CREATED" />
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Deleted" />
+            <option name="myStatusName" value="Deleted" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="true" />
+            <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Restored" />
+            <option name="myStatusName" value="Will be restored" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="RESTORED" />
+          </FILE-GROUP>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Modified" />
+          <option name="myStatusName" value="Modified" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MODIFIED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Skipped" />
+          <option name="myStatusName" value="Skipped" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="SKIPPED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged with conflicts" />
+          <option name="myStatusName" value="Will be merged with conflicts" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED_WITH_CONFLICTS" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged with tree conflicts" />
+          <option name="myStatusName" value="Merged with tree conflicts" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged" />
+          <option name="myStatusName" value="Will be merged" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Not in repository" />
+          <option name="myStatusName" value="Not in repository" />
+          <option name="mySupportsDeletion" value="true" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="UNKNOWN" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Locally added" />
+          <option name="myStatusName" value="Locally added" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="LOCALLY_ADDED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Locally removed" />
+          <option name="myStatusName" value="Locally removed" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="LOCALLY_REMOVED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Switched" />
+          <option name="myStatusName" value="Switched" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="SWITCHED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged with property conflicts" />
+          <option name="myStatusName" value="Will be merged with property conflicts" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
+        </FILE-GROUP>
+      </UpdatedFiles>
+    </UpdateInfo>
+  </component>
+  <component name="RunManager" selected="Groovy Script.ColorfulCirclesDemo">
     <configuration default="false" name="GroovyFXDemo" type="GroovyScriptRunConfiguration" factoryName="Groovy Script" temporary="true">
       <module name="GroovyFX" />
       <setting name="path" value="$PROJECT_DIR$/src/demo/groovy/GroovyFXDemo.groovy" />
@@ -562,6 +767,34 @@
     <configuration default="false" name="GradientDemo" type="GroovyScriptRunConfiguration" factoryName="Groovy Script" temporary="true">
       <module name="GroovyFX" />
       <setting name="path" value="$PROJECT_DIR$/src/demo/groovy/GradientDemo.groovy" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workDir" value="$PROJECT_DIR$/src/demo/groovy" />
+      <setting name="debug" value="false" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="61207" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="ColorfulCirclesDemo" type="GroovyScriptRunConfiguration" factoryName="Groovy Script" temporary="true">
+      <module name="GroovyFX" />
+      <setting name="path" value="$PROJECT_DIR$/src/demo/groovy/ColorfulCirclesDemo.groovy" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workDir" value="$PROJECT_DIR$/src/demo/groovy" />
+      <setting name="debug" value="false" />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="AnalogClockDemo" type="GroovyScriptRunConfiguration" factoryName="Groovy Script" temporary="true">
+      <module name="GroovyFX" />
+      <setting name="path" value="$PROJECT_DIR$/src/demo/groovy/AnalogClockDemo.groovy" />
       <setting name="vmparams" value="" />
       <setting name="params" value="" />
       <setting name="workDir" value="$PROJECT_DIR$/src/demo/groovy" />
@@ -675,11 +908,11 @@
       </method>
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Groovy Script.ChoiceBoxDemo" />
-      <item index="1" class="java.lang.String" itemvalue="Groovy Script.GridPaneDemo" />
-      <item index="2" class="java.lang.String" itemvalue="Groovy Script.GroovyFXDemo" />
-      <item index="3" class="java.lang.String" itemvalue="Groovy Script.WebViewDemo" />
-      <item index="4" class="java.lang.String" itemvalue="Groovy Script.GradientDemo" />
+      <item index="0" class="java.lang.String" itemvalue="Groovy Script.GroovyFXDemo" />
+      <item index="1" class="java.lang.String" itemvalue="Groovy Script.WebViewDemo" />
+      <item index="2" class="java.lang.String" itemvalue="Groovy Script.GradientDemo" />
+      <item index="3" class="java.lang.String" itemvalue="Groovy Script.ColorfulCirclesDemo" />
+      <item index="4" class="java.lang.String" itemvalue="Groovy Script.AnalogClockDemo" />
     </list>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -739,8 +972,9 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Phing Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31995663" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3991323" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286334" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -754,7 +988,6 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35032538" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31995663" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -784,7 +1017,7 @@
     <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
     <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Gave GridPaneDemo a face lift, and updated WebViewDemo (since it wasn't working) to include the new layout constraints as well.&#10; Rewrote the constraints processing in NodeFactory to eliminate some duplication." />
+    <option name="LAST_COMMIT_MESSAGE" value="New syntax for stops that handles strings: &quot;#ff00ff&quot; in the stop list.  New ColorfulCirclesDemo." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -803,6 +1036,9 @@
     <MESSAGE value="No longer return chart builders from XYChartFactory - it was causing exceptions when charts were placed into GridPanes when the constraint factory was trying to cast the builders to Nodes.  As a rule, we should always return Nodes rather than Builders from the newInstance methods from now on (excepting those factories that create non-scene graph objects, of course).  That will make it easier for the rest of GroovyFX if they can always assume they are working with actual Nodes." />
     <MESSAGE value="Added rowConstraints and columnConstraints for GridPane.  Right now they are child nodes, but this can be changed easily." />
     <MESSAGE value="Gave GridPaneDemo a face lift, and updated WebViewDemo (since it wasn't working) to include the new layout constraints as well.&#10; Rewrote the constraints processing in NodeFactory to eliminate some duplication." />
+    <MESSAGE value="Added the ability to specify gradient stops like [red, black].  Similar to the new CSS syntax, this will distribute the stops evenly between 0 and 1.0." />
+    <MESSAGE value="Using new stops syntax where it makes sense." />
+    <MESSAGE value="New syntax for stops that handles strings: &quot;#ff00ff&quot; in the stop list.  New ColorfulCirclesDemo." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -812,102 +1048,114 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/SceneGraphBuilder.groovy">
+    <entry file="file://$PROJECT_DIR$/src/demo/groovy/ChoiceBoxDemo.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="196" column="29" selection-start="6656" selection-end="6656" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/GridConstraintFactory.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="45" selection-start="1408" selection-end="1408" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/demo/groovy/TitledPaneDemo.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.5186441" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/ControlFactory.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="46" selection-start="4121" selection-end="4121" vertical-scroll-proportion="0.57019067" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/demo/groovy/ChartDemo.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="16" selection-start="2204" selection-end="2204" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/XYChartFactory.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="40" selection-start="859" selection-end="859" vertical-scroll-proportion="0.27457628" />
-      </provider>
-    </entry>
-    <entry file="uml://MODULES/mdl-GroovyFX">
-      <provider selected="true" editor-type-id="UmlEditorProvider">
-        <state>
-          <ID>MODULES</ID>
-          <OriginalElement>mdl-GroovyFX</OriginalElement>
-          <nodes>
-            <node x="" y="">mdl-GroovyFX</node>
-          </nodes>
-          <notes />
-          <edges />
-          <settings layout="Hierarchic Group" zoom="1.0" x="49.0" y="15.0" />
-          <SelectedNodes />
-          <Categories />
-          <SCOPE>All</SCOPE>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/demo/groovy/GridPaneDemo.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="63" selection-start="2052" selection-end="2052" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/demo/groovy/FileChooserDemo.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="17" selection-start="1104" selection-end="1104" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/demo/groovy/GroovyFXDemo.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="81" column="102" selection-start="3174" selection-end="3174" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/demo/groovy/ToggleButtonDemo.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="31" selection-start="1019" selection-end="1019" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/demo/groovy/WebViewDemo.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="16" selection-start="732" selection-end="732" vertical-scroll-proportion="0.46308726">
+        <state line="16" column="0" selection-start="602" selection-end="602" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/NodeFactory.groovy">
+    <entry file="file://$PROJECT_DIR$/src/demo/groovy/TimelineDemo.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="213" column="5" selection-start="8009" selection-end="8009" vertical-scroll-proportion="0.8187919" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/FillFactory.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="0" selection-start="1054" selection-end="1054" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/ColorFactory.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="137" column="12" selection-start="4677" selection-end="4677" vertical-scroll-proportion="-73.38461">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/LinearGradientFactory.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="28" selection-start="1639" selection-end="1639" vertical-scroll-proportion="0.0">
+        <state line="29" column="0" selection-start="1051" selection-end="1051" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/AbstractGradientFactory.groovy">
+    <entry file="jar://$PROJECT_DIR$/../../../javafx/2.0/javafx-sdk2.0-beta/rt/lib/jfxrt.jar!/javafx/scene/paint/LinearGradientBuilder.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="0" selection-start="2407" selection-end="2407" vertical-scroll-proportion="0.0">
+        <state line="34" column="45" selection-start="1539" selection-end="1539" vertical-scroll-proportion="0.7695652">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/GroovyFX.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="0" selection-start="1096" selection-end="1096" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/demo/groovy/GradientDemo.groovy">
       <provider selected="true" editor-type-id="text-editor">
+        <state line="45" column="0" selection-start="1471" selection-end="1471" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/SceneGraphBuilder.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="152" column="5" selection-start="4937" selection-end="4937" vertical-scroll-proportion="-17.384615">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/demo/groovy/AnalogClockDemo.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="42" column="32" selection-start="1077" selection-end="1077" vertical-scroll-proportion="0.53584903">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/demo/groovy/AnchorDemo.groovy">
+      <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/LabeledFactory.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="6" selection-start="814" selection-end="814" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/ControlFactory.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="6" selection-start="897" selection-end="897" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../../javafx/2.0/javafx-sdk2.0-beta/rt/lib/jfxrt.jar!/javafx/scene/paint/Stop.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="11" selection-start="426" selection-end="426" vertical-scroll-proportion="0.46336633">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/AbstractGradientFactory.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="43" selection-start="1977" selection-end="1977" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/demo/groovy/ColorfulCirclesDemo.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="5" selection-start="1637" selection-end="1637" vertical-scroll-proportion="0.61132073">
           <folding />
         </state>
       </provider>

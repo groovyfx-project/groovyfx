@@ -16,7 +16,6 @@
 
 import groovyx.javafx.GroovyFX
 import groovyx.javafx.SceneGraphBuilder
-import javafx.animation.Timeline
 
 /**
  * Ported from Steve Chin's scalafx example at:
@@ -31,7 +30,6 @@ GroovyFX.start { primaryStage ->
   sg.stage(title: 'GroovyFX ColorfulCircles', resizable: false, visible: true) {
     scene(width: 800, height: 600, fill: black) {
       group {
-        rectangle(width: 800, height: 600, fill: black)
         circles = group {
           30.times {
             circle(radius: 200, fill: rgb(255, 255, 255, 0.05), stroke: rgb(255, 255, 255, 0.16),
@@ -46,17 +44,11 @@ GroovyFX.start { primaryStage ->
       }
     }
 
-    timeline(cycleCount: Timeline.INDEFINITE, autoReverse: true) {
+    parallelTransition(cycleCount: 'indefinite', autoReverse: true) {
       def random = new Random()
       circles.children.each { circle ->
-        at(0.s) {
-          change(circle, 'centerX') { to random.nextInt(800) }
-          change(circle, 'centerY') { to random.nextInt(600) }
-        }
-        at(40.s) {
-          change(circle, 'centerX') { to random.nextInt(800) }
-          change(circle, 'centerY') { to random.nextInt(600) }
-        }
+        translateTransition(40.s, node: circle, fromX: random.nextInt(800), fromY: random.nextInt(600),
+                            toX: random.nextInt(800), toY: random.nextInt(600))
       }
     }.play()
   }
