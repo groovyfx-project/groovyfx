@@ -126,9 +126,15 @@ public class ColorFactory {
             }
         }else if(value != null) {
             String color = value.toString().trim();
+
+            if (color.startsWith('#')) {
+                return Color.web(color)
+            }
+            
             if(color.endsWith(";")) {
                 color = color.substring(0, color.length()-1);
             }
+
             Paint paint = colorCacheMap.get(color);
             if(paint == null) {
                 Stylesheet p = CSSParser.getInstance().parse("* { -fx-fill: " + color + "; }");

@@ -148,6 +148,10 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         Color.rgb(r,g,b, alpha);
     }
 
+    def rgba(int r, int g, int b, float alpha) {
+        rgb(r,g,b, alpha);
+    }
+
     def hsb(int hue, float saturation, float brightness, float alpha) {
         Color.hsb(hue, saturation, brightness, alpha);
     }

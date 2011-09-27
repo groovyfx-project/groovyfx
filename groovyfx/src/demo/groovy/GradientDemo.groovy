@@ -43,7 +43,7 @@ GroovyFX.start {
                 }
 
                 rectangle(width: width, height: height) {
-                    fill linearGradient(start: [0, 0.4], end: [0, 0.6], stops: [red, pink])
+                    fill linearGradient(start: [0, 0.4], end: [0, 0.6], stops: ["#ff0000", pink])
                     effect dropShadow()
                 }
 

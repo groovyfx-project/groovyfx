@@ -42,10 +42,11 @@ abstract class AbstractGradientFactory extends AbstractGroovyFXFactory {
     protected void handleStopsAttributeIfPresent(Map attributes, gradientBuilder) {
         def stops = attributes.remove("stops")
         if ((stops instanceof List) && stops) {
-            if (stops[0] instanceof Color) {
+            if (stops[0] instanceof List) {
+                stops = stops.collect { new Stop(it[0], ColorFactory.get(it[1])) }
+                gradientBuilder.stops(stops)
+            } else {
                 gradientBuilder.stops(createStopList(stops))
-            } else if (stops[0] instanceof List) {
-                gradientBuilder.stops(stops.collect {it as Stop})
             }
         }
     }
@@ -75,11 +76,11 @@ abstract class AbstractGradientFactory extends AbstractGroovyFXFactory {
     private List<Stop> createStopList(List colors) {
         List<Stop> stopList = []
         if (colors.size() == 1) {
-            stopList << new Stop(0.0d, (Color) colors[0])
+            stopList << new Stop(0.0d, ColorFactory.get(colors[0]))
         } else {
             Double stopStep = 1.0 / (colors.size() - 1);
             colors.eachWithIndex { color, i ->
-                stopList << new Stop(i * stopStep, (Color) color)
+                stopList << new Stop(i * stopStep, ColorFactory.get(color))
             }
         }
         return stopList
