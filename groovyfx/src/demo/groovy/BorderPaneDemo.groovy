@@ -22,24 +22,24 @@ import groovyx.javafx.SceneGraphBuilder
 GroovyFX.start {
     def sg = new SceneGraphBuilder()
 
-    sg.stage(title: "GroovyFX BorderPane Demo", width: 650, height:450, visible: true) {
-         scene(fill: groovyblue) {
-             borderPane {
-                 top(align: "center", margin: [10,0,10,0]) {
-                     button("Top")
-                 }
-                 right(align: "center", margin: [0,10,0,1]) {
-                     button("Right")
-                 }
-                 left(align: "center", margin: [0,10]) {
-                     button("Left")
-                 }
-                 bottom(align: "center", margin: [10,0]) {
-                     button("Bottom")
-                 }
-                 label("Center")
-             }
-         }
+    sg.stage(title: "GroovyFX @ JavaOne", show: true) {
+        scene(fill: groovyblue, width: 650, height:450) {
+            borderPane {
+                top(align: "center", margin: [10,0,10,0]) {
+                  button("Top Button")
+                }
+                right(align: "center", margin: [0,10,0,1]) {
+                  toggleButton("Right Toggle")
+                }
+                left(align: "center", margin: [0,10]) {
+                  checkBox("Left Check")
+                }
+                bottom(align: "center", margin: 10) {
+                  textField("Bottom TextField")
+                }
+                label("Center Label")
+            }
+        }
     }
 }
 

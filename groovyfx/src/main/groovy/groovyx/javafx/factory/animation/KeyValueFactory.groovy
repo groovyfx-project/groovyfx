@@ -25,14 +25,12 @@ import groovyx.javafx.factory.AbstractGroovyFXFactory;
  * @author jimclarke
  */
 
-class KeyValueFactory  extends AbstractGroovyFXFactory {
+class KeyValueFactory extends AbstractGroovyFXFactory {
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         if(value instanceof List && value.size() == 2) {
-            TargetHolder th = new TargetHolder(bean: value.get(0), propertyName: value.get(1));
-            return th;
+            return new TargetHolder(bean: value.get(0), propertyName: value.get(1));
         }else if(value instanceof WritableValue) {
-            th = new TargetHolder(property: value);
-            return th;
+            return new TargetHolder(property: value);
         }else {
             return null;
         }
