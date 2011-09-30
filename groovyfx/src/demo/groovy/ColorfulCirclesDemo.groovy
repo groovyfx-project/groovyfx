@@ -24,32 +24,32 @@ import groovyx.javafx.SceneGraphBuilder
  * @author dean
  */
 GroovyFX.start { primaryStage ->
-  def circles
-  def sg = new SceneGraphBuilder(primaryStage)
+    def circles
+    def sg = new SceneGraphBuilder(primaryStage)
 
-  sg.stage(title: 'GroovyFX ColorfulCircles', resizable: false, visible: true) {
-    scene(width: 800, height: 600, fill: black) {
-      group {
-        circles = group {
-          30.times {
-            circle(radius: 200, fill: rgb(255, 255, 255, 0.05), stroke: rgb(255, 255, 255, 0.16),
-                   strokeWidth: 4, strokeType: 'outside')
-          }
-          effect boxBlur(width: 10, height: 10, iterations: 3)
+    sg.stage(title: 'GroovyFX ColorfulCircles', resizable: false, show: true) {
+        scene(width: 800, height: 600, fill: black) {
+            group {
+                circles = group {
+                    30.times {
+                        circle(radius: 200, fill: rgb(255, 255, 255, 0.05), stroke: rgb(255, 255, 255, 0.16),
+                               strokeWidth: 4, strokeType: 'outside')
+                    }
+                    effect boxBlur(width: 10, height: 10, iterations: 3)
+                }
+                rectangle(width: 800, height: 600, blendMode: 'overlay') {
+                    def stops = ['#f8bd55', '#c0fe56', '#5dfbc1', '#64c2f8', '#be4af7', '#ed5fc2', '#ef504c', '#f2660f']
+                    fill linearGradient(start: [0f, 1f], end: [1f, 0f], stops: stops)
+                }
+            }
         }
-      }
-      rectangle(width: 800, height: 600, blendMode: 'overlay') {
-        def stops = ['#f8bd55', '#c0fe56', '#5dfbc1', '#64c2f8', '#be4af7', '#ed5fc2', '#ef504c', '#f2660f']
-        fill linearGradient(start: [0f, 1f], end: [1f, 0f], stops: stops)
-      }
-    }
 
-    parallelTransition(cycleCount: 'indefinite', autoReverse: true) {
-      def random = new Random()
-      circles.children.each { circle ->
-        translateTransition(40.s, node: circle, fromX: random.nextInt(800), fromY: random.nextInt(600),
-                            toX: random.nextInt(800), toY: random.nextInt(600))
-      }
-    }.play()
-  }
+        parallelTransition(cycleCount: 'indefinite', autoReverse: true) {
+            def random = new Random()
+            circles.children.each { circle ->
+                translateTransition(40.s, node: circle, fromX: random.nextInt(800), fromY: random.nextInt(600),
+                                    toX: random.nextInt(800), toY: random.nextInt(600))
+            }
+        }.play()
+    }
 }

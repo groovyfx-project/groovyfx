@@ -14,12 +14,8 @@
 * limitations under the License.
  */
 
-
-
 import groovyx.javafx.GroovyFX
-import javafx.application.Platform
 import groovyx.javafx.SceneGraphBuilder
-
 
 GroovyFX.start {
     def sg = new SceneGraphBuilder(it)
@@ -27,23 +23,22 @@ GroovyFX.start {
     def lY = 100.0;
     def s = 2;
     def r = 90;
-    sg.stage(title: "GroovyFX Timeline Demo", width: 200, height:200, visible: true, resizable: true) {
-         scene(fill: groovyblue) {
+    sg.stage(title: "GroovyFX Timeline Demo", width: 200, height: 200, visible: true, resizable: true) {
+        scene(fill: groovyblue) {
             map = sg.circle(radius: 25) {
                 fill(red)
             }
-         }
-         timeline (cycleCount: indefinite, autoReverse: true){
+        }
+
+        timeline(cycleCount: indefinite, autoReverse: true) {
             at(800.ms) {
-                change(map, 'layoutX') { to lX 
-                    tween easeboth }
-                change(map, 'layoutY') { to lY 
-                    tween easeboth}
-                change(map, 'scaleX') { to s }
-                change(map, 'scaleY') { to s }
-                change(map, 'rotate') { to r }
+                change(map, 'layoutX') to lX tween easeboth
+                change(map, 'layoutY') to lY tween easeboth
+                change(map, 'scaleX') to s
+                change(map, 'scaleY') to s
+                change(map, 'rotate') to r
             }
-        }.play() 
+        }.play()
     }
 }
 

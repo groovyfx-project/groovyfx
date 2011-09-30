@@ -26,6 +26,8 @@ import groovyx.javafx.factory.AbstractGroovyFXFactory;
  */
 
 class KeyValueFactory extends AbstractGroovyFXFactory {
+    public static final TARGET_HOLDERS_PROPERTY = "__target_holders"
+    
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         if(value instanceof List && value.size() == 2) {
             return new TargetHolder(bean: value.get(0), propertyName: value.get(1));
@@ -48,11 +50,9 @@ class KeyValueFactory extends AbstractGroovyFXFactory {
 
     public void onNodeCompleted( FactoryBuilderSupport builder, Object parent, Object node )  {
         if(node instanceof TargetHolder) {
-            TargetHolder th = (TargetHolder) node;
-            KeyValue kv = th.getKeyValue();
-            ((KeyFrameWrapper)parent).values.add(kv);
+            def keyValues = builder.parentContext.get(TARGET_HOLDERS_PROPERTY, [])
+            keyValues << node
         }
     }
-	
 }
 

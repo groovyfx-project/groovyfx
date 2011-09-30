@@ -17,7 +17,8 @@
 package groovyx.javafx.factory.animation
 
 import javafx.animation.*;
-import javafx.beans.*;
+
+
 import javafx.util.Duration;
 import groovyx.javafx.ClosureEventHandler
 import groovyx.javafx.factory.AbstractGroovyFXFactory;
@@ -46,7 +47,11 @@ class KeyFrameFactory extends AbstractGroovyFXFactory {
     }
 
     public void onNodeCompleted( FactoryBuilderSupport builder, Object parent, Object node )  {
-        //println("KeyFrameFactory.nodeComplete node = ${node}")
+        def keyValues = builder.context[KeyValueFactory.TARGET_HOLDERS_PROPERTY]
+        keyValues?.each {
+            KeyValue kv = it.getKeyValue();
+            ((KeyFrameWrapper)node).values.add(kv);
+        }
     }
 
 

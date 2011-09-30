@@ -43,14 +43,13 @@ class TargetHolder {
         return new KeyValue(property, endValue, interpolator );
     }
     
-
     def to(value) {
         endValue = value;
         this
     }
 
     def tween(interp) {
-        interp = getInterpolator(interp)
+        interpolator = getInterpolator(interp)
         this
     }
 

@@ -38,13 +38,8 @@ GroovyFX.start {
 
     def tl = tlb.timeline(cycleCount: Timeline.INDEFINITE, autoReverse: true) {
         at (1000.ms, onFinished: { println "done" }) {
-            change (rect1,"x") {
-                to 200.0
-                tween ease_both
-            }
-            change (rect2,"y") {
-                to 200
-            }
+            change(rect1, 'x') to 200 tween ease_both
+            change rect2.yProperty() to 200 tween linear
         }
     }
 

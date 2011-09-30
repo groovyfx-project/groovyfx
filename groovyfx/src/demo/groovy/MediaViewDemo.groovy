@@ -27,7 +27,7 @@ GroovyFX.start { primaryStage ->
          scene(fill: groovyblue, root: stackPane()) {
                  mediaView(fitWidth: 400, fitHeight: 300, preserveRatio: true, onError: { println "Error"}) {
                      mp = player(cycleCount: 100, autoPlay: false, 
-                                 source: "http://www.longtailvideo.com/jw/upload/bunny.vp6",
+                                 source: "http://www.longtailvideo.com/jw/upload/bunny.flv",
                                  onError:  {println "Media Error"},
                                  onHalted:{ println "Media Halted"},
                                  onPaused: {println "Media Paused"},
