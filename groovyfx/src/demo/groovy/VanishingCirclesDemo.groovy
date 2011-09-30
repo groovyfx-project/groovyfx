@@ -1,6 +1,3 @@
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
-
 /*
 * Copyright 2011 the original author or authors.
 *
@@ -16,6 +13,9 @@ import groovyx.javafx.SceneGraphBuilder
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+
+import groovyx.javafx.GroovyFX
+import groovyx.javafx.SceneGraphBuilder
 
 /**
  * @author dean
