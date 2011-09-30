@@ -23,11 +23,12 @@ import groovyx.javafx.SceneGraphBuilder
 GroovyFX.start { primaryStage ->
     def sg = new SceneGraphBuilder()
     def rand = new Random().&nextInt
+    def circles = []
 
     sg.stage(title: 'Vanishing Circles', show: true) {
         scene(fill: black, width: 800, height: 600) {
             50.times {
-                circles = circle(centerX: rand(800), centerY: rand(600), radius: 150,
+                circles << circle(centerX: rand(800), centerY: rand(600), radius: 150,
                                  stroke: white, strokeWidth: 0) {
                     fill rgb(rand(255), rand(255), rand(255), 0.2)
                     effect boxBlur(width: 10, height: 10, iterations: 3)

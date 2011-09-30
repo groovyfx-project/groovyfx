@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="425fa734-d442-4090-8fa4-38a6499d4fcd" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/demo/groovy/VanishingCircles.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/demo/groovy/AnimationDemo.groovy" afterPath="$PROJECT_DIR$/src/demo/groovy/AnimationDemo.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/demo/groovy/ColorfulCirclesDemo.groovy" afterPath="$PROJECT_DIR$/src/demo/groovy/ColorfulCirclesDemo.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/demo/groovy/MediaViewDemo.groovy" afterPath="$PROJECT_DIR$/src/demo/groovy/MediaViewDemo.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/demo/groovy/SGTimelineDemo.groovy" afterPath="$PROJECT_DIR$/src/demo/groovy/SGTimelineDemo.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/demo/groovy/TimelineDemo.groovy" afterPath="$PROJECT_DIR$/src/demo/groovy/TimelineDemo.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/animation/TargetHolder.groovy" afterPath="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/animation/TargetHolder.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/animation/KeyFrameFactory.groovy" afterPath="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/animation/KeyFrameFactory.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/animation/KeyValueFactory.groovy" afterPath="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/animation/KeyValueFactory.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/demo/groovy/VanishingCircles.groovy" afterPath="$PROJECT_DIR$/src/demo/groovy/VanishingCircles.groovy" />
     </list>
     <ignored path="groovyfx.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -73,7 +65,7 @@
       <file leaf-file-name="VanishingCircles.groovy" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/demo/groovy/VanishingCircles.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="34" selection-start="1442" selection-end="1442" vertical-scroll-proportion="0.4825462">
+            <state line="36" column="22" selection-start="1410" selection-end="1410" vertical-scroll-proportion="0.33470225">
               <folding />
             </state>
           </provider>
@@ -163,7 +155,7 @@
       <file leaf-file-name="TimelineDemo.groovy" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/demo/groovy/TimelineDemo.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="13" selection-start="1044" selection-end="1044" vertical-scroll-proportion="0.0">
+            <state line="24" column="30" selection-start="771" selection-end="771" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -1004,7 +996,7 @@
     <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
     <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changes for JavaOne demos." />
+    <option name="LAST_COMMIT_MESSAGE" value="Now support key frame syntax of:&#10;&#10;  change obj.someProperty() to val tween linear&#10;  &#10;  The old version that includes the closure is still supported as well.  Added a new VanishingCircles demo for the J1 talk on alternative languages and updated other existing animation demos to use the new syntax." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1028,6 +1020,7 @@
     <MESSAGE value="New syntax for stops that handles strings: &quot;#ff00ff&quot; in the stop list.  New ColorfulCirclesDemo." />
     <MESSAGE value="Shortened the demo." />
     <MESSAGE value="Changes for JavaOne demos." />
+    <MESSAGE value="Now support key frame syntax of:&#10;&#10;  change obj.someProperty() to val tween linear&#10;  &#10;  The old version that includes the closure is still supported as well.  Added a new VanishingCircles demo for the J1 talk on alternative languages and updated other existing animation demos to use the new syntax." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1137,14 +1130,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/demo/groovy/TimelineDemo.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="13" selection-start="1044" selection-end="1044" vertical-scroll-proportion="0.0">
+        <state line="24" column="30" selection-start="771" selection-end="771" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/demo/groovy/VanishingCircles.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="34" selection-start="1442" selection-end="1442" vertical-scroll-proportion="0.4825462">
+        <state line="36" column="22" selection-start="1410" selection-end="1410" vertical-scroll-proportion="0.33470225">
           <folding />
         </state>
       </provider>
