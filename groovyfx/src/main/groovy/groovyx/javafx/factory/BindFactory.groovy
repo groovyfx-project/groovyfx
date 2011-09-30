@@ -100,6 +100,14 @@ class BindFactory extends AbstractGroovyFXFactory {
                 fb = new MutualPropertyBinding(trigger, sb, tb, this.&getTriggerBinding)
             } else {
                 fb = trigger.createBinding(sb, tb)
+
+                // If we have no source object, we'll have to complete the binding later,
+                // so store it in the context
+                if (sb instanceof PropertyBinding && ((PropertyBinding)sb).bean == null) {
+                    def newAttributes = [:]
+                    newAttributes.putAll(attributes)
+                    bindContext.put(fb, newAttributes)
+                }
             }
         } else if (!(sea || sva || spa)) {
             // if no sourcing is defined then assume we are a closure binding and return
@@ -125,9 +133,15 @@ class BindFactory extends AbstractGroovyFXFactory {
             attributes.remove('group').addBinding(fb)
         }
 
+        def converter = attributes.remove("converter")
+        if (converter instanceof Closure) {
+            fb.converter = converter
+        }
+
         builder.addDisposalClosure(fb.&unbind)
         return fb
     }
+
     public void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
         super.onNodeCompleted(builder, parent, node);
 
@@ -199,6 +213,14 @@ class BindFactory extends AbstractGroovyFXFactory {
             } else if (value instanceof FullBinding) {
                 fb = (FullBinding) value
                 fb.targetBinding = new PropertyBinding(node, property)
+
+                // See if the source was assumed to be the target node
+                if (fb.sourceBinding instanceof PropertyBinding) {
+                    def pb = (PropertyBinding)fb.sourceBinding
+                    if (pb.bean == null)
+                        pb.bean = node
+                    fb.rebind()
+                }
             } else  if (value instanceof TargetBinding) {
                 PropertyBinding psb = new PropertyBinding(node, property)
                 fb = getTriggerBinding(psb).createBinding(psb, value)

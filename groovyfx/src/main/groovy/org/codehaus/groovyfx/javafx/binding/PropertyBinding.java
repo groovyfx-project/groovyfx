@@ -16,6 +16,7 @@
 package org.codehaus.groovyfx.javafx.binding;
 
 import groovy.lang.MissingMethodException;
+import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.value.ObservableValue;
 import org.codehaus.groovy.runtime.InvokerHelper;
 import org.codehaus.groovy.runtime.InvokerInvocationException;
@@ -39,9 +40,8 @@ public class PropertyBinding implements SourceBinding, TargetBinding, TriggerBin
     Object bean;
     String propertyName;
     boolean nonChangeCheck;
-    Property fxProperty;
+    ReadOnlyProperty fxProperty;
     
-
     public PropertyBinding(Object bean, String propertyName) {
         this.bean = bean;
         this.propertyName = propertyName;
@@ -51,28 +51,20 @@ public class PropertyBinding implements SourceBinding, TargetBinding, TriggerBin
         this.fxProperty = fxProperty;
     }
 
-    @Override
-    public void updateTargetValue(Object newValue) {
-        if (nonChangeCheck) {
-            if (DefaultTypeTransformation.compareEqual(getSourceValue(), newValue)) {
-                // not a change, don't fire it
-                return;
-            }
-        }
-        
-            if(fxProperty != null) {
-                fxProperty.setValue(newValue);
-            }else {
-                try {
-                    Object[] args = { bean, propertyName, newValue };
-                    InvokerHelper.setProperty(bean, propertyName, newValue);
-                } catch (InvokerInvocationException iie) {
-                    if (!(iie.getCause() instanceof PropertyVetoException)) {
-                        throw iie;
-                    }
-                    // ignore veto exceptions, just let the binding fail like a validaiton does
-                }
-            }
+    public Object getBean() {
+        return bean;
+    }
+
+    public void setBean(Object bean) {
+        this.bean = bean;
+    }
+
+    public String getPropertyName() {
+        return propertyName;
+    }
+
+    public void setPropertyName(String propertyName) {
+        this.propertyName = propertyName;
     }
 
     public boolean isNonChangeCheck() {
@@ -84,9 +76,32 @@ public class PropertyBinding implements SourceBinding, TargetBinding, TriggerBin
     }
 
     @Override
+    public void updateTargetValue(Object newValue) {
+        if (nonChangeCheck) {
+            if (DefaultTypeTransformation.compareEqual(getSourceValue(), newValue)) {
+                // not a change, don't fire it
+                return;
+            }
+        }
+
+        if (fxProperty != null && fxProperty instanceof Property) {
+                ((Property)fxProperty).setValue(newValue);
+        } else {
+            try {
+                Object[] args = {bean, propertyName, newValue};
+                InvokerHelper.setProperty(bean, propertyName, newValue);
+            } catch (InvokerInvocationException iie) {
+                if (!(iie.getCause() instanceof PropertyVetoException)) {
+                    throw iie;
+                }
+                // ignore veto exceptions, just let the binding fail like a validaiton does
+            }
+        }
+    }
+
+    @Override
     public Object getSourceValue() {
-        return fxProperty != null ? fxProperty.getValue() :
-                        InvokerHelper.getPropertySafe(bean, propertyName);
+        return fxProperty != null ? fxProperty.getValue() : InvokerHelper.getPropertySafe(bean, propertyName);
     }
 
     @Override
@@ -125,11 +140,14 @@ public class PropertyBinding implements SourceBinding, TargetBinding, TriggerBin
                 bound = true;
                 if(fxProperty == null && bean != null && propertyName != null) {
                     try {
-                        fxProperty = (Property)InvokerHelper.invokeMethodSafe(bean, propertyName + "Property", null);
+                        fxProperty = (ReadOnlyProperty)InvokerHelper.invokeMethodSafe(bean,
+                                                                                      propertyName + "Property", null);
                     } catch (MissingMethodException ignore) {
+                        // Now that @FXBindable supports the standard propnameProperty() method,
+                        // this shouldn't be needed.  - TODO investigate after J1 2011
                         try {
                             // Maybe it's a @FXBindable property?
-                            fxProperty = (Property)InvokerHelper.getPropertySafe(bean, propertyName+"Property");
+                            fxProperty = (ReadOnlyProperty)InvokerHelper.getPropertySafe(bean, propertyName+"Property");
                         } catch (MissingMethodException ignoreAgain) {
                         }
                     }
@@ -187,25 +205,6 @@ public class PropertyBinding implements SourceBinding, TargetBinding, TriggerBin
         public String toString() {
             return sourceBinding.getSourceValue().toString();
         }
-
-
     }
 
-
-    public Object getBean() {
-        return bean;
-    }
-
-    public void setBean(Object bean) {
-        this.bean = bean;
-    }
-
-    public String getPropertyName() {
-        return propertyName;
-    }
-
-    public void setPropertyName(String propertyName) {
-        this.propertyName = propertyName;
-    }
-    
 }

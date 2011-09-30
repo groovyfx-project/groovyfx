@@ -28,12 +28,10 @@ GroovyFX.start { primaryStage ->
     sg.stage(title: 'Vanishing Circles', show: true) {
         scene(fill: black, width: 800, height: 600) {
             50.times {
-                circles << circle(centerX: rand(800), centerY: rand(600), radius: 150,
-                                 stroke: white, strokeWidth: 0) {
+                circles << circle(centerX: rand(800), centerY: rand(600), radius: 150, stroke: white,
+                                  strokeWidth: bind('hover', converter: {val -> val ? 4 : 0})) {
                     fill rgb(rand(255), rand(255), rand(255), 0.2)
                     effect boxBlur(width: 10, height: 10, iterations: 3)
-                    onMouseEntered { e -> e.source.strokeWidth = 4 }
-                    onMouseExited { e -> e.source.strokeWidth = 0 }
                     onMouseClicked { e ->
                         timeline {
                             at(3.s) { change e.source.radiusProperty() to 0 }
