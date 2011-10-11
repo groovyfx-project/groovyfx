@@ -42,6 +42,9 @@ import java.util.Map;
  * It also generates the setter and getter and wires the them through the
  * javafx.beans.property.Property.
  *
+ * TODO: Support for read only properties
+ * TODO: Support for eager and lazy properties
+ *       
  * @author jimclarke (inspired by Danno Ferrin (shemnon) and Chris Reeved)
  * @author Dean Iverson
  */

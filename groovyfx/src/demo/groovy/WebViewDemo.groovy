@@ -27,7 +27,7 @@ GroovyFX.start {
 
     sg.stage(title: "GroovyFX WebView Demo", visible: true) {
         scene(fill: groovyblue, width: 1024, height: 800) {
-            vbox() {
+            vbox {
                 hbox(padding: 10, spacing: 5) {
                     urlField = textField(text: homePage, onAction: goAction, hgrow: "always")
                     button("Go", onAction: goAction)

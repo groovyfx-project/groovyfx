@@ -22,6 +22,7 @@ import groovyx.javafx.SceneGraphBuilder
 def xml = """
     <?import javafx.scene.*?>
     <?import javafx.scene.shape.*?>
+    <?import javafx.scene.control.*?>
     <Group xmlns:fx="http://javafx.com/fxml">
             <children>
                  <Rectangle x="20.0" y="40.0" width="50.0" height="150" fill="BLUE" />

@@ -51,25 +51,25 @@ class SceneFactory extends AbstractGroovyFXFactory {
     }
 
     public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
-        SceneWrapper sceneWrapper = (SceneWrapper)parent;
+        SceneWrapper sceneWrapper = (SceneWrapper)parent
         
         if(sceneWrapper.sceneRoot == null  && child instanceof Node) {
             if(child instanceof Group || child instanceof Region ) {
-                sceneWrapper.root(child);
-                return;
+                sceneWrapper.root(child)
+                return
             } else {
-                sceneWrapper.root(new Group());
+                sceneWrapper.root(new Group())
             }
         }
 
         if(child instanceof Node) {
-            sceneWrapper.sceneRoot.getChildren().add((Node) child);
+            sceneWrapper.sceneRoot.getChildren().add((Node) child)
         } else if(child instanceof List) {
-            sceneWrapper.stylesheets((List)child);
+            sceneWrapper.stylesheets(child.collect {it.toString()})
         } else if(child instanceof GroovyMouseHandler) {
-            sceneWrapper.addInputHandler(((GroovyMouseHandler)child).getType(), (EventHandler)child);
+            sceneWrapper.addInputHandler(((GroovyMouseHandler)child).getType(), (EventHandler)child)
         } else if(child instanceof GroovyKeyHandler) {
-            sceneWrapper.addInputHandler(((GroovyKeyHandler)child).getType(), (EventHandler)child);
+            sceneWrapper.addInputHandler(((GroovyKeyHandler)child).getType(), (EventHandler)child)
         } else if (child instanceof NodeBuilder) {
             def builderList = builder.parentContext.get(BUILDER_LIST_PROPERTY, [])
             builderList << child
