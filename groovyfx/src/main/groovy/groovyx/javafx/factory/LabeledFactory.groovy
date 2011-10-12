@@ -16,10 +16,9 @@
 
 package groovyx.javafx.factory
 
-import javafx.scene.control.*;
-import javafx.scene.paint.*
+import javafx.collections.FXCollections
 import javafx.collections.ObservableList
-import javafx.collections.FXCollections;
+import javafx.scene.control.*
 
 /**
  *
@@ -27,17 +26,16 @@ import javafx.collections.FXCollections;
  */
 class LabeledFactory extends NodeFactory {
 
-
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Control control;
         def text = null;
         if (value != null && value instanceof Control) {
             control = value
         } else {
-            if(value != null) {
+            if (value != null) {
                 text = value.toString();
             }
-            switch(name) {
+            switch (name) {
                 case 'button':
                     control = new Button();
                     break;
@@ -49,11 +47,6 @@ class LabeledFactory extends NodeFactory {
                     break;
                 case 'choiceBox':
                     control = new ChoiceBox();
-                    List items = attributes.remove("items");
-                    if (!(items instanceof ObservableList)) {
-                        items = FXCollections.observableArrayList(items)
-                    }
-                    control.setItems(items);
                     break;
                 case 'hyperlink':
                     control = new Hyperlink();
@@ -68,7 +61,7 @@ class LabeledFactory extends NodeFactory {
                     control = new ToggleButton();
                     break;
             }
-            if(text) {
+            if (text) {
                 control.text = text;
             }
         }
@@ -76,14 +69,31 @@ class LabeledFactory extends NodeFactory {
         return control;
     }
 
-    public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
-        if(child instanceof Tooltip && parent instanceof Control) {
-            ((Control)parent).setTooltip(child);
-        }else if(child instanceof Node) {
-            ((Labeled)parent).setGraphic(child);
-        }else if(child instanceof ContextMenu) {
+    @Override
+    boolean onHandleNodeAttributes(FactoryBuilderSupport builder, Object node, Map attributes) {
+        if (node instanceof ChoiceBox) {
+            List items = attributes.remove("items");
+            if (items) {
+                if (!(items instanceof ObservableList)) {
+                    items = FXCollections.observableArrayList(items)
+                }
+
+                node.setItems(items);
+            }
+
+        }
+        return super.onHandleNodeAttributes(builder, node, attributes)
+    }
+
+
+    public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
+        if (child instanceof Tooltip && parent instanceof Control) {
+            ((Control) parent).setTooltip(child);
+        } else if (child instanceof Node) {
+            ((Labeled) parent).setGraphic(child);
+        } else if (child instanceof ContextMenu) {
             parent.contextMenu = child;
-        }else {
+        } else {
             super.setChild(builder, parent, child);
         }
     }

@@ -4,11 +4,14 @@ import org.codehaus.groovyfx.javafx.binding.ClosureTriggerBinding
 import org.codehaus.groovy.runtime.InvokerHelper
 
 /**
- * An abstract base class from which all other GroovyFX factories should inherit.  If a factory overrides
- * the onHandleNodeAttributes method and would normally return true to indicate further processing of the
- * attributes is required, then it should instead return super.onHandleNodeAttributes(...) at the end of
- * the method.  This ensures that the remaining attributes are processed by the default handling code in
- * this class.
+ * An abstract base class from which all other GroovyFX factories should inherit.
+ *
+ * If a factory overrides the onHandleNodeAttributes method then it should return super.onHandleNodeAttributes(...)
+ * at the end of the method. This ensures that the remaining attributes are processed by the default handling code
+ * in AbstractGroovyFX Factory.
+ *
+ * The only exception is when the overriding method processes all possible attributes itself and returns false
+ * to indicate that no other processing is required.
  * 
  * @author Dean Iverson (relocated code from SceneGraphBuilder)
  */
