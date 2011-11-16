@@ -101,13 +101,9 @@ class ControlFactory extends NodeFactory {
                 parent.items.add(child);
             } else if (child instanceof List) {
                 parent.items.addAll(child);
-            }
-            else { // todo this should be saved and set upon node complete
-                // so that all the items are saved first.
-                def pcntx = builder.getParentContext();
-                List dividers = pcntx.get(SceneGraphBuilder.CONTEXT_DIVIDER_KEY);
+            } else if (child instanceof DividerPosition) {
+                List dividers = builder.parentContext.get(SceneGraphBuilder.CONTEXT_DIVIDER_KEY);
                 dividers.add(child);
-
             }
         } else if (parent instanceof ToolBar) {
             if (child instanceof List)

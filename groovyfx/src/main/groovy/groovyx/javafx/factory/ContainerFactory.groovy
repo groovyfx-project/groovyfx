@@ -35,6 +35,9 @@ class ContainerFactory extends NodeFactory {
             case 'group':
                 container = new Group()
                 break
+            case 'region':
+                container = new Region()
+                break
             case 'pane':
                 container = new Pane()
                 break

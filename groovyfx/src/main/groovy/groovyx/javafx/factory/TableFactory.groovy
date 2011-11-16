@@ -237,7 +237,8 @@ class TableFactory extends AbstractGroovyFXFactory {
                 result = new TableView();
                 break;
             case 'tableColumn':
-                result = new TableColumn();
+                final colName = value instanceof String ? value : ''
+                result = new TableColumn(colName);
                 break;
         }
         return result;
@@ -284,7 +285,7 @@ class TableFactory extends AbstractGroovyFXFactory {
             
             def editable = attributes.get("editable"); // leave for superclass processing
             def hasCellFactory = attributes.containsKey("cellFactory"); // leave for superclass processing
-            if(editable != null && editable == true && !hasCellFactory) {
+            if(editable && !hasCellFactory) {
                 def cellFactory = null;
                 if(type != null && Enum.class.isAssignableFrom(type)) {
                     cellFactory = new EnumEditingCallback(type);

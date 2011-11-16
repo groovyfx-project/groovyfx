@@ -186,6 +186,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
 
         ContainerFactory cf = new ContainerFactory();
         registerFactory( 'pane', cf)
+        registerFactory( 'region', cf)
         registerFactory( 'anchorPane', cf)
         registerFactory( 'borderPane', cf)
         registerFactory( 'flowPane', cf)
