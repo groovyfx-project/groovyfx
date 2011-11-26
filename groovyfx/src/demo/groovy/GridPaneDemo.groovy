@@ -27,7 +27,7 @@ GroovyFX.start {
                 columnConstraints(minWidth: 50, halignment: "right")
                 columnConstraints(prefWidth: 250)
 
-                label("Send Us Your Feedback", font: "24pt sanserif", row: 0, columnSpan: GridPane.REMAINING,
+                label("Send Us Your Feedback", /*font: "24pt sanserif",*/ row: 0, columnSpan: GridPane.REMAINING,
                       halignment: "center", margin: [0, 0, 10]) {
                     onMouseEntered { e -> e.source.parent.gridLinesVisible = true }
                     onMouseExited { e -> e.source.parent.gridLinesVisible = false }

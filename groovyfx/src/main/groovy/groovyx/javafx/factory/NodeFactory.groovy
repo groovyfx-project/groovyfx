@@ -101,7 +101,7 @@ public class NodeFactory extends AbstractGroovyFXFactory {
         }
         def parent = builder.context.get(FactoryBuilderSupport.CURRENT_NODE);
         handleLayoutConstraints(parent, node, attributes);
-         return super.onHandleNodeAttributes(builder, node, attributes);
+        return super.onHandleNodeAttributes(builder, node, attributes);
     }
 
     

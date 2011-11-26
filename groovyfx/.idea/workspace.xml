@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="425fa734-d442-4090-8fa4-38a6499d4fcd" name="Default" comment="Fixed bug in handling of dividerPosition nodes for splitPanes.&#10;">
+    <list default="true" readonly="true" id="425fa734-d442-4090-8fa4-38a6499d4fcd" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/demo/groovy/ChartDemo.groovy" afterPath="$PROJECT_DIR$/src/demo/groovy/ChartDemo.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/SceneGraphBuilder.groovy" afterPath="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/SceneGraphBuilder.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/ContainerFactory.groovy" afterPath="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/ContainerFactory.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/ControlFactory.groovy" afterPath="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/ControlFactory.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/TableFactory.groovy" afterPath="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/TableFactory.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/demo/groovy/GridPaneDemo.groovy" afterPath="$PROJECT_DIR$/src/demo/groovy/GridPaneDemo.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/NodeFactory.groovy" afterPath="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/NodeFactory.groovy" />
     </list>
     <ignored path="groovyfx.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -66,42 +64,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="GridPaneDemo.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/demo/groovy/GridPaneDemo.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ControlFactory.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/ControlFactory.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="104" column="27" selection-start="4912" selection-end="4912" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DividerPositionFactory.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/DividerPositionFactory.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="6" selection-start="671" selection-end="671" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DividerPosition.groovy" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/DividerPosition.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="6" selection-start="672" selection-end="672" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="TableViewDemo.groovy" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/demo/groovy/TableViewDemo.groovy">
           <provider selected="true" editor-type-id="text-editor">
@@ -111,10 +73,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TableFactory.groovy" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="TableFactory.groovy" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/TableFactory.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="242" column="9" selection-start="7217" selection-end="7217" vertical-scroll-proportion="0.0">
+            <state line="228" column="6" selection-start="6510" selection-end="6510" vertical-scroll-proportion="0.94035786">
               <folding />
             </state>
           </provider>
@@ -192,10 +154,46 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ChartDemo.groovy" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ChartDemo.groovy" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/demo/groovy/ChartDemo.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="45" column="45" selection-start="1853" selection-end="1853" vertical-scroll-proportion="0.40490797">
+            <state line="89" column="0" selection-start="4378" selection-end="4378" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SceneGraphBuilder.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/SceneGraphBuilder.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="178" column="42" selection-start="5917" selection-end="5917" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClipFactory.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/ClipFactory.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="24" column="13" selection-start="706" selection-end="706" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NodeFactory.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/NodeFactory.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="103" column="8" selection-start="3464" selection-end="3464" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TextFieldDemo.groovy" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/demo/groovy/TextFieldDemo.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="33" column="58" selection-start="1116" selection-end="1116" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -260,13 +258,10 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/demo/groovy/FXMLDemo.groovy" />
         <option value="$PROJECT_DIR$/src/demo/groovy/RootRegionTest.groovy" />
         <option value="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/beans/FXBindableASTTransformation.java" />
-        <option value="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/NodeFactory.groovy" />
         <option value="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/SceneFactory.groovy" />
         <option value="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/AbstractGroovyFXFactory.groovy" />
-        <option value="$PROJECT_DIR$/src/demo/groovy/GridPaneDemo.groovy" />
         <option value="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/LabeledFactory.groovy" />
         <option value="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/SceneGraphBuilder.groovy" />
         <option value="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/ContainerFactory.groovy" />
@@ -275,7 +270,10 @@
         <option value="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/ControlFactory.groovy" />
         <option value="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/AxisFactory.groovy" />
         <option value="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/XYChartFactory.groovy" />
+        <option value="$PROJECT_DIR$/src/demo/groovy/GridPaneDemo.groovy" />
+        <option value="$PROJECT_DIR$/src/demo/groovy/TextFieldDemo.groovy" />
         <option value="$PROJECT_DIR$/src/demo/groovy/ChartDemo.groovy" />
+        <option value="$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/NodeFactory.groovy" />
       </list>
     </option>
   </component>
@@ -332,7 +330,6 @@
     </navigator>
     <panes>
       <pane id="Favorites" />
-      <pane id="PackagesPane" />
       <pane id="Scope">
         <subPane subId="Project Files">
           <PATH>
@@ -343,6 +340,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -753,28 +751,6 @@
     <property name="options.searchVisible" value="true" />
   </component>
   <component name="RunManager" selected="Groovy Script.ChartDemo">
-    <configuration default="false" name="RootRegionTest" type="GroovyScriptRunConfiguration" factoryName="Groovy Script" temporary="true">
-      <module name="GroovyFX" />
-      <setting name="path" value="$PROJECT_DIR$/src/demo/groovy/RootRegionTest.groovy" />
-      <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workDir" value="$PROJECT_DIR$/src/demo/groovy" />
-      <setting name="debug" value="false" />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
-    <configuration default="false" name="ColorfulCirclesDemo" type="GroovyScriptRunConfiguration" factoryName="Groovy Script" temporary="true">
-      <module name="GroovyFX" />
-      <setting name="path" value="$PROJECT_DIR$/src/demo/groovy/ColorfulCirclesDemo.groovy" />
-      <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workDir" value="$PROJECT_DIR$/src/demo/groovy" />
-      <setting name="debug" value="false" />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
     <configuration default="false" name="VanishingCirclesDemo" type="GroovyScriptRunConfiguration" factoryName="Groovy Script" temporary="true">
       <module name="GroovyFX" />
       <setting name="path" value="$PROJECT_DIR$/src/demo/groovy/VanishingCirclesDemo.groovy" />
@@ -800,6 +776,28 @@
     <configuration default="false" name="ChartDemo" type="GroovyScriptRunConfiguration" factoryName="Groovy Script" temporary="true">
       <module name="GroovyFX" />
       <setting name="path" value="$PROJECT_DIR$/src/demo/groovy/ChartDemo.groovy" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workDir" value="$PROJECT_DIR$/src/demo/groovy" />
+      <setting name="debug" value="false" />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="GridPaneDemo" type="GroovyScriptRunConfiguration" factoryName="Groovy Script" temporary="true">
+      <module name="GroovyFX" />
+      <setting name="path" value="$PROJECT_DIR$/src/demo/groovy/GridPaneDemo.groovy" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workDir" value="$PROJECT_DIR$/src/demo/groovy" />
+      <setting name="debug" value="false" />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="TextFieldDemo" type="GroovyScriptRunConfiguration" factoryName="Groovy Script" temporary="true">
+      <module name="GroovyFX" />
+      <setting name="path" value="$PROJECT_DIR$/src/demo/groovy/TextFieldDemo.groovy" />
       <setting name="vmparams" value="" />
       <setting name="params" value="" />
       <setting name="workDir" value="$PROJECT_DIR$/src/demo/groovy" />
@@ -913,11 +911,11 @@
       </method>
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Groovy Script.RootRegionTest" />
-      <item index="1" class="java.lang.String" itemvalue="Groovy Script.ColorfulCirclesDemo" />
-      <item index="2" class="java.lang.String" itemvalue="Groovy Script.VanishingCirclesDemo" />
-      <item index="3" class="java.lang.String" itemvalue="Groovy Script.TableViewDemo" />
-      <item index="4" class="java.lang.String" itemvalue="Groovy Script.ChartDemo" />
+      <item index="0" class="java.lang.String" itemvalue="Groovy Script.VanishingCirclesDemo" />
+      <item index="1" class="java.lang.String" itemvalue="Groovy Script.TableViewDemo" />
+      <item index="2" class="java.lang.String" itemvalue="Groovy Script.ChartDemo" />
+      <item index="3" class="java.lang.String" itemvalue="Groovy Script.GridPaneDemo" />
+      <item index="4" class="java.lang.String" itemvalue="Groovy Script.TextFieldDemo" />
     </list>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -970,11 +968,31 @@
     </task>
     <servers />
   </component>
+  <component name="TodoView" selected-index="0">
+    <todo-panel id="selected-file">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="default-changelist">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
     <frame x="60" y="27" width="1680" height="1024" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32939914" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Phing Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -982,17 +1000,17 @@
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286334" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31759655" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32939914" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.329859" sideWeight="0.6416309" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3583691" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.329859" sideWeight="0.67060083" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3583691" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31866953" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31759655" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1022,7 +1040,7 @@
     <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
     <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed handling of items property for ChoiceBox so that it can be bound." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed bug in handling of dividerPosition nodes for splitPanes.&#10;Added region node to ContainerFactory.&#10;tableColumn can now take a String value object for the column name. &#10;" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1052,6 +1070,7 @@
     <MESSAGE value="Moved license to the top of the file." />
     <MESSAGE value="Added ability for scenes to take lists of URIs as well as URI strings.  Minor changes to some demos for JavaOne presentations." />
     <MESSAGE value="Changed handling of items property for ChoiceBox so that it can be bound." />
+    <MESSAGE value="Fixed bug in handling of dividerPosition nodes for splitPanes.&#10;Added region node to ContainerFactory.&#10;tableColumn can now take a String value object for the column name. &#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1061,33 +1080,37 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/ImageFactory.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="6" selection-start="706" selection-end="706" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/demo/groovy/AccordionDemo.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/demo/groovy/ParallelTransitionDemo.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="13" selection-start="958" selection-end="958" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/demo/groovy/SplitPaneDemo.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/StageFactory.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state line="110" column="0" selection-start="4042" selection-end="4042" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/AxisFactory.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="45" column="44" selection-start="1493" selection-end="1493" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/XYChartFactory.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="90" column="57" selection-start="3204" selection-end="3204" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/demo/groovy/ChartDemo.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="89" column="0" selection-start="4378" selection-end="4378" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/demo/groovy/TextFieldDemo.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="58" selection-start="1116" selection-end="1116" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -1120,16 +1143,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/demo/groovy/GridPaneDemo.groovy">
+    <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/BindFactory.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="31" column="26" selection-start="1162" selection-end="1162" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/BindFactory.groovy">
+    <entry file="file://$PROJECT_DIR$/src/demo/groovy/GridPaneDemo.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="26" selection-start="1162" selection-end="1162" vertical-scroll-proportion="0.0">
+        <state line="29" column="73" selection-start="1160" selection-end="1160" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/SceneGraphBuilder.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="178" column="42" selection-start="5917" selection-end="5917" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -1141,30 +1171,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/AxisFactory.groovy">
+    <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/ClipFactory.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="44" selection-start="1493" selection-end="1493" vertical-scroll-proportion="0.0">
+        <state line="24" column="13" selection-start="706" selection-end="706" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/XYChartFactory.groovy">
+    <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/NodeFactory.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="90" column="57" selection-start="3204" selection-end="3204" vertical-scroll-proportion="0.0">
+        <state line="103" column="8" selection-start="3464" selection-end="3464" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/SceneGraphBuilder.groovy">
+    <entry file="file://$PROJECT_DIR$/src/main/groovy/groovyx/javafx/factory/TableFactory.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="317" column="26" selection-start="11777" selection-end="11777" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/demo/groovy/ChartDemo.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="45" selection-start="1853" selection-end="1853" vertical-scroll-proportion="0.40490797">
+        <state line="228" column="6" selection-start="6510" selection-end="6510" vertical-scroll-proportion="0.94035786">
           <folding />
         </state>
       </provider>
