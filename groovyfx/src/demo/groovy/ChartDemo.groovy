@@ -27,7 +27,7 @@ import javafx.scene.chart.XYChart
 import javafx.scene.shape.Circle
 import javafx.scene.control.Button
 
-def pieData = FXCollections.observableArrayList([new PieChart.Data("Yours", 42), new PieChart.Data("Mine", 58)])
+def pieData = FXCollections.observableArrayList([new PieChart.Data("Yours", 51), new PieChart.Data("Mine", 49)])
 
 GroovyFX.start {
     new SceneGraphBuilder().stage(title: 'GroovyFX Chart Demo', width: 1024, height: 960, visible: true) {
