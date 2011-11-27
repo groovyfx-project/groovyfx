@@ -37,7 +37,7 @@ GroovyFX.start {
     sg.stage(title: "GroovyFX Demo", x: 100, y: 100, width: 480, height: 800, visible: true, style: "decorated",
              onHidden: { println "Close"}) {
 
-        scene(fill: groovyblue, root: group(), stylesheets: ["file://another.css"]) {
+        scene(fill: groovyblue, root: group(), stylesheets: getResource("GroovyFXDemo.css") ){
             onMousePressed {e -> println "scene press @" + e.x + "," + e.y  }
             onKeyReleased { e -> println "scene key" + e.text}
             onChange(property: "width") { observable, oldValue, newValue ->
@@ -74,7 +74,7 @@ GroovyFX.start {
 
                 vbox(spacing: 10) {
                     hbox(spacing: 10) {
-                        button("This is a Button", font: "16pt Courier", onAction: { println "button pressed"})
+                        button("This is a Button", styleClass: "custom-button", font: "16pt Courier", onAction: { println "button pressed"})
                         checkBox("Check", font: "16pt Courier", selected: true)
                     }
                     separator()

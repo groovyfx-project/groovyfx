@@ -134,10 +134,17 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         Color color = Color.NamedColors.namedColors[lname]
         if (color) { return color }
         def prop = propertyMap[lname];
+            
         if(prop)
             return prop;
         
         throw new MissingPropertyException("Unrecognized property: ${name}", name, this.class);
+    }
+    
+    
+    def getResource(def name) {
+        def resource = Thread.currentThread().getContextClassLoader().getResource(name);
+        return resource? resource.toString() : "";
     }
 
     def rgb(int r, int g, int b) {

@@ -1,0 +1,12 @@
+/* 
+    Document   : GroovyFXDemo
+    Created on : Nov 27, 2011, 3:58:51 PM
+    Author     : jimclarke
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.custom-button { 
+    -fx-text-fill: red;
+}
+
