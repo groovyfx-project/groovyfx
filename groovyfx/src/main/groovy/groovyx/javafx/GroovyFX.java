@@ -42,7 +42,7 @@ public class GroovyFX extends Application {
      */
      public static void start(Closure c) {
          closure = c;
-         Application.launch(null);
+         Application.launch((String)null);
      }
     
 }
