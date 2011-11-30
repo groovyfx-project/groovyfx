@@ -27,11 +27,11 @@ class FXPerson {
     String firstName;
     String lastName;
     int age;
-    String[] likes;	
+    String likes;	
 }
 
 
-FXPerson person = new FXPerson();
+FXPerson person = new FXPerson(); 
 
 println("======================");
 println(person.lastNameProperty);

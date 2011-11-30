@@ -15,6 +15,7 @@
 */
 package groovyx.javafx.beans;
 
+import java.util.ArrayList;
 import javafx.beans.property.*;
 import org.codehaus.groovy.ast.*;
 import org.codehaus.groovy.ast.expr.*;
@@ -31,7 +32,9 @@ import org.codehaus.groovy.transform.GroovyASTTransformation;
 import org.objectweb.asm.Opcodes;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import org.codehaus.groovy.ast.GenericsType;
 
 
 /**
@@ -53,7 +56,7 @@ import java.util.Map;
 public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
     protected static final ClassNode boundClassNode = ClassHelper.make(FXBindable.class);
 
-    protected static final ClassNode objectPropertyClass = ClassHelper.make(ObjectProperty.class);
+    protected static final ClassNode objectPropertyClass = ClassHelper.make(ObjectProperty.class, true);
     protected static final ClassNode booleanPropertyClass = ClassHelper.make(BooleanProperty.class);
     protected static final ClassNode doublePropertyClass = ClassHelper.make(DoubleProperty.class);
     protected static final ClassNode floatPropertyClass = ClassHelper.make(FloatProperty.class);
@@ -67,7 +70,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
     protected static final ClassNode simpleIntPropertyClass = ClassHelper.make(SimpleIntegerProperty.class);
     protected static final ClassNode simpleLongPropertyClass = ClassHelper.make(SimpleLongProperty.class);
     protected static final ClassNode simpleStringPropertyClass = ClassHelper.make(SimpleStringProperty.class);
-    protected static final ClassNode simpleObjectPropertyClass = ClassHelper.make(SimpleObjectProperty.class);
+    protected static final ClassNode simpleObjectPropertyClass = ClassHelper.make(SimpleObjectProperty.class, true);
 //    protected static final ClassNode numberClassNode = ClassHelper.make(Number.class);
 
     private static final Map<ClassNode, ClassNode> propertyTypeMap = new HashMap<ClassNode, ClassNode>();
@@ -101,7 +104,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
         propertyImplMap.put(intPropertyClass, simpleIntPropertyClass);
         propertyImplMap.put(longPropertyClass, simpleLongPropertyClass);
         propertyImplMap.put(stringPropertyClass, simpleStringPropertyClass);
-        propertyImplMap.put(objectPropertyClass, simpleObjectPropertyClass);
+        //propertyImplMap.put(objectPropertyClass, simpleObjectPropertyClass);
     }
 
 //    private static final Expression intZero = new ConstantExpression(0, true);
@@ -249,7 +252,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
 
         String setterName = "set" + MetaClassHelper.capitalize(originalProp.getName());
         if (classNode.getMethods(setterName).isEmpty()) {
-            Statement setterBlock = createSetterStatement(fxProperty);
+            Statement setterBlock = createSetterStatement(createFXProperty(originalProp));
             createSetterMethod(classNode, originalProp, setterName, setterBlock);
         } else {
             wrapSetterMethod(classNode, originalProp.getName());
@@ -257,7 +260,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
 
         String getterName = "get" + MetaClassHelper.capitalize(originalProp.getName());
         if (classNode.getMethods(getterName).isEmpty()) {
-            Statement getterBlock = createGetterStatement(fxProperty);
+            Statement getterBlock = createGetterStatement(createFXProperty(originalProp));
             createGetterMethod(classNode, originalProp, getterName, getterBlock);
         } else {
             wrapGetterMethod(classNode, originalProp.getName());
@@ -266,7 +269,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
         // We want the actual name of the field to be different from the getter (Prop vs Property) so
         // that the getter takes precedence when we say this.somethingProperty.
         FieldNode fxFieldShortName = createFieldNodeCopy(originalProp.getName() + "Prop", null, fxProperty.getField());
-        createPropertyAccessor(classNode, fxProperty, fxFieldShortName, initExp);
+        createPropertyAccessor(classNode, createFXProperty(originalProp), fxFieldShortName, initExp);
 
         classNode.removeField(originalProp.getName());
         classNode.addField(fxFieldShortName);
@@ -285,7 +288,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
 
         // For the ObjectProperty, we need to add the generic type to it.
         if (newType == null) {
-            newType = ClassHelper.make(ObjectProperty.class);
+            newType = ClassHelper.makeWithoutCaching(ObjectProperty.class, true);
             ClassNode genericType = origType;
             if (genericType.isPrimaryClassNode()) {
                 genericType = ClassHelper.getWrapper(genericType);
@@ -359,6 +362,18 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
     private void wrapGetterMethod(ClassNode classNode, String propertyName) {
         System.out.println("wrapGetterMethod");
     }
+    
+    private ClassNode nonGeneric(ClassNode type) {
+        if (type.isUsingGenerics()) {
+            final ClassNode nonGen = ClassHelper.makeWithoutCaching(type.getName());
+            nonGen.setRedirect(type);
+            nonGen.setGenericsTypes(null);
+            nonGen.setUsingGenerics(false);
+            return nonGen;
+        } else {
+            return type;
+        }
+    }
 
     /**
      * Creates the body of a property access method that returns the JavaFX *Property instance.  If
@@ -383,6 +398,14 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
             new ArgumentListExpression(initExp);
 
         BlockStatement block = new BlockStatement();
+        ClassNode implNode = propertyImplMap.get(fxProperty.getType());
+        if(implNode == null) {
+            implNode = ClassHelper.make(SimpleObjectProperty.class, true);
+            GenericsType[] origGenerics = fxProperty.getType().getGenericsTypes();
+            //List<GenericsType> copyGenericTypes = new ArrayList<GenericsType>();
+            //for()
+            implNode.setGenericsTypes(origGenerics);
+        }
         IfStatement ifStmt = new IfStatement(
             new BooleanExpression(
                 new BinaryExpression(
@@ -395,8 +418,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
                 new BinaryExpression(
                     fieldExpression,
                     Token.newSymbol(Types.EQUAL, 0, 0),
-                    new ConstructorCallExpression(propertyImplMap.get(fxProperty.getType()),
-                                                  ctorArgs)
+                    new ConstructorCallExpression(implNode, ctorArgs)
                 )
             ),
             EmptyStatement.INSTANCE
@@ -502,6 +524,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
     private FieldNode createFieldNodeCopy(String newName, ClassNode newType, FieldNode f) {
         if (newType == null)
             newType = f.getType();
+        newType = nonGeneric(newType);
 
         return new FieldNode(newName, f.getModifiers(), newType, f.getOwner(), f.getInitialValueExpression());
     }

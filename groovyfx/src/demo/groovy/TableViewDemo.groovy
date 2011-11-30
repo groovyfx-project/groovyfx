@@ -59,7 +59,7 @@ GroovyFX.start { primaryStage ->
         tableColumn(editable: true, property: "gender", text: "Gender", prefWidth: 150, type: Gender,
                     onEditCommit: { event ->
                       Person item = event.tableView.items.get(event.tablePosition.row)
-                      item.gender = event.newValue
+                      item.gender = event.newValue;
                     }
         )
         tableColumn(editable: true, property: "dob", text: "Birth", prefWidth: 150, type: Date,
