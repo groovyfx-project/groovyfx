@@ -363,17 +363,6 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
         System.out.println("wrapGetterMethod");
     }
     
-    private ClassNode nonGeneric(ClassNode type) {
-        if (type.isUsingGenerics()) {
-            final ClassNode nonGen = ClassHelper.makeWithoutCaching(type.getName());
-            nonGen.setRedirect(type);
-            nonGen.setGenericsTypes(null);
-            nonGen.setUsingGenerics(false);
-            return nonGen;
-        } else {
-            return type;
-        }
-    }
 
     /**
      * Creates the body of a property access method that returns the JavaFX *Property instance.  If
@@ -524,7 +513,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
     private FieldNode createFieldNodeCopy(String newName, ClassNode newType, FieldNode f) {
         if (newType == null)
             newType = f.getType();
-        newType = nonGeneric(newType);
+        newType = newType.getPlainNodeReference();
 
         return new FieldNode(newName, f.getModifiers(), newType, f.getOwner(), f.getInitialValueExpression());
     }
