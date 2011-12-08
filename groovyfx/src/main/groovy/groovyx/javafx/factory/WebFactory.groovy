@@ -26,14 +26,13 @@ class WebFactory extends NodeFactory {
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Object instance;
 
-        if(name == "webEngine") {
+        if(name == "webView") {
             def location = attributes.remove("location");
-            if(location != null)
-                instance = new WebEngine(location);
-            else
-                instance = new WebEngine();
-        } else if(name == "webView") {
+            if(location == null)
+                location = value;
             instance = new WebView();
+            if(location != null)
+                instance.engine.load(location);
         } else if(name == "htmlEditor") {
             instance = new HTMLEditor()
         }
