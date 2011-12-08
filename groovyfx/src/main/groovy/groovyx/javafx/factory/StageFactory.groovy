@@ -26,7 +26,6 @@ import javafx.stage.StageStyle
  * @author jimclarke
  */
 class StageFactory extends AbstractGroovyFXFactory {
-    SceneWrapper sceneWrapper;
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
             throws InstantiationException, IllegalAccessException {
@@ -48,7 +47,9 @@ class StageFactory extends AbstractGroovyFXFactory {
                 show = attributes.remove("visible");
             builder.context.put("show", show);
 
-            def primary = attributes.remove("primary") ?: true
+            def primary = attributes.remove("primary");
+            if(primary == null)
+                primary = true;
 
             if (FactoryBuilderSupport.checkValueIsType(value, name, Stage.class)) {
                 window = value
