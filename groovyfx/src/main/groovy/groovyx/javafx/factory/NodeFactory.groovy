@@ -41,7 +41,7 @@ public class NodeFactory extends AbstractGroovyFXFactory {
         'onMouseMoved',
         'onMousePressed',
         'onMouseReleased',
-        'onMouseWheelMoved',   
+        // 'onMouseWheelMoved',   
         'onDragDetected',
         'onDragDone',
         'onDragEntered',

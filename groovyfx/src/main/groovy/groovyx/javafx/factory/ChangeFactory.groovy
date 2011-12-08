@@ -50,15 +50,11 @@ class ChangeFactory extends AbstractGroovyFXFactory {
     @Override
     public void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
         final ccl = (ClosureChangeListener) node
-        if(parent instanceof SceneWrapper) {
-            parent.addChangeListener(ccl);
-        }else {
-            try {
-                def property = InvokerHelper.invokeMethod(parent, ccl.property + "Property", null);
-                InvokerHelper.invokeMethod(property, "addListener", ccl );
-            }catch(MissingMethodException ex) {
-                println("No JavaFX property '" + ccl.property + "' for class " + parent.class);
-            }
+        try {
+            def property = InvokerHelper.invokeMethod(parent, ccl.property + "Property", null);
+            InvokerHelper.invokeMethod(property, "addListener", ccl );
+        }catch(MissingMethodException ex) {
+            println("No JavaFX property '" + ccl.property + "' for class " + parent.class);
         }
     }
 }

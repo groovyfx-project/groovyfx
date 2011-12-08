@@ -437,7 +437,6 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
 
         WebFactory wf = new  WebFactory();
         registerFactory( 'webView', wf)
-        registerFactory( 'webEngine', wf)
         registerFactory( 'htmlEditor', wf)
     }
     
