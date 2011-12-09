@@ -28,12 +28,25 @@ import javafx.embed.swing.JFXPanel
 
 def DEFAULT_URL = "http://www.yahoo.com"
 def swing = new SwingBuilder();
+def sg = new SceneGraphBuilder();
+
 def fxPanel = new JFXPanel(preferredSize: new Dimension(800,400))
 
+
+
 def setUrl = { url ->
-    Platform.runLater {
-        webEngine.load(url)
+    sg.defer {
+        wv.engine.load(url)
     }
+}
+
+def createScene = {
+   sg.defer {
+        def scene = sg.scene(width: 800, height: 400) {
+             wv = webView(DEFAULT_URL)
+         }
+         fxPanel.scene = scene
+   } 
 }
 
 swing.edt {
@@ -46,12 +59,9 @@ swing.edt {
         widget(fxPanel, constraints: BL.CENTER)
     }
     frame.pack()
+    createScene();
+   }
 }
 
-GroovyFX.start {
-     def sg = new SceneGraphBuilder(it);
-     fxPanel.scene = sg.scene(width: 800, height: 400) {
-         webEngine = webEngine(location: DEFAULT_URL)
-         webView(engine: webEngine)
-     }
-}
+
+
