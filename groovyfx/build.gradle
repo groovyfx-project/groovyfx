@@ -35,9 +35,10 @@ repositories {
 }
 
 dependencies {
-    groovy 'org.codehaus.groovy:groovy-all:1.8.4'
-    compile 'asm:asm:3.2'
-    compile files("${javafxHome}/rt/lib/jfxrt.jar")
+    groovy      'org.codehaus.groovy:groovy-all:1.8.4'
+    compile     'asm:asm:3.2'
+    compile     files("${javafxHome}/rt/lib/jfxrt.jar")
+    testCompile 'junit:junit:4.10'
 }
 
 uploadArchives {
