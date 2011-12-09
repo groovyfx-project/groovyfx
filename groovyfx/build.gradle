@@ -85,3 +85,6 @@ new File('src/demo/groovy').eachFileMatch(~/.*Demo.groovy/) { file ->
     }
 }
 
+task wrap(type:Wrapper, description:"create a gradlew") {
+    gradleVersion = '1.0-milestone-6'
+}
