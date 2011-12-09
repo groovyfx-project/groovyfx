@@ -60,7 +60,6 @@ swing.edt {
     }
     frame.pack()
     createScene();
-   }
 }
 
 
