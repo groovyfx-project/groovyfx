@@ -3,12 +3,14 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/groovyfx/src/main/groovy" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/groovyfx/src/demo/groovy" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/groovyfx/src/test/groovy" isTestSource="true" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="JavaFX 2.0 Beta" level="application" />
-    <orderEntry type="library" name="groovy-1.8.0" level="application" />
+    <orderEntry type="library" name="groovy-1.8.4" level="application" />
   </component>
 </module>
 
