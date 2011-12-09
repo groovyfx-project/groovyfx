@@ -68,6 +68,7 @@ uploadArchives {
             developers {
                 developer { name 'Jim Clarke' }
                 developer { name 'Dean Iverson' }
+                developer { name 'Dierk Koenig' }
             }
         }
     }
