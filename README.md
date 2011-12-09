@@ -1,3 +1,5 @@
+_GroovyFX is currently under development and the 0.1-SNAPSHOT version must be considered experimental_.
+
 Build instructions
 ==================
 Download JavaFX from http://javafx.com and follow the install instructions.
