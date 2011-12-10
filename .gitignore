@@ -2,4 +2,4 @@ out
 .idea/workspace.xml
 groovyfx/build
 groovyfx/.gradle
-groovyfx/grade-app.setting
+groovyfx/gradle-app.setting
