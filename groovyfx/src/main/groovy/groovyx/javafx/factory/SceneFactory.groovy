@@ -43,19 +43,23 @@ class SceneFactory extends AbstractGroovyFXFactory {
         if (FactoryBuilderSupport.checkValueIsType(value, name, Scene.class)) {
             scene = value
         } else {
-            
-            def root = attributes.remove("root");
+            def root = attributes.remove("root")
             def height = attributes.remove("height")
             def width = attributes.remove("width")
-            def depthBuffer = attributes.remove("depthBuffer");
-            if(root==null)
-                root = new Group();
+            def depthBuffer = attributes.remove("depthBuffer")
+            
+            if(root == null) {
+                root = new Group()
+                syntheticRoot = true
+            }
+
             if(depthBuffer == null)
-                depthBuffer = false;
+                depthBuffer = false
+            
             if(width != null && height != null) {
-                scene = new Scene(root, width, height, depthBuffer);
-            }else {
-                scene = new Scene(root);
+                scene = new Scene(root, width, height, depthBuffer)
+            } else {
+                scene = new Scene(root)
             }
         }
 
@@ -64,8 +68,11 @@ class SceneFactory extends AbstractGroovyFXFactory {
 
     public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         Scene scene = (Scene)parent
-        
-        if(syntheticRoot  || child instanceof Node) {
+
+        // If we have a synthetic root, then the first child Node either becomes
+        // the root (if it's a Parent) or becomes a child of the synthetic root.
+        // Either way, our synthetic root is no longer synthetic.
+        if(syntheticRoot && child instanceof Node) {
             if(child instanceof Parent ) {
                 scene.root = child;
                 return
@@ -76,7 +83,7 @@ class SceneFactory extends AbstractGroovyFXFactory {
         if(child instanceof Node) {
             scene.root.children.add((Node) child)
         } else if(child instanceof List) {
-            scene.root.stylesheets.addAll(child.collect {it.toString()})
+            scene.stylesheets.addAll(child.collect {it.toString()})
         } else if(child instanceof GroovyMouseHandler) {
             InvokerHelper.setProperty(scene, ((GroovyMouseHandler)child).getType(), (EventHandler)child);
         } else if(child instanceof GroovyKeyHandler) {

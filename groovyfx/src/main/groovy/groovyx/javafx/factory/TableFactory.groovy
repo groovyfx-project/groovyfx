@@ -226,7 +226,7 @@ class ConverterPropertyValueFactory extends PropertyValueFactory implements Chan
     
 }
 
-class TableFactory extends AbstractGroovyFXFactory {
+class TableFactory extends NodeFactory {
     private static EditingCallback defaultCellFactory = new EditingCallback();
     private static EnumEditingCallback enumCellFactory = new EnumEditingCallback();
     
