@@ -73,11 +73,11 @@ class SceneFactory extends AbstractGroovyFXFactory {
         // the root (if it's a Parent) or becomes a child of the synthetic root.
         // Either way, our synthetic root is no longer synthetic.
         if(syntheticRoot && child instanceof Node) {
+            syntheticRoot = false;
             if(child instanceof Parent ) {
                 scene.root = child;
                 return
-            } 
-            syntheticRoot = false;
+            }
         }
 
         if(child instanceof Node) {
