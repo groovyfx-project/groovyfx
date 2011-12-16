@@ -48,10 +48,12 @@ uploadArchives {
         }
         //repository(url: "file:///Users/dean/temp/m2")
         pom.project {
-            name 'GroovyFX'
-            url 'http://groovy.codehaus.org/GroovyFX'
+            name        'GroovyFX'
+            organization 'org.codehaus.groovy' // this should become: org.codehaus.groovyfx
+            modules     'groovyfx'
+            url         'http://groovy.codehaus.org/GroovyFX'
             description 'Groovy bindings for JavaFX 2.x'
-            packaging 'jar'
+            packaging   'jar'
             licenses {
                 license {
                     name 'The Apache Software License, Version 2.0'

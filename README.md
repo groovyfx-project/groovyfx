@@ -10,11 +10,24 @@ Building with Gradle
 * cd groovyfx
 * gradlew build
 
-To run any specific demo, you can just call
-* gradlew AccordionDemo
+To run any specific demo, e.g. the AccordionDemo, you can just call
+> gradlew AccordionDemo
 
 To see an executable overview of all build tasks including all demos
-* gradlew --gui
+> gradlew --gui
+
+### Local development builds ###
+
+Until there is a release build of GroovyFx available in the central maven
+repositories, you can build locally, deploy to your local maven cache, and
+make your own projects depend on that build.
+
+To install all generated artefacts into your local maven cache
+> gradlew install
+
+To make a gradle build depend on a locally installed GroovyFx build
+* use mavenLocal() as the repository
+* add to dependencies: compile 'org.codehaus.groovy.modules.groovyfx:groovyfx:0.1-SNAPSHOT'
 
 Building with IntellijIdea
 --------------------------
