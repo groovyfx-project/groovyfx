@@ -16,7 +16,6 @@
 
 package groovyx.javafx.factory
 
-import groovyx.javafx.SceneGraphBuilder
 import groovyx.javafx.event.GroovyKeyHandler
 import groovyx.javafx.event.GroovyMouseHandler
 import javafx.event.EventHandler
@@ -24,9 +23,7 @@ import javafx.scene.Group
 import javafx.scene.Parent
 import javafx.scene.Node
 import javafx.scene.Scene
-import javafx.scene.layout.StackPane;
 
-import javafx.scene.layout.Region
 import javafx.scene.NodeBuilder
 
 /**
