@@ -1,0 +1,27 @@
+grailsDocs 		= 'org.grails:grails-docs:2.0.0@jar'
+xhtmlRenderer 	= 'org.xhtmlrenderer:core-renderer:R8'
+lowagieItext 	= 'com.lowagie:itext:2.0.8'
+radeox 			= 'radeox:radeox:1.0-b2'
+
+repositories {
+	maven {
+        url 'http://repo.grails.org/grails/core' // Need this to get Grails Doc
+	}
+}
+
+configurations {
+    docs
+}
+
+dependencies {
+	//  Manually load up the required dependencies for grailsDoc to avoid pulling in everything needed for
+    //  Grails, including all the SpringRoo stuff.
+    docs 'org.codehaus.groovy:groovy-all:1.8.5'
+    docs 'org.yaml:snakeyaml:1.9'
+    docs 'commons-lang:commons-lang:2.6'
+    docs grailsDocs
+    docs radeox
+    docs lowagieItext
+    docs xhtmlRenderer
+    docs 'commons-logging:commons-logging:1.1.1'
+}

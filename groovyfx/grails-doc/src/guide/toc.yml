@@ -1,0 +1,13 @@
+introduction :
+  title : Introduction
+  introduction_enter_GroovyFX : Enter GroovyFX
+  introduction_credits : Credits
+gettingStarted :
+  title : Getting Started
+  gettingStarted_whatsNew: What's new
+  gettingStarted_downloadingAndInstalling : Downloading and Installing
+  gettingStarted_aHelloWorldExample : A Hello World Example
+  gettingStarted_codeConventions : Code conventions
+  gettingStarted_gettingSetUpInAnIDE : Getting Set Up in an IDE
+  gettingStarted_applicabilityOfConcepts : Applicability of Concepts
+ 

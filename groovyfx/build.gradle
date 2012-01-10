@@ -90,3 +90,47 @@ new File('src/demo/groovy').eachFileMatch(~/.*Demo.groovy/) { file ->
 task wrap(type:Wrapper, description:"create a gradlew") {
     gradleVersion = '1.0-milestone-6'
 }
+
+// ---------------- generating the documentation ------------------
+
+apply {
+    from 'gradle/docsDependencies.gradle'
+    from 'gradle/docs.gradle'
+}
+
+
+def titleForDocumentation = archivesBaseName + ' ' + version
+def copyrightString = 'Copyright &#169; 2012 The GroovyFX team. All Rights Reserved.'
+def packageTitle = group
+
+javadoc {
+    //options.overview('overview.html')
+    options.showAll()
+    options.encoding('UTF-8')
+    options.setUse(true)
+    options.author(true)
+    options.version(true)
+    options.windowTitle(titleForDocumentation)
+    options.docTitle(titleForDocumentation)
+    options.footer(copyrightString)
+
+    doFirst {
+        javadoc.title = titleForDocumentation
+        javadoc.options.docTitle = javadoc.title
+    }
+}
+
+groovydoc {
+    dependsOn(classes)
+    includePrivate = true
+    use = true
+    windowTitle = packageTitle
+    docTitle = packageTitle
+    header = packageTitle
+    footer = copyrightString
+    include 'groovyx/**'
+    //overview = new File('overview.html')
+}
+
+task documentation(dependsOn: ['javadoc', 'groovydoc', 'buildGuide', 'pdfGuide'], description: 'Create the API documentation and guide.')
+
