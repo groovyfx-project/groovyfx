@@ -98,7 +98,6 @@ apply {
     from 'gradle/docs.gradle'
 }
 
-
 def titleForDocumentation = archivesBaseName + ' ' + version
 def copyrightString = 'Copyright &#169; 2012 The GroovyFX team. All Rights Reserved.'
 def packageTitle = group

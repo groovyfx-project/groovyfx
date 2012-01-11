@@ -3,3 +3,5 @@ out
 groovyfx/build
 groovyfx/.gradle
 groovyfx/gradle-app.setting
+groovyfx/buildSrc/build
+groovyfx/buildSrc/.gradle
