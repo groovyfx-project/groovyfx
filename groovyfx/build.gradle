@@ -3,16 +3,33 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 // Set Maven coordinates
-group = 'org.codehaus.groovy.modules.groovyfx'
-archivesBaseName = "groovyfx"
-version = '0.1-SNAPSHOT'
+group                   = 'org.codehaus.groovy.modules.groovyfx'
+archivesBaseName        = "groovyfx"
+version                 = '0.1-SNAPSHOT'
 
-// Read environment and set properties
+requiredJavaFxVersion   = '2.1.0'
+
+// check environment
 javafxHome = System.env['JAVAFX_HOME']
 if(!javafxHome) {
-    "Please set environment variable JAVAFX_HOME to the directory that contains /rt/lib/jfxrt.jar"
+    println """Please set environment variable JAVAFX_HOME
+to the directory that contains /rt/lib/jfxrt.jar
+in version $requiredJavaFxVersion"""
     System.exit 1
 }
+
+buildscript {
+    dependencies {
+        classpath files("${System.env['JAVAFX_HOME']}/rt/lib/jfxrt.jar")
+    }
+}
+
+actualJavaFXVersion = com.sun.javafx.runtime.VersionInfo.runtimeVersion
+if (! actualJavaFXVersion.startsWith(requiredJavaFxVersion)) {
+    println "Required JavaFX version is '$requiredJavaFxVersion' but actual version is '$actualJavaFXVersion'"
+    System.exit(1)
+}
+// environment is ok
 
 isRelease = !version.endsWith('SNAPSHOT')
 
