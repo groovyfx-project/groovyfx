@@ -1,3 +1,6 @@
+import java.lang.reflect.Method
+import java.lang.reflect.Modifier
+
 apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: 'signing'
@@ -150,3 +153,28 @@ groovydoc {
 
 task documentation(dependsOn: ['javadoc', 'groovydoc', 'buildGuide', 'pdfGuide'], description: 'Create the API documentation and guide.')
 
+// experimental
+
+def findWebProperties(String accessor) {
+    javafx.scene.web.WebView."$accessor"
+        .findAll{ Method m -> Modifier.isPublic(m.modifiers) }
+        .name.findAll { it.startsWith('set') }
+        .findAll { ! (it =~ /(i|I)mpl_/) } // I guess these should be removed
+        .collect { it[3].toLowerCase() + it[4..-1] }
+}
+
+task webViewPropDoc(description: 'merge JavaFX infos with GroovyFX infos') {
+    def allProps = findWebProperties('methods').sort()
+    def addedWebProps = ['location']
+    def selfProps = (findWebProperties('declaredMethods') + addedWebProps).sort()
+    File file = new File('grails-doc/src/ref/webView/Properties.gdoc')
+    file.withWriter('utf-8') { out ->
+        // out << "{hidden}auto-generated: do not edit!{hidden} \n\n" // looks like the hidden macro is not in place
+        out << "h1. Properties of webView "
+        out << "\nh2. Self declared properties"
+        for (prop in selfProps) { out << "\n* $prop" }
+        out << "\nh2. Inherited properties "
+        for (prop in allProps-selfProps) { out << "\n* $prop" }
+    }
+}
+buildGuide.dependsOn webViewPropDoc
