@@ -169,8 +169,8 @@ task webViewPropDoc(description: 'merge JavaFX infos with GroovyFX infos') {
     def selfProps = (findWebProperties('declaredMethods') + addedWebProps).sort()
     File file = new File('grails-doc/src/ref/webView/Properties.gdoc')
     file.withWriter('utf-8') { out ->
-        // out << "{hidden}auto-generated: do not edit!{hidden} \n\n" // looks like the hidden macro is not in place
-        out << "h1. Properties of webView "
+        //out << "{hidden}\nauto-generated: do not edit!\n{hidden}" // looks like the hidden macro is not in place
+        out << "\nh1. Properties of webView "
         out << "\nh2. Self declared properties"
         for (prop in selfProps) { out << "\n* $prop" }
         out << "\nh2. Inherited properties "
