@@ -18,7 +18,6 @@ package groovyx.javafx.animation
 
 import javafx.animation.*;
 import javafx.util.Duration;
-import com.sun.javafx.functions.Function0;
 
 /**
  *
@@ -26,7 +25,7 @@ import com.sun.javafx.functions.Function0;
  */
 
 
-class FunctionWrapper implements Function0 {
+class FunctionWrapper {
     public Closure closure;
 
     public Object invoke() {
