@@ -171,7 +171,7 @@ task webViewPropDoc(description: 'merge JavaFX infos with GroovyFX infos') {
 
     if (!file.parentFile.exists())
         file.parentFile.mkdirs()
-    
+
     file.withWriter('utf-8') { out ->
         //out << "{hidden}\nauto-generated: do not edit!\n{hidden}" // looks like the hidden macro is not in place
         out << "\nh1. Properties of webView "

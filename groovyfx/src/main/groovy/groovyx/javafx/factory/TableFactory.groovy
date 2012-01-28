@@ -302,6 +302,7 @@ class TableFactory extends NodeFactory {
         
         return super.onHandleNodeAttributes(builder, node, attributes);
     }
+
     public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
         if(parent instanceof TableView && child instanceof TableColumn) {
             parent.columns.add(child);

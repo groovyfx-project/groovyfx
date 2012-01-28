@@ -3,6 +3,7 @@
   <component name="GroovyCompilerConfiguration">
     <excludes>
       <file url="file://$PROJECT_DIR$/src/groovyx/javafx/animation/timeline.groovy" />
+      <file url="file://$PROJECT_DIR$/groovyfx/src/main/groovy/groovyx/javafx/animation/GTimeline.groovy" />
     </excludes>
   </component>
 </project>
