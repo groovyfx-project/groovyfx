@@ -5,3 +5,6 @@ groovyfx/.gradle
 groovyfx/gradle-app.setting
 groovyfx/buildSrc/build
 groovyfx/buildSrc/.gradle
+
+#generated:
+groovyfx/grails-doc/src/ref/webView/Properties.gdoc

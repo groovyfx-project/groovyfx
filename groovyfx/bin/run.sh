@@ -2,7 +2,7 @@ if [ -z "$JAVAFX_HOME" ] ; then
 JAVAFX_HOME=/Users/jimclarke/SRC/JavaFX20
 fi
 if [ -z "$GROOVY_HOME" ] ; then
-GROOVY_HOME=/Users/jimclarke/src/groovy-1.8.0
+GROOVY_HOME=/Users/jimclarke/src/groovy-1.8.4
 fi
 
 # resolve links - $0 may be a soft-link
@@ -23,5 +23,5 @@ DIRNAME=`dirname "$PRG"`
 
 JAVAFX_RT=$JAVAFX_HOME/rt
 JAVAFX_LIB=$JAVAFX_RT/lib
-java -Dfile.encoding=UTF-8 -classpath $JAVAFX_LIB/jfxrt.jar:$GROOVY_HOME/embeddable/groovy-all-1.8.0.jar:$DIRNAME/../dist/GroovyFX.jar $*
+java -Dfile.encoding=UTF-8 -classpath $JAVAFX_LIB/jfxrt.jar:$GROOVY_HOME/embeddable/groovy-all-1.8.4.jar:$DIRNAME/../dist/GroovyFX.jar $*
 

@@ -1,4 +1,5 @@
 package idesupport
+
 /**
  * @author dean
  */
@@ -182,7 +183,11 @@ private void contributeControls(delegate) {
 
     // container controls
     methodAndNoArgsAndClosure(delegate, 'accordion','javafx.scene.control.Accordion', [args: [:]])
+
     delegate.method(name: 'titledPane', type: 'javafx.scene.control.TitledPane', params: [args: [:], body: {}])
+    // when only one String param (text) and a closure is given. todo dk: applies to all containers
+    delegate.method(name: 'titledPane', type: 'javafx.scene.control.TitledPane', params: [args: String, body: {}])
+
     delegate.method(name: 'splitPane', type: 'javafx.scene.control.SplitPane', params: [args: [:], body: {}])
     delegate.method(name: 'dividerPosition', type: 'javafx.scene.control.DividerPosition',
                     params: [args: [:], body: {}])

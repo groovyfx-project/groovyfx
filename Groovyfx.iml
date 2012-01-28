@@ -9,9 +9,16 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="JavaFX 2.0 Beta" level="application" />
     <orderEntry type="library" name="groovy-1.8.4" level="application" />
-    <orderEntry type="library" name="groovy-1.8.0" level="application" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$JAVAFX_HOME$/rt/lib/jfxrt.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 

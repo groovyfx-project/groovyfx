@@ -47,7 +47,7 @@ if [ -z "$JAVAFX_HOME" ] ; then
 fi
 
 if [ -z "$GROOVY_HOME" ] ; then
-    GROOVY_HOME=/Users/jimclarke/src/groovy-1.8.0
+    GROOVY_HOME=/Users/jimclarke/src/groovy-1.8.4
     export GROOVY_HOME
 fi
 
@@ -71,4 +71,4 @@ JAVAFX_RT=$JAVAFX_HOME/rt
 JAVAFX_LIB=$JAVAFX_RT/lib
 
 set -x
-java -Dgroovy.home=$GROOVY_HOME -Dfile.encoding=UTF-8 -classpath $JAVAFX_HOME//rt/lib/jfxrt.jar:$GROOVY_HOME/embeddable/groovy-all-1.8.0.jar:./../dist/GroovyFX.jar -Dgroovy.starter.conf=$GROOVY_HOME/conf/groovy-starter.conf  -Dtools.jar=$TOOLS_JAR org.codehaus.groovy.tools.GroovyStarter --main groovy.ui.GroovyMain --conf /Users/jimclarke/src/groovy-1.8.0/conf/groovy-starter.conf --classpath . $*
+java -Dgroovy.home=$GROOVY_HOME -Dfile.encoding=UTF-8 -classpath $JAVAFX_HOME//rt/lib/jfxrt.jar:$GROOVY_HOME/embeddable/groovy-all-1.8.4.jar:./../dist/GroovyFX.jar -Dgroovy.starter.conf=$GROOVY_HOME/conf/groovy-starter.conf  -Dtools.jar=$TOOLS_JAR org.codehaus.groovy.tools.GroovyStarter --main groovy.ui.GroovyMain --conf /Users/jimclarke/src/groovy-1.8.4/conf/groovy-starter.conf --classpath . $*
