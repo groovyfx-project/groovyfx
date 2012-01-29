@@ -25,22 +25,22 @@ GroovyFX.start {
         scene(fill: groovyblue) {
             gridPane(hgap: 5, vgap: 10, padding: 25, alignment: "top_center") {
                 columnConstraints(minWidth: 50, halignment: "right")
-                columnConstraints(prefWidth: 250)
+                columnConstraints(prefWidth: 250, hgrow: 'always')
 
-                label("Send Us Your Feedback", /*font: "24pt sanserif",*/ row: 0, columnSpan: GridPane.REMAINING,
-                      halignment: "center", margin: [0, 0, 10]) {
+                label("Please Send Us Your Feedback", style: "-fx-font-size: 18px;",  row: 0, columnSpan: GridPane.REMAINING,
+                      halignment: "center", margin: [0, 0, 10], textFill: white) {
                     onMouseEntered { e -> e.source.parent.gridLinesVisible = true }
                     onMouseExited { e -> e.source.parent.gridLinesVisible = false }
                 }
 
-                label("Name: ", hgrow: "never", row: 1, column: 0, halignment: "right")
-                textField(promptText: "Your name", row: 1, column: 1, hgrow: 'always')
+                label("Name", hgrow: "never", row: 1, column: 0, textFill: white)
+                textField(promptText: "Your name", row: 1, column: 1 )
 
-                label("Email:", row: 2, column: 0, halignment: "right")
-                textField(promptText: "Your email address", row: 2, column: 1, hgrow: 'always')
+                label("Email", row: 2, column: 0, textFill: white)
+                textField(promptText: "Your email address", row: 2, column: 1)
 
-                label("Message:", row: 3, column: 0, halignment: "right", valignment: "baseline")
-                textArea(prefRowCount: 8, row: 3, column: 1, hgrow: 'always', vgrow: 'always')
+                label("Message", row: 3, column: 0, valignment: "baseline", textFill: white)
+                textArea(prefRowCount: 8, row: 3, column: 1, vgrow: 'always')
 
                 button("Send Message", row: 4, column: 1, halignment: "right")
             }
