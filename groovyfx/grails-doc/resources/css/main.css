@@ -26,7 +26,8 @@ body {
  */
 pre, code {
     font-family: "Courier New", monospace, serif;
-    font-size: 1em;
+    font-size: 1.2em;
+    line-height: 1.3em;
 }
 
 /*
