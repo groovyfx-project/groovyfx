@@ -1,11 +1,10 @@
-h3. Concepts
-
-The SceneGraphBuilder is the main helper class for doing Groovy Markup for JavaFX 2.0.
+Although you will rarely use it directly, the SceneGraphBuilder is the main class you will use while
+writing declarative GroovyFX code.
 
 The following sections describe some of the generalized behavior supported in the SceneGraphBuilder on all
 nodes and attributes defined in the User Guide.
 
-h4. Fonts
+h3. Fonts
 All font attributes may of course be set with a JavaFX Font object (javafx.scene.text.Font). In addition,
 fonts may be defined using the JavaFX CSS styles for "-fx-font" or "-fx-font-size". If a font size string
 is presented, then the default Font will be used with that size. (see CSS Reference Guide.)
@@ -15,7 +14,7 @@ text( font: "32pt", text: "This is Text")
 button( font: "16pt Courier" text: "Push Here")
 {code}
 
-h4. Paints/Colors
+h3. Paints/Colors
 All color and paint attributes may be set with one of the JavaFX Paint or Color objects
 (javafx.scene.paint.LinearGradient, javafx.scene.paint.RadialGradient and javafx.scene.paint.Color). In addition,
 colors may be set using the pseudo color variables, such as red, green, blue, etc. Colors may also be defined as
@@ -30,7 +29,7 @@ rectangle(x: 100, y: 50, width: 50, height: 50, fill: "#333")
 rectangle(x: 100, y: 50, width: 50, height: 50, fill: "linear (0%,0%) to (0%,100%) stops (0%,gray) (100%,black)")
 {code}
 
-h4. Enumerated Values
+h3. Enumerated Values
 All Java Enumerations may be set using their string equivalents. For example, if an attribute field is of type
 javafx.geometry.Pos, then the value may be set with one of the string values, "center", "bottom_left", etc.
 
@@ -44,7 +43,7 @@ sg.stage(style: "transparent") // javafx.stage.StageStyle enumeration
 scrollBar(min: 0, max: 100, value: 50, orientation: horizontal) // javafx.geometry.Orientation enumeration
 {code}
 
-h4. Geometry
+h3. Geometry
 The Geometry objects in the javafx.geometry package, Point2D, Point3D, Dimension2D, Rectangle2D, and BoundingBox,
 may be set using numbered lists. For the 2D classes, 2 numbers must be provided, and for the 3D classes, 3 numbers
 must be provided. BoundingBox may be either 2D, requiring 4 values, or 3D, requiring 6 values. A Rectangle2D may
@@ -55,7 +54,7 @@ rotate(angle: 90, axis: [1,1,0])
 imageView(viewport: [0,0, 400, 400])
 {code}
 
-h4. Insets
+h3. Insets
 The javafx.geometry.Insets class may be instantiated by using the javafx class, or by using a Groovy number list.
 If a number list is used, it may contain, one, two, or four numbers. If one number is presented then all sides of
 the Insets will be set to that value. If two numbers are presented then the first number will be used to set the
@@ -72,7 +71,7 @@ stackPane(style: "-fx-background-color: burlywood", padding: [])
 stackPane(style: "-fx-background-color: burlywood", padding: "EMPTY")
 {code}
 
-h4. ToggleGroups
+h3. ToggleGroups
 ToggleGroups are identified with an unique string across the SceneGraphBuilder context. To tie a toggle type button
 to a specific ToggleGroup, use the special attribute toggleGroup on the Toggle type button. Buttons with the same
 ToggleGroup names will be assigned the same ToggleGroup instance.
