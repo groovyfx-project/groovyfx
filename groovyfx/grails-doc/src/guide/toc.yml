@@ -10,4 +10,6 @@ gettingStarted :
   gettingStarted_codeConventions : Code conventions
   gettingStarted_gettingSetUpInAnIDE : Getting Set Up in an IDE
   gettingStarted_applicabilityOfConcepts : Applicability of Concepts
- 
+basicConcepts :
+  title: Basic Concepts
+  basicConcepts_SceneGraphBuilder : SceneGraphBuilder
