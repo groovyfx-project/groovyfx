@@ -14,23 +14,19 @@
 * limitations under the License.
 */
 
-
-
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
+import static groovyx.javafx.GroovyFX.start
 import javafx.application.ConditionalFeature
 import javafx.application.Platform
 import javafx.scene.PerspectiveCamera
 
-GroovyFX.start { primaryStage ->
-    def sg = new SceneGraphBuilder(primaryStage)
+start {
     if (!Platform.isSupported(ConditionalFeature.SCENE3D)) {
         println("*************************************************************")
         println("*    WARNING: common conditional SCENE3D isn't supported    *")
         println("*************************************************************")
     }
 
-    sg.stage(title: "GroovyFX Transform3D Demo", width: 400, height: 300, visible: true, resizable: true) {
+    stage(title: "GroovyFX Transform3D Demo", width: 400, height: 300, visible: true, resizable: true) {
         scene(fill: groovyblue, camera: new PerspectiveCamera()) {
             rectangle(x: 20, y: 20, width: 100, height: 50, fill: blue) {
                 //rotate(angle: 30, axis: Rotate.Y_AXIS)

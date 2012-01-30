@@ -14,19 +14,14 @@
 * limitations under the License.
 */
 
+import static groovyx.javafx.GroovyFX.start
 
-
-import groovyx.javafx.GroovyFX;
-import groovyx.javafx.SceneGraphBuilder
-
-GroovyFX.start { primaryStage ->
-    def sg = new SceneGraphBuilder(primaryStage)
-    
-    def fileChooser = sg.fileChooser(initialDirectory: ".", title: "FileChooser Demo") {
+start {
+    final fileChooser = fileChooser(initialDirectory: ".", title: "FileChooser Demo") {
         filter("images", extensions: ["jpg", "gif", "bmp"])
     }
 
-    sg.stage(title: "GroovyFX FileChooser Demo", width: 400, height:300, visible: true, resizable: true) {
+    stage(title: "GroovyFX FileChooser Demo", width: 400, height:300, visible: true, resizable: true) {
          scene(fill: groovyblue) {
              stackPane {
                  hbox(spacing: 10, padding: 10) {

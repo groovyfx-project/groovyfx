@@ -14,13 +14,13 @@
 * limitations under the License.
 */
 
-import static groovyx.javafx.GroovyFX.build
+import static groovyx.javafx.GroovyFX.start
 
 /**
  * Example of the AccordionDemo when written in Dierk's code style
  * @author Dierk Koenig
  */
-build {
+start {
     stage title: "Dierk's Code Style Demo", x: 100, y: 100, visible: true, {
         scene fill: groovyblue, width: 400, height: 400, {
             accordion {

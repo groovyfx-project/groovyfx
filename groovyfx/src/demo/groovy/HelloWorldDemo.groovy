@@ -1,9 +1,33 @@
-import static groovyx.javafx.GroovyFX.build
+/*
+* Copyright 2011 the original author or authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 
-build {
-    stage visible:true, {
-        scene {
-            label "Hello World"
+import static groovyx.javafx.GroovyFX.start
+
+start {
+    stage(title: "GroovyFX Hello World", visible: true) {
+        scene(fill: black, width: 500, height: 250) {
+            hbox(padding: 60) {
+                text(text: "Groovy", style: "-fx-font-size: 80pt") {
+                    fill linearGradient(endX: 0, stops: [palegreen, seagreen])
+                }
+                text(text: "FX", style: "-fx-font-size: 80pt") {
+                    fill linearGradient(endX: 0, stops: [cyan, dodgerblue])
+                    effect dropShadow(color: dodgerblue, radius: 25, spread: 0.25)
+                }
+            }
         }
     }
 }

@@ -14,20 +14,15 @@
 * limitations under the License.
 */
 
-
-
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
+import static groovyx.javafx.GroovyFX.start
 
 /**
  *
  * @author jimclarke
  */
 
-GroovyFX.start { primaryStage ->
-    def sg = new SceneGraphBuilder(primaryStage)
-    
-    sg.stage(title: "GroovyFX Blend Effect Demo", width: 420, height: 420, visible: true ) {
+start {
+    stage(title: "GroovyFX Blend Effect Demo", width: 420, height: 420, visible: true ) {
         scene(fill: groovyblue) {
             rectangle(width: 400, height: 400) {
                 onMousePressed {e -> println "mouse press @$e.x, $e.y"}

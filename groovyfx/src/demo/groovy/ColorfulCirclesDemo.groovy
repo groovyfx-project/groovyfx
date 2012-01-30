@@ -14,8 +14,7 @@
 * limitations under the License.
 */
 
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
+import static groovyx.javafx.GroovyFX.start
 
 /**
  * Ported from Steve Chin's scalafx example at:
@@ -23,11 +22,9 @@ import groovyx.javafx.SceneGraphBuilder
  *
  * @author dean
  */
-GroovyFX.start { primaryStage ->
+start { primaryStage ->
     def circles
-    def sg = new SceneGraphBuilder(primaryStage)
-
-    sg.stage(title: 'GroovyFX ColorfulCircles', resizable: false, show: true) {
+    stage(title: 'GroovyFX ColorfulCircles', resizable: false, show: true) {
         scene(width: 800, height: 600, fill: black) {
             group {
                 circles = group {

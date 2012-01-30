@@ -14,20 +14,10 @@
 * limitations under the License.
 */
 
+import static groovyx.javafx.GroovyFX.start
 
-
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
-
-/**
- *
- * @author jimclarke
- */
-
-GroovyFX.start {
-    def sg = new SceneGraphBuilder(it)
-
-    sg.stage(title: "GroovyFX ToolBar Demo", width: 820, height: 400, visible: true, style: "decorated") {
+start {
+    stage(title: "GroovyFX ToolBar Demo", width: 820, height: 400, visible: true) {
         scene(fill: groovyblue) {
             borderPane {
                 top {

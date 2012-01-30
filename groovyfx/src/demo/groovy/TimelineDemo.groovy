@@ -14,16 +14,14 @@
 * limitations under the License.
  */
 
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.TimelineBuilder
+import static groovyx.javafx.GroovyFX.start
 import javafx.application.Platform
 
 x = 5.0
 y = 5.0
 
-GroovyFX.start {
-    def tlb = new TimelineBuilder()
-    def tl = tlb.timeline(cycleCount: 2, onFinished: {Platform.exit()}) {
+start {
+    def tl = timeline(cycleCount: 2, onFinished: {Platform.exit()}) {
         at(1.s, onFinished: {println "x = ${this.x}, y = ${this.y}"}) {
             change(this, "x") to 2.0 tween "ease_both"
             change(this, "y") to 125

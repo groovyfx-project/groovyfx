@@ -14,15 +14,10 @@
 * limitations under the License.
 */
 
+import static groovyx.javafx.GroovyFX.start
 
-
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
-
-GroovyFX.start {
-    def sg = new SceneGraphBuilder()
-
-    sg.stage(title: "GroovyFX @ JavaOne", show: true) {
+start {
+    stage(title: "GroovyFX @ JavaOne", show: true) {
         scene(fill: groovyblue, width: 650, height:450) {
             borderPane {
                 top(align: "center", margin: [10,0,10,0]) {

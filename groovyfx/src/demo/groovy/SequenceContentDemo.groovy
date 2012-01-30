@@ -14,15 +14,10 @@
 * limitations under the License.
 */
 
+import static groovyx.javafx.GroovyFX.start
 
-
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
-
-GroovyFX.start {
-    def sg = new SceneGraphBuilder()
-
-    sg.stage(title: "GroovyFX Sequency Content Demo", width: 400, height: 300, visible: true, resizable: true) {
+start {
+    stage(title: "GroovyFX Sequency Content Demo", width: 400, height: 300, visible: true, resizable: true) {
         def r1 = rectangle(width: 100, height: 100, fill: red)
         def r2 = rectangle(x: 110, width: 100, height: 100, fill: blue)
 

@@ -14,8 +14,6 @@
 * limitations under the License.
 */
 
-
-
 import groovyx.javafx.beans.FXBindable;
 
 /**

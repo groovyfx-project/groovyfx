@@ -14,18 +14,13 @@
 * limitations under the License.
 */
 
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
+import static groovyx.javafx.GroovyFX.start
 
-/**
- * @author dean
- */
-GroovyFX.start { primaryStage ->
-    def sg = new SceneGraphBuilder()
+start {
     def rand = new Random().&nextInt
     def circles = []
 
-    sg.stage(title: 'Vanishing Circles', show: true) {
+    stage(title: 'Vanishing Circles', show: true) {
         scene(fill: black, width: 800, height: 600) {
             50.times {
                 circles << circle(centerX: rand(800), centerY: rand(600), radius: 150, stroke: white,

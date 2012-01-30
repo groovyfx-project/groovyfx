@@ -14,18 +14,10 @@
 * limitations under the License.
 */
 
+import static groovyx.javafx.GroovyFX.start
 
-
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
-
-/**
- * @author jimclarke
- */
-GroovyFX.start { primaryStage ->
-    def sg = new SceneGraphBuilder(primaryStage)
-
-    popup = sg.popup(autoHide: true) {
+start {
+    popup = popup(autoHide: true) {
         stackPane() {
             rectangle(width: 200, height: 200, fill: lightgray)
             button("Dismiss", layoutX: 10, layoutY: 20, onAction: {popup.hide()})
@@ -33,7 +25,7 @@ GroovyFX.start { primaryStage ->
         }
     }
 
-    sg.stage(title: "GroovyFX TreeView Demo", x: 100, y: 100, visible: true, style: "decorated") {
+    stage(title: "GroovyFX TreeView Demo", x: 100, y: 100, visible: true, style: "decorated") {
         scene(width: 400, height: 400, fill: groovyblue) {
             treeView(showRoot: false) {
                 //onEditCancel()

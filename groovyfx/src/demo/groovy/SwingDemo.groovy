@@ -18,21 +18,17 @@
 
 import java.awt.BorderLayout as BL
 import javax.swing.WindowConstants as WC
+import java.awt.Dimension
+import javafx.embed.swing.JFXPanel
 
 import groovy.swing.SwingBuilder
-import groovyx.javafx.GroovyFX
 import groovyx.javafx.SceneGraphBuilder
-import java.awt.Dimension
-import javafx.application.Platform
-import javafx.embed.swing.JFXPanel
 
 def DEFAULT_URL = "http://www.yahoo.com"
 def swing = new SwingBuilder();
 def sg = new SceneGraphBuilder();
 
 def fxPanel = new JFXPanel(preferredSize: new Dimension(800,400))
-
-
 
 def setUrl = { url ->
     sg.defer {

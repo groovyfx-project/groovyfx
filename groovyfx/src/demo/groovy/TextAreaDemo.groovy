@@ -14,19 +14,14 @@
 * limitations under the License.
 */
 
-
-
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
+import static groovyx.javafx.GroovyFX.start
 
 /**
  *
  * @author jimclarke
  */
-GroovyFX.start {
-    def sg = new SceneGraphBuilder(it)
-
-    sg.stage(title: "GroovyFX TextArea Demo", x: 100, y: 100, visible: true, style: "decorated", primary: true) {
+start {
+    stage(title: "GroovyFX TextArea Demo", x: 100, y: 100, visible: true, style: "decorated", primary: true) {
         scene(fill: groovyblue, width: 400, height: 400) {
             borderPane(padding: 10) {
                 text = textArea(prefRowCount: 10, prefColumnCount: 80)

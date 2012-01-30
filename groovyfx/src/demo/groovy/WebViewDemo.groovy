@@ -14,18 +14,14 @@
 * limitations under the License.
 */
 
-
-
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
+import static groovyx.javafx.GroovyFX.start
 
 final homePage = "http://www.yahoo.com"
 
-GroovyFX.start {
-    def sg = new SceneGraphBuilder()
+start {
     def goAction = { wv.engine.load(urlField.getText()) }
 
-    sg.stage(title: "GroovyFX WebView Demo", visible: true) {
+    stage(title: "GroovyFX WebView Demo", visible: true) {
         scene(fill: groovyblue, width: 1024, height: 800) {
             vbox {
                 hbox(padding: 10, spacing: 5) {

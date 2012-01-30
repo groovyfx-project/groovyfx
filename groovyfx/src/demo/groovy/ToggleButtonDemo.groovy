@@ -15,14 +15,11 @@
 */
 
 
+import static groovyx.javafx.GroovyFX.start
 
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
-
-GroovyFX.start {
-    def sg = new SceneGraphBuilder()
-    sg.stage(title: "GroovyFX ToggleButton Demo", x: 100, y: 100, width: 400, height:400, visible: true,
-             style: "decorated", onHidden: { println "Close" }) {
+start {
+    stage(title: "GroovyFX ToggleButton Demo", x: 100, y: 100, width: 400, height:400, visible: true,
+          style: "decorated", onHidden: { println "Close" }) {
         
         scene(fill: groovyblue) {
             hbox(spacing: 10, padding: 10) {

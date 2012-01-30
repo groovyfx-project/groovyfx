@@ -14,10 +14,7 @@
  * limitations under the License.
  */
 
-
-
-import groovyx.javafx.GroovyFX;
-import groovyx.javafx.SceneGraphBuilder
+import static groovyx.javafx.GroovyFX.start
 
 /**
  * A demo that shows the different ways you can define gradient fills in GroovyFX.
@@ -25,10 +22,8 @@ import groovyx.javafx.SceneGraphBuilder
  * @author Jim Clarke
  * @author Dean Iverson
  */
-GroovyFX.start {
-    def sg = new SceneGraphBuilder()
-
-    sg.stage(title: "GroovyFX Gradient Demo", width: 1020, height: 450, visible: true) {
+start {
+    stage(title: "GroovyFX Gradient Demo", width: 1020, height: 450, visible: true) {
         scene {
             fill groovyblue
 

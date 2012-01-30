@@ -14,9 +14,8 @@
 * limitations under the License.
 */
 
+import static groovyx.javafx.GroovyFX.start
 import groovy.transform.Canonical
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
 import groovyx.javafx.beans.FXBindable
 import java.text.SimpleDateFormat
 
@@ -31,17 +30,15 @@ class Person {
 }
 
 def persons = [
-  new Person(name: "Jim Clarke", age: 29, gender: Gender.MALE, dob: new Date()),
-  new Person(name: "Dean Iverson", age: 30, gender: Gender.MALE, dob: new Date()),
+  new Person(name: "Jim Clarke", age: 29, gender: Gender.MALE, dob: new Date()-90),
+  new Person(name: "Dean Iverson", age: 30, gender: Gender.MALE, dob: new Date()-45),
   new Person(name: "Angelina Jolie", age: 36, gender: Gender.FEMALE, dob: new Date())
 ]
 
-def dateFormat = new SimpleDateFormat("yyyy-MM-dd")
+def dateFormat = new SimpleDateFormat("MMM dd, yyyy")
 
-GroovyFX.start { primaryStage ->
-  def sg = new SceneGraphBuilder(primaryStage)
-
-  sg.stage(title: "GroovyFX Table Demo", width: 500, height: 200, visible: true) {
+start {
+  stage(title: "GroovyFX Table Demo", width: 500, height: 200, visible: true) {
     scene(fill: groovyblue) {
       tableView(selectionMode: "single", cellSelectionEnabled: true, editable: true, items: persons) {
         tableColumn(editable: true, property: "name", text: "Name", prefWidth: 150,

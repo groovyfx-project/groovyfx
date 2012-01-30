@@ -14,18 +14,14 @@
 * limitations under the License.
 */
 
-
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
+import static groovyx.javafx.GroovyFX.start
 import javafx.animation.Transition
 
-GroovyFX.start { primaryStage ->
-    def sg = new SceneGraphBuilder(primaryStage)
+start {
     Transition rectTransition = null
+    final testTransition = fadeTransition(3.s, delay: 500.ms, from: 1.0, to: 0.0, onFinished: { println "done" })
 
-    def testTransition = sg.fadeTransition(5.s, delay: 500.ms, from: 1.0, to: 0.0, onFinished: { println "done" })
-
-    sg.stage(title: "GroovyFX Transition Demo", width: 400, height: 300, visible: true, resizable: true) {
+    stage(title: "GroovyFX Transition Demo", width: 400, height: 300, visible: true, resizable: true) {
         scene(fill: groovyblue) {
             rectangle(x: 20, y: 20, width: 100, height: 50, fill: blue) {
                 rectTransition = transition(testTransition)

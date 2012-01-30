@@ -473,7 +473,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         MediaPlayerFactory pf = new MediaPlayerFactory();
 
         registerFactory( 'mediaView', mf)
-        registerFactory( 'player', pf)
+        registerFactory( 'mediaPlayer', pf)
     }
 
     /**

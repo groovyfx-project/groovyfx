@@ -14,14 +14,10 @@
 * limitations under the License.
 */
 
+import static groovyx.javafx.GroovyFX.start
 
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
-
-GroovyFX.start {
-    def sg = new SceneGraphBuilder();
-
-    sg.stage(title: "GroovyFX AnchorPane Demo", width: 650, height:450, visible: true) {
+start {
+    stage(title: "GroovyFX AnchorPane Demo", width: 650, height:450, visible: true) {
          scene(fill: groovyblue) {
              anchorPane {
                  button("ONE", topAnchor: 10, bottomAnchor: 10, rightAnchor: 110, leftAnchor: 10)

@@ -14,29 +14,22 @@
 * limitations under the License.
 */
 
-
-
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
-import groovyx.javafx.TimelineBuilder
+import static groovyx.javafx.GroovyFX.start
 import javafx.animation.Timeline
 
 /**
  *
  * @author jimclarke
  */
-GroovyFX.start {
-    def sg = new SceneGraphBuilder()
-    def tlb = new TimelineBuilder()
-
-    sg.stage(title: "GroovyFX Animation Demo", width: 650, height:450, visible: true) {
+start {
+    stage(title: "GroovyFX Animation Demo", width: 650, height:450, visible: true) {
          scene(fill: groovyblue) {
              rect1 = rectangle (x: 25, y: 40, width: 100, height: 50, fill: red)
              rect2 = rectangle (x: 25, y: 100, width: 100, height: 50, fill: green)
          }
     }
 
-    def tl = tlb.timeline(cycleCount: Timeline.INDEFINITE, autoReverse: true) {
+    def tl = timeline(cycleCount: Timeline.INDEFINITE, autoReverse: true) {
         at (1000.ms, onFinished: { println "done" }) {
             change(rect1, 'x') to 200 tween ease_both
             change rect2.yProperty() to 200 tween linear

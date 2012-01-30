@@ -27,15 +27,12 @@ import org.codehaus.groovy.runtime.InvokerHelper;
  */
 public class GroovyFX extends Application {
     public static Closure closure;
-    public static boolean stage = false;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
-            if(stage){
-                closure.setDelegate(new SceneGraphBuilder(primaryStage));
-            }
-            InvokerHelper.invokeClosure(closure, new Object[] { primaryStage });
+            closure.setDelegate(new SceneGraphBuilder(primaryStage));
+            InvokerHelper.invokeClosure(closure, new Object[] { this });
         } catch(RuntimeException re) {
             re.printStackTrace();
             throw re;
@@ -43,19 +40,11 @@ public class GroovyFX extends Application {
     }
 
     /**
-     * @param buildMe The code that is to be built and started
+     * @param buildMe The code that is to be built in the context of a SceneGraphBuilder for the primary
+     *                stage and started
      */
      public static void start(Closure buildMe) {
          closure = buildMe;
          Application.launch();
      }
-
-    /**
-     * @param buildMe The code that is to be built in the context of a SceneGraphBuilder for the primary stage and started
-     */
-     public static void build(Closure buildMe) {
-         stage = true;
-         start(buildMe);
-     }
-    
 }

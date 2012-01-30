@@ -14,26 +14,17 @@
 * limitations under the License.
 */
 
+import static groovyx.javafx.GroovyFX.start
 
-
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
-import javafx.animation.Transition
-
-GroovyFX.start { primaryStage ->
-    def sg = new SceneGraphBuilder(primaryStage)
-    Transition rectTransition = null
-
-    sg.stage(title: "GroovyFX StrokeTransition Demo", width: 400, height:300, visible: true, resizable: true) {
+start {
+    stage(title: "GroovyFX StrokeTransition Demo", width: 400, height:300, visible: true, resizable: true) {
          scene(fill: groovyblue) {
              stackPane {
                  rectangle(width: 200, height: 200, fill: darkgreen, strokeWidth: 8, stroke: blue) {
-                     rectTransition = strokeTransition(5.s, delay: 500.ms, from: blue, to: silver,
-                                                       onFinished: {println "done"})
+                     strokeTransition(3.s, delay: 500.ms, from: blue, to: silver).playFromStart()
                  }
              }
          }
     }
-    rectTransition.playFromStart()
 }
 

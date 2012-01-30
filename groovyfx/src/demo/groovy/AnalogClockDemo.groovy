@@ -14,19 +14,13 @@
 * limitations under the License.
 */
 
-
-
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
+import static groovyx.javafx.GroovyFX.start
 import groovyx.javafx.beans.FXBindable
-import javafx.beans.binding.Bindings
 
 /**
  *
  * @author jimclarke
  */
-
-def sg = new SceneGraphBuilder()
 
 @FXBindable
 class Time {
@@ -65,16 +59,16 @@ class Time {
     }
 }
 
-time = new Time()
+start {
+    final time = new Time()
 
-GroovyFX.start {
     def width = 240.0
     def height = 240.0
     def radius = width / 3.0
     def centerX = width / 2.0
     def centerY = height / 2.0
 
-    sg.stage(title: "GroovyFX Clock Demo", width: 245, height: 265, visible: true, resizable: false) {
+    stage(title: "GroovyFX Clock Demo", width: 245, height: 265, visible: true, resizable: false) {
         def hourDots = []
         for (i in 0..11) {
             def y = -Math.cos(Math.PI / 6.0 * i) * radius
@@ -122,7 +116,7 @@ GroovyFX.start {
         }
     }
 
-    sg.sequentialTransition(cycleCount: "indefinite") {
+    sequentialTransition(cycleCount: "indefinite") {
         pauseTransition(1.s, onFinished: {time.addOneSecond()})
     }.playFromStart()
 }

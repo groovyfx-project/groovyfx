@@ -15,23 +15,15 @@
 */
 
 
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
+import static groovyx.javafx.GroovyFX.start
 
-/**
- *
- * @author jimclarke
- */
-
-GroovyFX.start {
-    def sg = new SceneGraphBuilder(it)
-
-    sg.stage(title: "Lighting Effect Demo", width: 520, height: 300, visible: true, style: "decorated") {
+start {
+    stage(title: "Lighting Effect Demo", width: 520, height: 300, visible: true, style: "decorated") {
         scene(fill: groovyblue) {
-            text(x: 10, y: 10, text: "Light Effect", font: "bold 90pt Amble", fill: yellow, textOrigin: "top") {
+            text(x: 10, y: 10, text: "Light Effect", font: "bold 48pt Amble", fill: yellow, textOrigin: "top") {
                 lighting(surfaceScale: 5.0) {
-                    //distant(azimuth: -135)
-                    //spot(x: 0, y: 100, z: 50, pointsAtX: 100, pointsAtY: 0, pointsAtZ: 0, specularExponent: 2)
+//                    distant(azimuth: -135)
+//                    spot(x: 0, y: 100, z: 50, pointsAtX: 100, pointsAtY: 0, pointsAtZ: 0, specularExponent: 2)
                     point(x: -100, y: -100, z: 50)
                     /** **
                      bumpInput() {dropShadow()}contentInput() {glow()}*** */

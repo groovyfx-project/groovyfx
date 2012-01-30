@@ -14,20 +14,10 @@
 * limitations under the License.
 */
 
+import static groovyx.javafx.GroovyFX.start
 
-
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
-
-/**
- *
- * @author jimclarke
- */
-
-GroovyFX.start {
-    def sg = new SceneGraphBuilder(it)
-
-    sg.stage(title: "TabPane Example", x: 100, y: 100, width: 400, height: 400, visible: true, style: "decorated") {
+start {
+    stage(title: "TabPane Example", width: 400, height: 400, visible: true) {
         scene(fill: groovyblue) {
             tabPane {
                 tab('Tab 1') {

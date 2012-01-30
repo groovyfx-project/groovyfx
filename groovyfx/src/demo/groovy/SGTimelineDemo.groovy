@@ -14,18 +14,17 @@
 * limitations under the License.
  */
 
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
+import static groovyx.javafx.GroovyFX.start
 
-GroovyFX.start {
-    def sg = new SceneGraphBuilder(it)
+start {
     def lX = 100.0;
     def lY = 100.0;
     def s = 2;
     def r = 90;
-    sg.stage(title: "GroovyFX Timeline Demo", width: 200, height: 200, visible: true, resizable: true) {
+
+    stage(title: "GroovyFX Timeline Demo", width: 200, height: 200, visible: true, resizable: true) {
         scene(fill: groovyblue) {
-            map = sg.circle(radius: 25) {
+            map = circle(radius: 25) {
                 fill(red)
             }
         }

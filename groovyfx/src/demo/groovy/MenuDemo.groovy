@@ -15,18 +15,14 @@
 */
 
 
-
 /**
 *
 * @author jimclarke
 */
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
+import static groovyx.javafx.GroovyFX.start
 
-GroovyFX.start { primaryStage ->
-    def sg = new SceneGraphBuilder(primaryStage)
-    
-    sg.stage(title: "GroovyFX Menu Demo", width: 650, height:450, visible: true) {
+start {
+    stage(title: "GroovyFX Menu Demo", width: 650, height:450, visible: true) {
          scene(fill: groovyblue) {
              borderPane {
                  top {

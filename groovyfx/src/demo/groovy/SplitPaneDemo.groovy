@@ -14,22 +14,10 @@
 * limitations under the License.
 */
 
+import static groovyx.javafx.GroovyFX.start
 
-
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
-
-/**
- *
- * @author jimclarke
- */
-
-GroovyFX.start {
-    def sg = new SceneGraphBuilder(it)
-
-    sg.stage(title: "GroovyfX, SplitPane Demo", x: 100, y: 100, width: 800, height: 400, visible: true,
-             style: "decorated") {
-
+start {
+    stage(title: "GroovyfX, SplitPane Demo", x: 100, y: 100, width: 800, height: 400, visible: true) {
         scene(fill: groovyblue) {
             splitPane(orientation: "horizontal", prefHeight: 200) {
                 dividerPosition(index: 0, position: 0.25)

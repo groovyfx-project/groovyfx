@@ -14,20 +14,15 @@
 * limitations under the License.
 */
 
-
-
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
+import static groovyx.javafx.GroovyFX.start
 
 /**
  *
  * @author jimclarke
  */
-GroovyFX.start {
-    def sg = new SceneGraphBuilder(it)
-
-    sg.stage(title: "HTMLEditor Demo", x: 100, y: 100, visible: true, style: "decorated") {
-        scene(fill: groovyblue, width: 400, height: 400) {
+start {
+    stage(title: "HTMLEditor Demo", x: 100, y: 100, visible: true, style: "decorated") {
+        scene(fill: groovyblue, width: 480, height: 400) {
             borderPane() {
                 html = htmlEditor()
                 bottom(align: "center", margin: [10, 0]) {

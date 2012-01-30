@@ -14,30 +14,13 @@
 * limitations under the License.
 */
 
+import static groovyx.javafx.GroovyFX.start
 
-
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
-
-GroovyFX.start { primaryStage -> 
-    def sg = new SceneGraphBuilder(primaryStage)
-    def mp = null
-
-    sg.stage(title: "GroovyFX MediaView Demo", width: 400, height:300, visible: true, resizable: true) {
-         scene(fill: groovyblue, root: stackPane()) {
-                 mediaView(fitWidth: 400, fitHeight: 300, preserveRatio: true, onError: { println "Error"}) {
-                     mp = player(cycleCount: 100, autoPlay: false, 
-                                 source: "http://www.longtailvideo.com/jw/upload/bunny.flv",
-                                 onError:  {println "Media Error"},
-                                 onHalted:{ println "Media Halted"},
-                                 onPaused: {println "Media Paused"},
-                                 onPlaying:{println "Media Playing"},
-                                 onReady:  {println "Media Ready"},
-                                 onStalled:{println "Media Stalled"},
-                                 onRepeat: {println "Media Repeat"} )
-                 }
-         }
+start {
+    final videoURL = "http://download.oracle.com/otndocs/products/javafx/oow2010-2.flv"
+    stage(title: "GroovyFX MediaView Demo", visible: true) {
+        scene(width: 540, height: 200) {
+            mediaView(mediaPlayer: mediaPlayer(source: videoURL, autoPlay: true))
+        }
     }
-    mp.play()
-    System.out.println(mp);
 }

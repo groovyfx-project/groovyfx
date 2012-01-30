@@ -15,23 +15,15 @@
 */
 
 
+import static groovyx.javafx.GroovyFX.start
 
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
-import javafx.animation.Transition
-
-GroovyFX.start { primaryStage ->
-    def sg = new SceneGraphBuilder(primaryStage)
-    Transition rectTransition = null
-
-    sg.stage(title: "GroovyFX Scale Transition Demo", width: 400, height:300, visible: true, resizable: true) {
+start {
+    stage(title: "GroovyFX Scale Transition Demo", width: 400, height:300, visible: true, resizable: true) {
          scene(fill: groovyblue) {
              rectangle(x: 20, y: 20, width: 100, height: 50, fill: blue) {
-                rectTransition = scaleTransition(3.s, delay: 100.ms, interpolator: "linear", to: 0.5,
-                                                 onFinished: { println "done" })
+                scaleTransition(2.s, delay: 500.ms, interpolator: "linear", to: 0.5).playFromStart()
              }
          }
     }
-    rectTransition.playFromStart()
 }
 

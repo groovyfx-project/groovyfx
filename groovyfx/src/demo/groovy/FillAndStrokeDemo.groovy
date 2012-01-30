@@ -14,13 +14,10 @@
 * limitations under the License.
 */
 
+import static groovyx.javafx.GroovyFX.start
 
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
-
-GroovyFX.start {
-    def sg = new SceneGraphBuilder()
-    sg.stage(title: "GroovyFX Fill & Stroke Demo", width: 600, height: 700, visible: true) {
+start {
+    stage(title: "GroovyFX Fill & Stroke Demo", width: 600, height: 700, visible: true) {
         scene {
             fill groovyblue
             

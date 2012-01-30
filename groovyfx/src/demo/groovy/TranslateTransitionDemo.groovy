@@ -14,24 +14,15 @@
 * limitations under the License.
 */
 
+import static groovyx.javafx.GroovyFX.start
 
-
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
-import javafx.animation.Transition
-
-GroovyFX.start { primaryStage ->
-    def sg = new SceneGraphBuilder(primaryStage)
-    Transition rectTransition = null
-
-    sg.stage(title: "GroovyFX TranslateTransition Demo", visible: true, resizable: true) {
+start {
+    stage(title: "GroovyFX TranslateTransition Demo", visible: true, resizable: true) {
         scene(fill: groovyblue, width: 400, height: 300) {
             rectangle(x: 20, y: 20, width: 100, height: 50, fill: green) {
-                rectTransition = translateTransition(5.s, delay: 500.ms, interpolator: "ease_out", to: 100,
-                                                     onFinished: { println "done" })
+                translateTransition(5.s, delay: 500.ms, interpolator: "ease_out", to: 100).playFromStart()
             }
         }
     }
-    rectTransition.playFromStart()
 }
 

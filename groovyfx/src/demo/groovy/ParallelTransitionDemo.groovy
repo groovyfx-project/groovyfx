@@ -14,17 +14,10 @@
 * limitations under the License.
 */
 
+import static groovyx.javafx.GroovyFX.start
 
-
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
-import javafx.animation.Transition
-
-GroovyFX.start { primaryStage -> 
-    def sg = new SceneGraphBuilder(primaryStage)
-    Transition rectTransition = null
-
-    sg.stage(title: "GroovyFX Parllel Transition Demo", width: 400, height:300, visible: true, resizable: true) {
+start {
+    stage(title: "GroovyFX Parllel Transition Demo", width: 400, height:300, visible: true, resizable: true) {
          scene(fill: groovyblue) {
              rectangle(x: 20, y: 20, width: 100, height: 50, fill: blue) {
                 rectTransition = parallelTransition(onFinished: { println "parallel done" }) {
@@ -32,10 +25,9 @@ GroovyFX.start { primaryStage ->
                     rotateTransition(5.s, tween: "ease_both", to: 180, onFinished: { println "rotate done" })
                     scaleTransition(5.s,  interpolator: "ease_in", to: 0.5, onFinished: { println "scale done" })
                     fillTransition(5.s,  interpolator: "ease_in", to: red, onFinished: { println "fill done" })
-                }
+                }.playFromStart()
              }
          }
     }
-    rectTransition.playFromStart()
 }
 

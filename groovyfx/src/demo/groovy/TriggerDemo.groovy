@@ -14,21 +14,12 @@
 * limitations under the License.
 */
 
-
-
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
+import static groovyx.javafx.GroovyFX.start
 import groovyx.javafx.Trigger
 import javafx.scene.paint.Color
 
-/**
- *
- * @author jimclarke
- */
-GroovyFX.start {
-    def sg = new SceneGraphBuilder()
-
-    sg.stage(title: "GroovyFX Trigger Demo", width: 600, height: 450, visible: true) {
+start {
+    stage(title: "GroovyFX Trigger Demo", width: 600, height: 450, visible: true) {
         scene(fill: groovyblue) {
             rect = rectangle(x: 25, y: 40, width: 200, height: 150, fill: red)
         }

@@ -14,10 +14,7 @@
 * limitations under the License.
  */
 
-
-
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
+import static groovyx.javafx.GroovyFX.start
 import javafx.scene.effect.DisplacementMap
 import javafx.scene.effect.FloatMap
 
@@ -40,10 +37,8 @@ DisplacementMap displacementMap(int w, int h) {
 }
 
 // argument (it) is the primaryStage
-GroovyFX.start {
-    def sg = new SceneGraphBuilder(it)
-
-    sg.stage(title: "GroovyFX Effects Demo", visible: true) {
+start {
+    stage(title: "GroovyFX Effects Demo", visible: true) {
         scene(root: group(), width: 840, height: 680, fill: groovyblue) {
             /// Perspective
             group(cache: true, layoutX: 0, layoutY: 0) {

@@ -14,10 +14,7 @@
 * limitations under the License.
 */
 
-
-
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
+import static groovyx.javafx.GroovyFX.start
 
 def xml = """
     <?import javafx.scene.*?>
@@ -32,10 +29,8 @@ def xml = """
     </Group>
     """
 
-GroovyFX.start {
-    def sg = new SceneGraphBuilder()
-
-    sg.stage(title: "GroovyFX FXML Demo", visible: true) {
+start {
+    stage(title: "GroovyFX FXML Demo", visible: true) {
         scene(fill: groovyblue, width: 640, height: 500) {
             vbox(padding: 10) {
                 stackPane {

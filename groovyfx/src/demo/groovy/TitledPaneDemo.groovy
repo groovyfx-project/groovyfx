@@ -14,20 +14,10 @@
 * limitations under the License.
 */
 
+import static groovyx.javafx.GroovyFX.start
 
-
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
-
-/**
- *
- * @author jimclarke
- */
-
-GroovyFX.start {
-    def sg = new SceneGraphBuilder(it)
-
-    sg.stage(title: "GroovyFX TitledPane Demo", width: 400, height: 400, visible: true, style: "decorated") {
+start {
+    stage(title: "GroovyFX TitledPane Demo", width: 400, height: 400, visible: true, style: "decorated") {
         scene(fill: groovyblue) {
             vbox(spacing: 10) {
                 titledPane(id: "t1") {

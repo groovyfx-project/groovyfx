@@ -14,18 +14,10 @@
 * limitations under the License.
 */
 
+import static groovyx.javafx.GroovyFX.start
 
-import groovyx.javafx.SceneGraphBuilder
-import groovyx.javafx.GroovyFX;
-
-/**
- * @author Dean Iverson
- */
-
-GroovyFX.start({
-    def sg = new SceneGraphBuilder()
-
-    sg.stage(title: "GroovyFX Padding Demo", width: 800, height: 800, visible: true) {
+start {
+    stage(title: "GroovyFX Padding Demo", width: 800, height: 800, visible: true) {
         scene(fill: groovyblue ) {
             vbox(spacing: 30, fillWidth: false, alignment: "center") {
                 stackPane(style: "-fx-background-color: burlywood", padding: 20) {
@@ -50,5 +42,5 @@ GroovyFX.start({
             }
         }
     }
-})
+}
 

@@ -14,25 +14,13 @@
 * limitations under the License.
 */
 
+import static groovyx.javafx.GroovyFX.start
 
-
-import groovyx.javafx.SceneGraphBuilder
-import groovyx.javafx.GroovyFX
-
-/**
- *
- * @author jimclarke
- */
-
-def imageURL = "file:../PIA01320_hires.jpg";
-
-GroovyFX.start {
-    def sg = new SceneGraphBuilder();
-    sg.stage(title: "GroovyFX Image Demo", visible: true,) {
-        scene(fill: groovyblue, width: 600, height:500,) {
-            imageView(x: 25, y: 40) {
-                image(imageURL, width: 500, height: 450, preserveRatio: true)
-            }
+start {
+    final imageURL = "http://www.nasa.gov/images/content/611907main_image_2134_800-600.jpg";
+    stage(title: "GroovyFX Image Demo", visible: true,) {
+        scene {
+            imageView(image: image(imageURL))
         }
     }
 }
