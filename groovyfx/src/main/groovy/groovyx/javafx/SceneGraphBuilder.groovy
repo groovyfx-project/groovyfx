@@ -88,21 +88,23 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
 
     private Scene currentScene;
 
-    public SceneGraphBuilder(boolean init = true) {
+    SceneGraphBuilder(boolean init = true) {
         super(init)
         initialize()
     }
 
-    public SceneGraphBuilder(Stage primaryStage, boolean init = true) {
+    SceneGraphBuilder(Stage primaryStage, boolean init = true) {
         super(init)
         this.variables.primaryStage = primaryStage
         initialize()
     }
 
-    public Scene getCurrentScene() { return currentScene }
-    public void setCurrentScene(Scene scene) { this.currentScene = scene}
+    Stage getPrimaryStage() { return variables.primaryStage }
 
-    public SceneGraphBuilder defer(Closure c) {
+    Scene getCurrentScene() { return currentScene }
+    void setCurrentScene(Scene scene) { this.currentScene = scene}
+
+    SceneGraphBuilder defer(Closure c) {
         if (!(c instanceof MethodClosure)) {
             c = c.curry([this])
         }
