@@ -10,8 +10,8 @@ fonts may be defined using the JavaFX CSS styles for "-fx-font" or "-fx-font-siz
 is presented, then the default Font will be used with that size. (see CSS Reference Guide.)
 
 {code}
-text( font: "32pt", text: "This is Text")
-button( font: "16pt Courier" text: "Push Here")
+text(font: "32pt", text: "This is Text")
+button(font: "16pt Courier", text: "Push Here")
 {code}
 
 h3. Paints/Colors
