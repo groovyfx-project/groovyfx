@@ -506,13 +506,18 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         }
      }
 
+    private static idDelegate = { FactoryBuilderSupport builder, node, Map attributes ->
+        if (attributes.id) builder.setVariable(attributes.id, node)
+    }
+
     private void initialize() {
         this[DELEGATE_PROPERTY_OBJECT_ID] = DEFAULT_DELEGATE_PROPERTY_OBJECT_ID
 
         ExpandoMetaClass.enableGlobally()
         addPostNodeCompletionDelegate(postCompletionDelegate)
-        addAttributeDelegate(NodeFactory.attributeDelegate);
-        addAttributeDelegate(BindFactory.bindingAttributeDelegate);
+        addAttributeDelegate(NodeFactory.attributeDelegate)
+        addAttributeDelegate(BindFactory.bindingAttributeDelegate)
+        addAttributeDelegate(idDelegate)
 
         Color.NamedColors.namedColors.put("groovyblue", Color.rgb(99, 152, 170))
 
