@@ -41,19 +41,17 @@ start {
 
 class RejectField extends TextField {
     Closure onReject
-    String allow = ".*"
+    String  allow = ".*"
 
-    @Override
-    public void replaceText(int start, int end, String text) {
+    void replaceText(int start, int end, String text) {
         if (text.matches(allow)) {
-            super.replaceText(start, end, text)
+            super.replaceText start, end, text
         } else {
             onReject?.call this
         }
     }
 
-    @Override
-    public void replaceSelection(String text) {
+    void replaceSelection(String text) {
         if (text.matches(allow)) {
             super.replaceSelection text
         } else {

@@ -16,7 +16,9 @@
           <root url="jar://$JAVAFX_HOME$/rt/lib/jfxrt.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://$JAVAFX_HOME$/src.zip!/src" />
+        </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="library" name="groovy-1.8.4" level="application" />
