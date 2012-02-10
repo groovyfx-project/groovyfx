@@ -18,8 +18,8 @@ package groovyx.javafx.factory
 
 import javafx.scene.text.*;
 import com.sun.javafx.css.Stylesheet;
-import com.sun.javafx.css.Value;
-import com.sun.javafx.css.parser.CSSParser;
+import com.sun.javafx.css.parser.CSSParser
+import com.sun.javafx.css.ParsedValue;
 
 /**
  *
@@ -64,7 +64,7 @@ class FontFactory {
                 if(parts.length > 1) {
                     Stylesheet p = CSSParser.getInstance().parse("* { -fx-font: " + str + "; }");
                     List declarations = p.getRules().get(0).getDeclarations();
-                    Value v = declarations.get(0).getCssValue();
+                    ParsedValue v = declarations.get(0).getParsedValue();
                     font = (Font)v.getConverter().convert(v, null);
                 }else {
                     /*******
@@ -84,7 +84,7 @@ class FontFactory {
                     ******/
                         Stylesheet p = CSSParser.getInstance().parse("* { -fx-font-size: " + str + "; }");
                         List declarations = p.getRules().get(0).getDeclarations();
-                        Value v = declarations.get(0).getCssValue();
+                        ParsedValue v = declarations.get(0).getParsedValue();
                         def size = v.getConverter().convert(v, null);
                         font = new Font(size);
                     // }

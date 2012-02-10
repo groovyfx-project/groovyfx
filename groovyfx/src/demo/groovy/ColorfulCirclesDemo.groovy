@@ -25,7 +25,7 @@ import static groovyx.javafx.GroovyFX.start
 start { primaryStage ->
     def circles
     stage(title: 'GroovyFX ColorfulCircles', resizable: false, show: true) {
-        scene(width: 800, height: 600, fill: black) {
+        scene(width: 800, height: 600, fill: 'black') {
             group {
                 circles = group {
                     30.times {

@@ -16,19 +16,15 @@
 
 package groovyx.javafx.factory
 
-import java.util.List;
-import javafx.scene.paint.*;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-import java.util.*;
-import javafx.scene.paint.Paint;
+//import com.sun.javafx.css.Value;
 
-import javafx.scene.paint.RadialGradientBuilder
-import javafx.scene.paint.LinearGradientBuilder;
 
-import com.sun.javafx.css.Stylesheet;
-import com.sun.javafx.css.Value;
-import com.sun.javafx.css.parser.CSSParser;
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+import javafx.scene.paint.*
+import com.sun.javafx.css.Stylesheet
+import com.sun.javafx.css.parser.CSSParser
+import com.sun.javafx.css.ParsedValue
 
 /**
  *
@@ -135,19 +131,21 @@ public class ColorFactory {
                 color = color.substring(0, color.length()-1);
             }
 
-            Paint paint = colorCacheMap.get(color);
+            Paint paint = colorCacheMap[color];
             if(paint == null) {
                 Stylesheet p = CSSParser.getInstance().parse("* { -fx-fill: " + color + "; }");
                 List declarations = p.getRules().get(0).getDeclarations();
 
                 if (!declarations)
                     throw new IllegalArgumentException("Invalid fill syntax: '$color'")
-                
-                Value v = declarations.get(0).getCssValue();
+
+                ParsedValue v = declarations.get(0).getParsedValue();
                 if(v.getConverter() == null)
                     paint = (Paint)v.getValue();
                 else
                     paint = (Paint)v.getConverter().convert(v, null);
+
+                colorCacheMap[color] = paint
             }
             return paint;
         }else {
