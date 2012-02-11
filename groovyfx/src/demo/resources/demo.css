@@ -1,0 +1,19 @@
+.label {
+    -fx-text-fill: white;
+}
+
+#header {
+    -fx-font-size: 18;
+    -fx-padding: 0 0 10 0;
+}
+
+.submit {
+    -fx-spacing: 10;
+}
+
+.form {
+    -fx-padding: 25 25 25 25;
+    -fx-alignment: top-center;
+    -fx-hgap: 5;  /* doesn't work */
+    -fx-vgap: 10; /* doesn't work */
+}

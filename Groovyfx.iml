@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/groovyfx/src/main/groovy" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/groovyfx/src/demo/groovy" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/groovyfx/src/test/groovy" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/groovyfx/src/demo/resources" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -21,7 +22,15 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="library" name="groovy-1.8.4" level="application" />
+    <orderEntry type="module-library" scope="RUNTIME">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/groovyfx/src/demo/resources" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 
