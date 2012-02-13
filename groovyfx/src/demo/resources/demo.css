@@ -1,3 +1,7 @@
+.root {
+    -fx-background-color: radial-gradient(radius 100%, #93D4EF, #496977);
+}
+
 .label {
     -fx-text-fill: white;
 }

@@ -12,11 +12,12 @@ class DemoStyle {
     static style(SceneGraphBuilder sgb) {
         Stage frame = sgb.primaryStage
         Scene scene = frame.scene
+        scene.stylesheets << 'demo.css'
         def groovyblue = sgb.groovyblue
-        scene.fill = sgb.radialGradient(stops: [
-            groovyblue.brighter(),
-            groovyblue.darker()]
-        ).build() // a scene fill cannot be set via css atm
+//        scene.fill = sgb.radialGradient(stops: [
+//            groovyblue.brighter(),
+//            groovyblue.darker()]
+//        ).build() // a scene fill cannot be set via css atm
 
         GridPane grid = scene.root
         grid.styleClass << 'form'
@@ -27,6 +28,5 @@ class DemoStyle {
 
         sgb.translateTransition(1.s, node: grid, fromY: -100, toY: 0).play()
 
-        scene.stylesheets << 'demo.css'
     }
 }
