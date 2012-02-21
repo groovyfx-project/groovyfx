@@ -14,12 +14,11 @@ public class GroovyFXTest extends GroovyTestCase {
         }
         latch.await()
         def closure
-        closure = { primaryStage ->
+        closure = { app ->
             assert primaryStage.is(startParameter)
             assert closure.delegate in SceneGraphBuilder
         }
         def application = new GroovyFX()
-        application.stage = true
         application.closure = closure
         application.start(startParameter)
     }
