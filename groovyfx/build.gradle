@@ -5,13 +5,6 @@ apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-// Set Maven coordinates
-group                   = 'org.codehaus.groovy.modules.groovyfx'
-archivesBaseName        = "groovyfx"
-version                 = '0.1-SNAPSHOT'
-
-requiredJavaFxVersion   = '2.1.0'
-
 // check environment
 javafxHome = System.env['JAVAFX_HOME']
 if(!javafxHome) {
@@ -55,7 +48,7 @@ repositories {
 }
 
 dependencies {
-    groovy      'org.codehaus.groovy:groovy-all:1.8.4'
+    groovy      "org.codehaus.groovy:groovy-all:${groovyVersion}"
     compile     'asm:asm:3.2'
     compile     files("${javafxHome}/rt/lib/jfxrt.jar")
     testCompile 'junit:junit:4.10'
