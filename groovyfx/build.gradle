@@ -48,25 +48,32 @@ repositories {
 }
 
 dependencies {
-    groovy      "org.codehaus.groovy:groovy-all:${groovyVersion}"
-    compile     'asm:asm:3.2'
-    compile     files("${javafxHome}/rt/lib/jfxrt.jar")
-    testCompile 'junit:junit:4.10'
+    groovy       "org.codehaus.groovy:groovy-all:${groovyVersion}"
+    compile      'asm:asm:3.2'
+    compile      files("${javafxHome}/rt/lib/jfxrt.jar")
+    testCompile  'junit:junit:4.10'
+}
+
+signing {
+    sign configurations.archives
 }
 
 uploadArchives {
     repositories.mavenDeployer {
-        repository(url: 'https://nexus.codehaus.org/content/repositories/snapshots/') {
-            authentication()
+        repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2') {
+            authentication(userName: sonatypeUsername, password: sonatypePassword)
         }
+
+        snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots') {
+            authentication(userName: sonatypeUsername, password: sonatypePassword)
+        }
+
         //repository(url: "file:///Users/dean/temp/m2")
         pom.project {
-            name        'GroovyFX'
-            organization 'org.codehaus.groovy' // this should become: org.codehaus.groovyfx
-            modules     'groovyfx'
-            url         'http://groovy.codehaus.org/GroovyFX'
-            description 'Groovy bindings for JavaFX 2.x'
-            packaging   'jar'
+            name         'GroovyFX'
+            url          'http://groovyfx.org'
+            description  'Groovy bindings for JavaFX 2'
+            packaging    'jar'
             licenses {
                 license {
                     name 'The Apache Software License, Version 2.0'
@@ -75,15 +82,15 @@ uploadArchives {
                 }
             }
             scm {
-                developerConnection 'scm:https://svn.codehaus.org/gmod/groovyfx/'
-                connection 'scm:http://svn.codehaus.org/gmod/groovyfx/'
-                tag 'trunk'
-                url 'http://fisheye.codehaus.org/browse/gmod/groovyfx/'
+                url 'scm:git@github.com:groovyfx-project/groovyfx.git'
+                connection 'scm:git@github.com:groovyfx-project/groovyfx.git'
+                developerConnection 'scm:git@github.com:groovyfx-project/groovyfx.git'
             }
             developers {
                 developer { name 'Jim Clarke' }
                 developer { name 'Dean Iverson' }
                 developer { name 'Dierk Koenig' }
+                developer { name 'Andres Almiray' }
             }
         }
     }
