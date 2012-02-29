@@ -3,6 +3,11 @@
   <component name="GroovyCompilerConfiguration">
     <excludes>
       <file url="file://$PROJECT_DIR$/src/groovyx/javafx/animation/timeline.groovy" />
+      <file url="file://$PROJECT_DIR$/groovyfx/src/main/groovy/groovyx/javafx/factory/BindFactory.groovy" />
+      <file url="file://$PROJECT_DIR$/groovyfx/src/main/groovy/groovyx/javafx/factory/PathFactory.groovy" />
+      <file url="file://$PROJECT_DIR$/groovyfx/src/main/groovy/groovyx/javafx/event/GroovyKeyHandler.groovy" />
+      <file url="file://$PROJECT_DIR$/groovyfx/src/main/groovy/groovyx/javafx/event/GroovyMouseHandler.groovy" />
+      <file url="file://$PROJECT_DIR$/groovyfx/src/main/groovy/groovyx/javafx/event/GroovyActionHandler.groovy" />
     </excludes>
   </component>
 </project>

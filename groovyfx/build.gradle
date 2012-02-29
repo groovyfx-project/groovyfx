@@ -3,27 +3,13 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 // Set Maven coordinates
-group = 'org.codehaus.groovy.modules.groovyfx'
+group = 'org.codehaus.groovyfx'
 archivesBaseName = "groovyfx"
-version = '0.1-SNAPSHOT'
+version = '0.1'
 
 // Read environment and set properties
 javafxHome = System.env['JAVAFX_HOME']
 isRelease = !version.endsWith('SNAPSHOT')
-
-// Define a source set for the non-standard src/demo directory
-sourceSets {
-    demo {
-        compileClasspath += sourceSets.main.output
-        runtimeClasspath += sourceSets.main.output
-        groovy {
-            srcDir = 'src/demo/groovy'
-        }
-        resources {
-            srcDir = 'src/demo/resources'
-        }
-    }
-}
 
 repositories {
     mavenCentral()
@@ -35,15 +21,55 @@ dependencies {
     compile files("${javafxHome}/rt/lib/jfxrt.jar")
 }
 
+task groovydocJar(type: Jar, dependsOn: groovydoc) {
+    classifier = 'javadoc'
+    from 'build/docs/groovydoc'
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+artifacts {
+    archives jar
+    archives groovydocJar
+    archives sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+// Define a source set for the non-standard src/demo directory
+sourceSets {
+    demo {
+        compileClasspath += sourceSets.main.output + configurations.compile
+        runtimeClasspath += sourceSets.main.output
+        groovy {
+            srcDir = 'src/demo/groovy'
+        }
+        resources {
+            srcDir = 'src/demo/resources'
+        }
+    }
+}
+
 uploadArchives {
     repositories.mavenDeployer {
-        repository(url: 'https://nexus.codehaus.org/content/repositories/snapshots/') {
-            authentication()
+        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+        repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2') {
+            authentication(userName: sonatypeUsername, password: sonatypePassword)
         }
-        //repository(url: "file:///Users/dean/temp/m2")
+
+        snapshotRepository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2') {
+            authentication(userName: sonatypeUsername, password: sonatypePassword)
+        }
+
         pom.project {
             name 'GroovyFX'
-            url 'http://groovy.codehaus.org/GroovyFX'
+            url 'http://groovyfx.org'
             description 'Groovy bindings for JavaFX 2.x'
             packaging 'jar'
             licenses {
@@ -54,10 +80,9 @@ uploadArchives {
                 }
             }
             scm {
-                developerConnection 'scm:https://svn.codehaus.org/gmod/groovyfx/'
-                connection 'scm:http://svn.codehaus.org/gmod/groovyfx/'
-                tag 'trunk'
-                url 'http://fisheye.codehaus.org/browse/gmod/groovyfx/'
+                url 'scm:git@github.com:groovyfx-project/groovyfx.git'
+                connection 'scm:git@github.com:groovyfx-project/groovyfx.git'
+                developerConnection 'scm:git@github.com:groovyfx-project/groovyfx.git'
             }
             developers {
                 developer { name 'Jim Clarke' }
@@ -74,7 +99,7 @@ new File('src/demo/groovy').eachFileMatch(~/.*Demo.groovy/) { file ->
         group = "Demo"
         description = "Run the $taskName program"
         main = taskName
-        classpath sourceSets.main.runtimeClasspath + sourceSets.demo.runtimeClasspath
+        classpath sourceSets.main.runtimeClasspath, sourceSets.demo.runtimeClasspath
     }
 }
 
