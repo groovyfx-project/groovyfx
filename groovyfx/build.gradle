@@ -28,11 +28,21 @@ if (! actualJavaFXVersion.startsWith(requiredJavaFxVersion)) {
 // environment is ok
 
 isRelease = !version.endsWith('SNAPSHOT')
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    groovy       "org.codehaus.groovy:groovy-all:${groovyVersion}"
+    compile      'asm:asm:3.2'
+    compile      files("${javafxHome}/rt/lib/jfxrt.jar")
+    testCompile  'junit:junit:4.10'
+}
 
 // Define a source set for the non-standard src/demo directory
 sourceSets {
     demo {
-        compileClasspath += sourceSets.main.output
+        compileClasspath += sourceSets.main.output + configurations.compile
         runtimeClasspath += sourceSets.main.output
         groovy {
             srcDir = 'src/demo/groovy'
@@ -43,15 +53,20 @@ sourceSets {
     }
 }
 
-repositories {
-    mavenCentral()
+task groovydocJar(type: Jar, dependsOn: groovydoc) {
+    classifier = 'javadoc'
+    from 'build/docs/groovydoc'
 }
 
-dependencies {
-    groovy       "org.codehaus.groovy:groovy-all:${groovyVersion}"
-    compile      'asm:asm:3.2'
-    compile      files("${javafxHome}/rt/lib/jfxrt.jar")
-    testCompile  'junit:junit:4.10'
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+artifacts {
+    archives jar
+    archives groovydocJar
+    archives sourcesJar
 }
 
 signing {
