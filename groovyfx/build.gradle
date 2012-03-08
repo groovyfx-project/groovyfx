@@ -17,7 +17,7 @@ repositories {
 
 dependencies {
     groovy       "org.codehaus.groovy:groovy-all:${groovyVersion}"
-    compile      'asm:asm:3.2'
+    compile      'asm:asm:3.3.1'
     compile      files("${javafxHome}/rt/lib/jfxrt.jar")
     testCompile  'junit:junit:4.10'
 }
