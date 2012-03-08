@@ -33,6 +33,14 @@ apply {
     from 'buildSrc/scripts/docs.gradle'
 }
 
+signArchives.onlyIf {
+    hasProperty('signing.keyId')
+}
+
+uploadArchives.onlyIf {
+    hasProperty('sonatypeUsername') && hasProperty('sonatypePassword')
+}
+
 // ---------------- check environment ------------------
 
 if(!javafxHome) {

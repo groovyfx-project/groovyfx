@@ -23,7 +23,7 @@ signing {
 uploadArchives {
     if (!hasProperty('sonatypeUsername') || !hasProperty('sonatypePassword'))
         return
-
+        
     repositories.mavenDeployer {
         repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2') {
             authentication(userName: sonatypeUsername, password: sonatypePassword)
