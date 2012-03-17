@@ -1,0 +1,62 @@
+// ------------- Maven Central deployment ---------------
+
+task groovydocJar(type: Jar, dependsOn: groovydoc) {
+    classifier = 'javadoc'
+    from 'build/docs/groovydoc'
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+artifacts {
+    archives jar
+    archives groovydocJar
+    archives sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+uploadArchives {
+    if (!hasProperty('sonatypeUsername') || !hasProperty('sonatypePassword'))
+        return
+        
+    repositories.mavenDeployer {
+        repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2') {
+            authentication(userName: sonatypeUsername, password: sonatypePassword)
+        }
+
+        snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots') {
+            authentication(userName: sonatypeUsername, password: sonatypePassword)
+        }
+
+        //repository(url: "file:///Users/dean/temp/m2")
+        pom.project {
+            name         'GroovyFX'
+            url          'http://groovyfx.org'
+            description  'Groovy bindings for JavaFX 2'
+            packaging    'jar'
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+            scm {
+                url 'scm:git@github.com:groovyfx-project/groovyfx.git'
+                connection 'scm:git@github.com:groovyfx-project/groovyfx.git'
+                developerConnection 'scm:git@github.com:groovyfx-project/groovyfx.git'
+            }
+            developers {
+                developer { name 'Jim Clarke' }
+                developer { name 'Dean Iverson' }
+                developer { name 'Dierk Koenig' }
+                developer { name 'Andres Almiray' }
+            }
+        }
+    }
+}
