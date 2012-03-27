@@ -332,6 +332,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory( 'progressIndicator', cf)
         registerFactory( 'scrollPane', cf)
         registerFactory( 'tableView', tf)
+        registerFactory( 'comboBox', cf)
         
         
         registerFactory( 'accordion', cf); // children node to panes list

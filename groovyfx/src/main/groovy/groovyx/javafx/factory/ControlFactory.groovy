@@ -32,6 +32,7 @@ class ControlFactory extends NodeFactory {
             "slider": { builder, name, value, attributes -> return new Slider() },
             "separator": { builder, name, value, attributes -> return new Separator() },
             "listView": { builder, name, value, attributes -> return new ListView() },
+            "comboBox": { builder, name, value, attributes -> return new ComboBox() },
             "passwordField": { builder, name, value, attributes -> return new PasswordField() },
             "textArea": { builder, name, value, attributes -> 
                 return value != null ? new TextArea(value.toString()) : new TextArea() },

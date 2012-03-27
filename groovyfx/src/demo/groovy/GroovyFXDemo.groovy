@@ -84,6 +84,7 @@ GroovyFX.start {
                                prefWidth: 200)
                     }
                     listView(items: ["one", "two", "three"], prefWidth: 200, prefHeight: 400)
+                    comboBox(items: ["one", "two", "three"], prefWidth: 200, value: "one")
                 }
             }
         }
