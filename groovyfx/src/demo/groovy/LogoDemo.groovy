@@ -15,7 +15,6 @@
 */
 
 import groovyx.javafx.Trigger
-import javafx.event.EventHandler
 
 import static groovyx.javafx.GroovyFX.start
 import groovyx.javafx.SceneGraphBuilder
@@ -27,32 +26,25 @@ import groovyx.javafx.SceneGraphBuilder
  */
 start {
 
-    stage title: "Logo Self Demo", x: 10, y: 10, visible: true, {
+    stage title: "GroovyFX Logo", x: 10, y: 10, visible: true, {
         scene {
             stackPane {
-                rectangle(x:0, y:0, width: 120, height: 120, opacity: 0d)
+                rectangle x: 0, y: 0, width: 120, height: 120, opacity: 0d
                 borderPane id: 'parent', {
                     group id: 'logo', {
-                        rotates = []
-                        star delegate, 12, [lightgreen.brighter(), green.brighter()]
-                        star delegate,  6, [lightblue.brighter(),  blue.brighter()]
+                        transitions = parallelTransition()
+                        star delegate, 12, [lightgreen, green]*.brighter()
+                        star delegate,  6, [lightblue,  blue ]*.brighter()
                         star delegate,  0, [yellow, orange]
-                        fx = fxLabel delegate
+                        fxLabel delegate
+                        onMouseClicked { transitions.playFromStart() }
     }   }   }   }   }
-
-    logo.onMouseClicked = {
-        def transitions = parallelTransition()
-        transitions.children.addAll rotates
-        transitions.children << fxFade << fxAppear << fxBigger << fxSmaller
-        transitions.playFromStart()
-    } as EventHandler
 
     new Trigger(parent, "layoutBounds", {
         double newSize = [parent.width, parent.height].min() / 120d
         logo.scaleX = newSize
         logo.scaleY = newSize
     })
-
 }
 
 def star(SceneGraphBuilder builder, int angle, List stops) {
@@ -70,7 +62,7 @@ def star(SceneGraphBuilder builder, int angle, List stops) {
             lineTo x: 00, y: 36
             lineTo x: 36, y: 36
             lineTo x: 50, y: 00
-            rotates << rotateTransition((2+angle/20d).s, from: angle, to: -360 + angle)
+            transitions.children << rotateTransition((2+angle/20d).s, from: angle, to: -360 + angle)
         }
     }
 }
@@ -107,9 +99,10 @@ def fxLabel(SceneGraphBuilder builder) {
             lineTo x: 58, y: 52
         }
         effect dropShadow(offsetX: 2, offsetY: 2, radius: 3)
-        fxFade    = fadeTransition(0.1.s, to: 0d)
-        fxAppear  = fadeTransition(1.s,  delay:1.8.s, to: 1d)
-        fxBigger  = scaleTransition(0.6.s, delay: 1.8.s, from:0d, to: 2d)
-        fxSmaller = scaleTransition(0.6.s, delay: 2.4.s, to: 1d)
+        transitions.children <<
+            fadeTransition( 0.1.s, to: 0d) <<
+            fadeTransition(   1.s, delay: 1.8.s, to: 1d) <<
+            scaleTransition(0.6.s, delay: 1.8.s, to: 2d, from: 0d) <<
+            scaleTransition(0.6.s, delay: 2.4.s, to: 1d)
     }
 }
