@@ -14,10 +14,10 @@
 * limitations under the License.
 */
 
+import groovyx.javafx.SceneGraphBuilder
 import groovyx.javafx.Trigger
 
 import static groovyx.javafx.GroovyFX.start
-import groovyx.javafx.SceneGraphBuilder
 
 /**
  * Dynamic painting and animation of the GroovyFX Logo. Adapts to available size.
@@ -29,16 +29,20 @@ start {
     stage title: "GroovyFX Logo", x: 10, y: 10, visible: true, {
         scene {
             stackPane {
-                rectangle x: 0, y: 0, width: 120, height: 120, opacity: 0d
+                circle x: 0, y: 0, width: 120, height: 120, opacity: 0d
                 borderPane id: 'parent', {
                     group id: 'logo', {
                         transitions = parallelTransition()
                         star delegate, 12, [lightgreen, green]*.brighter()
-                        star delegate,  6, [lightblue,  blue ]*.brighter()
+                        star delegate,  6, [lightblue, blue]*.brighter()
                         star delegate,  0, [yellow, orange]
                         fxLabel delegate
                         onMouseClicked { transitions.playFromStart() }
-    }   }   }   }   }
+                    }
+                }
+            }
+        }
+    }
 
     new Trigger(parent, "layoutBounds", {
         double newSize = [parent.width, parent.height].min() / 120d
@@ -62,47 +66,49 @@ def star(SceneGraphBuilder builder, int angle, List stops) {
             lineTo x: 00, y: 36
             lineTo x: 36, y: 36
             lineTo x: 50, y: 00
-            transitions.children << rotateTransition((2+angle/20d).s, from: angle, to: -360 + angle)
+            transitions.children << rotateTransition((2 + angle / 20d).s, from: angle, to: -360 + angle)
         }
     }
 }
 
 def fxLabel(SceneGraphBuilder builder) {
-    builder.group {
+    builder.group(scaleX:0.25, scaleY:0.25, translateX:6, translateY:4) {
         path strokeWidth: 0d, {
             metal = fill radialGradient(stops: [groovyblue.brighter(), groovyblue.darker()])
-            moveTo x: 59, y: 46
-            lineTo x: 59, y: 49
-            lineTo x: 49, y: 49
-            cubicCurveTo controlX1: 47, controlY1: 49, controlX2: 46, controlY2: 52, x: 46, y: 54
-            cubicCurveTo controlX1: 50, controlY1: 55, controlX2: 54, controlY2: 53, x: 56, y: 57
-            lineTo x: 46, y: 57
-            cubicCurveTo controlX1: 45, controlY1: 60, controlX2: 45, controlY2: 62, x: 44, y: 65
-            lineTo x: 41, y: 65
-            lineTo x: 44, y: 51
-            cubicCurveTo controlX1: 45, controlY1: 46, controlX2: 46, controlY2: 46, x: 49, y: 46
-            lineTo x: 59, y: 46
+            moveTo x: 64, y: 0
+            lineTo x: 62, y: 17
+            cubicCurveTo controlX1: 62, controlY1: 17, controlX2: 28, controlY2: 17, x: 28, y: 17
+            cubicCurveTo controlX1: 21, controlY1: 17, controlX2: 20, controlY2: 44, x: 20, y: 44
+            lineTo x: 47, y: 44
+            lineTo x: 55, y: 60
+            lineTo x: 18, y: 60
+            lineTo x: 13, y: 100
+            lineTo x: 0,  y: 100
+            cubicCurveTo controlX1:  0, controlY1: 100, controlX2: 12, controlY2: 19, x: 12, y: 19
+            cubicCurveTo controlX1: 12, controlY1:  14, controlX2: 16, controlY2:  0, x: 28, y:  0
+            cubicCurveTo controlX1: 28, controlY1:   0, controlX2: 64, controlY2:  0, x: 64, y:  0
         }
         path fill: metal, strokeWidth: 0d, {
-            moveTo x: 58, y: 52
-            lineTo x: 61, y: 56
-            lineTo x: 65, y: 52
-            lineTo x: 68, y: 52
-            lineTo x: 62, y: 58
-            lineTo x: 67, y: 65
-            lineTo x: 64, y: 65
-            lineTo x: 61, y: 60
-            lineTo x: 56, y: 65
-            lineTo x: 53, y: 65
-            lineTo x: 59, y: 58
-            lineTo x: 55, y: 52
-            lineTo x: 58, y: 52
+            moveTo x: 46,  y: 26
+            lineTo x: 59,  y: 26
+            lineTo x: 70,  y: 49
+            lineTo x: 85,  y: 26
+            lineTo x: 100, y: 26
+            lineTo x: 76,  y: 62
+            lineTo x: 93,  y: 100
+            lineTo x: 80,  y: 100
+            lineTo x: 68,  y: 74
+            lineTo x: 52,  y: 100
+            lineTo x: 37,  y: 100
+            lineTo x: 62,  y: 60
+            lineTo x: 46,  y: 26
         }
-        effect dropShadow(offsetX: 2, offsetY: 2, radius: 3)
+        effect dropShadow(offsetX: 4, offsetY: 4, radius: 4)
         transitions.children <<
-            fadeTransition( 0.1.s, to: 0d) <<
-            fadeTransition(   1.s, delay: 1.8.s, to: 1d) <<
-            scaleTransition(0.6.s, delay: 1.8.s, to: 2d, from: 0d) <<
-            scaleTransition(0.6.s, delay: 2.4.s, to: 1d)
+            fadeTransition(0.1.s, to: 0d) <<
+            fadeTransition(1.s, delay: 1.8.s, to: 1d) <<
+            scaleTransition(0.6.s, delay: 1.8.s, to: 0.5d, from: 0d) <<
+            scaleTransition(0.6.s, delay: 2.4.s, to: 0.25d)
     }
+
 }
