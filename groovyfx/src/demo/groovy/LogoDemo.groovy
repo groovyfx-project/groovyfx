@@ -29,7 +29,7 @@ start {
     stage title: "GroovyFX Logo", x: 10, y: 10, visible: true, {
         scene {
             stackPane {
-                circle x: 0, y: 0, width: 120, height: 120, opacity: 0d
+                rectangle x: 0, y: 0, width: 120, height: 120, opacity: 0d
                 borderPane id: 'parent', {
                     group id: 'logo', {
                         transitions = parallelTransition()
