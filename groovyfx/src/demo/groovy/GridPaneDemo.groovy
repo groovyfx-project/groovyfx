@@ -15,20 +15,16 @@
 */
 
 import static groovyx.javafx.GroovyFX.start
-import javafx.scene.layout.GridPane
 
 start {
-    stage(title: "GroovyFX GridPane Demo", width: 400, height: 500, visible: true) {
-        scene {
-            gridPane(hgap: 5, vgap: 10, padding: 25, alignment: "top_center",
-                     style: "-fx-background-color: groovyblue") {
+    stage(title: "GridPane Demo", width: 400, height: 500, visible: true) {
+        scene(fill: groovyblue) {
+            gridPane(hgap: 5, vgap: 10, padding: 25, alignment: "top_center") {
                 columnConstraints(minWidth: 50, halignment: "right")
                 columnConstraints(prefWidth: 250, hgrow: 'always')
 
-                effect innerShadow()
-
-                label("Please Send Us Your Feedback", style: "-fx-font-size: 18px;",  row: 0, textFill: white,
-                      columnSpan: GridPane.REMAINING, halignment: "center", margin: [0, 0, 10]) {
+                label("Please Send Us Your Feedback", style: "-fx-font-size: 18px;", textFill: white,
+                      row: 0, columnSpan: 2, halignment: "center", margin: [0, 0, 10]) {
                     onMouseEntered { e -> e.source.parent.gridLinesVisible = true }
                     onMouseExited { e -> e.source.parent.gridLinesVisible = false }
                 }

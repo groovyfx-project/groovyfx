@@ -25,6 +25,7 @@ import javafx.scene.Node
 import javafx.scene.Scene
 
 import javafx.scene.NodeBuilder
+import org.codehaus.groovy.runtime.InvokerHelper
 
 /**
  *
