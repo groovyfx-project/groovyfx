@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml">
+  <children>
+    <MenuBar id="menuBar1" prefHeight="24.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <effect>
+        <ColorAdjust />
+      </effect>
+      <menus>
+        <Menu id="fileMenu1" text="File">
+          <items>
+            <MenuItem id="close1" text="Close" />
+          </items>
+        </Menu>
+        <Menu id="editMenu1" text="Edit">
+          <items>
+            <MenuItem id="delete1" text="Delete" />
+          </items>
+        </Menu>
+        <Menu id="helpMenu1" text="Help">
+          <items>
+            <MenuItem id="about1" text="About" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <BubbleChart id="BubbleChart" fx:id="mychart" prefHeight="351.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="24.0">
+      <xAxis>
+        <NumberAxis id="xAxis1" side="BOTTOM" />
+      </xAxis>
+      <yAxis>
+        <NumberAxis id="yAxis1" side="LEFT" />
+      </yAxis>
+      <effect>
+        <Reflection fraction="0.059523809523809534" />
+      </effect>
+    </BubbleChart>
+  </children>
+  <properties>
+    <backgroundColor>
+      <Color blue="1.000" green="0.640" red="0.400" />
+    </backgroundColor>
+  </properties>
+</AnchorPane>
