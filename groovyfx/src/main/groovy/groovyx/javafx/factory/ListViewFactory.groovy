@@ -19,28 +19,41 @@ package groovyx.javafx.factory
 import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 
+import javafx.beans.value.ChangeListener
+import javafx.beans.value.ObservableValue
+
 /**
  *
  * @author jimclarke
  */
-class ListViewFactory extends NodeFactory {
+class ListViewFactory extends AbstractNodeFactory {
+    
+    ListViewFactory() {
+        super(ListView)
+    }
+    
+    ListViewFactory(Class<ListView> beanClass) {
+        super(beanClass)
+    }
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        ListView listView;
-        if (FactoryBuilderSupport.checkValueIsType(value, name, ListView.class)) {
-            listView = value
-        } else {
-            listView = new ListView();
-        }
+        ListView listView = super.newInstance(builder, name, value, attributes);
         def items = attributes.remove("items");
         if(items != null) {
             if(listView.getItems() == null) // bug in ListView?
                 listView.setItems(FXCollections.observableArrayList());
             listView.getItems().addAll(items);
         }
-
-        //FXHelper.fxAttributes(listView, attributes);
-        return listView;
+        final def onSelect = attritues.remove("onSelect");
+        if(onSelect != null) {
+             listView.selectionModel.selectedItemProperty().addChangeListener(new ChangeListener() {
+                public void changed(final ObservableValue observable, final Object oldValue, final Object newValue) {
+                    builder.defer({onSelect.call(newValue);});
+                }
+             });
+        }
+            
+        listView;
     }
 
 }

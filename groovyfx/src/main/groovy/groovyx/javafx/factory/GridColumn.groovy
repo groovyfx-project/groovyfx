@@ -14,29 +14,19 @@
 * limitations under the License.
 */
 
-package groovyx.javafx
-
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+package groovyx.javafx.factory
+import javafx.scene.Node;
 
 /**
  *
  * @author jimclarke
  */
-class ClosureChangeListener implements ChangeListener {
-    public String property;
-    public Closure closure;
-
-    public ClosureChangeListener() {}
+class GridColumn {
+    int index;
+    List nodes = new ArrayList();
     
-    public ClosureChangeListener(String property) {
-        this.property = property;
-    }
-    
-    public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-        if(closure != null) {
-            closure(observable, oldValue, newValue);
-        }
+    public Node[] nodeArray() {
+        return (Node[])nodes.toArray(new Node[nodes.size()]);
     }
 }
 

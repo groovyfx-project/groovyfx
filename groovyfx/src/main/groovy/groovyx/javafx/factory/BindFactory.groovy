@@ -24,9 +24,13 @@ import javafx.beans.property.Property;
  *
  * @author jimclarke
  */
-class BindFactory extends AbstractGroovyFXFactory {
+class BindFactory extends AbstractFXBeanFactory {
     public static final String CONTEXT_DATA_KEY = "BindFactoryData";
     private static final Map<String, TriggerBinding> syntheticBindings = new HashMap();
+    
+    public BindFactory() {
+        super(FullBinding);
+    }
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
             throws InstantiationException, IllegalAccessException {
@@ -159,9 +163,6 @@ class BindFactory extends AbstractGroovyFXFactory {
         }
     }
 
-    public boolean isLeaf() {
-        return false;
-    }
     public boolean isHandlesNodeChildren() {
         return true;
     }

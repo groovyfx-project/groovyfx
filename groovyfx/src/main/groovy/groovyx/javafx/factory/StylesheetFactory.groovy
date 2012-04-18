@@ -22,12 +22,38 @@ import java.util.*;
  *
  * @author jimclarke
  */
-class StylesheetFactory extends AbstractGroovyFXFactory {
-
+class StylesheetFactory extends AbstractFXBeanFactory {
+    
+    StylesheetFactory() {
+        super(List, true)
+    }
+    StylesheetFactory(Class<List> beanClass) {
+        super(beanClass, true)
+    }
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
         throws InstantiationException, IllegalAccessException {
-        Object urls = attributes.remove("urls");
-        return urls;
+        if (checkValue(name, value)) {
+            return value
+        }
+        
+        def result = [];
+        switch(value) {
+            case GString:
+                result << value as String
+                break;
+            case String:
+                result << value
+                break;
+            case URL:
+                result << value.toExternalForm()
+                break;
+            case URI:
+                result << value.toURL().toExternalForm();
+                break;
+            default:
+                throw new RuntimeException("In $name value argument must be a List of Strings, a String, a URL, or a URI class");
+        }
+        result
     }
 }
 

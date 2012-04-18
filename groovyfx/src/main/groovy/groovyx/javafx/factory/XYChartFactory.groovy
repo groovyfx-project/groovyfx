@@ -26,27 +26,23 @@ import javafx.collections.ObservableList
 /**
  * @author Dean Iverson
  */
-class XYChartFactory extends AbstractGroovyFXFactory {
-    private final Class<? extends XYChart> chartClass
+class XYChartFactory extends AbstractFXBeanFactory {
 
-    XYChartFactory(Class<? extends XYChart> chartClass) {
-        if (chartClass == null)
-            throw new IllegalArgumentException("chartClass cannot be null")
-
-        this.chartClass = chartClass
+    XYChartFactory(Class<? extends XYChart> beanClass) {
+        super(beanClass)
     }
 
     @Override
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) {
-        if (FactoryBuilderSupport.checkValueIsType(value, name, chartClass)) {
+        if (checkValue(name,value)) {
             return value
         } else {
-            def builderClass = Class.forName("javafx.scene.chart.${chartClass.getSimpleName()}Builder")
+            def builderClass = Class.forName("javafx.scene.chart.${beanClass.getSimpleName()}Builder")
             def chartBuilder = builderClass.newInstance()
 
             // Set default axes so the builder doesn't blow up with a NPE
             // TODO: Set the axes correctly depending on bar chart orientation
-            if (chartClass == BarChart)
+            if(beanClass.isAssignableFrom(BarChart))
                 chartBuilder.XAxis(new CategoryAxis())
             else
                 chartBuilder.XAxis(new NumberAxis())

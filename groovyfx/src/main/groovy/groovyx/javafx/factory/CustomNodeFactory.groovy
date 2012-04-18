@@ -15,42 +15,38 @@
 */
 
 package groovyx.javafx.factory
-import javafx.scene.*;
 
-import org.codehaus.groovy.runtime.InvokerHelper;
+import javafx.scene.Node
+import javafx.scene.Parent
+
 /**
  * Handles custom nodes and containers.
  * @author jimclarke
  */
-class CustomNodeFactory extends NodeFactory {
+class CustomNodeFactory extends AbstractNodeFactory {
 
-    final Class restrictedType;
-    protected final boolean leaf
 
-    public CustomNodeFactory(Class restrictedType, boolean leaf) {
-        this.restrictedType = restrictedType
-        this.leaf = leaf
+    public CustomNodeFactory(Class beanClass) {
+        super(beanClass)
     }
-
-    boolean isLeaf() {
-        return leaf
+    
+    public CustomNodeFactory(Class beanClass, boolean leaf) {
+        super(beanClass, leaf)
     }
-
+    
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        if (value == null) {
-            value = attributes.remove(name);
-        }
-        if ((value != null) && FactoryBuilderSupport.checkValueIsType(value, name, restrictedType)) {
+        if ((value != null) && checkValue(name, value)) {
             return value;
         } else {
-            throw new RuntimeException("$name must have either a value argument or an attribute named $name that must be of type $restrictedType.name");
+            throw new RuntimeException("$name must have either a value argument that must be of type $restrictedType.name");
         }
     }
+    
 
     public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         if (parent instanceof Parent && child instanceof Node)  {
-            ((Parent)parent).getChildren().add((Node)child);
+            parent.children.add(child);
         }else {
             super.setChild(builder, parent, child);
         }

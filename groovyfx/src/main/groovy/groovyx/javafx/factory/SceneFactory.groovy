@@ -16,13 +16,16 @@
 
 package groovyx.javafx.factory
 
-import groovyx.javafx.event.GroovyKeyHandler
-import groovyx.javafx.event.GroovyMouseHandler
+import org.codehaus.groovy.runtime.InvokerHelper
+
+import groovyx.javafx.event.GroovyEventHandler
 import javafx.event.EventHandler
 import javafx.scene.Group
 import javafx.scene.Parent
 import javafx.scene.Node
 import javafx.scene.Scene
+
+import groovyx.javafx.event.*
 
 import javafx.scene.NodeBuilder
 
@@ -30,14 +33,22 @@ import javafx.scene.NodeBuilder
  *
  * @author jimclarke
  */
-class SceneFactory extends AbstractGroovyFXFactory {
+class SceneFactory extends AbstractFXBeanFactory {
     private static final String BUILDER_LIST_PROPERTY = "__builderList"
     
     boolean syntheticRoot = false;
+    
+    SceneFactory() {
+        super(Scene);
+    }
+    
+    SceneFactory(Class<Scene> beanClass) {
+        super(beanClass);
+    }
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Scene scene;
-        if (FactoryBuilderSupport.checkValueIsType(value, name, Scene.class)) {
+        if (checkValue(name, value)) {
             scene = value
         } else {
             def root = attributes.remove("root")
@@ -76,18 +87,29 @@ class SceneFactory extends AbstractGroovyFXFactory {
                 return
             }
         }
-
-        if(child instanceof Node) {
-            scene.root.children.add((Node) child)
-        } else if(child instanceof List) {
-            scene.stylesheets.addAll(child.collect {it.toString()})
-        } else if(child instanceof GroovyMouseHandler) {
-            InvokerHelper.setProperty(scene, ((GroovyMouseHandler)child).getType(), (EventHandler)child);
-        } else if(child instanceof GroovyKeyHandler) {
-            InvokerHelper.setProperty(scene, ((GroovyKeyHandler)child).getType(), (EventHandler)child);
-        } else if (child instanceof NodeBuilder) {
-            def builderList = builder.parentContext.get(BUILDER_LIST_PROPERTY, [])
-            builderList << child
+        
+        switch(child) {
+            case Node:
+                scene.root.children.add(child)
+                break;
+            case String:
+                scene.stylesheets.add(child);
+                break;
+            case List:
+                scene.stylesheets.addAll(child.collect {it.toString()})
+                break;
+            case GroovyEventHandler:
+                InvokerHelper.setProperty(scene, child.property, child);
+                break;
+            case NodeBuilder:
+                def builderList = builder.parentContext.get(BUILDER_LIST_PROPERTY, [])
+                builderList << child
+                break;
+            case GroovyChangeListener:
+            case GroovyInvalidationListener:
+                if(parent.metaClass.respondsTo(parent, child.property + "Property"))
+                    parent."${child.property}Property"().addListener(child);
+                break;
         }
     }
 
@@ -100,40 +122,17 @@ class SceneFactory extends AbstractGroovyFXFactory {
             else    
                 scene.stylesheets.add(attr.toString())
         }
-        for(v in NodeFactory.mouseEvents) {
+        for(v in AbstractNodeFactory.nodeEvents) {
             if(attributes.containsKey(v)) {
-                def val = attributes.remove(v)
+                def val = attributes.remove(v);
                 if(val instanceof Closure) {
-                    def handler = new GroovyMouseHandler(v)
-                    handler.setClosure((Closure)val)
-                    scene.addInputHandler(v, handler)
-                    InvokerHelper.setProperty(scene, v, handler);
+                    FXHelper.setPropertyOrMethod(node, v, val as EventHandler)
+/*****
+                    def handler = new GroovyEventHandler(v);
+                    handler.setClosure((Closure)val);
+****/
                 }else if(val instanceof EventHandler) {
-                    InvokerHelper.setProperty(scene, v, val);
-                }
-            }
-        }
-        // onMouseWheelRotated is not defined on Scene??
-        /*********
-        if(attributes.containsKey("onMouseWheelRotated")) {
-            def val = attributes.remove("onMouseWheelRotated")
-            if(val instanceof Closure) {
-                def handler = new GroovyMouseHandler("onMouseWheelRotated")
-                handler.setClosure((Closure)val)
-                scene.addInputHandler("onMouseWheelRotated", handler)
-            }else if(val instanceof EventHandler) {
-                scene.addInputHandler("onMouseWheelRotated", (EventHandler)val)
-            }
-        }**********/
-        for(v in NodeFactory.keyEvents) {
-            if(attributes.containsKey(v)) {
-                def val = attributes.remove(v)
-                if(val instanceof Closure) {
-                    def handler = new GroovyKeyHandler(v)
-                    handler.setClosure((Closure)val)
-                    InvokerHelper.setProperty(scene, v, handler);
-                }else if(val instanceof EventHandler) {
-                    InvokerHelper.setProperty(scene, v, val);
+                    FXHelper.setPropertyOrMethod(node, v, val)
                 }
             }
         }
@@ -148,7 +147,7 @@ class SceneFactory extends AbstractGroovyFXFactory {
         
         def builderList = builder.context.remove(BUILDER_LIST_PROPERTY)
         builderList?.each {
-            ((Scene)node).root.children.add(it.build());
+            node.root.children.add(it.build());
         }
     }
 }

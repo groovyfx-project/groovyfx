@@ -24,23 +24,31 @@ import javafx.scene.paint.Color
  *
  * Author: Dean Iverson
  */
-class StopFactory extends AbstractGroovyFXFactory {
+class StopFactory extends AbstractFXBeanFactory {
     public final static STOPS_PROPERTY = "__stops"
+    
+    StopFactory() {
+        super(Stop, true)
+    }
+    
+    StopFactory(Class<Stop> beanClass) {
+        super(beanClass)
+    }
 
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) {
-        if (FactoryBuilderSupport.checkValueIsType(value, name, Stop)) {
+        if (checkValue(name, value)) {
             return value
         } else {
+            def color = null;
+            if(value != null)
+                  color = ColorFactory.get(value);
             def offset = attributes.remove('offset') ?: 0.0
-            def color = ColorFactory.get(attributes.remove('color') ?: Color.BLACK)
+            if(color == null)
+                color = ColorFactory.get(attributes.remove('color') ?: Color.BLACK)
             return new Stop(offset, color)
         }
     }
 
-    @Override
-    boolean isLeaf() {
-        return true
-    }
 
     @Override
     void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {

@@ -19,118 +19,150 @@ package groovyx.javafx.factory
 import javafx.scene.control.*
 import javafx.scene.Node
 import groovyx.javafx.SceneGraphBuilder;
-import groovyx.javafx.ClosureEventHandler
+
+import javafx.scene.control.ContentDisplay
+import javafx.scene.control.ListCell
+import javafx.beans.value.ChangeListener
+import javafx.beans.value.ObservableValue
+import javafx.util.Callback;
+import groovyx.javafx.event.*;
+
 
 /**
  *
  * @author jimclarke
  */
-class ControlFactory extends NodeFactory {
+class ControlFactory extends AbstractNodeFactory {
 
-    private static def controlBuilder = [
-            "scrollBar": { builder, name, value, attributes -> return new ScrollBar() },
-            "slider": { builder, name, value, attributes -> return new Slider() },
-            "separator": { builder, name, value, attributes -> return new Separator() },
-            "listView": { builder, name, value, attributes -> return new ListView() },
-            "comboBox": { builder, name, value, attributes -> return new ComboBox() },
-            "passwordField": { builder, name, value, attributes -> return new PasswordField() },
-            "textArea": { builder, name, value, attributes -> 
-                return value != null ? new TextArea(value.toString()) : new TextArea() },
-            "textField": { builder, name, value, attributes-> 
-                return value != null ? new TextField(value.toString()) :  new TextField()},
-            "progressBar": { builder, name, value, attributes -> return new ProgressBar() },
-            "progressIndicator": { builder, name, value, attributes -> return new ProgressIndicator() },
-            "scrollPane": { builder, name, value, attributes -> return new ScrollPane() },
-            //"tableView": { builder, name, value, attributes -> return new TableView() },
-            "treeView": { builder, name, value, attributes -> return new TreeView() },
-            "accordion": { builder, name, value, attributes -> return new Accordion() },
-            "titledPane": { builder, name, value, attributes -> 
-                return value != null ? new TitledPane(value.toString(), null) : new TitledPane() },
-            "toolBar": { builder, name, value, attributes -> return new ToolBar() },
-            "tabPane": { builder, name, value, attributes -> return new TabPane() },
-            "splitPane": {builder, name, value, attributes ->
-                def control = new SplitPane();
-                def cntx = builder.getContext();
-                List dividers = cntx.get(SceneGraphBuilder.CONTEXT_DIVIDER_KEY);
-                if (dividers == null) {
-                    cntx.put(SceneGraphBuilder.CONTEXT_DIVIDER_KEY, new ArrayList());
-                } else if (!dividers.isEmpty()) {
-                    dividers.clear();
-                }
-                return control;
-            }
-    ]
+    public ControlFactory(Class beanClass) {
+        super(beanClass);
+    }
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        Control control;
-        if (value != null && value instanceof Control) {
-            control = value
-        } else {
-            def creator = controlBuilder[name];
-            if(creator != null)
-                control = creator(builder, name, value, attributes);
+        Control control = super.newInstance(builder, name, value, attributes);
+        if(value != null) {
+              control.text = value.toString();
         }
-        return control;
+        if(SplitPane.isAssignableFrom(beanClass)) {
+             handleSplitPane(builder)
+        }
+        control;
+    }
+    
+    private void handleSplitPane(builder) {
+        def cntx = builder.getContext();
+        List dividers = cntx.get(SceneGraphBuilder.CONTEXT_DIVIDER_KEY);
+        if (dividers == null) {
+            cntx.put(SceneGraphBuilder.CONTEXT_DIVIDER_KEY, new ArrayList());
+        } else if (!dividers.isEmpty()) {
+            dividers.clear();
+        }
     }
 
     public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
-        if (child instanceof Tooltip) {
-            ((Control) parent).setTooltip(child);
-        }else if(child instanceof ContextMenu) {
-            child.contextMenu = contextMenu;
-        } else if (parent instanceof ScrollPane) {
-            ((ScrollPane)parent).setContent((Node)child);
-        } else if (parent instanceof TableView) {
-            TableView table = (TableView) parent;
-            if(child instanceof List)
-                table.getColumns().addAll(child);
-            else
-                table.getColumns().add(child);
-        } else if (parent instanceof Accordion) {
-            if (child instanceof List)
-                parent.getPanes.addAll(child);
-            else
-                parent.getPanes().add(child);
-        } else if (parent instanceof TitledPane) {
-            if (child instanceof Node) {
-                parent.content = child;
-            } else if (child.hasProperty('pane')) {
-                child.pane = parent;
-            }
-        } else if (parent instanceof SplitPane) {
-            if (child instanceof Node) {
-                parent.items.add(child);
-            } else if (child instanceof List) {
-                parent.items.addAll(child);
-            } else if (child instanceof DividerPosition) {
-                List dividers = builder.parentContext.get(SceneGraphBuilder.CONTEXT_DIVIDER_KEY);
-                dividers.add(child);
-            }
-        } else if (parent instanceof ToolBar) {
-            if (child instanceof List)
-                parent.items.addAll(child);
-            else
-                parent.items.add(child);
-        } else if (parent instanceof TabPane && child instanceof Tab) {
-            parent.tabs.add(child);
-        } else if (parent instanceof TreeView) {
-            if (child instanceof TreeItem) {
-                parent.root = child
-            } else if (child instanceof ClosureEventHandler) {
-                switch (child.name) {
-                    case 'onEditCancel':
-                        parent.onEditCancel = child.action;
+        
+        switch(child) {
+            case Tooltip:
+                parent.setTooltip(child);
+                break;
+            case GroovyCallback:
+                if(child.property == "onSelect") {
+                    switch(parent) {
+                        case ListView:
+                        case ComboBox:
+                        case ChoiceBox:
+                        case TabPane:
+                        case TreeView:
+                            parent.selectionModel.selectedItemProperty().addListener(new ChangeListener() {
+                                public void changed(final ObservableValue observable, final Object oldValue, final Object newValue) {
+                                    builder.defer({child.closure.call(parent, newValue);});
+                                }
+                            }); 
+                            break;
+                        default:
+                      
+                            break;
+                    }
+                 } else if(child.property == "cellFactory") {
+                     switch(parent) {
+                         case ListView:
+                         case ComboBox:
+                         case TreeView:
+                            parent.cellFactory = child
+                            break;
+                         default:
+                            break;
+                     }
+                 }
+                 break;
+            case ContextMenu:
+                parent.contextMenu = contextMenu;
+                break;
+            default:
+                switch(parent) {
+                    case ScrollPane:
+                        parent.content = child;
                         break;
-                    case 'onEditCommit':
-                        parent.onEditCommit = child.action;
+                    case TableView:
+                        if(child instanceof List)
+                            parent.columns.addAll(child);
+                        else
+                            parent.columns.add(child);
                         break;
-                    case 'onEditStart':
-                        parent.onEditStart = child.action;
+                    case Accordion:
+                        if (child instanceof List)
+                            parent.panes.addAll(child);
+                        else
+                            parent.panes.add(child);
+                        break;
+                    case TitledPane:
+                        switch(child) {
+                            case Node:
+                                parent.content = child;
+                                break
+                            case TitledNode:
+                                child.pane = parent
+                                break;
+                            case TitledContent:
+                                child.pane = parent
+                                break
+                        }   
+                        break;
+                    case SplitPane:
+                        if (child instanceof Node) {
+                            parent.items.add(child);
+                        } else if (child instanceof List) {
+                            parent.items.addAll(child);
+                        } else if (child instanceof DividerPosition) {
+                            List dividers = builder.parentContext.get(SceneGraphBuilder.CONTEXT_DIVIDER_KEY);
+                            dividers.add(child);
+                        }
+                        break;
+                    case ToolBar:
+                        if (child instanceof List)
+                            parent.items.addAll(child);
+                        else
+                            parent.items.add(child);
+                        break;
+                    case TabPane:
+                        if(child instanceof Tab) {
+                            parent.tabs.add(child);
+                        }else {
+                            super.setChild(builder, parent, child);
+                        }
+                        break;
+                    case TreeView:
+                        if (child instanceof TreeItem) {
+                            parent.root = child
+                        } else if (child instanceof GroovyEventHandler) {
+                            FXHelper.setPropertyOrMethod(parent, child.property, child)
+                        }
+                        break;
+                    default:
+                        super.setChild(builder, parent, child);
                         break;
                 }
-            }
-        } else {
-            super.setChild(builder, parent, child);
+                break
         }
     }
 

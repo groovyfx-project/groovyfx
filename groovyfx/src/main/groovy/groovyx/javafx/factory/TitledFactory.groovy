@@ -22,26 +22,23 @@ import javafx.scene.Node;
  *
  * @author jimclarke
  */
-class TitledFactory extends AbstractGroovyFXFactory {
-
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        Titled titled;
-        if (FactoryBuilderSupport.checkValueIsType(value, name, Titled.class)) {
-            titled = value
-        } else {
-            titled = new Titled();
-            titled.isTitle = name == "title";
-        }
-        // pane is set to the titledPane in the parent setChild.
-        return titled;
+class TitledFactory extends AbstractFXBeanFactory {
+    
+    TitledFactory(Class beanClass) {
+        super(beanClass)
     }
     
-    public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
-        if(parent.isTitle) {
-            parent.pane.title = child;
-        }else {
-            parent.pane.content = child;
-        }
+    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+        def result = super.newInstance(builder, name, value, attributes);
+        result;
+    }
+
+    public boolean isHandlesNodeChildren() {
+        return false;
+    }
+
+    public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
+        parent.node = child
     }
 }
 

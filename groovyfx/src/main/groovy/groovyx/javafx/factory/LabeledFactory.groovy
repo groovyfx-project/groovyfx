@@ -24,49 +24,18 @@ import javafx.scene.control.*
  *
  * @author jimclarke
  */
-class LabeledFactory extends NodeFactory {
+class LabeledFactory extends AbstractNodeFactory {
+    
+    LabeledFactory(Class  beanClass) {
+        super(beanClass);
+    }
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        Control control;
-        def text = null;
-        if (value != null && value instanceof Control) {
-            control = value
-        } else {
-            if (value != null) {
-                text = value.toString();
-            }
-            switch (name) {
-                case 'button':
-                    control = new Button();
-                    break;
-                case 'checkBox':
-                    control = new CheckBox();
-                    break;
-                case 'label':
-                    control = new Label();
-                    break;
-                case 'choiceBox':
-                    control = new ChoiceBox();
-                    break;
-                case 'hyperlink':
-                    control = new Hyperlink();
-                    break;
-                case 'tooltip':
-                    control = new Tooltip();
-                    break;
-                case 'radioButton':
-                    control = new RadioButton();
-                    break;
-                case 'toggleButton':
-                    control = new ToggleButton();
-                    break;
-            }
-            if (text) {
-                control.text = text;
-            }
+        Control control  = super.newInstance(builder, name, value, attributes);
+        if (value != null) {
+            control.text = value.toString();
         }
-        //FXHelper.fxAttributes(control, attributes);
-        return control;
+        control;
     }
 
     @Override

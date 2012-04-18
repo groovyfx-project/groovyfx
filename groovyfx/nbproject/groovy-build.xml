@@ -7,7 +7,7 @@
 <project xmlns:j2seproject3="http://www.netbeans.org/ns/j2se-project/3" xmlns:j2seproject1="http://www.netbeans.org/ns/j2se-project/1" xmlns:jaxrpc="http://www.netbeans.org/ns/j2se-project/jax-rpc">
     <target name="-groovy-init-macrodef-javac">
         <macrodef name="javac" uri="http://www.netbeans.org/ns/j2se-project/3">
-            <attribute name="srcdir" default="${src.dir}:${groovy.dir}"/>
+            <attribute name="srcdir" default="${src.groovy.dir}:${src.groovy2.dir}"/>
             <attribute name="destdir" default="${build.classes.dir}"/>
             <attribute name="classpath" default="${javac.classpath}"/>
             <attribute name="includes" default="${includes}"/>
@@ -28,8 +28,9 @@
                     </src>
                     <classpath>
                         <path path="@{classpath}"/>
+                        <path path="${endorsed.classpath}"/>
                     </classpath>
-                    <javac debug="@{debug}" deprecation="${javac.deprecation}" encoding="${source.encoding}" source="${javac.source}" target="${javac.target}">
+                    <javac debug="@{debug}" deprecation="${javac.deprecation}" encoding="${source.encoding}" source="${javac.source}" target="${javac.target}" fork="yes" executable="${platform.javac}" tempdir="${java.io.tmpdir}">
                         <compilerarg line="${javac.compilerargs} ${javac.compilerargs.jaxws}"/>
                         <customize/>
                     </javac>
@@ -37,7 +38,7 @@
             </sequential>
         </macrodef>
         <macrodef name="depend" uri="http://www.netbeans.org/ns/j2se-project/3">
-            <attribute name="srcdir" default="${src.dir}:${groovy.dir}"/>
+            <attribute name="srcdir" default="${src.groovy.dir}:${src.groovy2.dir}"/>
             <attribute name="destdir" default="${build.classes.dir}"/>
             <attribute name="classpath" default="${javac.classpath}"/>
             <sequential>

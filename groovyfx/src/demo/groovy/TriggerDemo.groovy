@@ -15,7 +15,6 @@
 */
 
 import static groovyx.javafx.GroovyFX.start
-import groovyx.javafx.Trigger
 import javafx.scene.paint.Color
 
 start {
@@ -24,6 +23,6 @@ start {
             rect = rectangle(x: 25, y: 40, width: 200, height: 150, fill: red)
         }
     }
-
-    new Trigger(rect, "hover", { rect.fill = rect.isHover() ? Color.GREEN : Color.RED })
+    
+    rect.hoverProperty().onInvalidate { rect.fill = rect.isHover() ? Color.GREEN : Color.RED }
 }

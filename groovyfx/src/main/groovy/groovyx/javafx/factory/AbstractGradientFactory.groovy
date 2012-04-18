@@ -28,7 +28,11 @@ import javafx.scene.paint.Color
  *
  * @author Dean Iverson
  */
-abstract class AbstractGradientFactory extends AbstractGroovyFXFactory {
+abstract class AbstractGradientFactory extends AbstractFXBeanFactory {
+    
+    public AbstractGradientFactory(Class beanClass) {
+        super(beanClass);
+    }
     /**
      * Checks for the "stops" attribute in the Map.  The value of the stops attribute should be a List
      * of 2-element Lists containing an offset and color: [[0.0, black], [1.0, red]].  The value can

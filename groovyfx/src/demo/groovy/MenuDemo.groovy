@@ -65,6 +65,7 @@ start {
                              menuItem("33333", onAction: { println: "33333"})
                          }
                          button("Context Menu") {
+                             onMouseEntered {println "over"}
                              contextMenu() {
                                 menuItem("Write", onAction: { println("Write")})
                                 menuItem("Cancel", onAction: { println("Cancel")} )

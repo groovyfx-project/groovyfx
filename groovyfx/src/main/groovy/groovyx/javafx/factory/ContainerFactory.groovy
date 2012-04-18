@@ -26,48 +26,13 @@ import javafx.scene.layout.*
  *
  * @author jimclarke
  */
-class ContainerFactory extends NodeFactory {
+class ContainerFactory extends AbstractNodeFactory {
     private static final String BUILDER_LIST_PROPERTY = "__builderList"
-
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        Parent container
-        switch (name) {
-            case 'group':
-                container = new Group()
-                break
-            case 'region':
-                container = new Region()
-                break
-            case 'pane':
-                container = new Pane()
-                break
-            case 'flowPane':
-                container = new FlowPane()
-                break
-            case 'hbox':
-                container = new HBox()
-                break
-            case 'vbox':
-                container = new VBox()
-                break
-            case 'stackPane':
-                container = new StackPane()
-                break
-            case 'tilePane':
-                container = new TilePane()
-                break
-            case 'gridPane':
-                container = new GridPane()
-                break
-            case 'anchorPane':
-                container = new AnchorPane()
-                break
-            case 'borderPane':
-                container = new BorderPane()
-                break
-        }
-        return container
+    
+    ContainerFactory(Class beanClass) {
+        super(beanClass);
     }
+
 
     public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         if (child instanceof Node) {

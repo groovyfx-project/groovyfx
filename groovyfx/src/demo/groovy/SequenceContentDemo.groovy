@@ -17,7 +17,7 @@
 import static groovyx.javafx.GroovyFX.start
 
 start {
-    stage(title: "GroovyFX Sequency Content Demo", width: 400, height: 300, visible: true, resizable: true) {
+    stage(title: "GroovyFX Sequence Content Demo", width: 400, height: 300, visible: true, resizable: true) {
         def r1 = rectangle(width: 100, height: 100, fill: red)
         def r2 = rectangle(x: 110, width: 100, height: 100, fill: blue)
 

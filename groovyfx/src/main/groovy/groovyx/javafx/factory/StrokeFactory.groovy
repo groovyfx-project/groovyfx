@@ -24,7 +24,14 @@ import javafx.scene.paint.Paint
  * 
  * @author Dean Iverson
  */
-class StrokeFactory extends AbstractGroovyFXFactory {
+class StrokeFactory extends AbstractFXBeanFactory {
+    
+    public StrokeFactory() {
+        super(Paint, true)
+    }
+    public StrokeFactory(Class<Paint> beanClass) {
+        super(beanClass, true)
+    }
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) {
         Paint paint = ColorFactory.get(value)
         if (!paint) {
@@ -41,11 +48,4 @@ class StrokeFactory extends AbstractGroovyFXFactory {
         }
     }
 
-    /**
-     * @return True. The stroke node is a leaf.
-     */
-    @Override
-    boolean isLeaf() {
-        return true;
-    }
 }

@@ -11,7 +11,11 @@ import javafx.stage.FileChooser;
  *
  * @author jimclarke
  */
-class FilterFactory extends AbstractGroovyFXFactory {
+class FilterFactory extends AbstractFXBeanFactory {
+    
+    FilterFactory() {
+        super(null, true)
+    }
     
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
        def extName = value;
@@ -23,8 +27,6 @@ class FilterFactory extends AbstractGroovyFXFactory {
        return filter;
     }
     
-    @Override
-    public boolean isLeaf() { return true; }
 	
 }
 

@@ -24,7 +24,7 @@ import java.util.regex.Pattern
 import javafx.scene.paint.*
 import com.sun.javafx.css.Stylesheet
 import com.sun.javafx.css.parser.CSSParser
-import com.sun.javafx.css.Value
+import com.sun.javafx.css.ParsedValue
 
 /**
  *
@@ -139,7 +139,7 @@ public class ColorFactory {
                 if (!declarations)
                     throw new IllegalArgumentException("Invalid fill syntax: '$color'")
 
-                Value v = declarations.get(0).getCssValue();
+                ParsedValue v = declarations.get(0).getParsedValue();
                 if(v.getConverter() == null)
                     paint = (Paint)v.value;
                 else

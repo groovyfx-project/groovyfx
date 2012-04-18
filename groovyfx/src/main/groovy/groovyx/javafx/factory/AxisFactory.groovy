@@ -23,22 +23,11 @@ import javafx.scene.chart.XYChartBuilder
  *
  * @author Dean Iverson
  */
-class AxisFactory extends NodeFactory {
+class AxisFactory extends AbstractNodeFactory {
     private static final String X_AXIS_PROPERTY = '__xAxis'
 
-    private final Class<? extends Axis> axisClass
-
     AxisFactory(Class<? extends Axis> axisClass) {
-        this.axisClass = axisClass
-    }
-
-    @Override
-    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) {
-        if (FactoryBuilderSupport.checkValueIsType(value, name, axisClass)) {
-            return value
-        } else {
-            return axisClass.newInstance()
-        }
+        super(axisClass, true);
     }
 
     @Override
@@ -53,6 +42,4 @@ class AxisFactory extends NodeFactory {
         }
     }
 
-    @Override
-    boolean isLeaf() { true }
 }

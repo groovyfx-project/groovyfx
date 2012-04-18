@@ -12,23 +12,28 @@ import javafx.scene.media.MediaPlayerBuilder;
  *
  * @author jimclarke
  */
-class MediaPlayerFactory extends AbstractGroovyFXFactory{
+class MediaPlayerFactory extends AbstractFXBeanFactory{
+    
+    MediaPlayerFactory() {
+        super(MediaPlayer)
+    }
+    MediaPlayerFactory(Class<MediaPlayer> beanClass) {
+        super(beanClass)
+    }
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        Object mediaPlayer;
-        if (value != null && value instanceof MediaPlayer) {
-            mediaPlayer = value
-        } else {
-            mediaPlayer = new MediaPlayerBuilder();
-            if(value != null) {
-                if(value instanceof Media)
-                    mediaPlayer.media(value);
-                else
-                    mediaPlayer.media(new Media(value.toString()))
-            }
-            // Need to this here so that we are sure to return a MediaPlayer, not the builder.
-            handleMediaPlayerAttributes(mediaPlayer, attributes);
-            return mediaPlayer.build();
+        if (checkValue(name, value)) {
+            return value
         }
+        def mediaPlayer = new MediaPlayerBuilder();
+        if(value != null) {
+            if(value instanceof Media)
+                mediaPlayer.media(value);
+            else
+                mediaPlayer.media(new Media(value.toString()))
+        }
+        // Need to this here so that we are sure to return a MediaPlayer, not the builder.
+        handleMediaPlayerAttributes(mediaPlayer, attributes);
+        return mediaPlayer.build();
     }
     
     private void handleMediaPlayerAttributes(Object node, Map attributes) {

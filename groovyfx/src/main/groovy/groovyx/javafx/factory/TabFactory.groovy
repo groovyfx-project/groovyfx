@@ -24,24 +24,38 @@ import javafx.scene.control.Tooltip
  *
  * @author jimclarke
  */
-class TabFactory extends AbstractGroovyFXFactory {
+class TabFactory extends AbstractFXBeanFactory {
+    
+    public TabFactory() {
+        super(Tab);
+    }
+    public TabFactory(Class<Tab> beanClass) {
+        super(beanClass);
+    }
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        Tab tab
-        if (value instanceof Tab) {
-            tab = value
-        } else {
-            tab = new Tab(value?.toString())
+        Tab tab = super.newInstance(builder, name, value, attributes);
+        switch(value) {
+            case GString:
+                tab.text = value as String
+                break;
+            case String:
+                tab.text = value
+                break;
         }
         return tab
     }
 
     public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
-        if (child instanceof Tooltip)
-            parent.tooltip = child
-        else if (child instanceof Node)
-            parent.content = child
-
-        // graphic is set in the GraphicFactory.
+        switch(child) {
+            case Tooltip:
+                parent.tooltip = child
+                break;
+            case Node:
+                parent.content = child
+                break;
+            // graphic is set in the GraphicFactory.
+        }
+        
     }
 }
 

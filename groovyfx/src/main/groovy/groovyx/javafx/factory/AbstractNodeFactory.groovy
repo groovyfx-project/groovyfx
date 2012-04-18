@@ -16,9 +16,7 @@
 
 package groovyx.javafx.factory
 
-import groovyx.javafx.event.GroovyEventHandler
-import groovyx.javafx.event.GroovyKeyHandler
-import groovyx.javafx.event.GroovyMouseHandler
+import groovyx.javafx.event.*
 import javafx.event.EventHandler
 import javafx.scene.Node
 import javafx.scene.image.Image
@@ -31,71 +29,62 @@ import javafx.geometry.*;
  *
  * @author jimclarke
  */
-public class NodeFactory extends AbstractGroovyFXFactory {
+public abstract class AbstractNodeFactory extends AbstractFXBeanFactory {
     
-    public static def mouseEvents = [
+    public static def nodeEvents = [
+        'onContextMenuRequested',
+        'onDragDetected',
+        'onDragDone',
+        'onDragDropped',
+        'onDragEntered',
+        'onDragExited',
+        'onDragOver',
+        'onInputMethodTextChanged',
+        'onKeyPressed',
+        'onKeyReleased',
+        'onKeyTyped',
         'onMouseClicked',
+        'onMouseDragEntered',
+        'onMouseDragExited',
         'onMouseDragged',
+        'onMouseDragOver',
+        'onMouseDragReleased',
         'onMouseEntered',
         'onMouseExited',
         'onMouseMoved',
         'onMousePressed',
         'onMouseReleased',
-        // 'onMouseWheelMoved',   
-        'onDragDetected',
-        'onDragDone',
-        'onDragEntered',
-        'onDragExited',
-        'onDragOver',
-        'onDragDropped'
-    ]
-
-    public static def keyEvents = [
-        'onKeyPressed',
-        'onKeyReleased',
-        'onKeyTyped',
-    ]
-
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
-    throws InstantiationException, IllegalAccessException {
-        Object node;
-        if (value != null && value instanceof Node) {
-            node = value
-        } else {
-            switch(name) {
-                case 'imageView':
-                    node = new ImageView();
-                    if(value != null && value instanceof Image)
-                        node.image = value;
-                    break;
-            }
-        }
+        'onScroll'
         
-        return node;
+    ]
+    
+    public AbstractNodeFactory(Class beanClass) {
+        super(beanClass)
     }
+    public AbstractNodeFactory(Class beanClass, boolean leaf) {
+        super(beanClass, leaf)
+    }
+    public AbstractNodeFactory(Class beanClass, Closure instantiator) {
+        super(beanClass, instantiator)
+    }
+    public AbstractNodeFactory(Class beanClass, boolean leaf,Closure instantiator) {
+        super(beanClass, leaf, instantiator)
+    }
+    
+
 
      public boolean onHandleNodeAttributes( FactoryBuilderSupport builder, Object node, Map attributes ) {
-        for(v in mouseEvents) {
+        for(v in nodeEvents) {
             if(attributes.containsKey(v)) {
                 def val = attributes.remove(v);
                 if(val instanceof Closure) {
+                    FXHelper.setPropertyOrMethod(node, v, val as EventHandler)
+/*****
                     def handler = new GroovyMouseHandler(v);
                     handler.setClosure((Closure)val);
-                    addEventHandler((Node)node, v, handler);
+****/
                 }else if(val instanceof EventHandler) {
-                    addEventHandler((Node)node, v, (EventHandler)val);
-                }
-            }
-        }
-        for(v in keyEvents) {
-            if(attributes.containsKey(v)) {
-                def val = attributes.remove(v);
-                if(val instanceof Closure) {
-                    def handler = new GroovyKeyHandler(v);
-                    handler.setClosure((Closure)val);
-                    addEventHandler((Node)node, v, handler);
-                }else if(val instanceof EventHandler) {
-                    addEventHandler((Node)node, v, (EventHandler)val);
+                    FXHelper.setPropertyOrMethod(node, v, val)
                 }
             }
         }
@@ -106,21 +95,28 @@ public class NodeFactory extends AbstractGroovyFXFactory {
 
     
     public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
-        if(child instanceof GroovyEventHandler) {
-            addEventHandler((Node)parent, ((GroovyEventHandler)child).getType(), (EventHandler)child);
-        } else if(child instanceof Transform) {
-            ((Node)parent).getTransforms().add((Transform)child);
-        } else if(child instanceof Image && parent instanceof ImageView) {
-            ((ImageView)parent).setImage((Image)child);
+        switch(child) {
+            case GroovyEventHandler:
+                FXHelper.setPropertyOrMethod(parent, child.property, child)
+                break;
+            case Transform:
+                parent.transforms.add(child);
+                break;
+            case Image:
+                if(parent instanceof ImageView) {
+                    parent.image = child;     
+                }
+                break;
+            case GroovyChangeListener:
+            case GroovyInvalidationListener:
+                if(parent.metaClass.respondsTo(parent, child.property + "Property"))
+                    parent."${child.property}Property"().addListener(child);
+                break;
         }
     }
     
-    public void addEventHandler(Object node, String type, EventHandler handler) {
-        FXHelper.setPropertyOrMethod(node, type, handler)
-    }
-
     public static def attributeDelegate = { FactoryBuilderSupport builder, def node, def attributes ->
-        FXHelper.fxAttributes(node, attributes);
+        //FXHelper.fxAttributes(node, attributes);
     }
 
     private static def doEnum  = { Class cls, value ->

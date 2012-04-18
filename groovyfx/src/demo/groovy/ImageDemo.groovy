@@ -20,7 +20,7 @@ start {
     final imageURL = "http://www.nasa.gov/images/content/611907main_image_2134_800-600.jpg";
     stage(title: "GroovyFX Image Demo", visible: true,) {
         scene {
-            imageView(image: image(imageURL))
+            imageView(imageURL)
         }
     }
 }

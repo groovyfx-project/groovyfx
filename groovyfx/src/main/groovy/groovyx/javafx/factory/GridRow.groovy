@@ -13,20 +13,20 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+
 package groovyx.javafx.factory
-
-import javafx.event.*;
-
+import javafx.scene.Node;
 
 /**
- * Wrapper class to call a groovy closure from JavaFX event framework
+ *
  * @author jimclarke
  */
-class ClosureEventHandler implements EventHandler {
-    Closure closure;
-    public void handle(Event event) {
-        if(closure != null)
-            closure(event);
+class GridRow {
+    int index;
+    List nodes = new ArrayList();
+    
+    public Node[] nodeArray() {
+        return (Node[])nodes.toArray(new Node[nodes.size()]);
     }
 }
 

@@ -44,6 +44,7 @@ import java.math.BigInteger;
 import javafx.geometry.VPos;
 import javafx.scene.text.TextAlignment;
 import java.io.File;
+import javafx.event.EventHandler;
 /**
  *
  * @author jimclarke
@@ -295,7 +296,7 @@ class FXHelper {
     };
     private static def doEventHandler = { delegate, metaProperty, value ->
         if(value instanceof Closure)
-            value = new ClosureEventHandler(closure: value);
+            value = value as EventHandler;
         metaProperty.setProperty(delegate, value);
         return true;
             
@@ -324,6 +325,51 @@ class FXHelper {
         value = getValue(value);
         if(!value.getClass().isEnum()) {
             value = Enum.valueOf(metaProperty.getType(),value.toString().trim().toUpperCase())
+        }
+        metaProperty.setProperty(delegate, value);
+        return true;
+    };
+    
+    private static def doHPos = { delegate, metaProperty, value ->
+        value = getValue(value);
+        if(!value.getClass().isEnum()) {
+            value = Enum.valueOf(metaProperty.getType(),value.toString().trim().toUpperCase())
+        }else if(value instanceof Pos) {
+            value = value.Hpos
+        }
+        metaProperty.setProperty(delegate, value);
+        return true;
+    };
+    private static def doVPos = { delegate, metaProperty, value ->
+        value = getValue(value);
+        if(!value.getClass().isEnum()) {
+            value = Enum.valueOf(metaProperty.getType(),value.toString().trim().toUpperCase())
+        }else if(value instanceof Pos) {
+            value = value.Vpos
+        }
+        metaProperty.setProperty(delegate, value);
+        return true;
+    };
+    private static def doPos = { delegate, metaProperty, value ->
+        value = getValue(value);
+        if(!value.getClass().isEnum()) {
+            value = Enum.valueOf(metaProperty.getType(),value.toString().trim().toUpperCase())
+        }else if(value instanceof VPos) {
+            if(value == VPos.TOP) {
+                 value = Pos.TOP_CENTER;
+            }else if(value == VPos.CENTER) {
+                 value = Pos.CENTER;
+            }else if(value == VPos.TOP) {
+                 value = Pos.BOTTOM_CENTER;
+            }
+        }else if(value instanceof HPos) {
+            if(value == HPos.LEFT) {
+                 value = Pos.CENTER_LEFT;
+            }else if(value == HPos.CENTER) {
+                 value = Pos.CENTER;
+            }else if(value == HPos.RIGHT) {
+                 value = Pos.CENTER_RIGHT;
+            }
         }
         metaProperty.setProperty(delegate, value);
         return true;
@@ -368,6 +414,9 @@ class FXHelper {
         (Orientation.class): doOrientation,
         (EventHandler.class): doEventHandler,
         (ToggleGroup.class): doToggleGroup,
+        (HPos.class): doHPos,
+        (VPos.class): doVPos,
+        (Pos.class): doPos,
     ];
 
     public static boolean fxAttribute(delegate, key, value) {

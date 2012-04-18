@@ -23,8 +23,16 @@ import javafx.scene.paint.LinearGradient
  * @author Dean Iverson
  */
 class LinearGradientFactory extends AbstractGradientFactory {
+    LinearGradientFactory() {
+        super(LinearGradient)
+    }
+    LinearGradientFactory(Class<LinearGradient> beanClass) {
+        super(beanClass)
+    }
+    
+    @Override
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) {
-        if (FactoryBuilderSupport.checkValueIsType(value, name, LinearGradient))
+        if (checkValue(name, value))
             return value;
         else
             return new LinearGradientBuilder()

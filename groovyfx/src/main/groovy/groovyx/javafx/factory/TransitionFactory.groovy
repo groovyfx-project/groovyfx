@@ -19,66 +19,34 @@ import javafx.animation.*;
 import javafx.util.Duration;
 import groovyx.javafx.factory.animation.KeyValueSubFactory;
 import javafx.scene.shape.Path;
+import javafx.event.EventHandler;
 
 /**
  * Handles JavaFX transitions
  * @author jimclarke
  */
-class TransitionFactory extends AbstractGradientFactory {
+class TransitionFactory extends AbstractFXBeanFactory {
+    
+    public TransitionFactory(Class<Transition> beanClass) {
+        super(beanClass);
+    }
     
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) {
-	if (value != null && value instanceof Transition)
-            return value;
-        else {
-            Transition result = null;
-            switch(name) {
-                case 'fadeTransition':
-                    result = new FadeTransition();
-                    break;
-                case 'fillTransition':
-                    result = new FillTransition();
-                    break;
-                case 'parallelTransition':
-                    result = new ParallelTransition();
-                    break;
-                case 'sequentialTransition':
-                    result = new SequentialTransition();
-                    break;
-                case 'pauseTransition':
-                    result = new PauseTransition();
-                    break;
-                case 'pathTransition':
-                    result = new PathTransition();
-                    break;
-                case 'rotateTransition':
-                    result = new RotateTransition();
-                    break;
-                case 'scaleTransition':
-                    result = new ScaleTransition();
-                    break;
-                case 'strokeTransition':
-                    result = new StrokeTransition();
-                    break;
-                case 'translateTransition':
-                    result = new TranslateTransition();
-                    break;
-                case 'transition':
-                    result = value;
-                    break;
-            }
-            if(result != null && value != null ) {
-                if(value instanceof Duration) {
-                    result.duration = value;
-                } else if((result instanceof ParallelTransition || result instanceof SequentialTransition)) {
-                    if(value instanceof Transition) {
-                        result.children.add(value);
-                    }else if(value instanceof List) {
-                        result.children.addAll(value);
-                    }
+        if(Transition == beanClass)
+              return value;
+        Transition result = beanClass.newInstance();
+        if(value != null ) {
+            if(value instanceof Duration) {
+                result.duration = value;
+            } else if((result instanceof ParallelTransition || result instanceof SequentialTransition)) {
+                if(value instanceof Transition) {
+                    result.children.add(value);
+                }else if(value instanceof List) {
+                    result.children.addAll(value);
                 }
             }
-            return result;
         }
+        return result;
     }
     
     public void setChild(FactoryBuilderSupport build, Object parent, Object child) {
@@ -107,7 +75,7 @@ class TransitionFactory extends AbstractGradientFactory {
             def onFinished = attributes.remove("onFinished");
             if(onFinished != null) {
                 if(onFinished instanceof Closure) {
-                    onFinished = new ClosureEventHandler(closure: onFinished);
+                    onFinished = onFinished as EventHandler
                 }
                 node.onFinished = onFinished;
             }

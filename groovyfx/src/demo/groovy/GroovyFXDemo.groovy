@@ -22,6 +22,8 @@ import javafx.scene.layout.Region
 import javafx.scene.paint.Color
 import javafx.scene.shape.Rectangle
 
+import static groovyx.javafx.GroovyFX.start
+
 class Custom extends Region {
     public Custom() {
         getChildren().add(create());
@@ -32,19 +34,18 @@ class Custom extends Region {
     }
 }
 
-GroovyFX.start {
-    def sg = new SceneGraphBuilder();
-    sg.stage(title: "GroovyFX Demo", x: 100, y: 100, width: 480, height: 800, visible: true, style: "decorated",
+
+
+start {
+    stage(title: "GroovyFX Demo", x: 100, y: 100, width: 480, height: 800, visible: true, style: "decorated",
              onHidden: { println "Close"}) {
 
-        scene(fill: groovyblue, root: group(), stylesheets: ["file://another.css"]) {
+        scene(fill: groovyblue, root: group(), stylesheets: resource("/groovyfx.css")) {
             onMousePressed {e -> println "scene press @" + e.x + "," + e.y  }
             onKeyReleased { e -> println "scene key" + e.text}
-            onChange(property: "width") { observable, oldValue, newValue ->
+            onChange ("width") { observable, oldValue, newValue ->
                 println "Width: " + oldValue + " ==> " + newValue
             }
-            //stylesheets( urls: ["file://foo.css"])
-
             node(new Custom(), layoutX: 10, layoutY: 10) {
                 scale(x: 5, y: 5)
                 onChange("hover") { observable, oldValue, newValue ->
@@ -70,7 +71,7 @@ GroovyFX.start {
 
             vbox(layoutX: 25, layoutY: 125, spacing: 10) {
                 label("I'm a label", textFill: "rgb(255,255,0)")
-                text("This is Text", textOrigin: "top", textAlignment: "center", font: "32pt", fill: cyan)
+                text("This is Text", id: 'header')
 
                 vbox(spacing: 10) {
                     hbox(spacing: 10) {

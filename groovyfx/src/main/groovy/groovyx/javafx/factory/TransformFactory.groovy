@@ -22,34 +22,10 @@ import javafx.scene.transform.*;
  *
  * @author jimclarke
  */
-class TransformFactory extends AbstractGroovyFXFactory {
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        Transform transform;
-        if (FactoryBuilderSupport.checkValueIsType(value, name, Transform.class)) {
-            transform = (Transform)value
-        } else {
-            switch(name) {
-                case 'affine':
-                    transform = new Affine();
-                    break;
-                case 'rotate':
-                    transform = new Rotate();
-                    break;
-                case 'scale':
-                    transform = new Scale();
-                    break;
-                case 'shear':
-                    transform = new Shear();
-                    break;
-                case 'translate':
-                    transform = new Translate();
-                    break;
-            }
-        }
-
-        //FXHelper.fxAttributes(transform, attributes);
-        return transform;
+class TransformFactory extends AbstractFXBeanFactory {
+    
+    TransformFactory(Class beanClass) {
+        super(beanClass);
     }
-
 }
 

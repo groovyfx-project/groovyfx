@@ -15,19 +15,31 @@
 */
 
 package groovyx.javafx.factory
-import javafx.scene.Node;
+
+import java.util.*;
 
 /**
  *
  * @author jimclarke
  */
-class GridRowColumn {
-    int index;
-    boolean row; // true for row, false for column
-    List nodes = new ArrayList();
+class ResourceFactory extends AbstractFXBeanFactory {
     
-    public Node[] nodeArray() {
-        return (Node[])nodes.toArray(new Node[nodes.size()]);
+    ResourceFactory() {
+        super(null, true)
+    }
+
+    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
+        throws InstantiationException, IllegalAccessException {
+        if(value instanceof List) {
+             List result = [];
+             for(r in value) {
+                 result << this.class.getResource(r).toString()
+             }
+             return result;
+        }else {
+            def url = this.class.getResource(value);
+            return url.toString();
+        }
     }
 }
 

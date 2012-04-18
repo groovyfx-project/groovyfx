@@ -10,14 +10,13 @@ import javafx.scene.media.MediaView;
  *
  * @author jimclarke
  */
-class MediaViewFactory extends NodeFactory {
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        MediaView mediaView;
-        if (FactoryBuilderSupport.checkValueIsType(value, name, MediaView.class)) {
-            mediaView = value
-        } else {
-            mediaView = new MediaView();
-        }
+class MediaViewFactory extends AbstractNodeFactory {
+    
+    MediaViewFactory() {
+        super(MediaView)
+    }
+    MediaViewFactory(Class<MediaView> beanClass) {
+        super(beanClass);
     }
     
 }

@@ -23,19 +23,21 @@ import javafx.event.Event
  * @author jimclarke
  * @author Dean Iverson
  */
- class GroovyEventHandler<E extends Event> implements EventHandler<E> {
-    final String type
-    Closure closure
+ class GroovyEventHandler<E extends Event> extends AbstractClosureProperty implements EventHandler<E> {
+    
+    public GroovyEventHandler() {
+        super()
+    }
 
-    public GroovyEventHandler(String type) {
-        this.type = type
+    public GroovyEventHandler(String property) {
+        super(property)
+    }
+    public GroovyEventHandler(String property, Closure closure) {
+        super(property, closure)
     }
 
     public void handle(E event) {
         closure.call(event)
     }
 
-    public String toString() {
-        "GroovyEventHandler: type = ${type}"
-    }
 }
