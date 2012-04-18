@@ -64,12 +64,7 @@ public abstract class AbstractNodeFactory extends AbstractFXBeanFactory {
     public AbstractNodeFactory(Class beanClass, boolean leaf) {
         super(beanClass, leaf)
     }
-    public AbstractNodeFactory(Class beanClass, Closure instantiator) {
-        super(beanClass, instantiator)
-    }
-    public AbstractNodeFactory(Class beanClass, boolean leaf,Closure instantiator) {
-        super(beanClass, leaf, instantiator)
-    }
+    
     
 
 

@@ -202,6 +202,57 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         Color.hsb(hue, saturation, brightness);
     }
     
+    public void registerBeanFactory(String nodeName, String groupName, Class beanClass) {
+        // poke at the type to see if we need special handling
+        if(ContextMenu.isAssignableFrom(beanClass) ||
+             MenuBar.isAssignableFrom(beanClass) ||  
+             MenuButton.isAssignableFrom(beanClass) ||  
+             SplitMenuButton.isAssignableFrom(beanClass)  ) {
+            registerFactory nodeName, groupName, new MenuFactory(beanClass) 
+        }else if(MenuItem.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new MenuItemFactory(beanClass)
+        }else if(TreeItem.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new TreeItemFactory(beanClass)
+        }else if(TableView.isAssignableFrom(beanClass) ||
+            TableColumn.isAssignableFrom(beanClass) ){
+            registerFactory nodeName, groupName, new TableFactory(beanClass)
+        }else if(Labeled.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new LabeledFactory(beanClass)   
+        } else if(Control.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new ControlFactory(beanClass) 
+        } else if(Scene.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new SceneFactory(beanClass)  
+        } else if(Tab.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new TabFactory(beanClass)
+        } else if(Text.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new TextFactory(beanClass)
+        } else if(Shape.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new ShapeFactory(beanClass)
+        } else if(Transform.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new TransformFactory(beanClass)
+        } else if(Effect.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new EffectFactory(beanClass)
+        } else if(Parent.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new ContainerFactory(beanClass) 
+        } else if(Window.isAssignableFrom(beanClass) ||
+            DirectoryChooser.isAssignableFrom(beanClass) ||
+            FileChooser.isAssignableFrom(beanClass)) {
+                registerFactory nodeName, groupName, new StageFactory(beanClass) 
+        } else if(XYChart.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new XYChartFactory(beanClass)   
+        } else if(PieChart.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new PieChartFactory(beanClass)  
+        } else if(Axis.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new AxisFactory(beanClass)  
+        } else if(XYChart.Series.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new XYSeriesFactory(beanClass)  
+        } else if (Node.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new NodeFactory(beanClass)
+        } else {
+            super.registerBeanFactory(nodeName, groupName, beanClass)
+        }
+    }
+    
     
 
     public def registerStages() {
@@ -290,8 +341,10 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory 'pieChart', new PieChartFactory(PieChart)
         registerFactory 'lineChart', new XYChartFactory(LineChart)
         registerFactory 'areaChart', new XYChartFactory(AreaChart)
+        registerFactory 'stackedAreaChart', new XYChartFactory(StackedAreaChart)
         registerFactory 'bubbleChart', new XYChartFactory(BubbleChart)
         registerFactory 'barChart', new XYChartFactory(BarChart)
+        registerFactory 'stackedBarChart', new XYChartFactory(StackedBarChart)
         registerFactory 'scatterChart', new XYChartFactory(ScatterChart)
         registerFactory 'numberAxis', new AxisFactory(NumberAxis)
         registerFactory 'categoryAxis', new AxisFactory(CategoryAxis)
