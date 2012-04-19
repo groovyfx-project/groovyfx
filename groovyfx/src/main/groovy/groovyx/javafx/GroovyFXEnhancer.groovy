@@ -34,6 +34,8 @@ import javafx.scene.control.*
  */
 class GroovyFXEnhancer {
     static void enhanceClasses() {
+        ExpandoMetaClass.enableGlobally()
+
         Number.metaClass {
             getM = {-> Duration.minutes(delegate)}
             getS = {-> Duration.seconds(delegate)}

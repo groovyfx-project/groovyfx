@@ -1,5 +1,5 @@
 /*
-* Copyright 2011 the original author or authors.
+* Copyright 2011-2012 the original author or authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -16,59 +16,59 @@
 
 package groovyx.javafx
 
-import java.util.logging.Logger
-
-import org.codehaus.groovy.runtime.InvokerHelper
+import groovyx.javafx.animation.TargetHolder
+import groovyx.javafx.event.GroovyCallback
+import groovyx.javafx.event.GroovyEventHandler
+import javafx.application.Platform
+import javafx.beans.InvalidationListener
+import javafx.beans.value.ChangeListener
+import javafx.beans.value.ObservableValue
+import javafx.concurrent.Worker
+import javafx.geometry.HPos
+import javafx.geometry.Orientation
+import javafx.geometry.Pos
+import javafx.geometry.VPos
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
+import javafx.scene.media.MediaPlayer
+import javafx.scene.media.MediaPlayerBuilder
+import javafx.scene.media.MediaView
+import javafx.scene.paint.Color
+import javafx.scene.text.Text
+import javafx.scene.web.HTMLEditor
+import javafx.scene.web.WebView
 import org.codehaus.groovy.runtime.MethodClosure
-import org.codehaus.groovyfx.javafx.binding.ClosureTriggerBinding
-import groovy.util.*
+
+import java.util.logging.Logger
 
 import groovyx.javafx.factory.*
 import groovyx.javafx.factory.animation.*
-import groovyx.javafx.event.*
-import groovyx.javafx.animation.*
-
-import javafx.application.*
-import javafx.event.*
-import javafx.beans.*
-import javafx.beans.property.*
-import javafx.beans.value.*
-import javafx.beans.binding.*
 import javafx.animation.*
-import javafx.concurrent.*
 import javafx.scene.*
-import javafx.scene.control.*
 import javafx.scene.chart.*
+import javafx.scene.control.*
 import javafx.scene.effect.*
-import javafx.scene.image.*
 import javafx.scene.layout.*
-import javafx.scene.media.*
-import javafx.scene.paint.*
 import javafx.scene.shape.*
-import javafx.scene.text.*
-import javafx.scene.web.*
 import javafx.scene.transform.*
-
-import javafx.geometry.*
 import javafx.stage.*
-import javafx.util.*
 
 /**
  *
  * @author jimclarke
  */
-public class SceneGraphBuilder extends FactoryBuilderSupport {
-    public static final String DELEGATE_PROPERTY_OBJECT_ID = "_delegateProperty:id";
-    public static final String DEFAULT_DELEGATE_PROPERTY_OBJECT_ID = "id";
+class SceneGraphBuilder extends FactoryBuilderSupport {
+    static final String DELEGATE_PROPERTY_OBJECT_ID = "_delegateProperty:id";
+    static final String DEFAULT_DELEGATE_PROPERTY_OBJECT_ID = "id";
 
-    public static final String DELEGATE_PROPERTY_OBJECT_FILL = "_delegateProperty:fill";
-    public static final String DEFAULT_DELEGATE_PROPERTY_OBJECT_FILL = "fill";
+    static final String DELEGATE_PROPERTY_OBJECT_FILL = "_delegateProperty:fill";
+    static final String DEFAULT_DELEGATE_PROPERTY_OBJECT_FILL = "fill";
 
-    public static final String DELEGATE_PROPERTY_OBJECT_STROKE = "_delegateProperty:stroke";
-    public static final String DEFAULT_DELEGATE_PROPERTY_OBJECT_STROKE = "stroke";
+    static final String DELEGATE_PROPERTY_OBJECT_STROKE = "_delegateProperty:stroke";
+    static final String DEFAULT_DELEGATE_PROPERTY_OBJECT_STROKE = "stroke";
 
-    public static final String CONTEXT_SCENE_KEY = "CurrentScene";
-    public static final String CONTEXT_DIVIDER_KEY = "CurrentDividers";
+    static final String CONTEXT_SCENE_KEY = "CurrentScene";
+    static final String CONTEXT_DIVIDER_KEY = "CurrentDividers";
 
     private static final Logger LOG = Logger.getLogger(SceneGraphBuilder.name)
     private static final Random random = new Random()
@@ -102,18 +102,18 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         Platform.runLater(c);
         return this;
     }
-    
+
     SceneGraphBuilder submit(WebView wv, Closure c) {
         //if (!(c instanceof MethodClosure)) {
         //    c = c.curry([this])
         //}
-        
+
         if(wv.engine.loadWorker.state == Worker.State.SUCCEEDED) {
              c.call(wv);
         }else {
             def listener = new ChangeListener<Worker.State>() {
                 @Override
-                public void changed(ObservableValue<? extends Worker.State> observable, 
+                public void changed(ObservableValue<? extends Worker.State> observable,
                             Worker.State oldState, Worker.State newState) {
                     switch(newState) {
                         case Worker.State.SUCCEEDED:
@@ -136,11 +136,11 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
             };
              wv.engine.loadWorker.stateProperty().addListener(listener);
         }
-        
+
         return this;
     }
-    
-    private static def propertyMap = [
+
+    private static Map propertyMap = [
         horizontal: Orientation.HORIZONTAL,
         vertical : Orientation.VERTICAL,
         ease_both: Interpolator.EASE_BOTH,
@@ -175,6 +175,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
             return Color.web(name);
         }
 
+        /*
         String lname = name.toLowerCase();
 
         Color color = Color.NamedColors.namedColors[lname]
@@ -182,37 +183,38 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         def prop = propertyMap[lname];
         if(prop)
             return prop;
-        
+        */
+
         throw new MissingPropertyException("Unrecognized property: ${name}", name, this.class);
     }
 
-    def rgb(int r, int g, int b) {
+    Color rgb(int r, int g, int b) {
         Color.rgb(r,g,b);
     }
 
-    def rgb(int r, int g, int b, float alpha) {
+    Color rgb(int r, int g, int b, float alpha) {
         Color.rgb(r,g,b, alpha);
     }
 
-    def rgba(int r, int g, int b, float alpha) {
+    Color rgba(int r, int g, int b, float alpha) {
         rgb(r,g,b, alpha);
     }
 
-    def hsb(int hue, float saturation, float brightness, float alpha) {
+    Color hsb(int hue, float saturation, float brightness, float alpha) {
         Color.hsb(hue, saturation, brightness, alpha);
     }
 
-    def hsb(int hue, float saturation, float brightness) {
+    Color hsb(int hue, float saturation, float brightness) {
         Color.hsb(hue, saturation, brightness);
     }
-    
+
     public void registerBeanFactory(String nodeName, String groupName, Class beanClass) {
         // poke at the type to see if we need special handling
         if(ContextMenu.isAssignableFrom(beanClass) ||
-             MenuBar.isAssignableFrom(beanClass) ||  
-             MenuButton.isAssignableFrom(beanClass) ||  
+             MenuBar.isAssignableFrom(beanClass) ||
+             MenuButton.isAssignableFrom(beanClass) ||
              SplitMenuButton.isAssignableFrom(beanClass)  ) {
-            registerFactory nodeName, groupName, new MenuFactory(beanClass) 
+            registerFactory nodeName, groupName, new MenuFactory(beanClass)
         }else if(MenuItem.isAssignableFrom(beanClass)) {
             registerFactory nodeName, groupName, new MenuItemFactory(beanClass)
         }else if(TreeItem.isAssignableFrom(beanClass)) {
@@ -221,11 +223,11 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
             TableColumn.isAssignableFrom(beanClass) ){
             registerFactory nodeName, groupName, new TableFactory(beanClass)
         }else if(Labeled.isAssignableFrom(beanClass)) {
-            registerFactory nodeName, groupName, new LabeledFactory(beanClass)   
+            registerFactory nodeName, groupName, new LabeledFactory(beanClass)
         } else if(Control.isAssignableFrom(beanClass)) {
-            registerFactory nodeName, groupName, new ControlFactory(beanClass) 
+            registerFactory nodeName, groupName, new ControlFactory(beanClass)
         } else if(Scene.isAssignableFrom(beanClass)) {
-            registerFactory nodeName, groupName, new SceneFactory(beanClass)  
+            registerFactory nodeName, groupName, new SceneFactory(beanClass)
         } else if(Tab.isAssignableFrom(beanClass)) {
             registerFactory nodeName, groupName, new TabFactory(beanClass)
         } else if(Text.isAssignableFrom(beanClass)) {
@@ -237,45 +239,42 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         } else if(Effect.isAssignableFrom(beanClass)) {
             registerFactory nodeName, groupName, new EffectFactory(beanClass)
         } else if(Parent.isAssignableFrom(beanClass)) {
-            registerFactory nodeName, groupName, new ContainerFactory(beanClass) 
+            registerFactory nodeName, groupName, new ContainerFactory(beanClass)
         } else if(Window.isAssignableFrom(beanClass) ||
             DirectoryChooser.isAssignableFrom(beanClass) ||
             FileChooser.isAssignableFrom(beanClass)) {
-                registerFactory nodeName, groupName, new StageFactory(beanClass) 
+                registerFactory nodeName, groupName, new StageFactory(beanClass)
         } else if(XYChart.isAssignableFrom(beanClass)) {
-            registerFactory nodeName, groupName, new XYChartFactory(beanClass)   
+            registerFactory nodeName, groupName, new XYChartFactory(beanClass)
         } else if(PieChart.isAssignableFrom(beanClass)) {
-            registerFactory nodeName, groupName, new PieChartFactory(beanClass)  
+            registerFactory nodeName, groupName, new PieChartFactory(beanClass)
         } else if(Axis.isAssignableFrom(beanClass)) {
-            registerFactory nodeName, groupName, new AxisFactory(beanClass)  
+            registerFactory nodeName, groupName, new AxisFactory(beanClass)
         } else if(XYChart.Series.isAssignableFrom(beanClass)) {
-            registerFactory nodeName, groupName, new XYSeriesFactory(beanClass)  
+            registerFactory nodeName, groupName, new XYSeriesFactory(beanClass)
         } else if (Node.isAssignableFrom(beanClass)) {
             registerFactory nodeName, groupName, new NodeFactory(beanClass)
         } else {
             super.registerBeanFactory(nodeName, groupName, beanClass)
         }
     }
-    
-    
 
-    public def registerStages() {
-        StageFactory factory = new StageFactory();
+    void registerStages() {
         registerFactory "stage", new StageFactory(Stage)
         registerFactory "popup", new StageFactory(Popup)
         registerFactory "fileChooser", new StageFactory(FileChooser)
         registerFactory "directoryChooser", new StageFactory(DirectoryChooser)
         registerFactory "filter", new FilterFactory()
-        
+
         registerFactory "onHidden",  new ClosureHandlerFactory(GroovyEventHandler)
         registerFactory "onHiding",  new ClosureHandlerFactory(GroovyEventHandler)
         registerFactory "onShowing",  new ClosureHandlerFactory(GroovyEventHandler)
         registerFactory "onShown",  new ClosureHandlerFactory(GroovyEventHandler)
-        registerFactory "onCloseRequest",  new ClosureHandlerFactory(GroovyEventHandler) 
+        registerFactory "onCloseRequest",  new ClosureHandlerFactory(GroovyEventHandler)
     }
 
     // register this one first
-    public def registerNodes() {
+    void registerNodes() {
         registerFactory "node", new CustomNodeFactory(javafx.scene.Node)
         registerFactory "nodes", new CustomNodeFactory(List, true)
         registerFactory "container", new CustomNodeFactory(Parent)
@@ -286,11 +285,11 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory "fxml", new FXMLFactory()
     }
 
-    public def registerContainers() {
+    void registerContainers() {
         registerFactory "scene", new SceneFactory(Scene)
         registerFactory 'stylesheets', new StylesheetFactory(List)
         registerFactory 'resource', new ResourceFactory()
-        
+
         registerFactory 'pane', new ContainerFactory(Pane)
         registerFactory 'region', new ContainerFactory(Region)
         registerFactory 'anchorPane', new ContainerFactory(AnchorPane)
@@ -309,7 +308,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
 
         registerFactory 'row', new GridRowColumnFactory(GridRow);
         registerFactory 'column', new GridRowColumnFactory(GridColumn);
-        
+
         registerFactory 'top',new BorderPanePositionFactory(BorderPanePosition)
         registerFactory 'bottom', new BorderPanePositionFactory(BorderPanePosition)
         registerFactory 'left', new BorderPanePositionFactory(BorderPanePosition)
@@ -317,22 +316,22 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory 'center', new BorderPanePositionFactory(BorderPanePosition)
     }
 
-    public def registerBinding() {
+    void registerBinding() {
         registerFactory "bind", new BindFactory();
         registerFactory "onChange", new ChangeFactory(ChangeListener)
         registerFactory "onInvalidate", new ChangeFactory(InvalidationListener)
     }
 
-    public def registerThreading() {
+    void registerThreading() {
         registerExplicitMethod "defer", this.&defer
     }
 
-    public def registerMenus() {
+    void registerMenus() {
         registerFactory 'menuBar', new MenuFactory(MenuBar)
         registerFactory 'contextMenu', new MenuFactory(ContextMenu)
         registerFactory 'menuButton', new MenuFactory(MenuButton)
         registerFactory 'splitMenuButton', new MenuFactory(SplitMenuButton)
-        
+
         registerFactory 'menu', new MenuItemFactory(Menu);
         registerFactory 'menuItem', new MenuItemFactory(MenuItem);
         registerFactory 'checkMenuItem', new MenuItemFactory(CheckMenuItem);
@@ -341,7 +340,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory 'radioMenuItem', new MenuItemFactory(RadioMenuItem);
     }
 
-    public def registerCharts() {
+    void registerCharts() {
         registerFactory 'pieChart', new PieChartFactory(PieChart)
         registerFactory 'lineChart', new XYChartFactory(LineChart)
         registerFactory 'areaChart', new XYChartFactory(AreaChart)
@@ -354,8 +353,8 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory 'categoryAxis', new AxisFactory(CategoryAxis)
         registerFactory 'series', new XYSeriesFactory(XYChart.Series)
     }
-    
-    public def registerTransforms() {
+
+    void registerTransforms() {
         registerFactory 'affine', new TransformFactory(Affine)
         registerFactory 'rotate', new TransformFactory(Rotate)
         registerFactory 'scale', new TransformFactory(Scale)
@@ -363,7 +362,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory 'translate', new TransformFactory(Translate)
     }
 
-    public def registerShapes() {
+    void registerShapes() {
         registerFactory 'arc',        new ShapeFactory(Arc)
         registerFactory 'circle',     new ShapeFactory(Circle)
         registerFactory 'cubicCurve', new ShapeFactory(CubicCurve)
@@ -395,7 +394,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory 'stroke', new StrokeFactory()
     }
 
-    public def registerControls() {
+    void registerControls() {
 
         // labeled
         registerFactory 'button', new LabeledFactory(Button)
@@ -406,11 +405,11 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory 'tooltip', new LabeledFactory(Tooltip)
         registerFactory 'radioButton', new LabeledFactory(RadioButton)
         registerFactory 'toggleButton', new LabeledFactory(ToggleButton)
-        
+
         registerFactory "onSelect", new CellFactory()
         registerFactory "cellFactory", new CellFactory()
         registerFactory "onAction", new ClosureHandlerFactory(GroovyEventHandler);
-        
+
 
         // regular controls
         registerFactory 'scrollBar', new ControlFactory(ScrollBar)
@@ -423,10 +422,10 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory 'progressBar', new ControlFactory(ProgressBar)
         registerFactory 'progressIndicator', new ControlFactory(ProgressIndicator)
         registerFactory 'scrollPane', new ControlFactory(ScrollPane)
-        
+
         registerFactory 'comboBox', new ControlFactory(ComboBox)
-        
-        
+
+
         registerFactory 'accordion', new ControlFactory(Accordion)
         registerFactory 'titledPane', new ControlFactory(TitledPane)
         registerFactory 'splitPane', new ControlFactory(SplitPane)
@@ -434,33 +433,33 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory 'tabPane', new ControlFactory(TabPane)
         registerFactory 'tab', new TabFactory(Tab)
         registerFactory 'toolBar', new ControlFactory(ToolBar)
-        
-        
+
+
         registerFactory 'treeView', new ControlFactory(TreeView)
-        registerFactory 'treeItem', new TreeItemFactory(TreeItem) 
+        registerFactory 'treeItem', new TreeItemFactory(TreeItem)
         // popupControl
-        
+
         //'indexedCell'
         //'cell'
         registerFactory 'tableView', new TableFactory(TableView)
         registerFactory 'tableColumn', new TableFactory(TableColumn)
-        
+
         registerFactory 'title', new TitledFactory(TitledNode)
         registerFactory 'content', new TitledFactory(TitledContent)
-        
+
         registerFactory 'graphic', new GraphicFactory(Graphic)
 
         // tree events
         TreeItemFactory.treeItemEvents.each {
             registerFactory it.key, new ClosureHandlerFactory(GroovyEventHandler);
         }
-        
+
         registerFactory "onEditCancel", new ClosureHandlerFactory(GroovyEventHandler)
         registerFactory "onEditCommit", new ClosureHandlerFactory(GroovyEventHandler)
         registerFactory "onEditStart", new ClosureHandlerFactory(GroovyEventHandler)
     }
 
-    public def registerEffects() {
+    void registerEffects() {
 
         // Dummy node for attaching child effects
         registerFactory 'effect', new EffectFactory(Effect)
@@ -482,7 +481,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory 'reflection', new EffectFactory(Reflection)
         registerFactory 'sepiaTone', new EffectFactory(SepiaTone)
         registerFactory 'shadow', new EffectFactory(Shadow)
-        
+
         registerFactory 'topInput', new EffectFactory(EffectWrapper)
         registerFactory 'bottomInput', new EffectFactory(EffectWrapper)
         registerFactory 'bumpInput', new EffectFactory(EffectWrapper)
@@ -492,19 +491,19 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory "spot", new EffectFactory(Light.Spot)
     }
 
-    public def registerEventHandlers() {
+    void registerEventHandlers() {
         ClosureHandlerFactory eh = new ClosureHandlerFactory(GroovyEventHandler)
-        
+
         for(property in AbstractNodeFactory.nodeEvents) {
             registerFactory property, eh
         }
     }
 
-    public def registerWeb() {
+    void registerWeb() {
 
         registerFactory 'webView', new WebFactory(WebView)
         registerFactory 'htmlEditor',new WebFactory(HTMLEditor)
-        
+
         registerFactory 'onLoad', new ClosureHandlerFactory(GroovyEventHandler)
         registerFactory 'onError', new ClosureHandlerFactory(GroovyEventHandler)
         registerFactory 'onAlert', new ClosureHandlerFactory(GroovyEventHandler)
@@ -514,9 +513,9 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory 'confirmHandler', new ClosureHandlerFactory(GroovyCallback)
         registerFactory 'promptHandler', new ClosureHandlerFactory(GroovyCallback)
     }
-    
-    public def registerTransition() {
-        
+
+    void registerTransition() {
+
         registerFactory 'fadeTransition', new TransitionFactory(FadeTransition)
         registerFactory 'fillTransition', new TransitionFactory(FillTransition)
         registerFactory 'parallelTransition', new TransitionFactory(ParallelTransition)
@@ -528,7 +527,7 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory 'pathTransition', new TransitionFactory(PathTransition)
         registerFactory 'strokeTransition', new TransitionFactory(StrokeTransition)
         registerFactory 'transition', new TransitionFactory(Transition)
-        
+
         registerFactory 'timeline', new TimelineFactory(Timeline)
         registerFactory "at", new KeyFrameFactory(KeyFrameWrapper)
         registerFactory "action", new ClosureHandlerFactory(GroovyEventHandler)
@@ -536,8 +535,8 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory "to", new KeyValueSubFactory(Object)
         registerFactory "tween", new KeyValueSubFactory(Interpolator)
     }
-    
-    public def registerMedia() {
+
+    void registerMedia() {
         registerFactory 'mediaView', new MediaViewFactory(MediaView)
         registerFactory 'mediaPlayer', new MediaPlayerFactory(MediaPlayer);
     }
@@ -551,8 +550,8 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         c.setDelegate(this)
         return c.call()
     }
-    
-    private def postCompletionDelegate = { FactoryBuilderSupport builder, Object parent, Object node ->
+
+    private static postCompletionDelegate = { FactoryBuilderSupport builder, Object parent, Object node ->
         if(node instanceof MediaPlayerBuilder || node instanceof SceneBuilder) {
             node = node.build();
             if(parent instanceof MediaView && node instanceof MediaPlayer) {
@@ -577,17 +576,20 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
     private void initialize() {
         this[DELEGATE_PROPERTY_OBJECT_ID] = DEFAULT_DELEGATE_PROPERTY_OBJECT_ID
 
-        ExpandoMetaClass.enableGlobally()
         addPostNodeCompletionDelegate(postCompletionDelegate)
         //addAttributeDelegate(NodeFactory.attributeDelegate)
         addAttributeDelegate(BindFactory.bindingAttributeDelegate)
         addAttributeDelegate(idDelegate)
 
         Color.NamedColors.namedColors.put("groovyblue", Color.rgb(99, 152, 170))
-        
-        
 
+        Color.NamedColors.namedColors.each { name, color ->
+            setVariable(name, color)
+        }
 
+        propertyMap.each { name, value ->
+            setVariable(name, value)
+        }
     }
 }
 
