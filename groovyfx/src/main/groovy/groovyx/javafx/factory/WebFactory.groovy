@@ -24,6 +24,7 @@ import javafx.concurrent.Worker;
 import javafx.beans.value.ObservableValue
 import javafx.util.Callback;
 import org.codehaus.groovy.runtime.InvokerHelper
+import groovyx.javafx.event.*
 
 /**
  *
@@ -55,9 +56,6 @@ class WebFactory extends AbstractNodeFactory {
             switch(child) {
                 case GroovyEventHandler:
                 case GroovyCallback:
-                    InvokerHelper.InvokerHelper.setProperty(node.engine, child.property, child);
-                    break;
-                case GroovyChangeListener:
                     if(child.property == "onLoad") {
                         def listener = new ChangeListener<State>() {
                                 @Override
@@ -75,7 +73,7 @@ class WebFactory extends AbstractNodeFactory {
                         };
                         parent.engine.loadWorker.stateProperty().addListener(listener);
 
-                    }else if(child.type == "onError") {
+                    }else if(child.property == "onError") {
                         def listener = new ChangeListener<State>() {
                                 @Override
                                 public void changed(ObservableValue<? extends State> observable, 
@@ -91,7 +89,11 @@ class WebFactory extends AbstractNodeFactory {
                                 }
                         };
                         parent.engine.loadWorker.stateProperty().addListener(listener); 
+                    }else {
+                        InvokerHelper.setProperty(parent.engine, child.property, child);
                     }
+                    break;
+
             }
         }else if(parent instanceof HTMLEditor && child instanceof String) {
             parent.htmlText = value.toString()
