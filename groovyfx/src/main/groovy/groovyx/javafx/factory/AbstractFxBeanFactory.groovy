@@ -15,7 +15,6 @@
 */
 
 package groovyx.javafx.factory
-import org.codehaus.groovyfx.javafx.binding.ClosureTriggerBinding
 
 /**
 *
@@ -61,20 +60,7 @@ class AbstractFXBeanFactory extends AbstractFactory {
     boolean onHandleNodeAttributes(FactoryBuilderSupport builder, Object node, Map attributes) {
         // set the properties
         // noinspection unchecked
-        def removeList = [];
-        attributes.each {
-            String property = it.key.toString();
-            Object value = it.value;
-            if(value instanceof ClosureTriggerBinding) {
-                def ctb = (ClosureTriggerBinding)value;
-                value = ctb.getSourceValue();
-            }
-            if(FXHelper.fxAttribute(node, property, value))
-                removeList << property
-        }
-        for(property in removeList) {
-            attributes.remove(property)
-        }
+        FXHelper.fxAttributes(node, attributes)
         super.onHandleNodeAttributes(builder, node, attributes);
         return true;
     }

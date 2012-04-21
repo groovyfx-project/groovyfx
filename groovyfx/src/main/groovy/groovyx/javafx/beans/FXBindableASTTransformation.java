@@ -15,7 +15,6 @@
 */
 package groovyx.javafx.beans;
 
-import java.util.ArrayList;
 import javafx.beans.property.*;
 import org.codehaus.groovy.ast.*;
 import org.codehaus.groovy.ast.expr.*;
@@ -32,7 +31,6 @@ import org.codehaus.groovy.transform.GroovyASTTransformation;
 import org.objectweb.asm.Opcodes;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.codehaus.groovy.ast.GenericsType;
 
@@ -431,6 +429,21 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
         block.addStatement(new ReturnStatement(getProperty));
         
         String javaFXPropertyFunction = fxProperty.getName();
+        
+        accessor = new MethodNode(javaFXPropertyFunction, fxProperty.getModifiers(), fxProperty.getType(),
+                                             Parameter.EMPTY_ARRAY, ClassNode.EMPTY_ARRAY, block);
+        accessor.setSynthetic(true);
+        classNode.addMethod(accessor);
+        
+        // Create the xxxx() method that merely calls getXxxxProperty()
+        block = new BlockStatement();
+        
+        thisExpression = VariableExpression.THIS_EXPRESSION;
+        emptyArguments = ArgumentListExpression.EMPTY_ARGUMENTS;
+        
+        getProperty = new MethodCallExpression(thisExpression, getterName, emptyArguments);
+        block.addStatement(new ReturnStatement(getProperty));
+        javaFXPropertyFunction = fxProperty.getName().replace("Property", "");
         
         accessor = new MethodNode(javaFXPropertyFunction, fxProperty.getModifiers(), fxProperty.getType(),
                                              Parameter.EMPTY_ARRAY, ClassNode.EMPTY_ARRAY, block);

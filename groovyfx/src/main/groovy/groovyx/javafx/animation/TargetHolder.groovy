@@ -17,9 +17,8 @@
 package groovyx.javafx.animation
 
 import javafx.animation.*;
-import groovyx.javafx.factory.animation.GroovyVariable;
-import org.codehaus.groovyfx.javafx.binding.GroovyProperty;
 import javafx.beans.value.WritableValue;
+import groovyx.javafx.binding.Util;
 
 /**
  *
@@ -38,7 +37,7 @@ class TargetHolder {
 
     public KeyValue getKeyValue() {
         if(property == null) {
-            property = new GroovyProperty(bean, propertyName);
+            property = Util.getJavaBeanFXWritableProperty(bean, propertyName);
         }
         return new KeyValue(property, endValue, interpolator );
     }

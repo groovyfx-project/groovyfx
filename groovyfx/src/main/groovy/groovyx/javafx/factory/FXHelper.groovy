@@ -31,8 +31,7 @@ import javafx.scene.image.Image;
 import javafx.scene.Cursor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.codehaus.groovyfx.javafx.binding.ClosureTriggerBinding;
-import org.codehaus.groovyfx.javafx.binding.FullBinding;
+import javafx.beans.property.ReadOnlyProperty;
 import javafx.event.EventHandler;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.Node;
@@ -45,6 +44,10 @@ import javafx.geometry.VPos;
 import javafx.scene.text.TextAlignment;
 import java.io.File;
 import javafx.event.EventHandler;
+import javafx.beans.value.*;
+import org.codehaus.groovy.runtime.InvokerHelper;
+import groovyx.javafx.binding.*;
+import javafx.beans.property.*;
 /**
  *
  * @author jimclarke
@@ -77,8 +80,8 @@ class FXHelper {
     ];
 
     static Object getValue(value) {
-        if (value instanceof ClosureTriggerBinding) {
-            def v = value.getSourceValue();
+        if (value instanceof ReadOnlyProperty) {
+            def v = value.getValue();
             return v;
         } else {
             return value;
@@ -375,6 +378,40 @@ class FXHelper {
         return true;
     };
     
+    
+    private static def doBind = { delegate, metaProperty, value ->
+        MetaClass mc = InvokerHelper.getMetaClass(delegate);
+        def propertyName = metaProperty.name;
+        def property = Util.getJavaFXProperty(delegate, propertyName);
+        if(property == null) {
+            try {
+            property = Util.getJavaBeanFXProperty(delegate, propertyName);
+            if(property == null) {
+                Object attribute = null;
+                if(originalObject != null && originalObject instanceof Closure) {
+                    attribute = mc.getAttribute(originalObject, propertyName);
+                }else {
+                    attribute = mc.getAttribute(delegate, propertyName);
+                    if(attribute instanceof Reference)
+                        attribute = ((Reference)attribute).get();
+                }
+                property = Util.wrapValueInProperty(attribute);
+            }
+            }catch(NoSuchMethodException shouldNotHappen) {
+                shouldNotHappen.printStackTrace();
+            }
+        }
+        if(property instanceof Property && value instanceof Property) { // both writable
+             property.bindBidirectional(value);       
+        }else if(property instanceof Property) { // target is writable, source is ReadOnlyProperty
+            property.bind(value);
+        }else if(property instanceof Property) { // target is ReadOnlyProperty, source is writable
+            value.bind(property);
+        }else {
+            System.out.prntln("Both sides of a bind for property '${metaProperty.name}' are Readonly, bind skipped.")
+        }
+        true;
+    }
     private static def classMap = [
         (String.class): doNothing,
         (Double.class): doNothing,
@@ -417,6 +454,7 @@ class FXHelper {
         (HPos.class): doHPos,
         (VPos.class): doVPos,
         (Pos.class): doPos,
+        (ReadOnlyProperty.class): doBind,
     ];
 
     public static boolean fxAttribute(delegate, key, value) {
@@ -428,12 +466,11 @@ class FXHelper {
         
         def metaProperty = delegate.getClass().metaClass.getMetaProperty(key);
         
-        if(value instanceof FullBinding) {
-            value.update();
-            return true;
-        }
         if(metaProperty) {
             // first do quick check from map
+            if(value instanceof ReadOnlyProperty) {
+                  return doBind(delegate, metaProperty, value);     
+            }
             def closure = classMap.get(metaProperty.getType());
             if(closure != null) {
                 return closure(delegate, metaProperty, value);
@@ -442,8 +479,6 @@ class FXHelper {
             if(metaProperty.getType().isEnum()) {
                 return doEnum(delegate, metaProperty, value);
             }
-            //TODO Temporary to tell us if we should add a class to the map.
-            //System.out.println("FXHelper unMapped class '${metaProperty.getType()}' for '$key' property")
             
             if(Paint.class.isAssignableFrom(metaProperty.getType())) {
                 return doPaint(delegate, metaProperty, value);
@@ -475,6 +510,8 @@ class FXHelper {
                 return doEventHandler(delegate, metaProperty, value);
             }else if(ToggleGroup.class.isAssignableFrom(metaProperty.getType())) {
                 return doToggleGroup(delegate, metaProperty, value);
+            }else if(ReadOnlyProperty.class.isAssignableFrom(metaProperty.getType())) {
+                return doBind(delegate, metaProperty, value);
             }
         }
         

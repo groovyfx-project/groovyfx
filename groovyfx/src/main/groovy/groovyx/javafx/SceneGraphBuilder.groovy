@@ -577,8 +577,8 @@ class SceneGraphBuilder extends FactoryBuilderSupport {
         this[DELEGATE_PROPERTY_OBJECT_ID] = DEFAULT_DELEGATE_PROPERTY_OBJECT_ID
 
         addPostNodeCompletionDelegate(postCompletionDelegate)
-        //addAttributeDelegate(NodeFactory.attributeDelegate)
-        addAttributeDelegate(BindFactory.bindingAttributeDelegate)
+        addAttributeDelegate(NodeFactory.attributeDelegate)
+        //addAttributeDelegate(BindFactory.bindingAttributeDelegate)
         addAttributeDelegate(idDelegate)
 
         Color.NamedColors.namedColors.put("groovyblue", Color.rgb(99, 152, 170))

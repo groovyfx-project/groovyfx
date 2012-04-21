@@ -14,275 +14,121 @@
 * limitations under the License.
  */
 
+
 package groovyx.javafx.factory
-import groovyx.javafx.SceneGraphBuilder;
-import java.util.Map.Entry;
-import org.codehaus.groovyfx.javafx.binding.*;
-import javafx.beans.property.Property;
+
+import javafx.beans.property.*;
+import javafx.beans.property.adapter.*;
+import groovyx.javafx.binding.*
+
+import org.codehaus.groovy.runtime.InvokerHelper;
 
 /**
- *
- * @author jimclarke
- */
+*
+* @author jimclarke
+*/
 class BindFactory extends AbstractFXBeanFactory {
-    public static final String CONTEXT_DATA_KEY = "BindFactoryData";
-    private static final Map<String, TriggerBinding> syntheticBindings = new HashMap();
     
     public BindFactory() {
-        super(FullBinding);
+        super(ReadOnlyProperty)
     }
-
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
-            throws InstantiationException, IllegalAccessException {
-        Object source = attributes.remove("source");
-        Object target = attributes.remove("target");
-
-        Map bindContext = builder.variables.get(CONTEXT_DATA_KEY, [:])
-
-        TargetBinding tb = null;
-        if (target != null) {
-            String targetProperty = attributes.remove("targetProperty") ?: value
-            tb = new PropertyBinding(target, targetProperty)
-            if (source == null) {                // if we have a target but no source assume the build context is the source and return
-                def result
-                if (attributes.remove("mutual")) {
-                    result = new MutualPropertyBinding(null, null, tb, this.&getTriggerBinding)
-                } else {
-                    result = tb
-                }
-                def newAttributes = [:]
-                newAttributes.putAll(attributes)
-                bindContext.put(result, newAttributes)
-                attributes.clear()
-                return result
-            }
-        }
-        FullBinding fb
-        boolean sea = attributes.containsKey("sourceEvent")
-        boolean sva = attributes.containsKey("sourceValue")
-        boolean spa = attributes.containsKey("sourceProperty") || value
-
-        if (sea && sva && !spa) {
-            // entirely event triggered binding
-            Closure queryValue = (Closure) attributes.remove("sourceValue")
-            ClosureSourceBinding csb = new ClosureSourceBinding(queryValue)
-            String trigger = (String) attributes.remove("sourceEvent")
-            EventTriggerBinding etb = new EventTriggerBinding(source, trigger)
-            fb = etb.createBinding(csb, tb)
-        } else if (spa && !(sea && sva)) {
-            // partially property driven binding
-            String property = attributes.remove("sourceProperty") ?: value
-            SourceBinding pb;
-            if(value instanceof Property) {
-                pb = new PropertyBinding((Property)value);
-            }else {
-                pb = new PropertyBinding(source, property)
-            }
-
-            TriggerBinding trigger
-            if (sea) {
-                // source trigger comes from an event
-                String triggerName = (String) attributes.remove("sourceEvent")
-                trigger = new EventTriggerBinding(source, triggerName)
-            } else {
-                // source trigger comes from a property change
-                // this method will also check for synthetic properties
-                trigger = getTriggerBinding(pb)
-            }
-
-            SourceBinding sb;
-            if (sva) {
-                // source value comes from a value closure
-                Closure queryValue = (Closure) attributes.remove("sourceValue")
-                sb = new ClosureSourceBinding(queryValue)
-            } else {
-                // soruce value is the property value
-                sb = pb
-            }
-            // check for a mutual binding (bi-directional)
-            if (attributes.remove("mutual")) {
-                fb = new MutualPropertyBinding(trigger, sb, tb, this.&getTriggerBinding)
-            } else {
-                fb = trigger.createBinding(sb, tb)
-
-                // If we have no source object, we'll have to complete the binding later,
-                // so store it in the context
-                if (sb instanceof PropertyBinding && ((PropertyBinding)sb).bean == null) {
-                    def newAttributes = [:]
-                    newAttributes.putAll(attributes)
-                    bindContext.put(fb, newAttributes)
-                }
-            }
-        } else if (!(sea || sva || spa)) {
-            // if no sourcing is defined then assume we are a closure binding and return
-            def newAttributes = [:]
-            newAttributes.putAll(attributes)
-            bindContext.put(tb, newAttributes)
-            attributes.clear()
-            return new ClosureTriggerBinding(syntheticBindings)
-        } else {
-            throw new RuntimeException("Both sourceEvent: and sourceValue: cannot be specified along with sourceProperty: or a value argument")
-        }
-
-        if (attributes.containsKey("value")) {
-            bindContext.put(fb, [value:attributes.remove("value")])
-        }
-        Object o = attributes.remove("bind")
-        if (((o == null) && !attributes.containsKey('group')) ||
-            ((o instanceof Boolean) && ((Boolean)o).booleanValue())) {
-            fb.bind()
-        }
-
-        if ((attributes.group instanceof AggregateBinding) && (fb instanceof BindingUpdatable)) {
-            attributes.remove('group').addBinding(fb)
-        }
-
-        def converter = attributes.remove("converter")
-        if (converter instanceof Closure) {
-            fb.converter = converter
-        }
-
-        builder.addDisposalClosure(fb.&unbind)
-        return fb
+    
+    public BindFactory(Class<ReadOnlyProperty> beanClass) {
+        super(beanClass);
     }
-
-    public void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
-        super.onNodeCompleted(builder, parent, node);
-
-        if (node instanceof FullBinding && node.sourceBinding && node.targetBinding) {
-            try {
-                node.update()
-            } catch (Exception ignored) {
-                // don't throw out to top
-            }
-            try {
-                node.rebind()
-            } catch (Exception ignored) {
-                // don't throw out to top
-            }
-        }
-    }
-
+    
     public boolean isHandlesNodeChildren() {
         return true;
     }
+    
+    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
+            throws InstantiationException, IllegalAccessException {
+                
+          ReadOnlyProperty property = null;
+          switch(value) {
+              case ReadOnlyProperty:
+                property = value;
+                break;
+              case List:
+                def instance = value[0];
+                def propertyName = value[1];
+                property = getJavaFXProperty(instance, propertyName)
+                if(property == null)
+                    property = buildJavaFXJavaBeanProperty(instance, propertyName);
+                break;
+              default:
+                property = new GroovyClosureProperty();
+                break;
+                
+          }
+          
+          def converter = attributes.remove("converter");
+          if(converter) {
+                property =  new ConverterProperty(property, converter);
+          }
+          property;
+    }
+    
+    private ReadOnlyProperty getJavaFXProperty(instance, propertyName) {
+        def fxProperty = null;
+        try {
+            fxProperty = (ReadOnlyProperty)InvokerHelper.invokeMethodSafe(instance,
+                                            propertyName + "Property", null);
+        } catch (MissingMethodException ignore) {
+            
+        }
+        fxProperty                              
+    }
+    
+    private ReadOnlyProperty buildJavaFXJavaBeanProperty(instance, propertyName) {
+        def metaProperty = instance.getClass().metaClass.getMetaProperty(propertyName);
+        def type = metaProperty.type;
+        def builder = null;
+        switch(type) {
+            case Boolean:
+            case Boolean.TYPE:
+                builder = ReadOnlyJavaBeanBooleanPropertyBuilder.create();
+                break;
+            case Double:
+            case Double.TYPE:
+                builder = ReadOnlyJavaBeanDoublePropertyBuilder.create();
+                break;
+            case Float:
+            case Float.TYPE:
+                builder = ReadOnlyJavaBeanFloatPropertyBuilder.create();
+                break;
+            case Byte:
+            case Byte.TYPE:
+            case Short:
+            case Short.TYPE:
+            case Integer:
+            case Integer.TYPE:
+                builder = ReadOnlyJavaBeanIntegerPropertyBuilder.create();
+                break;
+            case Long:
+            case Long.TYPE:
+                builder = ReadOnlyJavaBeanLongPropertyBuilder.create();
+                break;
+            case String:
+            case String.TYPE:
+                builder = ReadOnlyJavaBeanStringPropertyBuilder.create();
+                break;
+            default:
+                builder = ReadOnlyJavaBeanObjectPropertyBuilder.create();
+                break;
+        }
+        builder.bean(instance);
+        builder.name(propertyName);
+        builder.beanClass(instance.class)
+        return builder.build();
+    }
 
     public boolean onNodeChildren(FactoryBuilderSupport builder, Object node, Closure childContent) {
-        if ((node instanceof FullBinding) && (node.converter == null)) {
-            node.converter = childContent
-            return false
-        } else if (node instanceof ClosureTriggerBinding) {
-            node.closure = childContent
-            return false;
-        } else if (node instanceof TriggerBinding) {
-            def bindAttrs = builder.variables.get(CONTEXT_DATA_KEY)[node] ?: [:]
-            if (!bindAttrs.containsKey("converter")) {
-                bindAttrs["converter"] = childContent
-                return false;
-            }
+        switch(node) {
+            case GroovyClosureProperty:
+                node.closure = childContent
+                break;
         }
-
-        throw new RuntimeException("Binding nodes do not accept child content when a converter is already specified")
     }
-
-    public static def bindingAttributeDelegate = { FactoryBuilderSupport builder, def node, def attributes ->
-        Iterator iter = attributes.entrySet().iterator()
-        Map bindContext = builder.variables.get(CONTEXT_DATA_KEY, [:])
-
-        while (iter.hasNext()) {
-            Entry entry = (Entry) iter.next()
-            String property = entry.key.toString()
-            Object value = entry.value
-
-            def bindAttrs = bindContext.get(value) ?: [:]
-            def idAttr = builder.getAt(SceneGraphBuilder.DELEGATE_PROPERTY_OBJECT_ID) ?: SceneGraphBuilder.DEFAULT_DELEGATE_PROPERTY_OBJECT_ID
-            def id = bindAttrs.remove(idAttr)
-            if (bindAttrs.containsKey("value")) {
-                node."$property" = bindAttrs.remove("value")
-            }
-
-            FullBinding fb
-            if (value instanceof MutualPropertyBinding) {
-                fb = (FullBinding) value
-                PropertyBinding psb = new PropertyBinding(node, property)
-                if (fb.sourceBinding == null) {
-                    fb.sourceBinding = psb
-                    finishContextualBinding(fb, builder, bindAttrs, id)
-                } else if (fb.targetBinding == null) {
-                    fb.targetBinding = psb
-                }
-            } else if (value instanceof FullBinding) {
-                fb = (FullBinding) value
-                fb.targetBinding = new PropertyBinding(node, property)
-
-                // See if the source was assumed to be the target node
-                if (fb.sourceBinding instanceof PropertyBinding) {
-                    def pb = (PropertyBinding)fb.sourceBinding
-                    if (pb.bean == null)
-                        pb.bean = node
-                    fb.rebind()
-                }
-            } else  if (value instanceof TargetBinding) {
-                PropertyBinding psb = new PropertyBinding(node, property)
-                fb = getTriggerBinding(psb).createBinding(psb, value)
-                finishContextualBinding(fb, builder, bindAttrs, id)
-            } else if (value instanceof ClosureTriggerBinding) {
-                PropertyBinding psb = new PropertyBinding(node, property)
-                fb = value.createBinding(value, psb);
-                finishContextualBinding(fb, builder, bindAttrs, id)
-            } else {
-                continue
-            }
-            try {
-                fb.update()
-            } catch (Exception e) {
-                // just eat it?
-            }
-            try {
-                fb.rebind()
-                if(FXHelper.fxAttribute(node, property, value)) {
-                    iter.remove();
-                }
-            } catch (Exception e) {
-                // just eat it?
-                // this is why we cannot use entrySet().each { }
-                iter.remove()
-            }
-
-        }
-        
-    }
-
-    private static TriggerBinding getTriggerBinding(PropertyBinding psb) {
-        String property = psb.propertyName
-        Class currentClass = psb.bean.getClass()
-        while (currentClass != null) {
-            // should we check interfaces as well?  if so at what level?
-            def trigger = (TriggerBinding) syntheticBindings.get("$currentClass.name#$property" as String)
-            if (trigger != null) {
-                return trigger
-            }
-            currentClass = currentClass.getSuperclass()
-        }
-        //TODO inspect the bean info and throw an error if the property is not obserbable and not bind:false?
-        return psb
-    }
-
-    private static void finishContextualBinding(FullBinding fb, FactoryBuilderSupport builder, bindAttrs, id) {
-        Object bindValue = bindAttrs.remove("bind")
-        bindAttrs.each {k, v -> fb."$k" = v}
-
-        if ((bindValue == null)
-            || ((bindValue instanceof Boolean) && ((Boolean) bindValue).booleanValue())) {
-            fb.bind()
-        }
-
-        builder.addDisposalClosure(fb.&unbind)
-
-        // replaces ourselves in the variables
-        // id: is lost to us by now, so we just assume that any storage of us is a goner as well
-        //builder.getVariables().each{ Map.Entry me -> if (value.is(me.value)) me.setValue fb}
-        if (id) builder.setVariable(id, fb)
-    }
+	
 }
-
