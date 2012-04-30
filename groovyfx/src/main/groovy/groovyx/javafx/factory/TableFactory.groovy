@@ -240,9 +240,9 @@ class TableFactory extends AbstractNodeFactory {
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Object result = super.newInstance(builder, name, value, attributes);
         if(TableColumn.isAssignableFrom(beanClass) && value != null) {
-            return result.text = value.toString()
+            result.text = value.toString()
         }
-        result;
+        result
     }
     
     boolean onHandleNodeAttributes(FactoryBuilderSupport builder, Object node, Map attributes) {
