@@ -102,39 +102,52 @@ class SceneGraphBuilder extends FactoryBuilderSupport {
         Platform.runLater(c);
         return this;
     }
+    
+    boolean isFxApplicationThread() {
+        Platform.isFxApplicationThread();
+    }
 
     SceneGraphBuilder submit(WebView wv, Closure c) {
         //if (!(c instanceof MethodClosure)) {
         //    c = c.curry([this])
         //}
+        def submitClosure = {
+            if(wv.engine.loadWorker.state == Worker.State.SUCCEEDED) {
+                c.call(wv);
+            }else {
+                def listener = new ChangeListener<Worker.State>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Worker.State> observable,
+                                Worker.State oldState, Worker.State newState) {
+                        defer {
+                            switch(newState) {
+                                case Worker.State.SUCCEEDED:
+                                    c.call(wv);
+                                    wv.engine.loadWorker.stateProperty().removeListener(this);
+                                    break;
+                                case Worker.State.FAILED:
+                                    System.out.println(wv.engine.loadWorker.exception);
+                                    wv.engine.loadWorker.stateProperty().removeListener(this);
+                                    break;
+                                case Worker.State.CANCELED:
+                                    System.out.println(wv.engine.loadWorker.message);
+                                    wv.engine.loadWorker.stateProperty().removeListener(this);
+                                    break;
+                                default:
+                                    break;
 
-        if(wv.engine.loadWorker.state == Worker.State.SUCCEEDED) {
-             c.call(wv);
-        }else {
-            def listener = new ChangeListener<Worker.State>() {
-                @Override
-                public void changed(ObservableValue<? extends Worker.State> observable,
-                            Worker.State oldState, Worker.State newState) {
-                    switch(newState) {
-                        case Worker.State.SUCCEEDED:
-                            c.call(wv);
-                            wv.engine.loadWorker.stateProperty().removeListener(this);
-                            break;
-                        case Worker.State.FAILED:
-                            System.out.println(wv.engine.loadWorker.exception);
-                            wv.engine.loadWorker.stateProperty().removeListener(this);
-                            break;
-                        case Worker.State.CANCELED:
-                            System.out.println(wv.engine.loadWorker.message);
-                            wv.engine.loadWorker.stateProperty().removeListener(this);
-                            break;
-                        default:
-                            break;
-
+                            }
+                        }
                     }
-                }
-            };
-             wv.engine.loadWorker.stateProperty().addListener(listener);
+                };
+                wv.engine.loadWorker.stateProperty().addListener(listener);
+            }
+        }
+        
+        if(Platform.isFxApplicationThread()) {
+              submitClosure.call()
+        }else {
+            defer submitClosure
         }
 
         return this;
@@ -175,19 +188,9 @@ class SceneGraphBuilder extends FactoryBuilderSupport {
             return Color.web(name);
         }
 
-        /*
-        String lname = name.toLowerCase();
-
-        Color color = Color.NamedColors.namedColors[lname]
-        if (color) { return color }
-        def prop = propertyMap[lname];
-        if(prop)
-            return prop;
-        */
-
         throw new MissingPropertyException("Unrecognized property: ${name}", name, this.class);
     }
-
+    
     Color rgb(int r, int g, int b) {
         Color.rgb(r,g,b);
     }
@@ -534,6 +537,7 @@ class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory "change", new KeyValueFactory(TargetHolder)
         registerFactory "to", new KeyValueSubFactory(Object)
         registerFactory "tween", new KeyValueSubFactory(Interpolator)
+        registerFactory "onFinished", new ClosureHandlerFactory(GroovyEventHandler)
     }
 
     void registerMedia() {

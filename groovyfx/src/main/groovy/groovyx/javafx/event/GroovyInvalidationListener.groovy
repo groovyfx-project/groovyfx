@@ -25,6 +25,8 @@ import javafx.beans.Observable
 */
 class GroovyInvalidationListener extends AbstractClosureProperty implements InvalidationListener {
     
+    Observable observable;
+    
     public GroovyInvalidationListener() {
         super();
     }
@@ -34,6 +36,14 @@ class GroovyInvalidationListener extends AbstractClosureProperty implements Inva
     }
     public GroovyInvalidationListener(String property, Closure closure) {
         super(property, closure);
+    }
+    public GroovyInvalidationListener(Observable observable) {
+        super(null);
+        this.observable = observable
+    }
+    public GroovyInvalidationListener(Observable observable, Closure closure) {
+        super(null, closure);
+        this.observable = observable
     }
     
     public void invalidated(Observable observable) {

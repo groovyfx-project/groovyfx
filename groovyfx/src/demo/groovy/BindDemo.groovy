@@ -44,6 +44,8 @@ start {
                 button(text: bind(tf, 'text'), onAction: {qt.onClick()})
                 label(text: bind(tf.textProperty()))
                 label(text: bind({tf.text}))
+                label(text: bind(tf.text()))
+                label(text: bind(tf.text()))
 
                 // Bind to POGO fields annotated with @FXBindable
                 // These three bindings are equivalent

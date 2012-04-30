@@ -20,6 +20,7 @@ import javafx.util.Duration;
 import groovyx.javafx.factory.animation.KeyValueSubFactory;
 import javafx.scene.shape.Path;
 import javafx.event.EventHandler;
+import groovyx.javafx.event.GroovyEventHandler
 
 /**
  * Handles JavaFX transitions
@@ -58,6 +59,8 @@ class TransitionFactory extends AbstractFXBeanFactory {
             }
         }else if(parent instanceof PathTransition && child instanceof Path) {
             parent.path = child
+        }else if(child instanceof GroovyEventHandler) {
+            parent."${child.property}" = child;
         }
     }
     

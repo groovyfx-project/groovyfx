@@ -18,13 +18,14 @@ package groovyx.javafx.factory
 import groovyx.javafx.event.*
 import javafx.beans.InvalidationListener
 import javafx.beans.value.ChangeListener
+import javafx.beans.value.ObservableValue;
+import groovyx.javafx.binding.Util;
 
 /**
 *
 * @author jimclarke
 */
 class ChangeFactory extends AbstractFXBeanFactory {
-    
     ChangeFactory(Class beanClass) {
         super(beanClass);
     }
@@ -33,9 +34,31 @@ class ChangeFactory extends AbstractFXBeanFactory {
             throws InstantiationException, IllegalAccessException {
          def listener = null;
          if(ChangeListener.isAssignableFrom(beanClass)) {
-             listener = new GroovyChangeListener(value?value:name)
+             if(value != null) {
+                   if(value instanceof List) {
+                       if(value.size() == 2) {
+                           value = Util.getJavaBeanFXProperty(value[0], value[1])
+                       }else {
+                           throw new RuntimeException("The value of a ${name} must either be a property name in the containing object, or a JavaFX ObservableValue or a JavaBean");
+                       }
+                   }
+                   listener = new GroovyChangeListener(value)
+             }else {
+                listener = new GroovyChangeListener(name)
+             }
          }else {
-             listener = new GroovyInvalidationListener(value?value:name)
+             if(value != null) {
+                   if(value instanceof List) {
+                       if(value.size() == 2) {
+                           value = Util.getJavaBeanFXProperty(value[0], value[1])
+                       }else {
+                           throw new RuntimeException("The value of a ${name} must either be a property name in the containing object, or a JavaFX ObservableValue or a JavaBean");
+                       }
+                   }
+                   listener = new GroovyInvalidationListener(value)
+             }else {
+                listener = new GroovyInvalidationListener(name)
+             }
          }   
          listener
     }
@@ -46,6 +69,10 @@ class ChangeFactory extends AbstractFXBeanFactory {
 
     public boolean onNodeChildren(FactoryBuilderSupport builder, Object node, Closure childContent) {
         node.closure = childContent
+        if(node.observable != null) {
+            node.observable.addListener(node);
+        }
+        
         return false
     }
 	
