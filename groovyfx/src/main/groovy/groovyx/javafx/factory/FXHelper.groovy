@@ -118,7 +118,39 @@ class FXHelper {
         leftAnchor: setLeftAnchor
     ]
     
-    
+    private static processAnchorList(Node node, List anchorList) {
+        if (!anchorList) return
+
+        switch (anchorList.size()) {
+            case 1:
+                final value = anchorList[0]
+                setTopAnchor(node, value)
+                setRightAnchor(node, value)
+                setBottomAnchor(node, value)
+                setLeftAnchor(node, value)
+                break
+
+            case 2:
+                setTopAnchor(node, anchorList[0])
+                setRightAnchor(node, anchorList[1])
+                setBottomAnchor(node, anchorList[0])
+                setLeftAnchor(node, anchorList[1])
+                break
+
+            case 3:
+                setTopAnchor(node, anchorList[0])
+                setRightAnchor(node, anchorList[1])
+                setBottomAnchor(node, anchorList[2])
+                setLeftAnchor(node, anchorList[1])
+                break
+
+            default:
+                setTopAnchor(node, anchorList[0])
+                setRightAnchor(node, anchorList[1])
+                setBottomAnchor(node, anchorList[2])
+                setLeftAnchor(node, anchorList[3])
+        }
+    }
     
     private static def doPaint = { delegate, metaProperty, value ->
          def paint = ColorFactory.get(getValue(value));
@@ -458,12 +490,26 @@ class FXHelper {
     ];
 
     public static boolean fxAttribute(delegate, key, value) {
-        def setAnchor = anchorMap[key];
-        if(setAnchor) {
-            setAnchor(delegate, value);
-            return true;
+        if (key == 'anchor') {
+            switch (value) {
+                case Number:
+                    processAnchorList(delegate, [value])
+                    break
+                case List:
+                    processAnchorList(delegate, value)
+                    break
+                default:
+                    throw new Exception("The value of $key must be a number or a List of numbers")
+            }
+            return true
+        } else {
+            def setAnchor = anchorMap[key];
+            if(setAnchor) {
+                setAnchor(delegate, value);
+                return true;
+            }
         }
-        
+
         def metaProperty = delegate.getClass().metaClass.getMetaProperty(key);
         
         if(metaProperty) {
