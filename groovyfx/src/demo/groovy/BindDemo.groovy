@@ -25,7 +25,7 @@ import static groovyx.javafx.GroovyFX.start
  */
 class QuickTest {
     @FXBindable String qtText = "Quick Test"
-    private int clickCount = 0
+    private int clickCount = 0 
 
     def onClick = {
         qtText = "Quick Test ${++clickCount}"
@@ -33,21 +33,30 @@ class QuickTest {
 }
 
 start {
-    def qt = new QuickTest()
+    def qt = new QuickTest() 
 
     stage(title: "GroovyFX Bind Demo", x: 100, y: 100, width: 400, height: 400, visible: true,
              style: "decorated", onHidden: { println "Close"}) {
         scene(fill: groovyblue) {
             vbox(spacing: 10, padding: 10) {
                 TextField tf = textField(text: 'Change Me!')
-                button(text: bind(source: tf, sourceProperty: 'text'), onAction: {qt.onClick()})
+                //button(text: bind(source: tf, sourceProperty: 'text'), onAction: {qt.onClick()})
+                button(text: bind(tf, 'text'), onAction: {qt.onClick()})
                 label(text: bind(tf.textProperty()))
                 label(text: bind({tf.text}))
+                label(text: bind(tf.text()))
+                label(text: bind(tf.text()))
 
                 // Bind to POGO fields annotated with @FXBindable
-                // These two bindings are equivalent
-                label(text: bind(source: qt, sourceProperty: 'qtText'))
-                label(text: bind(qt.qtTextProperty))
+                // These three bindings are equivalent
+                //label(text: bind(source: qt, sourceProperty: 'qtText'))
+                label(text: bind(qt, 'qtText'))
+                label(text: bind(qt.qtText()))
+                label(text: bind(qt.qtTextProperty()))
+                
+                // bidirectional bind
+                textField(id:"tf2", promptText: 'Change Me!')
+                textField(text: bind(tf2.textProperty()))
             }
         }
     }

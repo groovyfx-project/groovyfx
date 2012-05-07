@@ -141,7 +141,7 @@ public class ColorFactory {
 
                 ParsedValue v = declarations.get(0).getParsedValue();
                 if(v.getConverter() == null)
-                    paint = (Paint)v.getValue();
+                    paint = (Paint)v.value;
                 else
                     paint = (Paint)v.getConverter().convert(v, null);
 

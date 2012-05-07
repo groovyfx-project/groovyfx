@@ -16,21 +16,27 @@
 
 package groovyx.javafx.factory.animation
 
-import groovyx.javafx.ClosureEventHandler
-import groovyx.javafx.factory.AbstractGroovyFXFactory
+import groovyx.javafx.event.GroovyEventHandler
+import groovyx.javafx.factory.AbstractFXBeanFactory
 import javafx.animation.Timeline
 
 /**
  *
  * @author jimclarke
  */
-class TimelineFactory extends AbstractGroovyFXFactory {
+class TimelineFactory extends AbstractFXBeanFactory {
 
     public List<KeyFrameWrapper> frames;
 
+    TimelineFactory() {
+        super(Timeline)
+    }
+    TimelineFactory(Class<Timeline> beanClass) {
+        super(beanClass)
+    }
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        Timeline timeline
+        Timeline timeline 
         frames = new ArrayList<KeyFrameWrapper>();
         def framerate = attributes.remove("framerate");
         if(framerate != null)
@@ -41,7 +47,7 @@ class TimelineFactory extends AbstractGroovyFXFactory {
         Object action = attributes.remove("onFinished");
         if(action != null) {
             if(action instanceof Closure) {
-                timeline.onFinished = new ClosureEventHandler(action: action);
+                timeline.onFinished = new GroovyEventHandler("onFinished", action);
             }else {
                 timeline.onFinished = action;
             }

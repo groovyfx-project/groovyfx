@@ -18,24 +18,37 @@ package groovyx.javafx.factory.animation
 import javafx.animation.*;
 import javafx.beans.value.WritableValue;
 import groovyx.javafx.animation.TargetHolder
-import groovyx.javafx.factory.AbstractGroovyFXFactory;
+import groovyx.javafx.factory.AbstractFXBeanFactory;
 
 /**
  *
  * @author jimclarke
  */
 
-class KeyValueFactory extends AbstractGroovyFXFactory {
+class KeyValueFactory extends AbstractFXBeanFactory {
     public static final TARGET_HOLDERS_PROPERTY = "__target_holders"
     
+    KeyValueFactory() {
+        super(TargetHolder)
+    }
+    
+    KeyValueFactory(Class<TargetHolder> beanClass) {
+        super(beanClass);
+    }
+    
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        if(value instanceof List && value.size() == 2) {
-            return new TargetHolder(bean: value.get(0), propertyName: value.get(1));
-        }else if(value instanceof WritableValue) {
-            return new TargetHolder(property: value);
-        }else {
-            return null;
+        if(checkValue(name, value)) {
+            return value;
         }
+        switch(value) {
+            case List:
+                return new TargetHolder(bean: value.get(0), propertyName: value.get(1));
+            case WritableValue:
+                return new TargetHolder(property: value);
+            default:
+                return null;
+        }
+    
     }
 
     public void setChild(FactoryBuilderSupport build, Object parent, Object child) {

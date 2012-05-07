@@ -23,8 +23,16 @@ import javafx.scene.paint.RadialGradient
  * @author Dean Iverson
  */
 class RadialGradientFactory extends AbstractGradientFactory {
+    
+    RadialGradientFactory() {
+        super(RadialGradient)
+    }
+    RadialGradientFactory(Class<RadialGradient> beanClass) {
+        super(beanClass)
+    }
+    
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) {
-        if (FactoryBuilderSupport.checkValueIsType(value, name, RadialGradient))
+        if (checkValue(name, value))
             return value;
         else
             return new RadialGradientBuilder()

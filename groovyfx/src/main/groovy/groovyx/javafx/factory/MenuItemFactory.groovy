@@ -1,6 +1,17 @@
 /*
-* To change this template, choose Tools | Templates
-* and open the template in the editor.
+* Copyright 2012 the original author or authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
 */
 
 package groovyx.javafx.factory
@@ -12,35 +23,70 @@ import javafx.scene.Node;
 *
 * @author jimclarke
 */
-class MenuItemFactory extends AbstractGroovyFXFactory {
-	private static def menuItemBuilder = [
-            "menu": { builder, name, value, attributes -> return new Menu("") },
-            "menuItem": { builder, name, value, attributes -> return new MenuItem() },
-            "checkMenuItem": { builder, name, value, attributes -> return new CheckMenuItem() },
-            "customMenuItem": { builder, name, value, attributes -> return new CustomMenuItem() },
-            "separatorMenuItem": { builder, name, value, attributes -> return new SeparatorMenuItem() },
-            "radioMenuItem": { builder, name, value, attributes -> return new RadioMenuItem() },
-        ];
+class MenuItemFactory extends AbstractNodeFactory {
+    MenuItemFactory(Class beanClass) {
+        super(beanClass)
+    }
+    
+    MenuItemFactory(Class beanClass, Closure instantiator) {
+        super(beanClass, instantiator)
+    }
         
     
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        MenuItem mi;
-        if (value instanceof MenuItem) {
-            mi = value
-        } else {
-            def creator = menuItemBuilder[name];
-            if(creator != null)
-                mi = creator(builder, name, value, attributes);
-            if(value instanceof String) {
-                mi.text = value;
-            } else if(value instanceof Node) {
-                if(mi instanceof CustomMenuItem)
-                     mi.content = node
-                else
-                    mi.graphic = value;    
-            }
+        if(Menu.isAssignableFrom(beanClass)) {
+            return handleMenuNode(builder, name, value, attributes)
         }
-        return mi;
+      
+        if(value == null) {
+            return super.newInstance(builder, name, value, attributes)
+        }
+        
+        
+        MenuItem mi = null
+        switch(value) {
+            case CharSequence:
+                mi = super.newInstance(builder, name, value, attributes)
+                mi.text = value.toString()
+                break
+            case MenuItem:
+                mi = super.newInstance(builder, name, value, attributes)
+                mi.items.add(value);
+                break
+            case Node:
+                mi = super.newInstance(builder, name, null, attributes)
+                if(mi instanceof CustomMenuItem) {
+                    mi.content = node
+                } else {
+                    mi.graphic = node
+                }
+                break
+            default:
+                throw new Exception("In $name value must be an instanceof MenuItem or one of its subclass, a String or a Node to be used as embedded content.")
+        }
+        mi
+    }
+    
+     protected Menu handleMenuNode(FactoryBuilderSupport builder, Object name, Object value, Map attributes) {
+        if(value == null) 
+            return beanClass.newInstance("")
+
+        Menu menu = null
+        switch(value) {
+            case Menu:
+                menu = value
+                break
+            case CharSequence:
+                menu = beanClass.newInstance(value.toString())
+                break
+            case Node:
+                menu = beanClass.newInstance("")
+                menu.graphic = value
+                break
+            default:
+                throw new Exception("In $name value must be an instanceof Menu or one of its subclasses, a String or a Node to be used as graphic content.")
+        }
+        menu
     }
     
     public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
@@ -53,7 +99,9 @@ class MenuItemFactory extends AbstractGroovyFXFactory {
                  parent.graphic = child;  
         } else if(child instanceof NodeBuilder) {
             parent.graphic = child.build();
-        } 
+        } else {
+            super.setChild(builder, parent, child);
+        }
     }
 }
 

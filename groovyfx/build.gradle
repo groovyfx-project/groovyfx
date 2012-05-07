@@ -6,6 +6,7 @@ apply plugin: 'signing'
 
 buildscript {
     javafxHome = System.env['JAVAFX_HOME']
+    ant.echo(message: "${javafxHome}")
     dependencies {
         classpath files("${javafxHome}/rt/lib/jfxrt.jar")
     }

@@ -34,9 +34,9 @@ class Time {
 
     public Time() {
         // bind the angle properties to the clock time
-        hourAngleProperty.bind((hoursProperty * 30.0) + (minutesProperty * 0.5))
-        minuteAngleProperty.bind(minutesProperty * 6.0)
-        secondAngleProperty.bind(secondsProperty * 6.0)
+        hourAngleProperty.bind((hours() * 30.0) + (minutes() * 0.5))
+        minuteAngleProperty.bind(minutes() * 6.0)
+        secondAngleProperty.bind(seconds() * 6.0)
 
         // Set the initial clock time
         def calendar = Calendar.instance
@@ -96,28 +96,30 @@ start {
                 circle(radius: 5, fill: black)
                 // hour hand
                 path(fill: black) {
-                    rotate(angle: bind(time.hourAngleProperty))
+                    rotate(angle: bind(time.hourAngle()))
                     moveTo(x: 4, y: -4)
                     arcTo(radiusX: -1, radiusY: -1, x: -4, y: -4)
                     lineTo(x: 0, y: -radius / 4 * 3)
                 }
                 // minute hand
                 path(fill: black) {
-                    rotate(angle: bind(time.minuteAngleProperty))
+                    rotate(angle: bind(time.minuteAngle()))
                     moveTo(x: 4, y: -4)
                     arcTo(radiusX: -1, radiusY: -1, x: -4, y: -4)
                     lineTo(x: 0, y: -radius)
                 }
                 // second hand
                 line(endY: -radius - 3, strokeWidth: 2, stroke: red) {
-                    rotate(angle: bind(time.secondAngleProperty))
+                    rotate(angle: bind(time.secondAngle()))
                 }
             }
         }
     }
 
-    sequentialTransition(cycleCount: "indefinite") {
-        pauseTransition(1.s, onFinished: {time.addOneSecond()})
+    sequentialTransition(cycleCount: indefinite) {
+        pauseTransition(1.s) {
+            onFinished {time.addOneSecond()}
+        }
     }.playFromStart()
 }
 

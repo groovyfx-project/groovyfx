@@ -26,6 +26,9 @@ import javafx.event.*;
 import javafx.scene.input.*;
 import javafx.beans.property.*;
 import javafx.collections.*;
+import javafx.util.Callback;
+import groovyx.javafx.event.GroovyCallback
+import org.codehaus.groovy.runtime.InvokerHelper
 
 
 /**
@@ -226,22 +229,20 @@ class ConverterPropertyValueFactory extends PropertyValueFactory implements Chan
     
 }
 
-class TableFactory extends NodeFactory {
+class TableFactory extends AbstractNodeFactory {
     private static EditingCallback defaultCellFactory = new EditingCallback();
     private static EnumEditingCallback enumCellFactory = new EnumEditingCallback();
     
+    public TableFactory(Class beanClass) {
+        super(beanClass)
+    }
+    
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        Object result = null;
-        switch(name) {
-            case 'tableView':
-                result = new TableView();
-                break;
-            case 'tableColumn':
-                final colName = value instanceof String ? value : ''
-                result = new TableColumn(colName);
-                break;
+        Object result = super.newInstance(builder, name, value, attributes);
+        if(TableColumn.isAssignableFrom(beanClass) && value != null) {
+            result.text = value.toString()
         }
-        return result;
+        result
     }
     
     boolean onHandleNodeAttributes(FactoryBuilderSupport builder, Object node, Map attributes) {
@@ -306,6 +307,18 @@ class TableFactory extends NodeFactory {
     public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
         if((parent instanceof TableView || parent instanceof TableColumn) && child instanceof TableColumn) {
             parent.columns.add(child);
+        }else if(child instanceof GroovyCallback) {
+            if(parent instanceof TableView && child.property == "onSelect") {
+                   parent.selectionModel.selectedItemProperty().addListener(new ChangeListener() {
+                        public void changed(final ObservableValue observable, final Object oldValue, final Object newValue) {
+                            builder.defer({child.closure.call(parent, oldValue, newValue);});
+                        }
+                    });      
+            }else if(parent instanceof TableColumn ) {
+                InvokerHelper.setProperty(node, child.property, child);
+            }
+        }else {
+            super.setChild(builder, parent, child)
         }
     }
 }

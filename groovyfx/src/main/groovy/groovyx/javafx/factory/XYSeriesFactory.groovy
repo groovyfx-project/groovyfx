@@ -31,8 +31,15 @@ import javafx.scene.chart.XYChart
  *
  * @author Dean Iverson
  */
-class XYSeriesFactory extends AbstractGroovyFXFactory {
+class XYSeriesFactory extends AbstractFXBeanFactory {
     public static final String SERIES_LIST_PROPERTY = "__seriesList"
+    
+    public XYSeriesFactory() {
+        super(XYChart.Series)
+    }
+    public XYSeriesFactory(Class<XYChart.Series> beanClass) {
+        super(beanClass)
+    }
 
     /**
      * Transforms a list of data values into XYChart.Data objects.
@@ -61,7 +68,7 @@ class XYSeriesFactory extends AbstractGroovyFXFactory {
     }
 
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) {
-        if (FactoryBuilderSupport.checkValueIsType(value, name, XYChart.Series)) {
+        if (checkValue(name, value)) {
             return value
         } else {
             def data = attributes.remove('data')

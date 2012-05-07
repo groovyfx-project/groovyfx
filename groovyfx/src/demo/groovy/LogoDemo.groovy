@@ -14,9 +14,6 @@
 * limitations under the License.
 */
 
-import groovyx.javafx.SceneGraphBuilder
-import groovyx.javafx.Trigger
-
 import static groovyx.javafx.GroovyFX.start
 
 /**
@@ -44,11 +41,11 @@ start {
         }
     }
 
-    new Trigger(parent, "layoutBounds", {
+    parent.layoutBoundsProperty().onInvalidate {
         double newSize = [parent.width, parent.height].min() / 120d
         logo.scaleX = newSize
         logo.scaleY = newSize
-    })
+    }
 }
 
 def star(SceneGraphBuilder builder, int angle, List stops) {

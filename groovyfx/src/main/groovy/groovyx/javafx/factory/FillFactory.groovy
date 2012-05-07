@@ -24,8 +24,15 @@ import javafx.scene.paint.Paint
  * 
  * @author Dean Iverson
  */
-class FillFactory extends AbstractGroovyFXFactory {
+class FillFactory extends AbstractFXBeanFactory {
     private static final String FILL_PROPERTY = "__fill"
+    
+    FillFactory() {
+        super(Paint, true)
+    }
+    FillFactory(Class<Paint> beanClass) {
+        super(beanClass, true)
+    }
 
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) {
         Paint paint = ColorFactory.get(value)
@@ -43,11 +50,4 @@ class FillFactory extends AbstractGroovyFXFactory {
         }
     }
 
-    /**
-     * @return True. The fill node is a leaf.
-     */
-    @Override
-    boolean isLeaf() {
-        return true;
-    }
 }

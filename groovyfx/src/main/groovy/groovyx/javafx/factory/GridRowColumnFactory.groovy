@@ -21,11 +21,10 @@ import javafx.scene.layout.GridPane;
  * TODO
  * @author jimclarke
  */
-class GridRowColumnFactory extends AbstractGroovyFXFactory {
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-       GridRowColumn grc = new GridRowColumn();
-       grc.row = name.toString().equalsIgnoreCase("row");
-       return grc;
+class GridRowColumnFactory extends AbstractFXBeanFactory {
+
+    GridRowColumnFactory(Class beanClass) {
+        super(beanClass)
     }
     
      public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
@@ -36,12 +35,13 @@ class GridRowColumnFactory extends AbstractGroovyFXFactory {
      }
     
     public void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
-        if(node instanceof GridRowColumn) {
-            GridPane grid = (GridPane)parent;
-            if(node.row)
+        switch(node) {
+            case GridRow:
                 parent.addRow(node.index, node.nodeArray());
-            else
+                break
+            case GridColumn:
                 parent.addColumn(node.index, node.nodeArray());
+                break
         }
     }
 }

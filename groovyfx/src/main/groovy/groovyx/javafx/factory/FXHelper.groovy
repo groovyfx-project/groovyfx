@@ -31,8 +31,7 @@ import javafx.scene.image.Image;
 import javafx.scene.Cursor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.codehaus.groovyfx.javafx.binding.ClosureTriggerBinding;
-import org.codehaus.groovyfx.javafx.binding.FullBinding;
+import javafx.beans.property.ReadOnlyProperty;
 import javafx.event.EventHandler;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.Node;
@@ -44,6 +43,11 @@ import java.math.BigInteger;
 import javafx.geometry.VPos;
 import javafx.scene.text.TextAlignment;
 import java.io.File;
+import javafx.event.EventHandler;
+import javafx.beans.value.*;
+import org.codehaus.groovy.runtime.InvokerHelper;
+import groovyx.javafx.binding.*;
+import javafx.beans.property.*;
 /**
  *
  * @author jimclarke
@@ -76,8 +80,8 @@ class FXHelper {
     ];
 
     static Object getValue(value) {
-        if (value instanceof ClosureTriggerBinding) {
-            def v = value.getSourceValue();
+        if (value instanceof ReadOnlyProperty) {
+            def v = value.getValue();
             return v;
         } else {
             return value;
@@ -114,7 +118,39 @@ class FXHelper {
         leftAnchor: setLeftAnchor
     ]
     
-    
+    private static processAnchorList(Node node, List anchorList) {
+        if (!anchorList) return
+
+        switch (anchorList.size()) {
+            case 1:
+                final value = anchorList[0]
+                setTopAnchor(node, value)
+                setRightAnchor(node, value)
+                setBottomAnchor(node, value)
+                setLeftAnchor(node, value)
+                break
+
+            case 2:
+                setTopAnchor(node, anchorList[0])
+                setRightAnchor(node, anchorList[1])
+                setBottomAnchor(node, anchorList[0])
+                setLeftAnchor(node, anchorList[1])
+                break
+
+            case 3:
+                setTopAnchor(node, anchorList[0])
+                setRightAnchor(node, anchorList[1])
+                setBottomAnchor(node, anchorList[2])
+                setLeftAnchor(node, anchorList[1])
+                break
+
+            default:
+                setTopAnchor(node, anchorList[0])
+                setRightAnchor(node, anchorList[1])
+                setBottomAnchor(node, anchorList[2])
+                setLeftAnchor(node, anchorList[3])
+        }
+    }
     
     private static def doPaint = { delegate, metaProperty, value ->
          def paint = ColorFactory.get(getValue(value));
@@ -295,7 +331,7 @@ class FXHelper {
     };
     private static def doEventHandler = { delegate, metaProperty, value ->
         if(value instanceof Closure)
-            value = new ClosureEventHandler(closure: value);
+            value = value as EventHandler;
         metaProperty.setProperty(delegate, value);
         return true;
             
@@ -329,6 +365,85 @@ class FXHelper {
         return true;
     };
     
+    private static def doHPos = { delegate, metaProperty, value ->
+        value = getValue(value);
+        if(!value.getClass().isEnum()) {
+            value = Enum.valueOf(metaProperty.getType(),value.toString().trim().toUpperCase())
+        }else if(value instanceof Pos) {
+            value = value.Hpos
+        }
+        metaProperty.setProperty(delegate, value);
+        return true;
+    };
+    private static def doVPos = { delegate, metaProperty, value ->
+        value = getValue(value);
+        if(!value.getClass().isEnum()) {
+            value = Enum.valueOf(metaProperty.getType(),value.toString().trim().toUpperCase())
+        }else if(value instanceof Pos) {
+            value = value.Vpos
+        }
+        metaProperty.setProperty(delegate, value);
+        return true;
+    };
+    private static def doPos = { delegate, metaProperty, value ->
+        value = getValue(value);
+        if(!value.getClass().isEnum()) {
+            value = Enum.valueOf(metaProperty.getType(),value.toString().trim().toUpperCase())
+        }else if(value instanceof VPos) {
+            if(value == VPos.TOP) {
+                 value = Pos.TOP_CENTER;
+            }else if(value == VPos.CENTER) {
+                 value = Pos.CENTER;
+            }else if(value == VPos.TOP) {
+                 value = Pos.BOTTOM_CENTER;
+            }
+        }else if(value instanceof HPos) {
+            if(value == HPos.LEFT) {
+                 value = Pos.CENTER_LEFT;
+            }else if(value == HPos.CENTER) {
+                 value = Pos.CENTER;
+            }else if(value == HPos.RIGHT) {
+                 value = Pos.CENTER_RIGHT;
+            }
+        }
+        metaProperty.setProperty(delegate, value);
+        return true;
+    };
+    
+    
+    private static def doBind = { delegate, metaProperty, value ->
+        MetaClass mc = InvokerHelper.getMetaClass(delegate);
+        def propertyName = metaProperty.name;
+        def property = Util.getJavaFXProperty(delegate, propertyName);
+        if(property == null) {
+            try {
+            property = Util.getJavaBeanFXProperty(delegate, propertyName);
+            if(property == null) {
+                Object attribute = null;
+                if(originalObject != null && originalObject instanceof Closure) {
+                    attribute = mc.getAttribute(originalObject, propertyName);
+                }else {
+                    attribute = mc.getAttribute(delegate, propertyName);
+                    if(attribute instanceof Reference)
+                        attribute = ((Reference)attribute).get();
+                }
+                property = Util.wrapValueInProperty(attribute);
+            }
+            }catch(NoSuchMethodException shouldNotHappen) {
+                shouldNotHappen.printStackTrace();
+            }
+        }
+        if(property instanceof Property && value instanceof Property) { // both writable
+             property.bindBidirectional(value);       
+        }else if(property instanceof Property) { // target is writable, source is ReadOnlyProperty
+            property.bind(value);
+        }else if(property instanceof Property) { // target is ReadOnlyProperty, source is writable
+            value.bind(property);
+        }else {
+            System.out.prntln("Both sides of a bind for property '${metaProperty.name}' are Readonly, bind skipped.")
+        }
+        true;
+    }
     private static def classMap = [
         (String.class): doNothing,
         (Double.class): doNothing,
@@ -368,23 +483,40 @@ class FXHelper {
         (Orientation.class): doOrientation,
         (EventHandler.class): doEventHandler,
         (ToggleGroup.class): doToggleGroup,
+        (HPos.class): doHPos,
+        (VPos.class): doVPos,
+        (Pos.class): doPos,
+        (ReadOnlyProperty.class): doBind,
     ];
 
     public static boolean fxAttribute(delegate, key, value) {
-        def setAnchor = anchorMap[key];
-        if(setAnchor) {
-            setAnchor(delegate, value);
-            return true;
+        if (key == 'anchor') {
+            switch (value) {
+                case Number:
+                    processAnchorList(delegate, [value])
+                    break
+                case List:
+                    processAnchorList(delegate, value)
+                    break
+                default:
+                    throw new Exception("The value of $key must be a number or a List of numbers")
+            }
+            return true
+        } else {
+            def setAnchor = anchorMap[key];
+            if(setAnchor) {
+                setAnchor(delegate, value);
+                return true;
+            }
         }
-        
+
         def metaProperty = delegate.getClass().metaClass.getMetaProperty(key);
         
-        if(value instanceof FullBinding) {
-            value.update();
-            return true;
-        }
         if(metaProperty) {
             // first do quick check from map
+            if(value instanceof ReadOnlyProperty) {
+                  return doBind(delegate, metaProperty, value);     
+            }
             def closure = classMap.get(metaProperty.getType());
             if(closure != null) {
                 return closure(delegate, metaProperty, value);
@@ -393,8 +525,6 @@ class FXHelper {
             if(metaProperty.getType().isEnum()) {
                 return doEnum(delegate, metaProperty, value);
             }
-            //TODO Temporary to tell us if we should add a class to the map.
-            //System.out.println("FXHelper unMapped class '${metaProperty.getType()}' for '$key' property")
             
             if(Paint.class.isAssignableFrom(metaProperty.getType())) {
                 return doPaint(delegate, metaProperty, value);
@@ -426,6 +556,8 @@ class FXHelper {
                 return doEventHandler(delegate, metaProperty, value);
             }else if(ToggleGroup.class.isAssignableFrom(metaProperty.getType())) {
                 return doToggleGroup(delegate, metaProperty, value);
+            }else if(ReadOnlyProperty.class.isAssignableFrom(metaProperty.getType())) {
+                return doBind(delegate, metaProperty, value);
             }
         }
         

@@ -20,77 +20,79 @@ import javafx.stage.FileChooser
 import javafx.stage.Popup
 import javafx.stage.Stage
 import javafx.stage.StageStyle
+import javafx.event.EventHandler;
+import groovyx.javafx.event.*
 
 /**
  *
  * @author jimclarke
  */
-class StageFactory extends AbstractGroovyFXFactory {
+class StageFactory extends AbstractFXBeanFactory {
+    
+    public StageFactory(Class beanClass) {
+        super(beanClass)
+    }
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
             throws InstantiationException, IllegalAccessException {
-        def window = null;
-        if(name == "stage") {
-
-            def style = attributes.remove("style")
-            if(style == null) {
-                style = StageStyle.DECORATED;
-            }
-            if(style instanceof String) {
-                style = StageStyle.valueOf(style.toUpperCase())
-            }
-            def centerOnScreen = attributes.remove("centerOnScreen");
-            builder.context.put("centerOnScreen", centerOnScreen);
-            
-            def show = attributes.remove("show");
-            if(show == null)
-                show = attributes.remove("visible");
-            builder.context.put("show", show);
-
-            def primary = attributes.remove("primary");
-            if(primary == null)
-                primary = true;
-
-            if (FactoryBuilderSupport.checkValueIsType(value, name, Stage.class)) {
-                window = value
-            } else if (primary && builder.variables.primaryStage != null) {
-                window = builder.variables.primaryStage;
-                window.style = style;
-            } else {
-                window = new Stage(style)
-                if(primary)
-                    builder.variables.primaryStage = window;
-            }
-        }else if(name == "popup") {
-            window = new Popup();
-        }else if(name == "fileChooser") {
-            window = new FileChooser();
-        }
-        
-        if(! (window instanceof FileChooser)) {
-            def onHidden = attributes.remove("onHidden");
-            if(onHidden != null) {
-                def handler = new ClosureEventHandler(closure: onHidden);
-                window.onHidden = handler;
-            }
-            def onHidding = attributes.remove("onHidding");
-            if(onHidding != null) {
-                def handler = new ClosureEventHandler(closure: onHidding);
-                window.onHidding = handler;
-            }
-            def onShowing = attributes.remove("onShowing");
-            if(onShowing != null) {
-                def handler = new ClosureEventHandler(closure: onShowing);
-                window.onShowing = handler;
-            }
-            def onShown = attributes.remove("onShown");
-            if(onShown != null) {
-                def handler = new ClosureEventHandler(closure: onShown);
-                window.onShown = handler;
-            }
-        }
+                if(Stage.isAssignableFrom(beanClass)) {
+                    return handleStage(builder, name, value, attributes)
+                }
+                def window = super.newInstance(builder, name, value, attributes)
+                if( ! FileChooser.isAssignableFrom(beanClass)) {
+                    def onHidden = attributes.remove("onHidden");
+                    if(onHidden != null) {
+                        window.onHidden = onHidden as EventHandler;
+                    }
+                    def onHidding = attributes.remove("onHidding");
+                    if(onHidding != null) {
+                        window.onHidding = onHidding as EventHandler;
+                    }
+                    def onShowing = attributes.remove("onShowing");
+                    if(onShowing != null) {
+                        window.onShowing = onShowing as EventHandler;
+                    }
+                    def onShown = attributes.remove("onShown");
+                    if(onShown != null) {
+                        window.onShown = onShown as EventHandler;
+                    }
+                }
 
         return window;
+    }
+    
+    private Stage handleStage(FactoryBuilderSupport builder, Object name, Object value, Map attributes) {
+        def window = null;
+        def style = attributes.remove("style")
+        if(style == null) {
+            style = StageStyle.DECORATED;
+        }
+        if(style instanceof String) {
+            style = StageStyle.valueOf(style.toUpperCase())
+        }
+        def centerOnScreen = attributes.remove("centerOnScreen");
+        builder.context.put("centerOnScreen", centerOnScreen);
+
+        def show = attributes.remove("show");
+        if(show == null)
+            show = attributes.remove("visible");
+        builder.context.put("show", show);
+
+        def primary = attributes.remove("primary");
+        if(primary == null)
+            primary = true;
+
+        if (checkValue(name, value)) {
+            window = value
+        } else if (primary && builder.variables.primaryStage != null) {
+            window = builder.variables.primaryStage;
+            window.style = style;
+        } else {
+            window = new Stage(style)
+            if(primary)
+                builder.variables.primaryStage = window;
+        }
+        window;
     }
 
     public void setChild(FactoryBuilderSupport build, Object parent, Object child) {
@@ -98,6 +100,8 @@ class StageFactory extends AbstractGroovyFXFactory {
             parent.content.add(child);
         }else if(parent instanceof FileChooser && child instanceof FileChooser.ExtensionFilter) {
             parent.getExtensionFilters().add(child);
+        }else if (child instanceof GroovyEventHandler) {
+            FXHelper.setPropertyOrMethod(parent, child.property, child) 
         }
     }
 

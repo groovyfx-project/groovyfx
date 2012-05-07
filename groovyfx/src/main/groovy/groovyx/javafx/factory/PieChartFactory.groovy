@@ -22,26 +22,25 @@ import javafx.scene.chart.PieChart
 /**
  * @author Dean Iverson
  */
-class PieChartFactory extends NodeFactory {
+class PieChartFactory extends AbstractNodeFactory {
+    
+    PieChartFactory() {
+        super(PieChart)
+    }
+    PieChartFactory(Class<PieChart> beanClass) {
+        super(beanClass)
+    }
+    
     @Override
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) {
-        if (FactoryBuilderSupport.checkValueIsType(value, name, PieChart)) {
-            return value
-        } else {
-            return createChart(attributes)
-        }
-    }
-
-    private PieChart createChart(Map attributes) {
-        def chart = new PieChart()
+        PieChart chart = super.newInstance(builder, name, value, attributes);
         def data = attributes.remove("data")
-
         if (data) {
             chart.data = createPieChartData(data)
         }
-
-        return chart
+        chart;
     }
+
 
     private ObservableList<PieChart.Data> createPieChartData(data) {
         if (data instanceof ObservableList) {

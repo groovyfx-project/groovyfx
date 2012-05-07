@@ -17,28 +17,89 @@
 package groovyx.javafx.factory
 
 import javafx.scene.web.*;
+import javafx.beans.value.ChangeListener;
+import javafx.concurrent.Worker.State;
+import javafx.beans.Observable;
+import javafx.concurrent.Worker;
+import javafx.beans.value.ObservableValue
+import javafx.util.Callback;
+import org.codehaus.groovy.runtime.InvokerHelper
+import groovyx.javafx.event.*
 
 /**
  *
  * @author jimclarke
  */
-class WebFactory extends NodeFactory {
+class WebFactory extends AbstractNodeFactory {
+    WebFactory(Class beanClass) {
+        super(beanClass)
+    }
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        Object instance;
+        Object instance = super.newInstance(builder, name, value, attributes)
 
-        if(name == "webView") {
-            def location = attributes.remove("location");
+        if(WebView.isAssignableFrom(beanClass)) {
+            def location = value;
             if(location == null)
-                location = value;
-            instance = new WebView();
+                location = attributes.remove("location");
             if(location != null)
-                instance.engine.load(location);
-        } else if(name == "htmlEditor") {
-            instance = new HTMLEditor()
+                instance.engine.load(location.toString());
+        }else if(HTMLEditor.isAssignableFrom(beanClass)) {
+            if(value != null)
+                instance.htmlText = value.toString()
         }
 
-        //FXHelper.fxAttributes(instance, attributes);
-        return instance;
+        instance;
+    }
+    
+    public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
+        if(parent instanceof WebView) {
+            switch(child) {
+                case GroovyEventHandler:
+                case GroovyCallback:
+                    if(child.property == "onLoad") {
+                        def listener = new ChangeListener<State>() {
+                                @Override
+                                public void changed(ObservableValue<? extends State> observable, 
+                                            State oldState, State newState) {
+                                    switch(newState) {
+                                        case State.SUCCEEDED:
+                                            child.closure.call(parent);
+                                            break;
+                                        default:
+                                            break;
+
+                                    }
+                                }
+                        };
+                        parent.engine.loadWorker.stateProperty().addListener(listener);
+
+                    }else if(child.property == "onError") {
+                        def listener = new ChangeListener<State>() {
+                                @Override
+                                public void changed(ObservableValue<? extends State> observable, 
+                                            State oldState, State newState) {
+                                    switch(newState) {
+                                        case State.FAILED:
+                                            child.closure.call(parent.engine.loadWorker.message, parent.engine.loadWorker.exception);
+                                            break;
+                                        default:
+                                            break;
+
+                                    }
+                                }
+                        };
+                        parent.engine.loadWorker.stateProperty().addListener(listener); 
+                    }else {
+                        InvokerHelper.setProperty(parent.engine, child.property, child);
+                    }
+                    break;
+
+            }
+        }else if(parent instanceof HTMLEditor && child instanceof String) {
+            parent.htmlText = value.toString()
+        }else {
+            super.setChild(builder, parent, child)
+        }
     }
 }
 

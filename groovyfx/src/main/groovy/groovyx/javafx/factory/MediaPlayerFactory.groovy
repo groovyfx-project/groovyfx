@@ -1,8 +1,18 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
+* Copyright 2012 the original author or authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 package groovyx.javafx.factory
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -12,23 +22,28 @@ import javafx.scene.media.MediaPlayerBuilder;
  *
  * @author jimclarke
  */
-class MediaPlayerFactory extends AbstractGroovyFXFactory{
+class MediaPlayerFactory extends AbstractFXBeanFactory{
+    
+    MediaPlayerFactory() {
+        super(MediaPlayer)
+    }
+    MediaPlayerFactory(Class<MediaPlayer> beanClass) {
+        super(beanClass)
+    }
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        Object mediaPlayer;
-        if (value != null && value instanceof MediaPlayer) {
-            mediaPlayer = value
-        } else {
-            mediaPlayer = new MediaPlayerBuilder();
-            if(value != null) {
-                if(value instanceof Media)
-                    mediaPlayer.media(value);
-                else
-                    mediaPlayer.media(new Media(value.toString()))
-            }
-            // Need to this here so that we are sure to return a MediaPlayer, not the builder.
-            handleMediaPlayerAttributes(mediaPlayer, attributes);
-            return mediaPlayer.build();
+        if (checkValue(name, value)) {
+            return value
         }
+        def mediaPlayer = new MediaPlayerBuilder();
+        if(value != null) {
+            if(value instanceof Media)
+                mediaPlayer.media(value);
+            else
+                mediaPlayer.media(new Media(value.toString()))
+        }
+        // Need to this here so that we are sure to return a MediaPlayer, not the builder.
+        handleMediaPlayerAttributes(mediaPlayer, attributes);
+        return mediaPlayer.build();
     }
     
     private void handleMediaPlayerAttributes(Object node, Map attributes) {

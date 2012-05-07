@@ -22,141 +22,40 @@ import javafx.scene.effect.*
  *
  * @author jimclarke
  */
-class EffectFactory extends AbstractGroovyFXFactory {
+class EffectFactory extends AbstractFXBeanFactory {
     public static final String ATTACH_EFFECT_KEY = '__attachEffect'
+    
+    EffectFactory(Class beanClass) {
+        super(beanClass)
+    }
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
             throws InstantiationException, IllegalAccessException {
-        def effect;
-        if (FactoryBuilderSupport.checkValueIsType(value, name, Effect.class)) {
-            effect = (Effect) value
-            if (name == 'effect') {
-                builder.context[ATTACH_EFFECT_KEY] = true
-            }
-        } else if (FactoryBuilderSupport.checkValueIsType(value, name, Light.class)) {
-            effect = (Light) value
-        } else if (FactoryBuilderSupport.checkValueIsType(value, name, EffectWrapper.class)) {
-            effect = (EffectWrapper) value
-        } else {
-            switch (name) {
-                case 'blend':
-                    effect = new Blend();
-                    break;
-                case 'bloom':
-                    effect = new Bloom();
-                    break;
-                case 'boxBlur':
-                    effect = new BoxBlur();
-                    break;
-                case 'colorAdjust':
-                    effect = new ColorAdjust();
-                    break;
-                case 'colorInput':
-                    effect = new ColorInput();
-                    break;
-                case 'displacementMap':
-                    effect = new DisplacementMap();
-                    break;
-                case 'dropShadow':
-                    effect = new DropShadow();
-                    break;
-                case 'gaussianBlur':
-                    effect = new GaussianBlur();
-                    break;
-                case 'glow':
-                    effect = new Glow();
-                    break;
-                case 'imageInput':
-                    effect = new ImageInput();
-                    break;
-                case 'innerShadow':
-                    effect = new InnerShadow();
-                    break;
-                case 'lighting':
-                    effect = new Lighting();
-                    break;
-                case 'motionBlur':
-                    effect = new MotionBlur();
-                    break;
-                case 'perspectiveTransform':
-                    effect = new PerspectiveTransform();
-                    break;
-                case 'reflection':
-                    effect = new Reflection();
-                    break;
-                case 'sepiaTone':
-                    effect = new SepiaTone();
-                    break;
-                case 'shadow':
-                    effect = new Shadow();
-                    break;
-                case 'topInput': // Blend
-                    effect = new EffectWrapper(property: "topInput");
-                    break;
-                case 'bottomInput': // Blend
-                    effect = new EffectWrapper(property: "bottomInput");
-                    break;
-                case 'bumpInput': // Lighting
-                    effect = new EffectWrapper(property: "bumpInput");
-                    break;
-                case 'contentInput': // Lighting
-                    effect = new EffectWrapper(property: "contentInput");
-                    break;
-                case "distant": // Light
-                    effect = new Light.Distant();
-                    break;
-                case "point": // Light
-                    effect = new Light.Point();
-                    break;
-                case "spot": // Light
-                    effect = new Light.Spot();
-                    break;
-            }
+        def effect = super.newInstance(builder, name, value, attributes);
+        if(EffectWrapper.isAssignableFrom(beanClass)) {
+            effect.property = name;
         }
-
-        return effect;
+        effect;
     }
 
     public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         if (child instanceof Effect) {
-            if (parent instanceof Bloom) {
-                ((Bloom) parent).input = (Effect) child;
-            } else if (parent instanceof BoxBlur) {
-                ((BoxBlur) parent).input = (Effect) child;
-            } else if (parent instanceof ColorAdjust) {
-                ((ColorAdjust) parent).input = (Effect) child;
-            } else if (parent instanceof DisplacementMap) {
-                ((DisplacementMap) parent).input = (Effect) child;
-            } else if (parent instanceof DropShadow) {
-                ((DropShadow) parent).input = (Effect) child;
-            } else if (parent instanceof GaussianBlur) {
-                ((GaussianBlur) parent).input = (Effect) child;
-            } else if (parent instanceof Glow) {
-                ((Glow) parent).input = (Effect) child;
-            } else if (parent instanceof InnerShadow) {
-                ((InnerShadow) parent).input = (Effect) child;
-            } else if (parent instanceof MotionBlur) {
-                ((MotionBlur) parent).input = (Effect) child;
-            } else if (parent instanceof PerspectiveTransform) {
-                ((PerspectiveTransform) parent).input = (Effect) child;
-            } else if (parent instanceof Reflection) {
-                ((Reflection) parent).input = (Effect) child;
-            } else if (parent instanceof SepiaTone) {
-                ((SepiaTone) parent).input = (Effect) child;
-            } else if (parent instanceof Shadow) {
-                ((Shadow) parent).input = (Effect) child;
+            if(parent.metaClass.hasProperty(parent, "input")) {
+               FXHelper.setPropertyOrMethod(parent, "input", child)
             } else if (parent instanceof EffectWrapper) {
-                ((EffectWrapper) parent).effect = (Effect) child;
-            } else if (parent instanceof ImageInput) {
-                parent.source = child; // image
+                parent.effect =  child;
             } else {
                 super.setChild(build, parent, child);
             }
+        } else if (parent instanceof ImageInput) {
+                parent.source = child; // image
         } else if (parent instanceof Blend) {
             // do nothing
         } else if (parent instanceof Lighting) {
             if (child instanceof Light) {
                 parent.light = child;
+            }else {
+                super.setChild(builder, parent, child);
             }
         } else {
             super.setChild(builder, parent, child);
@@ -165,23 +64,25 @@ class EffectFactory extends AbstractGroovyFXFactory {
 
     @Override
     void setParent(FactoryBuilderSupport builder, Object parent, Object child) {
-        if (child && builder.context.remove(ATTACH_EFFECT_KEY)) {
+        if (child) {
             FXHelper.setPropertyOrMethod(parent, "effect", child)
         }
     }
 
     void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
-        if (parent instanceof Blend && node instanceof EffectWrapper) {
-            if (node.property == "topInput") {
-                parent.topInput = node.effect;
-            } else if (node.property == "bottomInput") {
-                parent.bottomInput = node.effect;
-            }
-        } else if (parent instanceof Lighting && node instanceof EffectWrapper) {
-            if (node.property == "bumpInput") {
-                parent.bumpInput = node.effect;
-            } else if (node.property == "contentInput") {
-                parent.contentInput = node.effect;
+        if(node instanceof EffectWrapper) {
+            if (parent instanceof Blend) {
+                if (node.property == "topInput") {
+                    parent.topInput = node.effect;
+                } else if (node.property == "bottomInput") {
+                    parent.bottomInput = node.effect;
+                }
+            } else if (parent instanceof Lighting) {
+                if (node.property == "bumpInput") {
+                    parent.bumpInput = node.effect;
+                } else if (node.property == "contentInput") {
+                    parent.contentInput = node.effect;
+                }
             }
         }
     }

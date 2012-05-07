@@ -22,10 +22,16 @@ import javafx.scene.image.Image;
  *
  * @author jimclarke
  */
-class ImageFactory extends AbstractGroovyFXFactory {
+class ImageFactory extends AbstractFXBeanFactory {
+    ImageFactory() {
+        super(Image);
+    }
+    ImageFactory(Class<Image> beanClass) {
+        super(beanClass);
+    }
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        if(value instanceof Image) {
-            return value;
+        if (checkValue(name, value)) {
+            return value
         }
         Image image;
         def url = attributes.remove("url");
@@ -46,7 +52,6 @@ class ImageFactory extends AbstractGroovyFXFactory {
         if(backgroundLoading == null) backgroundLoading = false;
 
         image = new Image(url.toString(), width, height, preserveRatio, smooth, backgroundLoading);
-        //FXHelper.fxAttributes(image, attributes);
         return image;
     }
     public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
@@ -55,8 +60,5 @@ class ImageFactory extends AbstractGroovyFXFactory {
         }
     }
 
-    public void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
-
-    }
 }
 

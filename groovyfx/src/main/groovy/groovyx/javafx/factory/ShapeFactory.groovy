@@ -18,20 +18,10 @@ package groovyx.javafx.factory
 
 import javafx.scene.shape.Shape
 
-class ShapeFactory extends NodeFactory {
-    private final Class<? extends Shape> shapeClass
+class ShapeFactory extends AbstractNodeFactory {
 
     ShapeFactory(Class<? extends Shape> shapeClass) {
-        if (shapeClass == null)
-            throw new IllegalArgumentException("shapeClass cannot be null")
-        this.shapeClass = shapeClass
+        super(shapeClass);
     }
 
-    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attr) {
-        if (FactoryBuilderSupport.checkValueIsType(value, name, shapeClass)) {
-            return value
-        } else {
-            return shapeClass.newInstance()
-        }
-    }
 }

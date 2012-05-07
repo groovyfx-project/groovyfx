@@ -22,30 +22,32 @@ import javafx.scene.Node;
  *
  * @author jimclarke
  */
-public class ClipFactory extends AbstractGroovyFXFactory {
+public class ClipFactory extends AbstractFXBeanFactory {
     
-    private static final String CLIP_PROPERTY = "__clip"
+    ClipFactory() {
+        super(ClipHolder);
+    }
+    
+    ClipFactory(Class<ClipHolder> beanClass) {
+        super(beanClass);
+    }
     
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) {
-        if (value != null && value instanceof Node) {
-            builder.context[CLIP_PROPERTY] = value;
-        } 
-        
-        return this;
+        ClipHolder ch = super.newInstance(builder, name, value, attributes);
+        if(value instanceof Node)
+            ch.node = value;
+        return ch;
     }
     
     public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
         if(child instanceof Node) {
-            builder.context[CLIP_PROPERTY] = child;
+            ch.node = child;
         }
     }
     
     @Override
     void setParent(FactoryBuilderSupport builder, Object parent, Object child) {
-        def clip = builder.context.remove(CLIP_PROPERTY)
-        if (clip) {
-            FXHelper.setPropertyOrMethod(parent, "clip", clip)
-        }
+        FXHelper.setPropertyOrMethod(parent, "clip", child.node)
     }
 }
 

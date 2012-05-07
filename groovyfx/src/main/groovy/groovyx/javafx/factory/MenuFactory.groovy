@@ -1,8 +1,18 @@
 /*
-* To change this template, choose Tools | Templates
-* and open the template in the editor.
+* Copyright 2012 the original author or authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
 */
-
 package groovyx.javafx.factory
 
 import javafx.scene.control.*;
@@ -12,29 +22,25 @@ import javafx.stage.Window;
 *
 * @author jimclarke
 */
-class MenuFactory extends NodeFactory {
+class MenuFactory extends AbstractNodeFactory {
     
-    private static def menuBuilder = [
-        "menuBar": {  builder, name, value, attributes ->  return new MenuBar()  },
-        "contextMenu": { builder, name, value, attributes -> return new ContextMenu() },
-        "menuButton": {  builder, name, value, attributes -> return new MenuButton(value) },
-        "splitMenuButton" : {  builder, name, value, attributes -> 
-            def smi = new SplitMenuButton() 
-            smi.text = value;
-            return smi;
-        }
-    ]
+    
+    MenuFactory(Class beanClass) {
+        super(beanClass);
+    }
     
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        Object menu;
-        if (value instanceof Control || value instanceof ContextMenu ) {
-            menu = value
-        } else {
-            def creator = menuBuilder[name];
-            if(creator != null)
-                menu = creator(builder, name, value, attributes);
+        Object menu = super.newInstance(builder, name, value, attributes);
+        if(value != null) {
+             switch(menu) {
+                 case MenuButton:
+                 case SplitMenuButton:
+                     menu.text = value.toString();
+                     break;
+             }
+            
         }
-        return menu;
+        menu;
     }
     
     public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {

@@ -1,5 +1,5 @@
 /*
-* Copyright 2011 the original author or authors.
+* Copyright 2011-2012 the original author or authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -16,77 +16,68 @@
 
 package groovyx.javafx
 
-import java.util.logging.Logger
+import groovyx.javafx.animation.TargetHolder
+import groovyx.javafx.event.GroovyCallback
+import groovyx.javafx.event.GroovyEventHandler
 import javafx.application.Platform
-import javafx.scene.media.MediaPlayerBuilder
-import javafx.scene.SceneBuilder
+import javafx.beans.InvalidationListener
+import javafx.beans.value.ChangeListener
+import javafx.beans.value.ObservableValue
+import javafx.concurrent.Worker
+import javafx.geometry.HPos
 import javafx.geometry.Orientation
-import javafx.scene.Node
-import javafx.scene.Parent
-import javafx.scene.Scene
-import javafx.scene.chart.CategoryAxis
-import javafx.scene.chart.LineChart
-import javafx.scene.chart.NumberAxis
+import javafx.geometry.Pos
+import javafx.geometry.VPos
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
 import javafx.scene.media.MediaPlayer
+import javafx.scene.media.MediaPlayerBuilder
 import javafx.scene.media.MediaView
 import javafx.scene.paint.Color
-import javafx.stage.Stage
-import javafx.util.Duration
-import org.codehaus.groovy.runtime.InvokerHelper
+import javafx.scene.text.Text
+import javafx.scene.web.HTMLEditor
+import javafx.scene.web.WebView
 import org.codehaus.groovy.runtime.MethodClosure
-import org.codehaus.groovyfx.javafx.binding.ClosureTriggerBinding
+
+import java.util.logging.Logger
+
 import groovyx.javafx.factory.*
-import groovyx.javafx.factory.animation.*;
+import groovyx.javafx.factory.animation.*
+import javafx.animation.*
+import javafx.scene.*
+import javafx.scene.chart.*
+import javafx.scene.control.*
+import javafx.scene.effect.*
+import javafx.scene.layout.*
 import javafx.scene.shape.*
-import javafx.scene.chart.AreaChart
-import javafx.scene.chart.BubbleChart
-import javafx.scene.chart.BarChart
-import javafx.scene.chart.ScatterChart
-
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.FloatProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.LongProperty;
-
-
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ObservableNumberValue;
-
-
-import javafx.beans.binding.DoubleBinding;
-import javafx.beans.binding.FloatBinding;
-import javafx.beans.binding.IntegerBinding;
-import javafx.beans.binding.LongBinding;
-import javafx.beans.binding.BooleanBinding;
-import javafx.beans.property.BooleanProperty;
-
-import javafx.animation.Interpolator;
-import javafx.animation.Timeline;
-
-
+import javafx.scene.transform.*
+import javafx.stage.*
 
 /**
  *
  * @author jimclarke
  */
-public class SceneGraphBuilder extends FactoryBuilderSupport {
-    public static final String DELEGATE_PROPERTY_OBJECT_ID = "_delegateProperty:id";
-    public static final String DEFAULT_DELEGATE_PROPERTY_OBJECT_ID = "id";
+class SceneGraphBuilder extends FactoryBuilderSupport {
+    static final String DELEGATE_PROPERTY_OBJECT_ID = "_delegateProperty:id";
+    static final String DEFAULT_DELEGATE_PROPERTY_OBJECT_ID = "id";
 
-    public static final String DELEGATE_PROPERTY_OBJECT_FILL = "_delegateProperty:fill";
-    public static final String DEFAULT_DELEGATE_PROPERTY_OBJECT_FILL = "fill";
+    static final String DELEGATE_PROPERTY_OBJECT_FILL = "_delegateProperty:fill";
+    static final String DEFAULT_DELEGATE_PROPERTY_OBJECT_FILL = "fill";
 
-    public static final String DELEGATE_PROPERTY_OBJECT_STROKE = "_delegateProperty:stroke";
-    public static final String DEFAULT_DELEGATE_PROPERTY_OBJECT_STROKE = "stroke";
+    static final String DELEGATE_PROPERTY_OBJECT_STROKE = "_delegateProperty:stroke";
+    static final String DEFAULT_DELEGATE_PROPERTY_OBJECT_STROKE = "stroke";
 
-    public static final String CONTEXT_SCENE_KEY = "CurrentScene";
-    public static final String CONTEXT_DIVIDER_KEY = "CurrentDividers";
+    static final String CONTEXT_SCENE_KEY = "CurrentScene";
+    static final String CONTEXT_DIVIDER_KEY = "CurrentDividers";
 
     private static final Logger LOG = Logger.getLogger(SceneGraphBuilder.name)
     private static final Random random = new Random()
 
     private Scene currentScene;
+
+    static {
+        GroovyFXEnhancer.enhanceClasses()
+    }
 
     SceneGraphBuilder(boolean init = true) {
         super(init)
@@ -112,7 +103,57 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         return this;
     }
     
-    private static def propertyMap = [
+    boolean isFxApplicationThread() {
+        Platform.isFxApplicationThread();
+    }
+
+    SceneGraphBuilder submit(WebView wv, Closure c) {
+        //if (!(c instanceof MethodClosure)) {
+        //    c = c.curry([this])
+        //}
+        def submitClosure = {
+            if(wv.engine.loadWorker.state == Worker.State.SUCCEEDED) {
+                c.call(wv);
+            }else {
+                def listener = new ChangeListener<Worker.State>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Worker.State> observable,
+                                Worker.State oldState, Worker.State newState) {
+                        defer {
+                            switch(newState) {
+                                case Worker.State.SUCCEEDED:
+                                    c.call(wv);
+                                    wv.engine.loadWorker.stateProperty().removeListener(this);
+                                    break;
+                                case Worker.State.FAILED:
+                                    System.out.println(wv.engine.loadWorker.exception);
+                                    wv.engine.loadWorker.stateProperty().removeListener(this);
+                                    break;
+                                case Worker.State.CANCELED:
+                                    System.out.println(wv.engine.loadWorker.message);
+                                    wv.engine.loadWorker.stateProperty().removeListener(this);
+                                    break;
+                                default:
+                                    break;
+
+                            }
+                        }
+                    }
+                };
+                wv.engine.loadWorker.stateProperty().addListener(listener);
+            }
+        }
+        
+        if(Platform.isFxApplicationThread()) {
+              submitClosure.call()
+        }else {
+            defer submitClosure
+        }
+
+        return this;
+    }
+
+    private static Map propertyMap = [
         horizontal: Orientation.HORIZONTAL,
         vertical : Orientation.VERTICAL,
         ease_both: Interpolator.EASE_BOTH,
@@ -123,7 +164,23 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         ease_out: Interpolator.EASE_OUT,
         discrete: Interpolator.DISCRETE,
         linear: Interpolator.LINEAR,
-        indefinite: Timeline.INDEFINITE
+        indefinite: Timeline.INDEFINITE,
+        top: VPos.TOP,
+        bottom: VPos.BOTTOM,
+        left: HPos.LEFT,
+        right: HPos.RIGHT,
+        top_left: Pos.TOP_LEFT ,
+        top_center: Pos.TOP_CENTER ,
+        top_right: Pos.TOP_RIGHT ,
+        center_left: Pos.CENTER_LEFT ,
+        center: Pos.CENTER,
+        center_right: Pos.CENTER_RIGHT ,
+        bottom_left: Pos.BOTTOM_LEFT ,
+        bottom_center: Pos.BOTTOM_CENTER ,
+        bottom_right: Pos.BOTTOM_RIGHT ,
+        baseline_center: Pos.BASELINE_CENTER ,
+        baseline_right: Pos.BASELINE_RIGHT ,
+        baseline_left: Pos.BASELINE_LEFT ,
     ];
 
     def propertyMissing(String name) {
@@ -131,351 +188,361 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
             return Color.web(name);
         }
 
-        String lname = name.toLowerCase();
-
-        Color color = Color.NamedColors.namedColors[lname]
-        if (color) { return color }
-        def prop = propertyMap[lname];
-        if(prop)
-            return prop;
-        
         throw new MissingPropertyException("Unrecognized property: ${name}", name, this.class);
     }
-
-    def rgb(int r, int g, int b) {
+    
+    Color rgb(int r, int g, int b) {
         Color.rgb(r,g,b);
     }
 
-    def rgb(int r, int g, int b, float alpha) {
+    Color rgb(int r, int g, int b, float alpha) {
         Color.rgb(r,g,b, alpha);
     }
 
-    def rgba(int r, int g, int b, float alpha) {
+    Color rgba(int r, int g, int b, float alpha) {
         rgb(r,g,b, alpha);
     }
 
-    def hsb(int hue, float saturation, float brightness, float alpha) {
+    Color hsb(int hue, float saturation, float brightness, float alpha) {
         Color.hsb(hue, saturation, brightness, alpha);
     }
 
-    def hsb(int hue, float saturation, float brightness) {
+    Color hsb(int hue, float saturation, float brightness) {
         Color.hsb(hue, saturation, brightness);
     }
 
-    public def registerStages() {
-        StageFactory factory = new StageFactory();
-        registerFactory("stage", factory)
-        registerFactory("popup", factory)
-        registerFactory("fileChooser", factory)
-        registerFactory("filter", new FilterFactory());
+    public void registerBeanFactory(String nodeName, String groupName, Class beanClass) {
+        // poke at the type to see if we need special handling
+        if(ContextMenu.isAssignableFrom(beanClass) ||
+             MenuBar.isAssignableFrom(beanClass) ||
+             MenuButton.isAssignableFrom(beanClass) ||
+             SplitMenuButton.isAssignableFrom(beanClass)  ) {
+            registerFactory nodeName, groupName, new MenuFactory(beanClass)
+        }else if(MenuItem.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new MenuItemFactory(beanClass)
+        }else if(TreeItem.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new TreeItemFactory(beanClass)
+        }else if(TableView.isAssignableFrom(beanClass) ||
+            TableColumn.isAssignableFrom(beanClass) ){
+            registerFactory nodeName, groupName, new TableFactory(beanClass)
+        }else if(Labeled.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new LabeledFactory(beanClass)
+        } else if(Control.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new ControlFactory(beanClass)
+        } else if(Scene.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new SceneFactory(beanClass)
+        } else if(Tab.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new TabFactory(beanClass)
+        } else if(Text.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new TextFactory(beanClass)
+        } else if(Shape.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new ShapeFactory(beanClass)
+        } else if(Transform.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new TransformFactory(beanClass)
+        } else if(Effect.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new EffectFactory(beanClass)
+        } else if(Parent.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new ContainerFactory(beanClass)
+        } else if(Window.isAssignableFrom(beanClass) ||
+            DirectoryChooser.isAssignableFrom(beanClass) ||
+            FileChooser.isAssignableFrom(beanClass)) {
+                registerFactory nodeName, groupName, new StageFactory(beanClass)
+        } else if(XYChart.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new XYChartFactory(beanClass)
+        } else if(PieChart.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new PieChartFactory(beanClass)
+        } else if(Axis.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new AxisFactory(beanClass)
+        } else if(XYChart.Series.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new XYSeriesFactory(beanClass)
+        } else if (Node.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new NodeFactory(beanClass)
+        } else {
+            super.registerBeanFactory(nodeName, groupName, beanClass)
+        }
+    }
+
+    void registerStages() {
+        registerFactory "stage", new StageFactory(Stage)
+        registerFactory "popup", new StageFactory(Popup)
+        registerFactory "fileChooser", new StageFactory(FileChooser)
+        registerFactory "directoryChooser", new StageFactory(DirectoryChooser)
+        registerFactory "filter", new FilterFactory()
+
+        registerFactory "onHidden",  new ClosureHandlerFactory(GroovyEventHandler)
+        registerFactory "onHiding",  new ClosureHandlerFactory(GroovyEventHandler)
+        registerFactory "onShowing",  new ClosureHandlerFactory(GroovyEventHandler)
+        registerFactory "onShown",  new ClosureHandlerFactory(GroovyEventHandler)
+        registerFactory "onCloseRequest",  new ClosureHandlerFactory(GroovyEventHandler)
     }
 
     // register this one first
-    public def registerNodes() {
-        registerFactory("node", new CustomNodeFactory(Node.class, false));
-        registerFactory("nodes", new CustomNodeFactory(List.class, true));
-        registerFactory("container", new CustomNodeFactory(Parent.class, false));
+    void registerNodes() {
+        registerFactory "node", new CustomNodeFactory(javafx.scene.Node)
+        registerFactory "nodes", new CustomNodeFactory(List, true)
+        registerFactory "container", new CustomNodeFactory(Parent)
 
-        registerFactory("imageView", new NodeFactory());
-        registerFactory("image", new ImageFactory());
-        registerFactory("clip", new ClipFactory());
-        registerFactory("fxml", new FXMLFactory());
+        registerFactory "imageView", new ImageViewFactory(ImageView)
+        registerFactory "image", new ImageFactory(Image)
+        registerFactory "clip", new ClipFactory(ClipHolder)
+        registerFactory "fxml", new FXMLFactory()
     }
 
-    public def registerContainers() {
-        registerFactory( "scene", new SceneFactory());
-        registerFactory( 'stylesheets', new StylesheetFactory());
+    void registerContainers() {
+        registerFactory "scene", new SceneFactory(Scene)
+        registerFactory 'stylesheets', new StylesheetFactory(List)
+        registerFactory 'resource', new ResourceFactory()
 
-        ContainerFactory cf = new ContainerFactory();
-        registerFactory( 'pane', cf)
-        registerFactory( 'region', cf)
-        registerFactory( 'anchorPane', cf)
-        registerFactory( 'borderPane', cf)
-        registerFactory( 'flowPane', cf)
-        registerFactory( 'hbox', cf)
-        registerFactory( 'vbox', cf)
-        registerFactory( 'stackPane', cf)
-        registerFactory( 'tilePane', cf)
-        registerFactory( 'group', cf)
-        registerFactory( 'gridPane', cf)
+        registerFactory 'pane', new ContainerFactory(Pane)
+        registerFactory 'region', new ContainerFactory(Region)
+        registerFactory 'anchorPane', new ContainerFactory(AnchorPane)
+        registerFactory 'borderPane', new ContainerFactory(BorderPane)
+        registerFactory 'flowPane', new ContainerFactory(FlowPane)
+        registerFactory 'hbox', new ContainerFactory(HBox)
+        registerFactory 'vbox', new ContainerFactory(VBox)
+        registerFactory 'stackPane', new ContainerFactory(StackPane)
+        registerFactory 'tilePane', new ContainerFactory(TilePane)
+        registerFactory 'group', new ContainerFactory(Group)
+        registerFactory 'gridPane', new ContainerFactory(GridPane)
 
-        GridConstraintFactory gcf = new GridConstraintFactory()
-        registerFactory( 'constraint', gcf);
-        registerFactory( 'rowConstraints', gcf);
-        registerFactory( 'columnConstraints', gcf);
+        registerFactory 'constraint', new GridConstraintFactory(GridConstraint)
+        registerFactory 'rowConstraints', new GridConstraintFactory(RowConstraints)
+        registerFactory 'columnConstraints', new GridConstraintFactory(ColumnConstraints)
 
-        GridRowColumnFactory rcf = new GridRowColumnFactory();
-        registerFactory( 'row', rcf)
-        registerFactory( 'column', rcf)
-        
-        BorderPanePositionFactory bppf = new BorderPanePositionFactory();
-        registerFactory( 'top', bppf)
-        registerFactory( 'bottom', bppf)
-        registerFactory( 'left', bppf)
-        registerFactory( 'right', bppf)
-        registerFactory( 'center', bppf)
+        registerFactory 'row', new GridRowColumnFactory(GridRow);
+        registerFactory 'column', new GridRowColumnFactory(GridColumn);
+
+        registerFactory 'top',new BorderPanePositionFactory(BorderPanePosition)
+        registerFactory 'bottom', new BorderPanePositionFactory(BorderPanePosition)
+        registerFactory 'left', new BorderPanePositionFactory(BorderPanePosition)
+        registerFactory 'right', new BorderPanePositionFactory(BorderPanePosition)
+        registerFactory 'center', new BorderPanePositionFactory(BorderPanePosition)
     }
 
-    public def registerBinding() {
-        BindFactory bindFactory = new BindFactory();
-        ChangeFactory changeFactory = new ChangeFactory();
-        
-        registerFactory("bind", bindFactory);
-        registerFactory("onChange", changeFactory);
+    void registerBinding() {
+        registerFactory "bind", new BindFactory();
+        registerFactory "onChange", new ChangeFactory(ChangeListener)
+        registerFactory "onInvalidate", new ChangeFactory(InvalidationListener)
     }
 
-    public def registerThreading() {
+    void registerThreading() {
         registerExplicitMethod "defer", this.&defer
     }
 
-    public def registerMenus() {
-        MenuFactory mf = new MenuFactory();
-        MenuItemFactory mif = new MenuItemFactory();
-        
-        registerFactory( 'menuBar', mf);
-        registerFactory( 'contextMenu', mf);
-        registerFactory( 'menuButton', mf);
-        registerFactory( 'splitMenuButton', mf);
-        
-        registerFactory( 'menu', mif);
-        registerFactory( 'menuItem', mif);
-        registerFactory( 'checkMenuItem', mif);
-        registerFactory( 'customMenuItem', mif);
-        registerFactory( 'separatorMenuItem', mif);
-        registerFactory( 'radioMenuItem', mif);
+    void registerMenus() {
+        registerFactory 'menuBar', new MenuFactory(MenuBar)
+        registerFactory 'contextMenu', new MenuFactory(ContextMenu)
+        registerFactory 'menuButton', new MenuFactory(MenuButton)
+        registerFactory 'splitMenuButton', new MenuFactory(SplitMenuButton)
+
+        registerFactory 'menu', new MenuItemFactory(Menu);
+        registerFactory 'menuItem', new MenuItemFactory(MenuItem);
+        registerFactory 'checkMenuItem', new MenuItemFactory(CheckMenuItem);
+        registerFactory 'customMenuItem', new MenuItemFactory(CustomMenuItem);
+        registerFactory 'separatorMenuItem', new MenuItemFactory(SeparatorMenuItem);
+        registerFactory 'radioMenuItem', new MenuItemFactory(RadioMenuItem);
     }
 
-    public def registerCharts() {
-        registerFactory('pieChart', new PieChartFactory())
-        registerFactory('lineChart', new XYChartFactory(LineChart))
-        registerFactory('areaChart', new XYChartFactory(AreaChart))
-        registerFactory('bubbleChart', new XYChartFactory(BubbleChart))
-        registerFactory('barChart', new XYChartFactory(BarChart))
-        registerFactory('scatterChart', new XYChartFactory(ScatterChart))
-        registerFactory('numberAxis', new AxisFactory(NumberAxis))
-        registerFactory('categoryAxis', new AxisFactory(CategoryAxis))
-        registerFactory('series', new XYSeriesFactory())
-    }
-    
-    public def registerTransforms() {
-        TransformFactory tf = new TransformFactory();
-        registerFactory('affine', tf);
-        registerFactory('rotate', tf);
-        registerFactory('scale', tf);
-        registerFactory('shear', tf);
-        registerFactory('translate', tf);
+    void registerCharts() {
+        registerFactory 'pieChart', new PieChartFactory(PieChart)
+        registerFactory 'lineChart', new XYChartFactory(LineChart)
+        registerFactory 'areaChart', new XYChartFactory(AreaChart)
+        registerFactory 'stackedAreaChart', new XYChartFactory(StackedAreaChart)
+        registerFactory 'bubbleChart', new XYChartFactory(BubbleChart)
+        registerFactory 'barChart', new XYChartFactory(BarChart)
+        registerFactory 'stackedBarChart', new XYChartFactory(StackedBarChart)
+        registerFactory 'scatterChart', new XYChartFactory(ScatterChart)
+        registerFactory 'numberAxis', new AxisFactory(NumberAxis)
+        registerFactory 'categoryAxis', new AxisFactory(CategoryAxis)
+        registerFactory 'series', new XYSeriesFactory(XYChart.Series)
     }
 
-    public def registerShapes() {
-        registerFactory('arc',        new ShapeFactory(Arc))
-        registerFactory('circle',     new ShapeFactory(Circle))
-        registerFactory('cubicCurve', new ShapeFactory(CubicCurve))
-        registerFactory('ellipse',    new ShapeFactory(Ellipse))
-        registerFactory('line',       new ShapeFactory(Line))
-        registerFactory('polygon',    new ShapeFactory(Polygon))
-        registerFactory('polyline',   new ShapeFactory(Polyline))
-        registerFactory('quadCurve',  new ShapeFactory(QuadCurve))
-        registerFactory('rectangle',  new ShapeFactory(Rectangle))
-        registerFactory('svgPath',    new ShapeFactory(SVGPath))
-
-        registerFactory('path', new PathFactory(Path))
-
-        registerFactory('arcTo',        new PathElementFactory(ArcTo))
-        registerFactory('closePath',    new PathElementFactory(ClosePath))
-        registerFactory('cubicCurveTo', new PathElementFactory(CubicCurveTo))
-        registerFactory('hLineTo',      new PathElementFactory(HLineTo))
-        registerFactory('lineTo',       new PathElementFactory(LineTo))
-        registerFactory('moveTo',       new PathElementFactory(MoveTo))
-        registerFactory('quadCurveTo',  new PathElementFactory(QuadCurveTo))
-        registerFactory('vLineTo',      new PathElementFactory(VLineTo))
-
-        registerFactory('text', new TextFactory())
-
-        registerFactory('linearGradient', new LinearGradientFactory())
-        registerFactory('radialGradient', new RadialGradientFactory())
-        registerFactory('stop',   new StopFactory())
-        registerFactory('fill',   new FillFactory())
-        registerFactory('stroke', new StrokeFactory())
+    void registerTransforms() {
+        registerFactory 'affine', new TransformFactory(Affine)
+        registerFactory 'rotate', new TransformFactory(Rotate)
+        registerFactory 'scale', new TransformFactory(Scale)
+        registerFactory 'shear', new TransformFactory(Shear)
+        registerFactory 'translate', new TransformFactory(Translate)
     }
 
-    public def registerControls() {
-        LabeledFactory lf = new LabeledFactory();
-        ControlFactory cf = new ControlFactory();
-        TableFactory tf = new TableFactory();
-        TitledFactory titledF = new TitledFactory();
-        DividerPositionFactory df = new DividerPositionFactory();
-        TabFactory tabf = new TabFactory();
-        GraphicFactory gf = new GraphicFactory();
-        TreeItemFactory treeItemf = new TreeItemFactory();
-        TreeItemEventFactory treeItemEventf = new TreeItemEventFactory();
-        TreeViewEventFactory treeViewEventf = new TreeViewEventFactory();
+    void registerShapes() {
+        registerFactory 'arc',        new ShapeFactory(Arc)
+        registerFactory 'circle',     new ShapeFactory(Circle)
+        registerFactory 'cubicCurve', new ShapeFactory(CubicCurve)
+        registerFactory 'ellipse',    new ShapeFactory(Ellipse)
+        registerFactory 'line',       new ShapeFactory(Line)
+        registerFactory 'polygon',    new ShapeFactory(Polygon)
+        registerFactory 'polyline',   new ShapeFactory(Polyline)
+        registerFactory 'quadCurve',  new ShapeFactory(QuadCurve)
+        registerFactory 'rectangle',  new ShapeFactory(Rectangle)
+        registerFactory 'svgPath',    new ShapeFactory(SVGPath)
+
+        registerFactory 'path', new PathFactory(Path)
+
+        registerFactory 'arcTo',        new PathElementFactory(ArcTo)
+        registerFactory 'closePath',    new PathElementFactory(ClosePath)
+        registerFactory 'cubicCurveTo', new PathElementFactory(CubicCurveTo)
+        registerFactory 'hLineTo',      new PathElementFactory(HLineTo)
+        registerFactory 'lineTo',       new PathElementFactory(LineTo)
+        registerFactory 'moveTo',       new PathElementFactory(MoveTo)
+        registerFactory 'quadCurveTo',  new PathElementFactory(QuadCurveTo)
+        registerFactory 'vLineTo',      new PathElementFactory(VLineTo)
+
+        registerFactory 'text', new TextFactory(Text)
+
+        registerFactory 'linearGradient', new LinearGradientFactory()
+        registerFactory 'radialGradient', new RadialGradientFactory()
+        registerFactory 'stop',   new StopFactory()
+        registerFactory 'fill',   new FillFactory()
+        registerFactory 'stroke', new StrokeFactory()
+    }
+
+    void registerControls() {
 
         // labeled
-        registerFactory( 'button', lf)
-        registerFactory( 'checkBox', lf)
-        registerFactory( 'label', lf)
-        registerFactory( 'choiceBox', lf)
-        registerFactory( 'hyperlink', lf)
-        registerFactory( 'tooltip', lf)
-        registerFactory( 'radioButton', lf)
-        registerFactory( 'toggleButton', lf)
+        registerFactory 'button', new LabeledFactory(Button)
+        registerFactory 'checkBox', new LabeledFactory(CheckBox)
+        registerFactory 'label', new LabeledFactory(Label)
+        registerFactory 'choiceBox', new LabeledFactory(ChoiceBox)
+        registerFactory 'hyperlink', new LabeledFactory(Hyperlink)
+        registerFactory 'tooltip', new LabeledFactory(Tooltip)
+        registerFactory 'radioButton', new LabeledFactory(RadioButton)
+        registerFactory 'toggleButton', new LabeledFactory(ToggleButton)
+
+        registerFactory "onSelect", new CellFactory()
+        registerFactory "cellFactory", new CellFactory()
+        registerFactory "onAction", new ClosureHandlerFactory(GroovyEventHandler);
+
 
         // regular controls
-        registerFactory( 'scrollBar', cf)
-        registerFactory( 'slider', cf)
-        registerFactory( 'separator', cf)
-        registerFactory( 'listView', cf)
-        registerFactory( 'textArea', cf)
-        registerFactory( 'textField', cf)
-        registerFactory( 'passwordField', cf)
-        registerFactory( 'progressBar', cf)
-        registerFactory( 'progressIndicator', cf)
-        registerFactory( 'scrollPane', cf)
-        registerFactory( 'tableView', tf)
-        
-        
-        registerFactory( 'accordion', cf); // children node to panes list
-        registerFactory( 'titledPane', cf); // Node title, Node content
-        registerFactory( 'splitPane', cf); // left and right nodes
-        registerFactory( 'dividerPosition', df);
-        registerFactory( 'tabPane', cf); // add tabs
-        registerFactory( 'tab', tabf);
-        registerFactory( 'toolBar', cf); // items
-        
-        
-        registerFactory( 'treeView', cf);
-        registerFactory( 'treeItem', treeItemf);
+        registerFactory 'scrollBar', new ControlFactory(ScrollBar)
+        registerFactory 'slider', new ControlFactory(Slider)
+        registerFactory 'separator', new ControlFactory(Separator)
+        registerFactory 'listView', new ControlFactory(ListView)
+        registerFactory 'textArea', new ControlFactory(TextArea)
+        registerFactory 'textField', new ControlFactory(TextField)
+        registerFactory 'passwordField', new ControlFactory(PasswordField)
+        registerFactory 'progressBar', new ControlFactory(ProgressBar)
+        registerFactory 'progressIndicator', new ControlFactory(ProgressIndicator)
+        registerFactory 'scrollPane', new ControlFactory(ScrollPane)
+
+        registerFactory 'comboBox', new ControlFactory(ComboBox)
+
+
+        registerFactory 'accordion', new ControlFactory(Accordion)
+        registerFactory 'titledPane', new ControlFactory(TitledPane)
+        registerFactory 'splitPane', new ControlFactory(SplitPane)
+        registerFactory 'dividerPosition', new DividerPositionFactory(DividerPosition)
+        registerFactory 'tabPane', new ControlFactory(TabPane)
+        registerFactory 'tab', new TabFactory(Tab)
+        registerFactory 'toolBar', new ControlFactory(ToolBar)
+
+
+        registerFactory 'treeView', new ControlFactory(TreeView)
+        registerFactory 'treeItem', new TreeItemFactory(TreeItem)
         // popupControl
-        
+
         //'indexedCell'
         //'cell'
+        registerFactory 'tableView', new TableFactory(TableView)
+        registerFactory 'tableColumn', new TableFactory(TableColumn)
 
-        registerFactory( 'tableColumn', tf)
-        
-        registerFactory( 'title', titledF)
-        registerFactory( 'content', titledF)
-        
-        registerFactory( 'graphic', gf);
+        registerFactory 'title', new TitledFactory(TitledNode)
+        registerFactory 'content', new TitledFactory(TitledContent)
+
+        registerFactory 'graphic', new GraphicFactory(Graphic)
 
         // tree events
-        registerFactory( "onBranchCollapse", treeItemEventf)
-        registerFactory( "onBranchExpand",treeItemEventf)
-        registerFactory( "onChildrenModification",treeItemEventf)
-        registerFactory( "onGraphicChanged",treeItemEventf)
-        registerFactory( "onTreeItemCountChange",treeItemEventf)
-        registerFactory( "onTreeNotification",treeItemEventf)
-        registerFactory( "onValueChanged",treeItemEventf)
-        
-        registerFactory( "onEditCancel", treeViewEventf)
-        registerFactory( "onEditCommit", treeViewEventf)
-        registerFactory( "onEditStart", treeViewEventf)
+        TreeItemFactory.treeItemEvents.each {
+            registerFactory it.key, new ClosureHandlerFactory(GroovyEventHandler);
+        }
+
+        registerFactory "onEditCancel", new ClosureHandlerFactory(GroovyEventHandler)
+        registerFactory "onEditCommit", new ClosureHandlerFactory(GroovyEventHandler)
+        registerFactory "onEditStart", new ClosureHandlerFactory(GroovyEventHandler)
     }
 
-    public def registerEffects() {
-        def ef = new EffectFactory()
+    void registerEffects() {
 
         // Dummy node for attaching child effects
-        registerFactory( 'effect', ef)
+        registerFactory 'effect', new EffectFactory(Effect)
 
-        registerFactory( 'blend', ef)
-        registerFactory( 'bloom', ef)
-        registerFactory( 'boxBlur', ef)
-        registerFactory( 'colorAdjust', ef)
-        registerFactory( "colorInput", ef)
-        registerFactory( 'displacementMap', ef)
-        registerFactory( 'dropShadow', ef)
-        registerFactory( 'gaussianBlur', ef)
-        registerFactory( 'glow', ef)
-        registerFactory( 'imageInput', ef)
-        registerFactory( 'innerShadow', ef)
-        registerFactory( 'lighting', ef)
-        registerFactory( 'motionBlur', ef)
-        registerFactory( 'perspectiveTransform', ef)
-        registerFactory( 'reflection', ef)
-        registerFactory( 'sepiaTone', ef)
-        registerFactory( 'shadow', ef)
-        
-        registerFactory( 'topInput', ef)
-        registerFactory( 'bottomInput', ef)
-        registerFactory( 'bumpInput', ef)
-        registerFactory( 'contentInput', ef)
-        registerFactory( "distant", ef)
-        registerFactory( "point", ef)
-        registerFactory( "spot", ef)
+        registerFactory 'blend', new EffectFactory(Blend)
+        registerFactory 'bloom', new EffectFactory(Bloom)
+        registerFactory 'boxBlur', new EffectFactory(BoxBlur)
+        registerFactory 'colorAdjust', new EffectFactory(ColorAdjust)
+        registerFactory "colorInput", new EffectFactory(ColorInput)
+        registerFactory 'displacementMap', new EffectFactory(DisplacementMap)
+        registerFactory 'dropShadow', new EffectFactory(DropShadow)
+        registerFactory 'gaussianBlur', new EffectFactory(GaussianBlur)
+        registerFactory 'glow', new EffectFactory(Glow)
+        registerFactory 'imageInput', new EffectFactory(ImageInput)
+        registerFactory 'innerShadow', new EffectFactory(InnerShadow)
+        registerFactory 'lighting', new EffectFactory(Lighting)
+        registerFactory 'motionBlur', new EffectFactory(MotionBlur)
+        registerFactory 'perspectiveTransform', new EffectFactory(PerspectiveTransform)
+        registerFactory 'reflection', new EffectFactory(Reflection)
+        registerFactory 'sepiaTone', new EffectFactory(SepiaTone)
+        registerFactory 'shadow', new EffectFactory(Shadow)
+
+        registerFactory 'topInput', new EffectFactory(EffectWrapper)
+        registerFactory 'bottomInput', new EffectFactory(EffectWrapper)
+        registerFactory 'bumpInput', new EffectFactory(EffectWrapper)
+        registerFactory 'contentInput', new EffectFactory(EffectWrapper)
+        registerFactory "distant", new EffectFactory(Light.Distant)
+        registerFactory "point", new EffectFactory(Light.Point)
+        registerFactory "spot", new EffectFactory(Light.Spot)
     }
 
-    public def registerInputListeners() {
-        MouseHandlerFactory mf = new MouseHandlerFactory()
-        KeyHandlerFactory kf = new KeyHandlerFactory()
-        ActionHandlerFactory af = new ActionHandlerFactory()
+    void registerEventHandlers() {
+        ClosureHandlerFactory eh = new ClosureHandlerFactory(GroovyEventHandler)
 
-        registerFactory('onMouseClicked', mf)
-        registerFactory('onMouseDragged', mf)
-        registerFactory('onMouseEntered', mf)
-        registerFactory('onMouseExited', mf)
-        registerFactory('onMouseMoved', mf)
-        registerFactory('onMousePressed', mf)
-        registerFactory('onMouseReleased', mf)
-        registerFactory('onDragDetected', mf)
-        registerFactory('onDragDone', mf)
-        registerFactory('onDragEntered', mf)
-        registerFactory('onDragExited', mf)
-        registerFactory('onDragOver', mf)
-        registerFactory('onDragDropped', mf)
-        registerFactory('onMouseWheelMoved', mf) // only works for scene.
-
-        registerFactory('onKeyPressed', kf)
-        registerFactory('onKeyReleased', kf)
-        registerFactory('onKeyTyped', kf)
-
-        registerFactory('onAction', af)
+        for(property in AbstractNodeFactory.nodeEvents) {
+            registerFactory property, eh
+        }
     }
 
-    public def registerWeb() {
-        // javafx.io package has been removed.
-        //HttpFactory hf = new HttpFactory();
-        //registerFactory( 'httpRequest', hf)
-        //registerFactory( 'httpHeader', hf)
+    void registerWeb() {
 
-        WebFactory wf = new  WebFactory();
-        registerFactory( 'webView', wf)
-        registerFactory( 'htmlEditor', wf)
-    }
-    
-    public def registerTransition() {
-        TransitionFactory tf = new TransitionFactory();
-        TimelineFactory tlf = new TimelineFactory();
-        KeyFrameFactory kf = new KeyFrameFactory();
-        KeyFrameActionFactory kfa = new KeyFrameActionFactory();
-        KeyValueFactory kv = new KeyValueFactory();
-        KeyValueSubFactory kvs = new KeyValueSubFactory();
-        
-        registerFactory( 'fadeTransition', tf);
-        registerFactory( 'fillTransition', tf);
-        registerFactory( 'parallelTransition', tf);
-        registerFactory( 'pauseTransition', tf);
-        registerFactory( 'rotateTransition', tf);
-        registerFactory( 'scaleTransition', tf);
-        registerFactory( 'translateTransition', tf);
-        registerFactory( 'sequentialTransition', tf);
-        registerFactory( 'pathTransition', tf);
-        registerFactory( 'strokeTransition', tf);
-        registerFactory( 'transition', tf);
-        
-        registerFactory( 'timeline', tlf);
-        registerFactory("at", kf)
-        registerFactory("action", kfa)
-        registerFactory("change", kv)
-        registerFactory("to", kvs)
-        registerFactory("tween", kvs)
-    }
-    
-    public def registerMedia() {
-        MediaViewFactory mf = new MediaViewFactory();
-        MediaPlayerFactory pf = new MediaPlayerFactory();
+        registerFactory 'webView', new WebFactory(WebView)
+        registerFactory 'htmlEditor',new WebFactory(HTMLEditor)
 
-        registerFactory( 'mediaView', mf)
-        registerFactory( 'mediaPlayer', pf)
+        registerFactory 'onLoad', new ClosureHandlerFactory(GroovyEventHandler)
+        registerFactory 'onError', new ClosureHandlerFactory(GroovyEventHandler)
+        registerFactory 'onAlert', new ClosureHandlerFactory(GroovyEventHandler)
+        registerFactory 'onResized', new ClosureHandlerFactory(GroovyEventHandler)
+        registerFactory 'onVisibilityChanged', new ClosureHandlerFactory(GroovyEventHandler)
+        registerFactory 'createPopupHandler', new ClosureHandlerFactory(GroovyCallback)
+        registerFactory 'confirmHandler', new ClosureHandlerFactory(GroovyCallback)
+        registerFactory 'promptHandler', new ClosureHandlerFactory(GroovyCallback)
+    }
+
+    void registerTransition() {
+
+        registerFactory 'fadeTransition', new TransitionFactory(FadeTransition)
+        registerFactory 'fillTransition', new TransitionFactory(FillTransition)
+        registerFactory 'parallelTransition', new TransitionFactory(ParallelTransition)
+        registerFactory 'pauseTransition', new TransitionFactory(PauseTransition)
+        registerFactory 'rotateTransition', new TransitionFactory(RotateTransition);
+        registerFactory 'scaleTransition', new TransitionFactory(ScaleTransition)
+        registerFactory 'translateTransition', new TransitionFactory(TranslateTransition)
+        registerFactory 'sequentialTransition', new TransitionFactory(SequentialTransition)
+        registerFactory 'pathTransition', new TransitionFactory(PathTransition)
+        registerFactory 'strokeTransition', new TransitionFactory(StrokeTransition)
+        registerFactory 'transition', new TransitionFactory(Transition)
+
+        registerFactory 'timeline', new TimelineFactory(Timeline)
+        registerFactory "at", new KeyFrameFactory(KeyFrameWrapper)
+        registerFactory "action", new ClosureHandlerFactory(GroovyEventHandler)
+        registerFactory "change", new KeyValueFactory(TargetHolder)
+        registerFactory "to", new KeyValueSubFactory(Object)
+        registerFactory "tween", new KeyValueSubFactory(Interpolator)
+        registerFactory "onFinished", new ClosureHandlerFactory(GroovyEventHandler)
+    }
+
+    void registerMedia() {
+        registerFactory 'mediaView', new MediaViewFactory(MediaView)
+        registerFactory 'mediaPlayer', new MediaPlayerFactory(MediaPlayer);
     }
 
     /**
@@ -487,8 +554,8 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
         c.setDelegate(this)
         return c.call()
     }
-    
-    private def postCompletionDelegate = { FactoryBuilderSupport builder, Object parent, Object node ->
+
+    private static postCompletionDelegate = { FactoryBuilderSupport builder, Object parent, Object node ->
         if(node instanceof MediaPlayerBuilder || node instanceof SceneBuilder) {
             node = node.build();
             if(parent instanceof MediaView && node instanceof MediaPlayer) {
@@ -513,375 +580,19 @@ public class SceneGraphBuilder extends FactoryBuilderSupport {
     private void initialize() {
         this[DELEGATE_PROPERTY_OBJECT_ID] = DEFAULT_DELEGATE_PROPERTY_OBJECT_ID
 
-        ExpandoMetaClass.enableGlobally()
         addPostNodeCompletionDelegate(postCompletionDelegate)
         addAttributeDelegate(NodeFactory.attributeDelegate)
-        addAttributeDelegate(BindFactory.bindingAttributeDelegate)
+        //addAttributeDelegate(BindFactory.bindingAttributeDelegate)
         addAttributeDelegate(idDelegate)
 
         Color.NamedColors.namedColors.put("groovyblue", Color.rgb(99, 152, 170))
 
-        Number.metaClass{
-            getM = {-> Duration.minutes(delegate)}
-            getS = {-> Duration.seconds(delegate)}
-            getMs = {-> Duration.millis(delegate)}
-            getH = {-> Duration.hours(delegate)}
-            
-            // FX Properties
-            plus << { ObservableNumberValue operand -> operand.add(delegate)}
-            minus << { ObservableNumberValue operand -> 
-                new SimpleDoubleProperty(delgate).subtract(operand)
-            }
-            multiply << { ObservableNumberValue operand -> operand.multiply(delegate)}
-            div << { ObservableNumberValue operand -> 
-                new SimpleDoubleProperty(delgate).divide(operand)
-            }
-        }
-        
-        DoubleProperty.metaClass {
-            plus << { Number operand -> delegate.add(operand)}
-            plus << { ObservableNumberValue operand -> delegate.add(operand)}
-            
-            minus << { Number operand -> delegate.subtract(operand)}
-            minus << { ObservableNumberValue operand -> delegate.subtract(operand)}
-            
-            // multiply is already defined.
-            //multiply << { Number operand -> delegate.multiply(operand)}
-            //multiply << { ObservableNumberValue operand -> delegate.multiply(operand)}
-            
-            div << { Number operand -> delegate.divide(operand)}
-            div << { ObservableNumberValue operand -> delegate.divide(operand)}
-            
-            negative << {   delegate.negate() }
-            
-            // aliases
-            gt << { Number operand -> delegate.greaterThan(operand)}
-            gt << { ObservableNumberValue operand -> delegate.greaterThan(operand)}
-            
-            ge << { Number operand -> delegate.greaterThanOrEqualTo(operand)}
-            ge << { ObservableNumberValue operand -> delegate.greaterThanOrEqualTo(operand)}
-            
-            lt << { Number operand -> delegate.lessThan(operand)}
-            lt << { ObservableNumberValue operand -> delegate.lessThan(operand)}
-            
-            le << { Number operand -> delegate.lessThanOrEqualTo(operand)}
-            le << { ObservableNumberValue operand -> delegate.lessThanOrEqualTo(operand)}
-            
-            eq << { Number operand -> delegate.isEqualTo(operand)}
-            eq << { ObservableNumberValue operand -> delegate.isEqualTo(operand)}
-            
-            ne << { Number operand -> delegate.isNotEqualTo(operand)}
-            ne << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
-            
-        }
-        
-        FloatProperty.metaClass {
-            plus << { Number operand -> delegate.add(operand)}
-            plus << { ObservableNumberValue operand -> delegate.add(operand)}
-            
-            minus << { Number operand -> delegate.subtract(operand)}
-            minus << { ObservableNumberValue operand -> delegate.subtract(operand)}
-            
-            // multiply is already defined.
-            //multiply << { Number operand -> delegate.multiply(operand)}
-            //multiply << { ObservableNumberValue operand -> delegate.multiply(operand)}
-            
-            div << { Number operand -> delegate.divide(operand)}
-            div << { ObservableNumberValue operand -> delegate.divide(operand)}
-            
-            negative << {   delegate.negate() }
-            
-            // aliases
-            gt << { Number operand -> delegate.greaterThan(operand)}
-            gt << { ObservableNumberValue operand -> delegate.greaterThan(operand)}
-            
-            ge << { Number operand -> delegate.greaterThanOrEqualTo(operand)}
-            ge << { ObservableNumberValue operand -> delegate.greaterThanOrEqualTo(operand)}
-            
-            lt << { Number operand -> delegate.lessThan(operand)}
-            lt << { ObservableNumberValue operand -> delegate.lessThan(operand)}
-            
-            le << { Number operand -> delegate.lessThanOrEqualTo(operand)}
-            le << { ObservableNumberValue operand -> delegate.lessThanOrEqualTo(operand)}
-            
-            eq << { Number operand -> delegate.isEqualTo(operand)}
-            eq << { ObservableNumberValue operand -> delegate.isEqualTo(operand)}
-            
-            ne << { Number operand -> delegate.isNotEqualTo(operand)}
-            ne << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
-            
-        }
-        
-        
-        IntegerProperty.metaClass {
-            plus << { Number operand -> delegate.add(operand)}
-            plus << { ObservableNumberValue operand -> delegate.add(operand)}
-            
-            minus << { Number operand -> delegate.subtract(operand)}
-            minus << { ObservableNumberValue operand -> delegate.subtract(operand)}
-            
-            // multiply is already defined.
-            //multiply << { Number operand -> delegate.multiply(operand)}
-            //multiply << { ObservableNumberValue operand -> delegate.multiply(operand)}
-            
-            div << { Number operand -> delegate.divide(operand)}
-            div << { ObservableNumberValue operand -> delegate.divide(operand)}
-            
-            negative << {   delegate.negate() }
-            
-            // aliases
-            gt << { Number operand -> delegate.greaterThan(operand)}
-            gt << { ObservableNumberValue operand -> delegate.greaterThan(operand)}
-            
-            ge << { Number operand -> delegate.greaterThanOrEqualTo(operand)}
-            ge << { ObservableNumberValue operand -> delegate.greaterThanOrEqualTo(operand)}
-            
-            lt << { Number operand -> delegate.lessThan(operand)}
-            lt << { ObservableNumberValue operand -> delegate.lessThan(operand)}
-            
-            le << { Number operand -> delegate.lessThanOrEqualTo(operand)}
-            le << { ObservableNumberValue operand -> delegate.lessThanOrEqualTo(operand)}
-            
-            eq << { Number operand -> delegate.isEqualTo(operand)}
-            eq << { ObservableNumberValue operand -> delegate.isEqualTo(operand)}
-            
-            ne << { Number operand -> delegate.isNotEqualTo(operand)}
-            ne << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
-            
-        }
-        
-        
-        LongProperty.metaClass {
-            plus << { Number operand -> delegate.add(operand)}
-            plus << { ObservableNumberValue operand -> delegate.add(operand)}
-            
-            minus << { Number operand -> delegate.subtract(operand)}
-            minus << { ObservableNumberValue operand -> delegate.subtract(operand)}
-            
-            // multiply is already defined.
-            //multiply << { Number operand -> delegate.multiply(operand)}
-            //multiply << { ObservableNumberValue operand -> delegate.multiply(operand)}
-            
-            div << { Number operand -> delegate.divide(operand)}
-            div << { ObservableNumberValue operand -> delegate.divide(operand)}
-            
-            negative << {   delegate.negate() }
-            
-            // aliases
-            gt << { Number operand -> delegate.greaterThan(operand)}
-            gt << { ObservableNumberValue operand -> delegate.greaterThan(operand)}
-            
-            ge << { Number operand -> delegate.greaterThanOrEqualTo(operand)}
-            ge << { ObservableNumberValue operand -> delegate.greaterThanOrEqualTo(operand)}
-            
-            lt << { Number operand -> delegate.lessThan(operand)}
-            lt << { ObservableNumberValue operand -> delegate.lessThan(operand)}
-            
-            le << { Number operand -> delegate.lessThanOrEqualTo(operand)}
-            le << { ObservableNumberValue operand -> delegate.lessThanOrEqualTo(operand)}
-            
-            eq << { Number operand -> delegate.isEqualTo(operand)}
-            eq << { ObservableNumberValue operand -> delegate.isEqualTo(operand)}
-            
-            ne << { Number operand -> delegate.isNotEqualTo(operand)}
-            ne << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
-            
-        }
-        
-        BooleanProperty.metaClass {
-            // or, and, and xor are already in the class groovy symbols | and &
-            
-            negative << {   delegate.not() }
-            
-            eq << { Boolean operand -> 
-                delegate.isEqualTo(new SimpleBooleanProperty(operand))
-            }
-            eq << { ObservableNumberValue operand -> delegate.isEqualTo(operand)}
-            
-            ne << { Boolean operand -> 
-                delegate.isNotEqualTo(new SimpleBooleanProperty(operand))
-            }
-            ne << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
-            
-            xor << { Boolean operand -> 
-                delegate.isNotEqualTo(new SimpleBooleanProperty(operand))
-            }
-            xor << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
-            
-            
-        }
-        
-        DoubleBinding.metaClass {
-            plus << { Number operand -> delegate.add(operand)}
-            plus << { ObservableNumberValue operand -> delegate.add(operand)}
-            
-            minus << { Number operand -> delegate.subtract(operand)}
-            minus << { ObservableNumberValue operand -> delegate.subtract(operand)}
-            
-            // multiply is already defined.
-            //multiply << { Number operand -> delegate.multiply(operand)}
-            //multiply << { ObservableNumberValue operand -> delegate.multiply(operand)}
-            
-            div << { Number operand -> delegate.divide(operand)}
-            div << { ObservableNumberValue operand -> delegate.divide(operand)}
-            
-            negative << {   delegate.negate() }
-            
-            // aliases
-            gt << { Number operand -> delegate.greaterThan(operand)}
-            gt << { ObservableNumberValue operand -> delegate.greaterThan(operand)}
-            
-            ge << { Number operand -> delegate.greaterThanOrEqualTo(operand)}
-            ge << { ObservableNumberValue operand -> delegate.greaterThanOrEqualTo(operand)}
-            
-            lt << { Number operand -> delegate.lessThan(operand)}
-            lt << { ObservableNumberValue operand -> delegate.lessThan(operand)}
-            
-            le << { Number operand -> delegate.lessThanOrEqualTo(operand)}
-            le << { ObservableNumberValue operand -> delegate.lessThanOrEqualTo(operand)}
-            
-            eq << { Number operand -> delegate.isEqualTo(operand)}
-            eq << { ObservableNumberValue operand -> delegate.isEqualTo(operand)}
-            
-            ne << { Number operand -> delegate.isNotEqualTo(operand)}
-            ne << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
+        Color.NamedColors.namedColors.each { name, color ->
+            setVariable(name, color)
         }
 
-        FloatBinding.metaClass {
-            plus << { Number operand -> delegate.add(operand)}
-            plus << { ObservableNumberValue operand -> delegate.add(operand)}
-            
-            minus << { Number operand -> delegate.subtract(operand)}
-            minus << { ObservableNumberValue operand -> delegate.subtract(operand)}
-            
-            // multiply is already defined.
-            //multiply << { Number operand -> delegate.multiply(operand)}
-            //multiply << { ObservableNumberValue operand -> delegate.multiply(operand)}
-            
-            div << { Number operand -> delegate.divide(operand)}
-            div << { ObservableNumberValue operand -> delegate.divide(operand)}
-            
-            negative << {   delegate.negate() }
-            
-            // aliases
-            gt << { Number operand -> delegate.greaterThan(operand)}
-            gt << { ObservableNumberValue operand -> delegate.greaterThan(operand)}
-            
-            ge << { Number operand -> delegate.greaterThanOrEqualTo(operand)}
-            ge << { ObservableNumberValue operand -> delegate.greaterThanOrEqualTo(operand)}
-            
-            lt << { Number operand -> delegate.lessThan(operand)}
-            lt << { ObservableNumberValue operand -> delegate.lessThan(operand)}
-            
-            le << { Number operand -> delegate.lessThanOrEqualTo(operand)}
-            le << { ObservableNumberValue operand -> delegate.lessThanOrEqualTo(operand)}
-            
-            eq << { Number operand -> delegate.isEqualTo(operand)}
-            eq << { ObservableNumberValue operand -> delegate.isEqualTo(operand)}
-            
-            ne << { Number operand -> delegate.isNotEqualTo(operand)}
-            ne << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
-        }
-
-        IntegerBinding.metaClass {
-            plus << { Number operand -> delegate.add(operand)}
-            plus << { ObservableNumberValue operand -> delegate.add(operand)}
-            
-            minus << { Number operand -> delegate.subtract(operand)}
-            minus << { ObservableNumberValue operand -> delegate.subtract(operand)}
-            
-            // multiply is already defined.
-            //multiply << { Number operand -> delegate.multiply(operand)}
-            //multiply << { ObservableNumberValue operand -> delegate.multiply(operand)}
-            
-            div << { Number operand -> delegate.divide(operand)}
-            div << { ObservableNumberValue operand -> delegate.divide(operand)}
-            
-            negative << {   delegate.negate() }
-            
-            // aliases
-            gt << { Number operand -> delegate.greaterThan(operand)}
-            gt << { ObservableNumberValue operand -> delegate.greaterThan(operand)}
-            
-            ge << { Number operand -> delegate.greaterThanOrEqualTo(operand)}
-            ge << { ObservableNumberValue operand -> delegate.greaterThanOrEqualTo(operand)}
-            
-            lt << { Number operand -> delegate.lessThan(operand)}
-            lt << { ObservableNumberValue operand -> delegate.lessThan(operand)}
-            
-            le << { Number operand -> delegate.lessThanOrEqualTo(operand)}
-            le << { ObservableNumberValue operand -> delegate.lessThanOrEqualTo(operand)}
-            
-            eq << { Number operand -> delegate.isEqualTo(operand)}
-            eq << { ObservableNumberValue operand -> delegate.isEqualTo(operand)}
-            
-            ne << { Number operand -> delegate.isNotEqualTo(operand)}
-            ne << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
-        }
-
-        LongBinding.metaClass {
-            plus << { Number operand -> delegate.add(operand)}
-            plus << { ObservableNumberValue operand -> delegate.add(operand)}
-            
-            minus << { Number operand -> delegate.subtract(operand)}
-            minus << { ObservableNumberValue operand -> delegate.subtract(operand)}
-            
-            // multiply is already defined.
-            //multiply << { Number operand -> delegate.multiply(operand)}
-            //multiply << { ObservableNumberValue operand -> delegate.multiply(operand)}
-            
-            div << { Number operand -> delegate.divide(operand)}
-            div << { ObservableNumberValue operand -> delegate.divide(operand)}
-            
-            negative << {   delegate.negate() }
-            
-            // aliases
-            gt << { Number operand -> delegate.greaterThan(operand)}
-            gt << { ObservableNumberValue operand -> delegate.greaterThan(operand)}
-            
-            ge << { Number operand -> delegate.greaterThanOrEqualTo(operand)}
-            ge << { ObservableNumberValue operand -> delegate.greaterThanOrEqualTo(operand)}
-            
-            lt << { Number operand -> delegate.lessThan(operand)}
-            lt << { ObservableNumberValue operand -> delegate.lessThan(operand)}
-            
-            le << { Number operand -> delegate.lessThanOrEqualTo(operand)}
-            le << { ObservableNumberValue operand -> delegate.lessThanOrEqualTo(operand)}
-            
-            eq << { Number operand -> delegate.isEqualTo(operand)}
-            eq << { ObservableNumberValue operand -> delegate.isEqualTo(operand)}
-            
-            ne << { Number operand -> delegate.isNotEqualTo(operand)}
-            ne << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
-        }
-        
-        BooleanBinding.metaClass {
-            // or, and, and xor are already in the class groovy symbols | and &
-            
-            negative << {   delegate.not() }
-            
-            eq << { Boolean operand -> 
-                def prop = new SimpleBooleanProperty();
-                prop.set(operand);
-                delegate.isEqualTo(prop)
-            }
-            eq << { ObservableNumberValue operand -> delegate.isEqualTo(operand)}
-            
-            ne << { Boolean operand -> 
-                def prop = new SimpleBooleanProperty();
-                prop.set(operand);
-                delegate.isNotEqualTo(prop)
-            }
-            ne << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
-            
-            xor << { Boolean operand -> 
-                def prop = new SimpleBooleanProperty();
-                prop.set(operand);
-                delegate.isNotEqualTo(prop)
-            }
-            xor << { ObservableNumberValue operand -> delegate.isNotEqualTo(operand)}
-            
-            
+        propertyMap.each { name, value ->
+            setVariable(name, value)
         }
     }
 }

@@ -22,17 +22,21 @@ import javafx.scene.text.Text
  *
  * @author jimclarke
  */
-class TextFactory extends NodeFactory {
+class TextFactory extends AbstractNodeFactory {
+    
+    TextFactory() {
+        super(Text)
+    }
+    
+    TextFactory(Class<Text> beanClass) {
+        super(beanClass)
+    }
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
         throws InstantiationException, IllegalAccessException {
-        Text text;
-        if (value instanceof Text) {
-            text = value
-        } else {
-            text = new Text(value?.toString());
-        }
-
+        Text text = super.newInstance(builder, name, value, attributes)
+        if(value != null)
+                text.text = value.toString();
         return text;
     }
 }

@@ -29,7 +29,7 @@ import javafx.scene.layout.BorderPane;
  * @author jimclarke
  */
 class BorderPanePosition {
-    public Pos pos;
+    public String property;
     public Pos align;
     public Insets margin;
     public List<Node> nodes = new ArrayList<Node>();

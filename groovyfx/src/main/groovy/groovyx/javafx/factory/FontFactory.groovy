@@ -72,7 +72,7 @@ class FontFactory {
                     if(type != null) {
                         Stylesheet p = CSSParser.getInstance().parse("* { " + type + ": " + str + "; }");
                         List declarations = p.getRules().get(0).getDeclarations();
-                        Value v = declarations.get(0).getCssValue();
+                        Value v = declarations.get(0).getParsedValue();
                         def converted = null;
                         if(v.getConverter() != null)
                             converted = v.getConverter().convert(v, null);  

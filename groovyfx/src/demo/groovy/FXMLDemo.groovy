@@ -31,10 +31,10 @@ def xml = """
 
 start {
     stage(title: "GroovyFX FXML Demo", visible: true) {
-        scene(fill: groovyblue, width: 640, height: 500) {
+        scene(fill: groovyblue, width: 640, height: 600) {
             vbox(padding: 10) {
                 stackPane {
-                    fxml("""
+                    fxml """
                         <?import javafx.scene.*?>
                         <?import javafx.scene.shape.*?>
                         <Group xmlns:fx="http://javafx.com/fxml">
@@ -48,10 +48,15 @@ start {
                                 </children>
                         </Group>
                         """
-                    )
+                    
                 }
                 stackPane {
-                    fxml(xml)
+                    fxml xml 
+                }
+                stackPane {
+                    fxml resource("/FXMLDemo.fxml"), {
+                        onMouseEntered { println "Entered"}
+                    }
                 }
             }
         }

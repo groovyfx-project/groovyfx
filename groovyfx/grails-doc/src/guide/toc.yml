@@ -13,3 +13,8 @@ gettingStarted :
 basicConcepts :
   title: Basic Concepts
   basicConcepts_SceneGraphBuilder : SceneGraphBuilder
+  basicConcepts_node: Node
+  basicConcepts_Layout: Layout in GroovyFX
+  controls :
+     title: Controls
+     controls_button: button

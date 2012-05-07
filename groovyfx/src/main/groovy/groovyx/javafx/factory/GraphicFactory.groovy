@@ -21,13 +21,21 @@ import javafx.scene.Node;
  *
  * @author jimclarke
  */
-class GraphicFactory extends AbstractGroovyFXFactory {
+class GraphicFactory extends AbstractFXBeanFactory {
+    
+    GraphicFactory() {
+        super(Graphic)
+    }
+    
+    GraphicFactory(Class<Graphic> beanClass) {
+        super(beanClass)
+    }
     
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-       Graphic graphic = new Graphic();
+       Graphic graphic = super.newInstance(builder, name, value, attributes)
        if(value instanceof Node)
                graphic.node = value;
-       return graphic;
+        graphic;
     }
     
      public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {

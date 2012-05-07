@@ -24,23 +24,17 @@ import javafx.scene.layout.GridPane
  *
  * @author jimclarke
  */
-class GridConstraintFactory extends AbstractGroovyFXFactory {
+class GridConstraintFactory extends AbstractFXBeanFactory {
+    
+    GridConstraintFactory(Class beanClass) {
+        super(beanClass);
+    }
     @Override
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
     throws InstantiationException, IllegalAccessException {
-        if (name == "constraint") {
-            GridConstraint gc = new GridConstraint()
-            FXHelper.fxAttributes(gc, attributes)
-            return gc
-        } else if (name == "rowConstraints") {
-            RowConstraints rc = new RowConstraints()
-            FXHelper.fxAttributes(rc, attributes)
-            return rc
-        } else if (name == "columnConstraints") {
-            ColumnConstraints cc = new ColumnConstraints()
-            FXHelper.fxAttributes(cc, attributes)
-            return cc
-        }
+        def gc = super.newInstance(builder, name, value, attributes)
+        FXHelper.fxAttributes(gc, attributes)
+        gc;
     }
 
     @Override

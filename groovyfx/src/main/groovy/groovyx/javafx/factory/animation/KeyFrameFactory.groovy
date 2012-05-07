@@ -20,30 +20,35 @@ import javafx.animation.*;
 
 
 import javafx.util.Duration;
-import groovyx.javafx.ClosureEventHandler
-import groovyx.javafx.factory.AbstractGroovyFXFactory;
+import groovyx.javafx.event.GroovyEventHandler
+import javafx.event.EventHandler
+import groovyx.javafx.factory.*
 /**
  *
  * @author jimclarke
  */
-class KeyFrameFactory extends AbstractGroovyFXFactory {
+class KeyFrameFactory extends AbstractFXBeanFactory {
+    
+    KeyFrameFactory() {
+        super(KeyFrameWrapper)
+    }
+    KeyFrameFactory(Class<KeyFrameWrapper> beanClass) {
+        super(beanClass)
+    }
+    
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        KeyFrameWrapper keyFrame = new KeyFrameWrapper();
+        KeyFrameWrapper keyFrame = super.newInstance(builder, name, value, attributes)
         keyFrame.time = (Duration)value;
 
         Object action = attributes.remove("onFinished");
         if(action != null) {
             if(action instanceof Closure) {
-                keyFrame.onFinished = new ClosureEventHandler(action: action);
-            }else {
+                keyFrame.onFinished = new GroovyEventHandler("onFinished", action);
+            }else if(action instanceof EventHandler) {
                 keyFrame.onFinished = action;
             }
         }
-        return keyFrame;
-    }
-
-    public void setChild(FactoryBuilderSupport build, Object parent, Object child) {
-        //println(child);
+        keyFrame;
     }
 
     public void onNodeCompleted( FactoryBuilderSupport builder, Object parent, Object node )  {

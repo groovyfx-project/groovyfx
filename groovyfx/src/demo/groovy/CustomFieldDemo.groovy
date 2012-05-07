@@ -31,11 +31,13 @@ start {
 
     stage title: 'Shake on Reject', visible: true, {
         scene {
-            rejectField text:'only a-z allowed', id: 'input', allow: '[a-z]*', {
+            gridPane {
+            rejectField text:'only a-z allowed', id: 'input', allow: '[a-z]*', row: 0, column: 0, {
+                onMouseEntered { println "enter"}
                 shake = sequentialTransition {
                     rotateTransition to: 3, cycleCount: 3, cycleDuration: 0.1.s
                     rotateTransition 0.1.s, to: 0
-    }   }   }   }
+    }   }   }   }   }
     input.onReject = { shake.playFromStart() }
 }
 
