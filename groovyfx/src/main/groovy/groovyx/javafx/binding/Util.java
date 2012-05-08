@@ -15,8 +15,11 @@
 */
 package groovyx.javafx.binding;
 
+import groovy.lang.Binding;
 import groovy.lang.MetaClass;
 import groovy.lang.MetaProperty;
+import groovy.lang.Script;
+import java.util.List;
 import javafx.beans.property.*;
 import javafx.beans.property.adapter.*;
 import org.codehaus.groovy.runtime.InvokerHelper;
@@ -133,6 +136,7 @@ public class Util {
     }
     static public Property getJavaBeanFXWritableProperty(Object instance, String propertyName) throws NoSuchMethodException {
         MetaClass mc = InvokerHelper.getMetaClass(instance);
+        //Object a = mc.getAttribute(instance, propertyName);
         MetaProperty metaProperty = mc.getMetaProperty(propertyName);
         if(metaProperty != null) {
             Class type = metaProperty.getType();
@@ -181,6 +185,13 @@ public class Util {
                 builder.beanClass(instance.getClass());
                 return builder.build();
             }
+        } else if (instance instanceof Script) {
+            Script script = (Script)instance;
+            Object property = script.getProperty(propertyName);
+            if(property != null)
+                return new ScriptVariableProperty(script, propertyName);
+            else
+                return null;
         }else {
             return null;
         }
