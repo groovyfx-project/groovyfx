@@ -67,7 +67,7 @@ task documentation(dependsOn: ['javadoc', 'groovydoc', 'buildGuide', 'pdfGuide']
 // in findWebProperties() below will not be recognized.
 buildscript {
     dependencies {
-        classpath files("${javafxHome}/rt/lib/jfxrt.jar")
+        classpath files(javafxJar)
     }
 }
 

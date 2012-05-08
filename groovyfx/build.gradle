@@ -5,10 +5,17 @@ apply plugin: 'signing'
 // ---------------- dependencies ------------------
 
 buildscript {
-    javafxHome = System.env['JAVAFX_HOME']
-    ant.echo(message: "${javafxHome}")
+    final javafxHome = System.env['JAVAFX_HOME']
+    if (javafxHome) {
+      javafxJar = "${javafxHome}/rt/lib/jfxrt.jar"
+    } else {
+      final javaHome = System.env['JAVA_HOME']
+      if (javaHome)
+        javafxJar = "${javaHome}/jre/lib/jfxrt.jar"
+    }
+    ant.echo(message: "JavaFX runtime jar: ${javafxJar}")
     dependencies {
-        classpath files("${javafxHome}/rt/lib/jfxrt.jar")
+        classpath files(javafxJar)
     }
 }
 
@@ -19,7 +26,7 @@ repositories {
 dependencies {
     groovy       "org.codehaus.groovy:groovy-all:${groovyVersion}"
     compile      'asm:asm:3.3.1'
-    compile      files("${javafxHome}/rt/lib/jfxrt.jar")
+    compile      files(javafxJar)
     testCompile  'junit:junit:4.10'
 }
 
@@ -44,7 +51,7 @@ uploadArchives.onlyIf {
 
 // ---------------- check environment ------------------
 
-if(!javafxHome) {
+if(!javafxJar) {
     println """Please set environment variable JAVAFX_HOME
                to the directory that contains /rt/lib/jfxrt.jar
                in version $requiredJavaFxVersion""".stripIndent()
