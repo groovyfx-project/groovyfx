@@ -25,7 +25,7 @@ start {
     }
     final dirChooser = directoryChooser(initialDirectory: ".", title: "DirectoryChooserDemo");
 
-    stage(title: "GroovyFX FileChooser Demo", width: 400, height:300, visible: true, resizable: true) {
+    stage(title: "GroovyFX Chooser Demo", width: 400, height:300, visible: true, resizable: true) {
          scene(fill: groovyblue) {
              vbox(spacing: 10, padding: 10) {
                  hbox(spacing: 10, padding: 10) {

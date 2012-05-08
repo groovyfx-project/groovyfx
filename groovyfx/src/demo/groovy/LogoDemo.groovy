@@ -15,6 +15,7 @@
 */
 
 import static groovyx.javafx.GroovyFX.start
+import groovyx.javafx.SceneGraphBuilder
 
 /**
  * Dynamic painting and animation of the GroovyFX Logo. Adapts to available size.
@@ -24,7 +25,7 @@ import static groovyx.javafx.GroovyFX.start
 start {
 
     stage title: "GroovyFX Logo", x: 10, y: 10, visible: true, {
-        scene {
+        scene(fill: groovyblue, width: 300, height: 300) {
             stackPane {
                 rectangle x: 0, y: 0, width: 120, height: 120, opacity: 0d
                 borderPane id: 'parent', {
@@ -41,7 +42,7 @@ start {
         }
     }
 
-    parent.layoutBoundsProperty().onInvalidate {
+    parent.layoutBounds().onInvalidate {
         double newSize = [parent.width, parent.height].min() / 120d
         logo.scaleX = newSize
         logo.scaleY = newSize

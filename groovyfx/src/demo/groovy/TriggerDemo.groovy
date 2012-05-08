@@ -24,5 +24,5 @@ start {
         }
     }
     
-    rect.hoverProperty().onInvalidate { rect.fill = rect.isHover() ? Color.GREEN : Color.RED }
+    rect.hover().onInvalidate { rect.fill = rect.isHover() ? Color.GREEN : Color.RED }
 }
