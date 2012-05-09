@@ -21,7 +21,6 @@ x = 5.0
 y = 5.0
 
 start {
-
     def tl = timeline(cycleCount: 2, onFinished: {Platform.exit()}) {
         at(1.s, onFinished: {println "x = ${this.x}, y = ${this.y}"}) {
             change(this, "x") to 2.0 tween ease_both
@@ -30,5 +29,3 @@ start {
     }
     tl.play()
 }
-
-
