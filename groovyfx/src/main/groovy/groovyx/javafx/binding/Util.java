@@ -15,11 +15,9 @@
 */
 package groovyx.javafx.binding;
 
-import groovy.lang.Binding;
 import groovy.lang.MetaClass;
 import groovy.lang.MetaProperty;
 import groovy.lang.Script;
-import java.util.List;
 import javafx.beans.property.*;
 import javafx.beans.property.adapter.*;
 import org.codehaus.groovy.runtime.InvokerHelper;
@@ -65,10 +63,16 @@ public class Util {
     }
     
     static public boolean isJavaBeanPropertyWritable(Object instance, String propertyName) {
+        
         MetaClass mc = InvokerHelper.getMetaClass(instance);
         MetaProperty metaProperty = mc.getMetaProperty(propertyName);
-        String setterName = MetaProperty.getSetterName(propertyName);
-        return !mc.respondsTo(instance, setterName, new Class[]{metaProperty.getType()}).isEmpty();
+        if(metaProperty != null) {
+            String setterName = MetaProperty.getSetterName(propertyName);
+            return !mc.respondsTo(instance, setterName, new Class[]{metaProperty.getType()}).isEmpty();
+        } else if(instance instanceof Script) {
+            return ((Script)instance).getProperty(propertyName) != null;
+        }
+        return false;
     }
     
     static public ReadOnlyProperty getJavaBeanFXProperty(Object instance, String propertyName) throws NoSuchMethodException {
@@ -187,10 +191,9 @@ public class Util {
             }
         } else if (instance instanceof Script) {
             Script script = (Script)instance;
-            Object property = script.getProperty(propertyName);
-            if(property != null)
-                return new ScriptVariableProperty(script, propertyName);
-            else
+            if(script.getBinding().hasVariable(propertyName)) {
+                return ScriptVariableProperty.getProperty(script, propertyName);
+            } else
                 return null;
         }else {
             return null;

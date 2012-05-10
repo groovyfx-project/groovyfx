@@ -440,7 +440,7 @@ class FXHelper {
         }else if(property instanceof Property) { // target is ReadOnlyProperty, source is writable
             value.bind(property);
         }else {
-            System.out.prntln("Both sides of a bind for property '${metaProperty.name}' are Readonly, bind skipped.")
+            System.out.println("Both sides of a bind for property '${metaProperty.name}' are Readonly, bind skipped.")
         }
         true;
     }

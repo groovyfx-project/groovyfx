@@ -52,9 +52,9 @@ class BindFactory extends AbstractFXBeanFactory {
               case List:
                 def instance = value[0];
                 def propertyName = value[1];
-                property = getJavaFXProperty(instance, propertyName)
+                property = Util.getJavaFXProperty(instance, propertyName)
                 if(property == null)
-                    property = buildJavaFXJavaBeanProperty(instance, propertyName);
+                    property = Util.getJavaBeanFXProperty(instance, propertyName);
                 break;
               default:
                 property = new GroovyClosureProperty();
