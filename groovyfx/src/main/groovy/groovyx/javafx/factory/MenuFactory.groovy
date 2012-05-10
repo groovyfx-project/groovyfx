@@ -15,34 +15,52 @@
 */
 package groovyx.javafx.factory
 
-import javafx.scene.control.*;
-import javafx.stage.Window;
+import javafx.scene.control.*
+import groovyx.javafx.appsupport.Action
+import javafx.beans.value.ObservableValue
+import javafx.beans.value.ChangeListener
+
+import static groovyx.javafx.factory.ActionFactory.extractActionParams
+import static groovyx.javafx.factory.ActionFactory.applyAction
 
 /**
 *
 * @author jimclarke
 */
 class MenuFactory extends AbstractNodeFactory {
-    
-    
+
+
     MenuFactory(Class beanClass) {
         super(beanClass);
     }
-    
+
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        Object menu = super.newInstance(builder, name, value, attributes);
-        if(value != null) {
-             switch(menu) {
-                 case MenuButton:
-                 case SplitMenuButton:
-                     menu.text = value.toString();
-                     break;
-             }
-            
+        Action action = null
+        Map actionParams = [:]
+        if (value instanceof Action) {
+            action = value
+            value = null
+            actionParams = extractActionParams(attributes)
         }
-        menu;
+
+        Object menu = super.newInstance(builder, name, value, attributes)
+
+        if (menu instanceof ButtonBase && action) {
+            applyAction(menu, action, actionParams)
+        }
+
+        if (value instanceof CharSequence) {
+            switch (menu) {
+                case MenuButton:
+                case SplitMenuButton:
+                    menu.text = value.toString()
+                    break;
+            }
+
+        }
+        menu
     }
-    
+
     public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         if(parent instanceof MenuBar && child instanceof Menu) {
             parent.menus.add(child);

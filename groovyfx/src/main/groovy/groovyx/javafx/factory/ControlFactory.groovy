@@ -106,13 +106,13 @@ class ControlFactory extends AbstractNodeFactory {
                     case TableView:
                         if(child instanceof List)
                             parent.columns.addAll(child);
-                        else
+                        else if (child instanceof TableColumn)
                             parent.columns.add(child);
                         break;
                     case Accordion:
                         if (child instanceof List)
                             parent.panes.addAll(child);
-                        else
+                        else if (child instanceof TitledPane)
                             parent.panes.add(child);
                         break;
                     case TitledPane:
@@ -141,7 +141,7 @@ class ControlFactory extends AbstractNodeFactory {
                     case ToolBar:
                         if (child instanceof List)
                             parent.items.addAll(child);
-                        else
+                        else if (child instanceof Node)
                             parent.items.add(child);
                         break;
                     case TabPane:

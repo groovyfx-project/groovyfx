@@ -87,28 +87,35 @@ class FXHelper {
             return value;
         }
     }
-    
-    private static double getAnchorValue ( value) {
+
+    private static Double getAnchorValue(value) {
         value = getValue(value);
-        if(value instanceof Number){
-            value = ((Number)value).doubleValue();
-        }else {
+        if (value instanceof Number) {
+            value = ((Number) value).doubleValue();
+        } else {
             value = Double.parseDouble(value.toString());
         }
         return value;
     }
-    
+
     private static def setTopAnchor = { delegate, value -> 
-        AnchorPane.setTopAnchor((Node)delegate, getAnchorValue(value));
+        if (value != null)
+            AnchorPane.setTopAnchor((Node)delegate, getAnchorValue(value));
     }
-    private static def setBottomAnchor = { delegate, value -> 
-        AnchorPane.setBottomAnchor((Node)delegate, getAnchorValue(value));
+
+    private static def setBottomAnchor = { delegate, value ->
+        if (value != null)
+            AnchorPane.setBottomAnchor((Node)delegate, getAnchorValue(value));
     }
-    private static def setRightAnchor = { delegate, value -> 
-        AnchorPane.setRightAnchor((Node)delegate, getAnchorValue(value));
+
+    private static def setRightAnchor = { delegate, value ->
+        if (value != null)
+            AnchorPane.setRightAnchor((Node)delegate, getAnchorValue(value));
     }
-    private static def setLeftAnchor = { delegate, value -> 
-        AnchorPane.setLeftAnchor((Node)delegate, getAnchorValue(value));
+
+    private static def setLeftAnchor = { delegate, value ->
+        if (value != null)
+            AnchorPane.setLeftAnchor((Node)delegate, getAnchorValue(value));
     }
     
     private static anchorMap = [

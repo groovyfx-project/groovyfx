@@ -19,6 +19,10 @@ package groovyx.javafx.factory
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.scene.control.*
+import groovyx.javafx.appsupport.Action
+
+import static groovyx.javafx.factory.ActionFactory.extractActionParams
+import static groovyx.javafx.factory.ActionFactory.applyAction
 
 /**
  *
@@ -31,11 +35,24 @@ class LabeledFactory extends AbstractNodeFactory {
     }
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        Control control  = super.newInstance(builder, name, value, attributes);
-        if (value != null) {
-            control.text = value.toString();
+        Action action = null
+        Map actionParams = [:]
+        if (value instanceof Action) {
+            action = value
+            value = null
+            actionParams = extractActionParams(attributes)
         }
-        control;
+
+        Control control  = super.newInstance(builder, name, value, attributes)
+
+        if (control instanceof ButtonBase && action) {
+            applyAction(control, action, actionParams)
+        }
+
+        if (value != null) {
+            control.text = value.toString()
+        }
+        control
     }
 
     @Override
