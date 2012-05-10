@@ -54,7 +54,7 @@ class ActionFactory extends AbstractFXBeanFactory {
         if (!actionParams.skipName && mc.respondsTo(control, "textProperty")) {
             control.textProperty().bind(action.nameProperty())
         }
-        if (mc.respondsTo(control, "iconProperty")) {
+        if (mc.respondsTo(control, "graphicProperty")) {
             if (!actionParams.skipIcon) {
                 action.iconProperty().addListener(new ChangeListener() {
                     void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
