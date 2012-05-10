@@ -39,8 +39,11 @@ class ActionFactory extends AbstractFXBeanFactory {
     static Map extractActionParams(Map attributes) {
         Map actionParams = [:]
 
+        actionParams.skipOnAction = attributes.remove('skipOnAction')
         actionParams.skipName = attributes.remove('skipName')
         actionParams.skipIcon = attributes.remove('skipIcon')
+        actionParams.skipSelected = attributes.remove('skipSelected')
+        actionParams.skipEnabled = attributes.remove('skipEnabled')
 
         actionParams
     }
@@ -48,7 +51,7 @@ class ActionFactory extends AbstractFXBeanFactory {
     static void applyAction(control, Action action, Map actionParams) {
         MetaClass mc = control.metaClass
 
-        if (mc.respondsTo(control, "onActionProperty")) {
+        if (!actionParams.skipOnAction && mc.respondsTo(control, "onActionProperty")) {
             control.onActionProperty().bind(action.onActionProperty())
         }
         if (!actionParams.skipName && mc.respondsTo(control, "textProperty")) {
@@ -64,10 +67,10 @@ class ActionFactory extends AbstractFXBeanFactory {
                 if (action.icon != null) ActionFactory.setIcon(control, action.icon)
             }
         }
-        if (mc.respondsTo(control, "selectedProperty")) {
+        if (!actionParams.skipSelected && mc.respondsTo(control, "selectedProperty")) {
             control.selectedProperty().bind(action.selectedProperty())
         }
-        if (mc.respondsTo(control, "disableProperty")) {
+        if (!actionParams.skipEnabled && mc.respondsTo(control, "disableProperty")) {
             control.disableProperty().bind(action.enabledProperty().not())
         }
     }
