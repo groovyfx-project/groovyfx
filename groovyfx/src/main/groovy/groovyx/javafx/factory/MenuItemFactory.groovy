@@ -17,7 +17,11 @@
 package groovyx.javafx.factory
 
 import javafx.scene.control.*;
-import javafx.scene.Node;
+import javafx.scene.Node
+import groovyx.javafx.appsupport.Action
+
+import static groovyx.javafx.factory.ActionFactory.extractActionParams
+import static groovyx.javafx.factory.ActionFactory.applyAction;
 
 /**
 *
@@ -31,9 +35,26 @@ class MenuItemFactory extends AbstractNodeFactory {
     MenuItemFactory(Class beanClass, Closure instantiator) {
         super(beanClass, instantiator)
     }
-        
-    
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+        Action action = null
+        Map actionParams = [:]
+        if (value instanceof Action) {
+            action = value
+            value = null
+            actionParams = extractActionParams(attributes)
+        }
+
+        Object menuItem = instantiate(builder, name, value, attributes)
+
+        if (action) {
+            applyAction(menuItem, action, actionParams)
+        }
+
+        menuItem
+    }
+
+    private Object instantiate(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         if(Menu.isAssignableFrom(beanClass)) {
             return handleMenuNode(builder, name, value, attributes)
         }

@@ -52,6 +52,7 @@ import javafx.scene.layout.*
 import javafx.scene.shape.*
 import javafx.scene.transform.*
 import javafx.stage.*
+import groovy.swing.factory.CollectionFactory
 
 /**
  *
@@ -286,6 +287,10 @@ class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory "image", new ImageFactory(Image)
         registerFactory "clip", new ClipFactory(ClipHolder)
         registerFactory "fxml", new FXMLFactory()
+
+        registerFactory "bean", new CustomNodeFactory(Object)
+        registerFactory "fxaction", new ActionFactory()
+        registerFactory "actions", new CollectionFactory()
     }
 
     void registerContainers() {
