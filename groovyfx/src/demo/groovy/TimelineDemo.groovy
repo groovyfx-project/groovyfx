@@ -17,15 +17,25 @@
 import static groovyx.javafx.GroovyFX.start
 import javafx.application.Platform
 
+import javafx.beans.value.ChangeListener;
+
 x = 5.0
 y = 5.0
 
 start {
-    def tl = timeline(cycleCount: 2, onFinished: {Platform.exit()}) {
-        at(1.s, onFinished: {println "x = ${this.x}, y = ${this.y}"}) {
-            change(this, "x") to 2.0 tween ease_both
-            change(this, "y") to 125
-        }
+    stage( x:100, y:  100, onShown: { println "Stage 1"}, visible: true) {
+            scene(width: 500, height: 500, fill:groovyblue) {
+                r = rectangle(x: bind(this,"x"), y:  bind(this,"y"), width: 50, height: 25) {
+                    fill red
+                }
+            }
     }
-    tl.play()
+    
+    timeline(cycleCount: 1, autoReverse: true) {
+        onFinished { x = 200; y=200; println "F: ${this.x}, ${this.y}" }
+        at(10.s) {
+            change(this, "x") to 400.0 tween ease_both
+            change(this, "y") to 400
+        }
+    }.play()
 }

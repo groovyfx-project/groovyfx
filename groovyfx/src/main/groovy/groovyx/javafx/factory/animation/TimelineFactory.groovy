@@ -19,6 +19,7 @@ package groovyx.javafx.factory.animation
 import groovyx.javafx.event.GroovyEventHandler
 import groovyx.javafx.factory.AbstractFXBeanFactory
 import javafx.animation.Timeline
+import groovyx.javafx.factory.FXHelper
 
 /**
  *
@@ -27,6 +28,7 @@ import javafx.animation.Timeline
 class TimelineFactory extends AbstractFXBeanFactory {
 
     public List<KeyFrameWrapper> frames;
+    public List<GroovyEventHandler> eventHandlers;
 
     TimelineFactory() {
         super(Timeline)
@@ -59,6 +61,8 @@ class TimelineFactory extends AbstractFXBeanFactory {
     public void setChild(FactoryBuilderSupport build, Object parent, Object child) {
         if(child instanceof KeyFrameWrapper) {
             frames.add(child);
+        }else if(child instanceof GroovyEventHandler) {
+            FXHelper.setPropertyOrMethod(parent, child.property, child)
         }
     }
 
