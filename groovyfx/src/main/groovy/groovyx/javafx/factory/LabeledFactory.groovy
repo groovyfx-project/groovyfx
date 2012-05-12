@@ -43,7 +43,7 @@ class LabeledFactory extends AbstractNodeFactory {
             actionParams = extractActionParams(attributes)
         }
 
-        Control control  = super.newInstance(builder, name, value, attributes)
+        def control  = super.newInstance(builder, name, value, attributes)
 
         if (control instanceof ButtonBase && action) {
             applyAction(control, action, actionParams)
