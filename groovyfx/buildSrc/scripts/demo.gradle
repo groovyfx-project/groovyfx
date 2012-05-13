@@ -5,10 +5,10 @@ sourceSets {
         compileClasspath += sourceSets.main.output + configurations.compile
         runtimeClasspath += sourceSets.main.output
         groovy {
-            srcDir = 'src/demo/groovy'
+            srcDir 'src/demo/groovy'
         }
         resources {
-            srcDir = 'src/demo/resources'
+            srcDir 'src/demo/resources'
         }
     }
 }

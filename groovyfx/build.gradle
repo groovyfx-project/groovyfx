@@ -7,15 +7,15 @@ apply plugin: 'signing'
 buildscript {
     final javafxHome = System.env['JAVAFX_HOME']
     if (javafxHome) {
-      javafxJar = "${javafxHome}/rt/lib/jfxrt.jar"
+      ext.javafxJar = "${javafxHome}/rt/lib/jfxrt.jar"
     } else {
       final javaHome = System.env['JAVA_HOME']
       if (javaHome)
-        javafxJar = "${javaHome}/jre/lib/jfxrt.jar"
+        ext.javafxJar = "${javaHome}/jre/lib/jfxrt.jar"
     }
-    ant.echo(message: "JavaFX runtime jar: ${javafxJar}")
+    println "JavaFX runtime jar: ${ext.javafxJar}"
     dependencies {
-        classpath files(javafxJar)
+        classpath files(ext.javafxJar)
     }
 }
 
@@ -26,12 +26,12 @@ repositories {
 dependencies {
     groovy       "org.codehaus.groovy:groovy-all:${groovyVersion}"
     compile      'asm:asm:3.3.1'
-    compile      files(javafxJar)
+    compile      files(ext.javafxJar)
     testCompile  'junit:junit:4.10'
 }
 
 task wrap(type:Wrapper, description:"create a gradlew") {
-    gradleVersion = '1.0-milestone-8a'
+    gradleVersion = '1.0-rc-3'
 }
 
 apply {
@@ -51,16 +51,16 @@ uploadArchives.onlyIf {
 
 // ---------------- check environment ------------------
 
-if(!javafxJar) {
+if(!ext.javafxJar) {
     println """Please set environment variable JAVAFX_HOME
                to the directory that contains /rt/lib/jfxrt.jar
                in version $requiredJavaFxVersion""".stripIndent()
     System.exit 1
 }
 
-actualJavaFXVersion = com.sun.javafx.runtime.VersionInfo.runtimeVersion
-if (! actualJavaFXVersion.startsWith(requiredJavaFxVersion)) {
-    println "Required JavaFX version is '$requiredJavaFxVersion' but actual version is '$actualJavaFXVersion'"
-    System.exit(1)
-}
+//ext.actualJavaFXVersion = com.sun.javafx.runtime.VersionInfo.runtimeVersion
+//if (! ext.actualJavaFXVersion.startsWith(requiredJavaFxVersion)) {
+//    println "Required JavaFX version is '$ext.requiredJavaFxVersion' but actual version is '$ext.actualJavaFXVersion'"
+//    System.exit(1)
+//}
 
