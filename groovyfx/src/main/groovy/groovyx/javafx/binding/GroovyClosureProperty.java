@@ -323,13 +323,15 @@ public class GroovyClosureProperty implements ReadOnlyProperty,  ChangeListener,
                     }
                     property = Util.wrapValueInProperty(attribute);
                 }
-                property.addListener((ChangeListener)GroovyClosureProperty.this);
-                property.addListener((InvalidationListener)GroovyClosureProperty.this);
+                //property.addListener((ChangeListener)GroovyClosureProperty.this);
+                //property.addListener((InvalidationListener)GroovyClosureProperty.this);
                 //updateSet.add(property);
                 }catch(NoSuchMethodException shouldNotHappen) {
                     shouldNotHappen.printStackTrace();
                 }
             }
+            property.addListener((ChangeListener)GroovyClosureProperty.this);
+            property.addListener((InvalidationListener)GroovyClosureProperty.this);
             Object  propertyInstance = property.getValue();
             for(BindPath bp : children) {
                 bp.setCurrentObject(propertyInstance);
