@@ -21,10 +21,10 @@ start {
     def circles = []
 
     stage(title: 'Vanishing Circles', show: true) {
-        scene(fill: black, width: 800, height: 600) {
+        scene(fill: BLACK, width: 800, height: 600) {
             50.times {
-                circles << circle(centerX: rand(800), centerY: rand(600), radius: 150, stroke: white,
-                                  strokeWidth: bind('hover', converter: {val -> val ? 4 : 0})) {
+                circles << circle(centerX: rand(800), centerY: rand(600), radius: 150, stroke: WHITE,
+                        strokeWidth: bind('hover', converter: {val -> val ? 4 : 0})) {
                     fill rgb(rand(255), rand(255), rand(255), 0.2)
                     effect boxBlur(width: 10, height: 10, iterations: 3)
                     onMouseClicked { e ->
@@ -36,7 +36,7 @@ start {
             }
         }
 
-        parallelTransition(cycleCount: 'indefinite', autoReverse: true) {
+        parallelTransition(cycleCount: INDEFINITE, autoReverse: true) {
             circles.each { circle ->
                 translateTransition(40.s, node: circle, toX: rand(800), toY: rand(600))
             }

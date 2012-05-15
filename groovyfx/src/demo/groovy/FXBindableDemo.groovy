@@ -17,19 +17,19 @@
 import groovyx.javafx.beans.FXBindable;
 
 /**
-*
-* @author jimclarke
-*/
+ *
+ * @author jimclarke
+ */
 @FXBindable
 class FXPerson {
     String firstName;
     String lastName;
     int age;
-    String likes;	
+    String likes;
 }
 
 
-FXPerson person = new FXPerson(); 
+FXPerson person = new FXPerson();
 
 println("======================");
 println(person.lastNameProperty);
@@ -42,20 +42,20 @@ println("LastName: " + person.lastName);
 println("FirstName: " + person.firstName);
 println("Age: " + person.age);
 println("Likes: " + person.likes);
-for ( l in person.likes) 
-    println("    " +  l );
+for (l in person.likes)
+    println("    " + l);
 println("======================");
 person.lastName = 'Clarke';
 person.firstName = 'Jim';
 person.age = 17;  // I wish :-)
-person.likes = [ 'JavaFX', 'Groovy'];
+person.likes = ['JavaFX', 'Groovy'];
 println("======================");
 println("LastName: " + person.lastName);
 println("FirstName: " + person.firstName);
 println("Age: " + person.age);
 println("Likes: " + person.likes);
-for ( l in person.likes) 
-    println("    " +  l );
+for (l in person.likes)
+    println("    " + l);
 println("======================");
 println(person.lastNameProperty);
 println(person.firstNameProperty);

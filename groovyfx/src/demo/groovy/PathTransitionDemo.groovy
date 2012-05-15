@@ -14,10 +14,11 @@
 * limitations under the License.
 */
 
-import static groovyx.javafx.GroovyFX.start
-import javafx.animation.Transition
 import javafx.animation.PathTransition.OrientationType
+import javafx.animation.Transition
 import javafx.scene.paint.Color
+
+import static groovyx.javafx.GroovyFX.start
 
 start {
     Transition rectTransition = null
@@ -26,21 +27,21 @@ start {
         rectTransition.playFromStart()
     }
 
-    stage(title: "GroovyFX Path Transition Demo", width: 400, height:300, visible: true, resizable: true) {
-         scene(fill: groovyblue) {
-             final thePath = path( translateX: 50, translateY: 50, fill: transparent, stroke: green, strokeWidth: 5) {
-                 moveTo(x: 0, y: 0)
-                 lineTo(x: 100, y: 0)
-                 arcTo(x: 200, y: 0, radiusX: 25, radiusY: 20)
-                 lineTo(x: 300, y: 0)
-                 lineTo(x: 150, y: 100)
-                 closePath()
-             }
-             rectangle(width: 20, height: 50, fill: Color.web("#00F8"), onMousePressed: {playTransition()}) {
+    stage(title: "GroovyFX Path Transition Demo", width: 400, height: 300, visible: true, resizable: true) {
+        scene(fill: GROOVYBLUE) {
+            final thePath = path(translateX: 50, translateY: 50, fill: TRANSPARENT, stroke: GREEN, strokeWidth: 5) {
+                moveTo(x: 0, y: 0)
+                lineTo(x: 100, y: 0)
+                arcTo(x: 200, y: 0, radiusX: 25, radiusY: 20)
+                lineTo(x: 300, y: 0)
+                lineTo(x: 150, y: 100)
+                closePath()
+            }
+            rectangle(width: 20, height: 50, fill: Color.web("#00F8"), onMousePressed: {playTransition()}) {
                 rectTransition = pathTransition(20.s, delay: 100.ms, path: thePath, onFinished: {println "done"},
-                                                orientation: OrientationType.ORTHOGONAL_TO_TANGENT)
-             }
-         }
+                        orientation: OrientationType.ORTHOGONAL_TO_TANGENT)
+            }
+        }
     }
     playTransition()
 }

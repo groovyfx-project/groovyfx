@@ -22,7 +22,7 @@ start {
     def goAction = { wv.engine.load(urlField.getText()) }
 
     stage(title: "GroovyFX WebView Demo", visible: true) {
-        scene(fill: groovyblue, width: 1024, height: 800) {
+        scene(fill: GROOVYBLUE, width: 1024, height: 800) {
             vbox {
                 hbox(padding: 10, spacing: 5) {
                     urlField = textField(text: homePage, onAction: goAction, hgrow: "always")
@@ -32,6 +32,6 @@ start {
             }
         }
     }
-    
+
     wv.engine.load(homePage)
 }

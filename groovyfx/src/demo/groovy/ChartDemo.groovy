@@ -16,6 +16,7 @@
 
 import javafx.collections.FXCollections
 import javafx.scene.chart.PieChart
+
 import static groovyx.javafx.GroovyFX.start
 
 final pieData = FXCollections.observableArrayList([new PieChart.Data("Yours", 42), new PieChart.Data("Mine", 58)])
@@ -28,7 +29,7 @@ start {
                     tilePane(padding: 10, prefTileWidth: 480, prefColumns: 2) {
                         pieChart(data: [first: 0.25f, second: 0.25f, third: 0.25f])
 
-                        stackPane(alignment: 'top_right') {
+                        stackPane(alignment: TOP_RIGHT) {
                             pieChart(data: pieData, animated: true)
                             button('Add Slice') {
                                 onAction {
@@ -41,7 +42,7 @@ start {
 
                         lineChart(XAxis: categoryAxis(label: "X Axis")) {
                             numberAxis(lowerBound: -1.2, upperBound: 1.2, tickUnit: 0.2, autoRanging: false,
-                                       label: "Y Axis")
+                                    label: "Y Axis")
                             series(name: 'First Series', data: ["A", 0, "B", 1, "C", -1])
                             series(name: 'Second Series', data: [["A", 0], ["B", -1], ["C", 1], ["D", 0]])
                         }

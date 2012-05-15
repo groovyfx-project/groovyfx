@@ -18,19 +18,19 @@ import static groovyx.javafx.GroovyFX.start
 
 start {
     stage(title: "GroovyFX @ JavaOne", show: true) {
-        scene(fill: groovyblue, width: 650, height:450) {
+        scene(fill: GROOVYBLUE, width: 650, height: 450) {
             borderPane {
-                top(align: "center", margin: [10,0,10,0]) {
-                  button("Top Button")
+                top(align: CENTER, margin: [10, 0, 10, 0]) {
+                    button("Top Button")
                 }
-                right(align: "center", margin: [0,10,0,1]) {
-                  toggleButton("Right Toggle")
+                right(align: CENTER, margin: [0, 10, 0, 1]) {
+                    toggleButton("Right Toggle")
                 }
-                left(align: "center", margin: [0,10]) {
-                  checkBox("Left Check")
+                left(align: CENTER, margin: [0, 10]) {
+                    checkBox("Left Check")
                 }
-                bottom(align: "center", margin: 10) {
-                  textField("Bottom TextField")
+                bottom(align: CENTER, margin: 10) {
+                    textField("Bottom TextField")
                 }
                 label("Center Label")
             }

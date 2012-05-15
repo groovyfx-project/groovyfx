@@ -14,10 +14,11 @@
 * limitations under the License.
 */
 
-import static groovyx.javafx.GroovyFX.start
 import javafx.application.ConditionalFeature
 import javafx.application.Platform
 import javafx.scene.PerspectiveCamera
+
+import static groovyx.javafx.GroovyFX.start
 
 start {
     if (!Platform.isSupported(ConditionalFeature.SCENE3D)) {
@@ -27,15 +28,15 @@ start {
     }
 
     stage(title: "GroovyFX Transform3D Demo", width: 400, height: 300, visible: true, resizable: true) {
-        scene(fill: groovyblue, camera: new PerspectiveCamera()) {
-            rectangle(x: 20, y: 20, width: 100, height: 50, fill: blue) {
+        scene(fill: GROOVYBLUE, camera: new PerspectiveCamera()) {
+            rectangle(x: 20, y: 20, width: 100, height: 50, fill: BLUE) {
                 //rotate(angle: 30, axis: Rotate.Y_AXIS)
                 //scale(x: 1.2)
                 //translate(x: -100, y: -50, z:-50)
                 //shear(x: -0.35, y: 0)
                 affine(tx: -20, mxx: 2, mxy: 0.5, mxz: 1,
-                       ty: -50, myx: 1, myy: 1.2, myz: 1,
-                       tz:   0, mzx: 1, mzy: 1.0, mzz: 0)
+                        ty: -50, myx: 1, myy: 1.2, myz: 1,
+                        tz: 0, mzx: 1, mzy: 1.0, mzz: 0)
             }
         }
     }

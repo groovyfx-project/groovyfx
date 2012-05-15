@@ -22,7 +22,7 @@ import static groovyx.javafx.GroovyFX.start
  */
 start {
     stage(title: "GroovyFX TextArea Demo", x: 100, y: 100, visible: true, style: "decorated", primary: true) {
-        scene(fill: groovyblue, width: 400, height: 400) {
+        scene(fill: GROOVYBLUE, width: 400, height: 400) {
             borderPane(padding: 10) {
                 text = textArea(prefRowCount: 10, prefColumnCount: 80)
                 bottom(align: "center", margin: [10, 0]) {

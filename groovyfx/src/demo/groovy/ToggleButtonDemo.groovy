@@ -18,13 +18,13 @@
 import static groovyx.javafx.GroovyFX.start
 
 start {
-    stage(title: "GroovyFX ToggleButton Demo", x: 100, y: 100, width: 400, height:400, visible: true,
-          style: "decorated", onHidden: { println "Close" }) {
-        
-        scene(fill: groovyblue) {
+    stage(title: "GroovyFX ToggleButton Demo", x: 100, y: 100, width: 400, height: 400, visible: true,
+            style: "decorated", onHidden: { println "Close" }) {
+
+        scene(fill: GROOVYBLUE) {
             hbox(spacing: 10, padding: 10) {
-                toggleButton ("One", font: "16pt Courier", selected: true, toggleGroup: "Group1")
-                toggleButton ("Two", font: "16pt Courier", toggleGroup: "Group1")
+                toggleButton("One", font: "16pt Courier", selected: true, toggleGroup: "Group1")
+                toggleButton("Two", font: "16pt Courier", toggleGroup: "Group1")
             }
         }
     }

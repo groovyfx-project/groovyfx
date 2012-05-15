@@ -22,16 +22,16 @@ import static groovyx.javafx.GroovyFX.start
  */
 
 start {
-    stage(title: "GroovyFX Blend Effect Demo", width: 420, height: 420, visible: true ) {
-        scene(fill: groovyblue) {
+    stage(title: "GroovyFX Blend Effect Demo", width: 420, height: 420, visible: true) {
+        scene(fill: GROOVYBLUE) {
             rectangle(width: 400, height: 400) {
                 onMousePressed {e -> println "mouse press @$e.x, $e.y"}
                 effect blend(mode: "multiply") {
                     topInput {
-                        colorInput(paint: blue, x: 50, y: 50, width: 200, height: 200)
+                        colorInput(paint: BLUE, x: 50, y: 50, width: 200, height: 200)
                     }
                     bottomInput {
-                        colorInput(paint: red, x: 150, y: 150, width: 200, height: 200)
+                        colorInput(paint: RED, x: 150, y: 150, width: 200, height: 200)
                     }
                 }
             }

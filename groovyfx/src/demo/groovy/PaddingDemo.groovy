@@ -18,25 +18,25 @@ import static groovyx.javafx.GroovyFX.start
 
 start {
     stage(title: "GroovyFX Padding Demo", width: 800, height: 800, visible: true) {
-        scene(fill: groovyblue ) {
+        scene(fill: GROOVYBLUE) {
             vbox(spacing: 30, fillWidth: false, alignment: "center") {
                 stackPane(style: "-fx-background-color: burlywood", padding: 20) {
-                    text("Padding: 20", fill: "sienna", font: "48pt")
+                    text("Padding: 20", fill: SIENNA, font: "48pt")
                 }
                 stackPane(style: "-fx-background-color: burlywood", padding: [10]) {
-                    text("Padding: [10]", fill: "sienna", font: "48pt")
+                    text("Padding: [10]", fill: SIENNA, font: "48pt")
                 }
                 stackPane(style: "-fx-background-color: burlywood", padding: [50, 25]) {
-                    text("Padding: [50, 25]", fill: "sienna", font: "48pt")
+                    text("Padding: [50, 25]", fill: SIENNA, font: "48pt")
                 }
                 stackPane(style: "-fx-background-color: burlywood", padding: [10, 20, -10]) {
-                    text("Padding: [10, 20, -10]", fill: "sienna", font: "48pt")
+                    text("Padding: [10, 20, -10]", fill: SIENNA, font: "48pt")
                 }
                 stackPane(style: "-fx-background-color: burlywood", padding: [0, 50, 0, 0]) {
-                    text("Padding: [0, 50, 0, 0]", fill: "sienna", font: "48pt")
+                    text("Padding: [0, 50, 0, 0]", fill: SIENNA, font: "48pt")
                 }
                 stackPane(style: "-fx-background-color: burlywood", padding: [20, 0, 0, 20]) {
-                    text("Padding: [20, 0, 0, 20]", fill: "sienna", font: "48pt")
+                    text("Padding: [20, 0, 0, 20]", fill: SIENNA, font: "48pt")
                 }
                 effect dropShadow()
             }

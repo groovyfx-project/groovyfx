@@ -14,15 +14,16 @@
 * limitations under the License.
 */
 
-import static groovyx.javafx.GroovyFX.start
 import javafx.scene.paint.Color
+
+import static groovyx.javafx.GroovyFX.start
 
 start {
     stage(title: "GroovyFX Trigger Demo", width: 600, height: 450, visible: true) {
-        scene(fill: groovyblue) {
-            rect = rectangle(x: 25, y: 40, width: 200, height: 150, fill: red)
+        scene(fill: GROOVYBLUE) {
+            rect = rectangle(x: 25, y: 40, width: 200, height: 150, fill: RED)
         }
     }
-    
+
     rect.hover().onInvalidate { rect.fill = rect.isHover() ? Color.GREEN : Color.RED }
 }

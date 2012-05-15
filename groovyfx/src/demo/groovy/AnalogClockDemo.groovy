@@ -14,8 +14,9 @@
 * limitations under the License.
 */
 
-import static groovyx.javafx.GroovyFX.start
 import groovyx.javafx.beans.FXBindable
+
+import static groovyx.javafx.GroovyFX.start
 
 /**
  *
@@ -51,7 +52,7 @@ class Time {
     public void addOneSecond() {
         seconds = (seconds + 1) % 60
         if (seconds == 0) {
-            minutes = (minutes + 1)  % 60
+            minutes = (minutes + 1) % 60
             if (minutes == 0) {
                 hours = (hours + 1) % 12
             }
@@ -75,48 +76,48 @@ start {
             def x = ((i > 5) ? -1 : 1) * Math.sqrt(radius * radius - y * y)
             def r = i % 3 ? 2.0 : 4.0
 
-            hourDots << circle(fill: black, layoutX: x, layoutY: y, radius: r)
+            hourDots << circle(fill: BLACK, layoutX: x, layoutY: y, radius: r)
         }
 
-        scene(fill: groovyblue) {
+        scene(fill: GROOVYBLUE) {
             group(layoutX: centerX, layoutY: centerY) {
                 // outer rim
                 circle(radius: radius + 20) {
                     fill(radialGradient(radius: 1.0, center: [0.0, 0.0], focusDistance: 0.5, focusAngle: 0,
-                                        stops: [[0.9, silver], [1.0, black]]))
+                            stops: [[0.9, SILVER], [1.0, BLACK]]))
                 }
                 // clock face
-                circle(radius: radius + 10, stroke: black) {
+                circle(radius: radius + 10, stroke: BLACK) {
                     fill(radialGradient(radius: 1.0, center: [0.0, 0.0], focusDistance: 4.0, focusAngle: 90,
-                                        stops: [[0.0, white], [1.0, cadetblue]]))
+                            stops: [[0.0, WHITE], [1.0, CADETBLUE]]))
                 }
                 // dots around the clock for the hours
                 nodes(hourDots)
                 // center
-                circle(radius: 5, fill: black)
+                circle(radius: 5, fill: BLACK)
                 // hour hand
-                path(fill: black) {
+                path(fill: BLACK) {
                     rotate(angle: bind(time.hourAngle()))
                     moveTo(x: 4, y: -4)
                     arcTo(radiusX: -1, radiusY: -1, x: -4, y: -4)
                     lineTo(x: 0, y: -radius / 4 * 3)
                 }
                 // minute hand
-                path(fill: black) {
+                path(fill: BLACK) {
                     rotate(angle: bind(time.minuteAngle()))
                     moveTo(x: 4, y: -4)
                     arcTo(radiusX: -1, radiusY: -1, x: -4, y: -4)
                     lineTo(x: 0, y: -radius)
                 }
                 // second hand
-                line(endY: -radius - 3, strokeWidth: 2, stroke: red) {
+                line(endY: -radius - 3, strokeWidth: 2, stroke: RED) {
                     rotate(angle: bind(time.secondAngle()))
                 }
             }
         }
     }
 
-    sequentialTransition(cycleCount: indefinite) {
+    sequentialTransition(cycleCount: INDEFINITE) {
         pauseTransition(1.s) {
             onFinished {time.addOneSecond()}
         }

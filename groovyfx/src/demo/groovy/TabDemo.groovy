@@ -18,24 +18,24 @@ import static groovyx.javafx.GroovyFX.start
 
 start {
     stage(title: "TabPane Example", width: 400, height: 400, visible: true) {
-        scene(fill: groovyblue) {
+        scene(fill: GROOVYBLUE) {
             tabPane {
                 tab('Tab 1') {
                     label("This is Label 1\n\nAnd there were a few empty lines just there!")
                     graphic {
-                        rectangle(width: 20, height: 20, fill: red)
+                        rectangle(width: 20, height: 20, fill: RED)
                     }
                 }
                 tab('Tab 2') {
                     label("This is Label 2\n\nAnd there were a few empty lines just there!")
                     graphic {
-                        rectangle(width: 20, height: 20, fill: blue)
+                        rectangle(width: 20, height: 20, fill: BLUE)
                     }
                 }
                 tab('Tab 3') {
                     label("This is Label 3\n\nAnd there were a few empty lines just there!")
                     graphic {
-                        rectangle(width: 20, height: 20, fill: green)
+                        rectangle(width: 20, height: 20, fill: GREEN)
                     }
                 }
             }

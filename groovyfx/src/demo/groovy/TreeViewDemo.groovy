@@ -19,14 +19,14 @@ import static groovyx.javafx.GroovyFX.start
 start {
     popup = popup(autoHide: true) {
         stackPane() {
-            rectangle(width: 200, height: 200, fill: lightgray)
+            rectangle(width: 200, height: 200, fill: LIGHTGRAY)
             button("Dismiss", layoutX: 10, layoutY: 20, onAction: {popup.hide()})
             effect dropShadow()
         }
     }
 
     stage(title: "GroovyFX TreeView Demo", x: 100, y: 100, visible: true, style: "decorated") {
-        scene(width: 400, height: 400, fill: groovyblue) {
+        scene(width: 400, height: 400, fill: GROOVYBLUE) {
             treeView(showRoot: false) {
                 //onEditCancel()
                 //onEditStart()
@@ -39,7 +39,7 @@ start {
                         treeItem(value: "one.two")
                         treeItem(value: "one.three")
                         graphic {
-                            rectangle(width: 20, height: 20, fill: red)
+                            rectangle(width: 20, height: 20, fill: RED)
                         }
                     }
                     treeItem(value: "two") {
@@ -47,7 +47,7 @@ start {
                         treeItem(value: "two.two")
                         treeItem(value: "two.three")
                         graphic {
-                            rectangle(width: 20, height: 20, fill: green)
+                            rectangle(width: 20, height: 20, fill: GREEN)
                         }
                     }
                     treeItem(value: "three") {
@@ -55,7 +55,7 @@ start {
                         treeItem(value: "three.two")
                         treeItem(value: "three.three")
                         graphic {
-                            rectangle(width: 20, height: 20, fill: blue)
+                            rectangle(width: 20, height: 20, fill: BLUE)
                         }
                     }
                     treeItem(value: "four") {
@@ -63,7 +63,7 @@ start {
                         treeItem(value: "four.two")
                         treeItem(value: "four.three")
                         graphic {
-                            rectangle(width: 20, height: 20, fill: orange)
+                            rectangle(width: 20, height: 20, fill: ORANGE)
                         }
                     }
                     treeItem(value: "five") {
@@ -71,7 +71,7 @@ start {
                         treeItem(value: "five.two")
                         treeItem(value: "five.three")
                         graphic {
-                            rectangle(width: 20, height: 20, fill: yellow)
+                            rectangle(width: 20, height: 20, fill: YELLOW)
                         }
                     }
                 }

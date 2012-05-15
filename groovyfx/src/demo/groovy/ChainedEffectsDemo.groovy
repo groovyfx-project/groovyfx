@@ -23,29 +23,29 @@ import static groovyx.javafx.GroovyFX.start
 
 start {
     stage title: "Chained Effects Demo", width: 450, height: 300, visible: true, {
-        scene fill: groovyblue, {
+        scene fill: GROOVYBLUE, {
             //simple
-            rectangle x:10, y:10, width:100, height:100, fill:whitesmoke, {
-                effect dropShadow(color: yellow, input: innerShadow(color: groovyblue))
+            rectangle x: 10, y: 10, width: 100, height: 100, fill: WHITESMOKE, {
+                effect dropShadow(color: YELLOW, input: innerShadow(color: GROOVYBLUE))
             }
             // changing the sequence leads to different results
-            rectangle x:120, y:10, width:100, height:100, fill:whitesmoke, {
-                effect innerShadow(color: groovyblue, input: dropShadow(color: yellow))
+            rectangle x: 120, y: 10, width: 100, height: 100, fill: WHITESMOKE, {
+                effect innerShadow(color: GROOVYBLUE, input: dropShadow(color: YELLOW))
             }
             // chaining by using groups
             group {
-                rectangle x:230, y:10, width:100, height:100, fill:whitesmoke, {
-                    effect innerShadow(color: groovyblue)
+                rectangle x: 230, y: 10, width: 100, height: 100, fill: WHITESMOKE, {
+                    effect innerShadow(color: GROOVYBLUE)
                 }
-                effect dropShadow(color: yellow)
+                effect dropShadow(color: YELLOW)
             }
             // changing the effects at runtime
-            def inner = innerShadow(color: groovyblue)
-            def outer = dropShadow(color:yellow)
-            rectangle id: 'interactive', x:340, y:10, width:100, height:100, fill:whitesmoke, {
+            def inner = innerShadow(color: GROOVYBLUE)
+            def outer = dropShadow(color: YELLOW)
+            rectangle id: 'interactive', x: 340, y: 10, width: 100, height: 100, fill: WHITESMOKE, {
                 effect outer
                 onMouseEntered { outer.input = inner }
-                onMouseExited  { outer.input = null  }
+                onMouseExited { outer.input = null }
                 onMouseClicked { interactive.effect = reflection(input: outer) }
             }
         }

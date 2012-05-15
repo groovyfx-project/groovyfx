@@ -18,14 +18,14 @@ import static groovyx.javafx.GroovyFX.start
 
 start {
     stage(title: "GroovyFX Hello World", visible: true) {
-        scene(fill: black, width: 500, height: 250) {
+        scene(fill: BLACK, width: 500, height: 250) {
             hbox(padding: 60) {
                 text(text: "Groovy", style: "-fx-font-size: 80pt") {
-                    fill linearGradient(endX: 0, stops: [palegreen, seagreen])
+                    fill linearGradient(endX: 0, stops: [PALEGREEN, SEAGREEN])
                 }
                 text(text: "FX", style: "-fx-font-size: 80pt") {
-                    fill linearGradient(endX: 0, stops: [cyan, dodgerblue])
-                    effect dropShadow(color: dodgerblue, radius: 25, spread: 0.25)
+                    fill linearGradient(endX: 0, stops: [CYAN, DODGERBLUE])
+                    effect dropShadow(color: DODGERBLUE, radius: 25, spread: 0.25)
                 }
             }
         }

@@ -17,14 +17,14 @@
 import static groovyx.javafx.GroovyFX.start
 
 start {
-    stage(title: "GroovyFX StrokeTransition Demo", width: 400, height:300, visible: true, resizable: true) {
-         scene(fill: groovyblue) {
-             stackPane {
-                 rectangle(width: 200, height: 200, fill: darkgreen, strokeWidth: 8, stroke: blue) {
-                     strokeTransition(3.s, delay: 500.ms, from: blue, to: silver).playFromStart()
-                 }
-             }
-         }
+    stage(title: "GroovyFX StrokeTransition Demo", width: 400, height: 300, visible: true, resizable: true) {
+        scene(fill: GROOVYBLUE) {
+            stackPane {
+                rectangle(width: 200, height: 200, fill: DARKGREEN, strokeWidth: 8, stroke: BLUE) {
+                    strokeTransition(3.s, delay: 500.ms, from: BLUE, to: SILVER).playFromStart()
+                }
+            }
+        }
     }
 }
 

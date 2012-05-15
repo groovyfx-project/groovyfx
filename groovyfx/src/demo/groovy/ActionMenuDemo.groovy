@@ -14,19 +14,19 @@
 * limitations under the License.
 */
 
-
 /**
  *
  * @author Andres Almiray
  */
+
 import static groovyx.javafx.GroovyFX.start
 
 start {
 
     actions {
         fxaction(id: 'openAction',
-            name: 'Open',
-            onAction: { println "Open" })
+                name: 'Open',
+                onAction: { println "Open" })
         fxaction(id: 'saveAction',
                 name: 'Save',
                 onAction: { println "Save" })
@@ -50,17 +50,17 @@ start {
                 onAction: { println "Check" })
     }
 
-    stage(title: "GroovyFX Menu Demo", width: 650, height:450, visible: true) {
-        scene(fill: groovyblue) {
+    stage(title: "GroovyFX Menu Demo", width: 650, height: 450, visible: true) {
+        scene(fill: GROOVYBLUE) {
             borderPane {
                 top {
                     menuBar {
                         menu("File") {
                             menuItem(openAction) {
-                                rectangle(width: 16, height: 16, fill: red)
+                                rectangle(width: 16, height: 16, fill: RED)
                             }
                             menuItem(saveAction) {
-                                graphic(circle(radius: 8, fill: blue))
+                                graphic(circle(radius: 8, fill: BLUE))
                             }
                             saveAs = menuItem(saveAsAction)
                             separatorMenuItem()

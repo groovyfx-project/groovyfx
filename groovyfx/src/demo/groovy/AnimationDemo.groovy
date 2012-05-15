@@ -15,24 +15,23 @@
 */
 
 import static groovyx.javafx.GroovyFX.start
-import javafx.animation.Timeline
 
 /**
  *
  * @author jimclarke
  */
 start {
-    stage(title: "GroovyFX Animation Demo", width: 650, height:450, visible: true) {
-         scene(fill: groovyblue) {
-             rect1 = rectangle (x: 25, y: 40, width: 100, height: 50, fill: red)
-             rect2 = rectangle (x: 25, y: 100, width: 100, height: 50, fill: green)
-         }
+    stage(title: "GroovyFX Animation Demo", width: 650, height: 450, visible: true) {
+        scene(fill: GROOVYBLUE) {
+            rect1 = rectangle(x: 25, y: 40, width: 100, height: 50, fill: RED)
+            rect2 = rectangle(x: 25, y: 100, width: 100, height: 50, fill: GREEN)
+        }
     }
 
-    def tl = timeline(cycleCount: Timeline.INDEFINITE, autoReverse: true) {
-        at (1000.ms, onFinished: { println "done" }) {
-            change(rect1, 'x') to 200 tween ease_both
-            change rect2.yProperty() to 200 tween linear
+    def tl = timeline(cycleCount: INDEFINITE, autoReverse: true) {
+        at(1000.ms, onFinished: { println "done" }) {
+            change(rect1, 'x') to 200 tween EASE_BOTH
+            change rect2.yProperty() to 200 tween LINEAR
         }
     }
 

@@ -17,17 +17,17 @@
 import static groovyx.javafx.GroovyFX.start
 
 start {
-    stage(title: "GroovyFX Parllel Transition Demo", width: 400, height:300, visible: true, resizable: true) {
-         scene(fill: groovyblue) {
-             rectangle(x: 20, y: 20, width: 100, height: 50, fill: blue) {
+    stage(title: "GroovyFX Parllel Transition Demo", width: 400, height: 300, visible: true, resizable: true) {
+        scene(fill: GROOVYBLUE) {
+            rectangle(x: 20, y: 20, width: 100, height: 50, fill: BLUE) {
                 rectTransition = parallelTransition(onFinished: { println "parallel done" }) {
-                    translateTransition(5.s, tween: "ease_out", to: 100, onFinished: { println "translate done" })
-                    rotateTransition(5.s, tween: "ease_both", to: 180, onFinished: { println "rotate done" })
-                    scaleTransition(5.s,  interpolator: "ease_in", to: 0.5, onFinished: { println "scale done" })
-                    fillTransition(5.s,  interpolator: "ease_in", to: red, onFinished: { println "fill done" })
+                    translateTransition(5.s, tween: EASE_OUT, to: 100, onFinished: { println "translate done" })
+                    rotateTransition(5.s, tween: EASE_BOTH, to: 180, onFinished: { println "rotate done" })
+                    scaleTransition(5.s, interpolator: EASE_IN, to: 0.5, onFinished: { println "scale done" })
+                    fillTransition(5.s, interpolator: EASE_IN, to: RED, onFinished: { println "fill done" })
                 }.playFromStart()
-             }
-         }
+            }
+        }
     }
 }
 
