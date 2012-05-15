@@ -58,9 +58,9 @@ if(!ext.javafxJar) {
     System.exit 1
 }
 
-//ext.actualJavaFXVersion = com.sun.javafx.runtime.VersionInfo.runtimeVersion
-//if (! ext.actualJavaFXVersion.startsWith(requiredJavaFxVersion)) {
-//    println "Required JavaFX version is '$ext.requiredJavaFxVersion' but actual version is '$ext.actualJavaFXVersion'"
-//    System.exit(1)
-//}
+ext.actualJavaFXVersion = com.sun.javafx.runtime.VersionInfo.runtimeVersion
+if (! ext.actualJavaFXVersion.startsWith(requiredJavaFxVersion)) {
+    println "Required JavaFX version is '$requiredJavaFxVersion' but actual version is '$ext.actualJavaFXVersion'"
+    System.exit(1)
+}
 
