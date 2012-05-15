@@ -14,7 +14,7 @@ configurations {
 dependencies {
 	//  Manually load up the required dependencies for grailsDoc to avoid pulling in everything needed for
     //  Grails, including all the SpringRoo stuff.
-    docs 'org.codehaus.groovy:groovy-all:1.8.5'
+    docs 'org.codehaus.groovy:groovy-all:1.8.6'
     docs 'org.yaml:snakeyaml:1.9'
     docs 'commons-lang:commons-lang:2.6'
     docs ext.grailsDocs
