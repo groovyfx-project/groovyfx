@@ -18,10 +18,10 @@ import static groovyx.javafx.GroovyFX.start
 
 start {
     stage(title: "GroovyFX ToolBar Demo", width: 820, height: 400, visible: true) {
-        scene(fill: groovyblue) {
+        scene(fill: GROOVYBLUE) {
             borderPane {
                 top {
-                    toolBar(orientation: "horizontal") {
+                    toolBar(orientation: HORIZONTAL) {
                         button("button 1")
                         button("button 2")
                         button("button 3")

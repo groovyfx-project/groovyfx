@@ -14,16 +14,17 @@
 * limitations under the License.
 */
 
-import static groovyx.javafx.GroovyFX.start
 import javafx.animation.Transition
+
+import static groovyx.javafx.GroovyFX.start
 
 start {
     Transition rectTransition = null
     final testTransition = fadeTransition(3.s, delay: 500.ms, from: 1.0, to: 0.0, onFinished: { println "done" })
 
     stage(title: "GroovyFX Transition Demo", width: 400, height: 300, visible: true, resizable: true) {
-        scene(fill: groovyblue) {
-            rectangle(x: 20, y: 20, width: 100, height: 50, fill: blue) {
+        scene(fill: GROOVYBLUE) {
+            rectangle(x: 20, y: 20, width: 100, height: 50, fill: BLUE) {
                 rectTransition = transition(testTransition)
             }
         }

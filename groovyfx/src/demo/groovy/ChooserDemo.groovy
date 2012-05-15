@@ -14,38 +14,39 @@
 * limitations under the License.
 */
 
-import static groovyx.javafx.GroovyFX.start
 import javafx.beans.property.SimpleStringProperty
+
+import static groovyx.javafx.GroovyFX.start
 
 def selectedProperty = new SimpleStringProperty("");
 start {
-    
+
     final fileChooser = fileChooser(initialDirectory: ".", title: "FileChooser Demo") {
         filter("images", extensions: ["*.jpg", "*.gif", "*.bmp", "*.png"])
     }
     final dirChooser = directoryChooser(initialDirectory: ".", title: "DirectoryChooserDemo");
 
-    stage(title: "GroovyFX Chooser Demo", width: 400, height:300, visible: true, resizable: true) {
-         scene(fill: groovyblue) {
-             vbox(spacing: 10, padding: 10) {
-                 hbox(spacing: 10, padding: 10) {
-                    button("Open file", onAction: { 
-                        selectedfile = fileChooser.showOpenDialog(primaryStage) 
-                        selectedProperty.set(selectedfile?selectedfile.toString(): "")
+    stage(title: "GroovyFX Chooser Demo", width: 400, height: 300, visible: true, resizable: true) {
+        scene(fill: GROOVYBLUE) {
+            vbox(spacing: 10, padding: 10) {
+                hbox(spacing: 10, padding: 10) {
+                    button("Open file", onAction: {
+                        selectedfile = fileChooser.showOpenDialog(primaryStage)
+                        selectedProperty.set(selectedfile ? selectedfile.toString() : "")
                     })
-                    button("Save file", onAction: { 
-                        selectedfile = fileChooser.showSaveDialog(primaryStage) 
-                        selectedProperty.set(selectedfile?selectedfile.toString(): "")
+                    button("Save file", onAction: {
+                        selectedfile = fileChooser.showSaveDialog(primaryStage)
+                        selectedProperty.set(selectedfile ? selectedfile.toString() : "")
                     })
-                    button("Select directory", onAction: { 
-                        selectedfile = dirChooser.showDialog(primaryStage) 
-                        selectedProperty.set(selectedfile?selectedfile.toString(): "")
+                    button("Select directory", onAction: {
+                        selectedfile = dirChooser.showDialog(primaryStage)
+                        selectedProperty.set(selectedfile ? selectedfile.toString() : "")
                     })
-                 }
-                 label(id: 'selected')
-                 
-             }
-         }
+                }
+                label(id: 'selected')
+
+            }
+        }
     }
     selected.textProperty().bind(selectedProperty)
 }

@@ -85,7 +85,7 @@ class FontFactory {
                         Stylesheet p = CSSParser.getInstance().parse("* { -fx-font-size: " + str + "; }");
                         List declarations = p.getRules().get(0).getDeclarations();
                         ParsedValue v = declarations.get(0).getParsedValue();
-                        def size = v.getConverter().convert(v, null);
+                        def size = v.getConverter().convert(v, new Font(8));
                         font = new Font(size);
                     // }
                 }

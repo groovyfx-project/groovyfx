@@ -22,7 +22,7 @@ import static groovyx.javafx.GroovyFX.start
  */
 start {
     stage(title: "HTMLEditor Demo", x: 100, y: 100, visible: true, style: "decorated") {
-        scene(fill: groovyblue, width: 480, height: 400) {
+        scene(fill: GROOVYBLUE, width: 480, height: 400) {
             borderPane() {
                 html = htmlEditor()
                 bottom(align: "center", margin: [10, 0]) {

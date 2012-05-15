@@ -19,8 +19,8 @@ import static groovyx.javafx.GroovyFX.start
 
 start {
     stage(title: "Lighting Effect Demo", width: 520, height: 300, visible: true, style: "decorated") {
-        scene(fill: groovyblue) {
-            text(x: 10, y: 10, text: "Light Effect", font: "bold 48pt Amble", fill: yellow, textOrigin: "top") {
+        scene(fill: GROOVYBLUE) {
+            text(x: 10, y: 10, text: "Light Effect", font: "bold 48pt Amble", fill: YELLOW, textOrigin: TOP) {
                 lighting(surfaceScale: 5.0) {
 //                    distant(azimuth: -135)
 //                    spot(x: 0, y: 100, z: 50, pointsAtX: 100, pointsAtY: 0, pointsAtZ: 0, specularExponent: 2)

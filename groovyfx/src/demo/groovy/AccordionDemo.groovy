@@ -24,7 +24,7 @@ import static groovyx.javafx.GroovyFX.start
  */
 start {
     stage(title: "GroovyFX Accordion Demo", x: 100, y: 100, visible: true, style: "decorated", primary: true) {
-        scene(fill: groovyblue, width: 400, height: 400) {
+        scene(fill: GROOVYBLUE, width: 400, height: 400) {
             accordion {
                 titledPane(id: "t1", text: "Label 1") {
                     content {

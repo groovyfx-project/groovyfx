@@ -155,33 +155,63 @@ class SceneGraphBuilder extends FactoryBuilderSupport {
     }
 
     private static Map propertyMap = [
-        horizontal: Orientation.HORIZONTAL,
-        vertical : Orientation.VERTICAL,
-        ease_both: Interpolator.EASE_BOTH,
-        easeboth: Interpolator.EASE_BOTH,
-        easein: Interpolator.EASE_IN,
-        ease_in: Interpolator.EASE_IN,
-        easeout: Interpolator.EASE_OUT,
-        ease_out: Interpolator.EASE_OUT,
-        discrete: Interpolator.DISCRETE,
-        linear: Interpolator.LINEAR,
-        indefinite: Timeline.INDEFINITE,
-        top: VPos.TOP,
-        bottom: VPos.BOTTOM,
-        left: HPos.LEFT,
-        right: HPos.RIGHT,
-        top_left: Pos.TOP_LEFT ,
-        top_center: Pos.TOP_CENTER ,
-        top_right: Pos.TOP_RIGHT ,
-        center_left: Pos.CENTER_LEFT ,
-        center: Pos.CENTER,
-        center_right: Pos.CENTER_RIGHT ,
-        bottom_left: Pos.BOTTOM_LEFT ,
-        bottom_center: Pos.BOTTOM_CENTER ,
-        bottom_right: Pos.BOTTOM_RIGHT ,
-        baseline_center: Pos.BASELINE_CENTER ,
-        baseline_right: Pos.BASELINE_RIGHT ,
-        baseline_left: Pos.BASELINE_LEFT ,
+            // TODO remove lowercase versions
+            horizontal: Orientation.HORIZONTAL,
+            vertical: Orientation.VERTICAL,
+            ease_both: Interpolator.EASE_BOTH,
+            easeboth: Interpolator.EASE_BOTH,
+            easein: Interpolator.EASE_IN,
+            ease_in: Interpolator.EASE_IN,
+            easeout: Interpolator.EASE_OUT,
+            ease_out: Interpolator.EASE_OUT,
+            discrete: Interpolator.DISCRETE,
+            linear: Interpolator.LINEAR,
+            indefinite: Timeline.INDEFINITE,
+            // the following commented out because they cause
+            // trouble with nodes that have the same name :-(
+            //top: VPos.TOP,
+            //bottom: VPos.BOTTOM,
+            //left: HPos.LEFT,
+            //right: HPos.RIGHT,
+            top_left: Pos.TOP_LEFT,
+            top_center: Pos.TOP_CENTER,
+            top_right: Pos.TOP_RIGHT,
+            center_left: Pos.CENTER_LEFT,
+            center: Pos.CENTER,
+            center_right: Pos.CENTER_RIGHT,
+            bottom_left: Pos.BOTTOM_LEFT,
+            bottom_center: Pos.BOTTOM_CENTER,
+            bottom_right: Pos.BOTTOM_RIGHT,
+            baseline_center: Pos.BASELINE_CENTER,
+            baseline_right: Pos.BASELINE_RIGHT,
+            baseline_left: Pos.BASELINE_LEFT,
+            HORIZONTAL: Orientation.HORIZONTAL,
+            VERTICAL: Orientation.VERTICAL,
+            EASEBOTH: Interpolator.EASE_BOTH,
+            EASE_BOTH: Interpolator.EASE_BOTH,
+            EASEIN: Interpolator.EASE_IN,
+            EASE_IN: Interpolator.EASE_IN,
+            EASEOUT: Interpolator.EASE_OUT,
+            EASE_OUT: Interpolator.EASE_OUT,
+            DISCRETE: Interpolator.DISCRETE,
+            LINEAR: Interpolator.LINEAR,
+            INDEFINITE: Timeline.INDEFINITE,
+            TOP: VPos.TOP,
+            BOTTOM: VPos.BOTTOM,
+            LEFT: HPos.LEFT,
+            RIGHT: HPos.RIGHT,
+            TOP_LEFT: Pos.TOP_LEFT,
+            TOP_CENTER: Pos.TOP_CENTER,
+            TOP_RIGHT: Pos.TOP_RIGHT,
+            CENTER_LEFT: Pos.CENTER_LEFT,
+            CENTER: Pos.CENTER,
+            CENTER_RIGHT: Pos.CENTER_RIGHT,
+            BOTTOM_LEFT: Pos.BOTTOM_LEFT,
+            BOTTOM_CENTER: Pos.BOTTOM_CENTER,
+            BOTTOM_RIGHT: Pos.BOTTOM_RIGHT,
+            BASELINE_CENTER: Pos.BASELINE_CENTER,
+            BASELINE_RIGHT: Pos.BASELINE_RIGHT,
+            BASELINE_LEFT: Pos.BASELINE_LEFT
     ];
 
     def propertyMissing(String name) {
@@ -593,7 +623,8 @@ class SceneGraphBuilder extends FactoryBuilderSupport {
         Color.NamedColors.namedColors.put("groovyblue", Color.rgb(99, 152, 170))
 
         Color.NamedColors.namedColors.each { name, color ->
-            setVariable(name, color)
+            setVariable(name, color) // would love to remove this one
+            setVariable(name.toUpperCase(), color)
         }
 
         propertyMap.each { name, value ->

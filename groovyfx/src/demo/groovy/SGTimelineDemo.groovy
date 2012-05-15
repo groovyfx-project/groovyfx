@@ -23,16 +23,16 @@ start {
     def r = 90;
 
     stage(title: "GroovyFX Timeline Demo", width: 200, height: 200, visible: true, resizable: true) {
-        scene(fill: groovyblue) {
+        scene(fill: GROOVYBLUE) {
             map = circle(radius: 25) {
-                fill(red)
+                fill(RED)
             }
         }
 
-        timeline(cycleCount: indefinite, autoReverse: true) {
+        timeline(cycleCount: INDEFINITE, autoReverse: true) {
             at(800.ms) {
-                change(map, 'layoutX') to lX tween easeboth
-                change(map, 'layoutY') to lY tween easeboth
+                change(map, 'layoutX') to lX tween EASE_BOTH
+                change(map, 'layoutY') to lY tween EASE_BOTH
                 change(map, 'scaleX') to s
                 change(map, 'scaleY') to s
                 change(map, 'rotate') to r

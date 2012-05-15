@@ -14,21 +14,20 @@
 * limitations under the License.
 */
 
-
-
 import java.awt.BorderLayout as BL
 import javax.swing.WindowConstants as WC
-import java.awt.Dimension
-import javafx.embed.swing.JFXPanel
 
 import groovy.swing.SwingBuilder
 import groovyx.javafx.SceneGraphBuilder
+import javafx.embed.swing.JFXPanel
+
+import java.awt.Dimension
 
 def DEFAULT_URL = "http://www.yahoo.com"
 def swing = new SwingBuilder();
 def sg = new SceneGraphBuilder();
 
-def fxPanel = new JFXPanel(preferredSize: new Dimension(800,400))
+def fxPanel = new JFXPanel(preferredSize: new Dimension(800, 400))
 
 def setUrl = { url ->
     sg.defer {
@@ -37,16 +36,16 @@ def setUrl = { url ->
 }
 
 def createScene = {
-   sg.defer {
+    sg.defer {
         def scene = sg.scene(width: 800, height: 400) {
-             wv = webView(DEFAULT_URL)
-         }
-         fxPanel.scene = scene
-   } 
+            wv = webView(DEFAULT_URL)
+        }
+        fxPanel.scene = scene
+    }
 }
 
 swing.edt {
-    frame = frame(title:'GroovyFX Swing Demo', show: true, defaultCloseOperation: WC.EXIT_ON_CLOSE) {
+    frame = frame(title: 'GroovyFX Swing Demo', show: true, defaultCloseOperation: WC.EXIT_ON_CLOSE) {
         borderLayout()
         panel(constraints: BL.NORTH) {
             textField(id: "urlField", actionPerformed: {setUrl(urlField.text)}, columns: 40)

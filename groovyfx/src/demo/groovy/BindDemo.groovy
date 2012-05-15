@@ -14,9 +14,9 @@
 * limitations under the License.
 */
 
-import groovyx.javafx.SceneGraphBuilder
 import groovyx.javafx.beans.FXBindable
 import javafx.scene.control.TextField
+
 import static groovyx.javafx.GroovyFX.start
 
 /**
@@ -25,7 +25,7 @@ import static groovyx.javafx.GroovyFX.start
  */
 class QuickTest {
     @FXBindable String qtText = "Quick Test"
-    private int clickCount = 0 
+    private int clickCount = 0
 
     def onClick = {
         qtText = "Quick Test ${++clickCount}"
@@ -33,11 +33,11 @@ class QuickTest {
 }
 
 start {
-    def qt = new QuickTest() 
+    def qt = new QuickTest()
 
     stage(title: "GroovyFX Bind Demo", x: 100, y: 100, width: 400, height: 400, visible: true,
-             style: "decorated", onHidden: { println "Close"}) {
-        scene(fill: groovyblue) {
+            style: "decorated", onHidden: { println "Close"}) {
+        scene(fill: GROOVYBLUE) {
             vbox(spacing: 10, padding: 10) {
                 TextField tf = textField(text: 'Change Me!')
                 //button(text: bind(source: tf, sourceProperty: 'text'), onAction: {qt.onClick()})
@@ -53,9 +53,9 @@ start {
                 label(text: bind(qt, 'qtText'))
                 label(text: bind(qt.qtText()))
                 label(text: bind(qt.qtTextProperty()))
-                
+
                 // bidirectional bind
-                textField(id:"tf2", promptText: 'Change Me!')
+                textField(id: "tf2", promptText: 'Change Me!')
                 textField(text: bind(tf2.textProperty()))
             }
         }

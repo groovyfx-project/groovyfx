@@ -22,7 +22,7 @@ import static groovyx.javafx.GroovyFX.start
  */
 start {
     stage title: "Dierk's Code Style Demo", x: 100, y: 100, visible: true, {
-        scene fill: groovyblue, width: 400, height: 400, {
+        scene fill: GROOVYBLUE, width: 400, height: 400, {
             accordion {
                 titledPane "Look inside", {
                     label "Hi! Also try the other groups."
@@ -34,4 +34,9 @@ start {
                     vbox {
                         label "More than one child ..."
                         label "... requires an extra container."
-}   }   }   }   }   }
+                    }
+                }
+            }
+        }
+    }
+}

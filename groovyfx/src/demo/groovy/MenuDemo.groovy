@@ -14,67 +14,67 @@
 * limitations under the License.
 */
 
-
 /**
-*
-* @author jimclarke
-*/
+ *
+ * @author jimclarke
+ */
+
 import static groovyx.javafx.GroovyFX.start
 
 start {
-    stage(title: "GroovyFX Menu Demo", width: 650, height:450, visible: true) {
-         scene(fill: groovyblue) {
-             borderPane {
-                 top {
-                     menuBar {
-                         menu("File") {
-                             menuItem("Open", onAction: { println "Open" }) {
-                                 rectangle(width: 16, height: 16, fill: red)
-                             }
-                             menuItem("Save", onAction: { println "Save" }) {
-                                 graphic(circle(radius: 8, fill: blue))
-                             }
-                             saveAs = menuItem("SaveAs..", onAction: {  println "Save As"  })
-                             separatorMenuItem()
-                             menuItem("Exit", onAction: { primaryStage.close() })
-                         }
-                         menu(text: "Edit") {
-                             menuItem("Cut", onAction: { println "Cut" })
-                             menuItem("Copy", onAction: { println "Copy" })
-                             menuItem("Paste..", onAction: { println "Paste" })
-                             separatorMenuItem()
-                             checkMenuItem("Check")
-                             radioMenuItem("Radio", selected: true)
-                             menu("Foo") {
-                                 menuItem("Bar")
-                                 menuItem("FooBar")
-                             }
-                         }
-                     }
-                 }
-                 center {
-                     hbox(spacing: 20, padding: 10) {
-                         menuButton("Choose") {
-                             menuItem("one", onAction: { println: "One"})
-                             menuItem("two", onAction: { println: "Two"})
-                             menuItem("three", onAction: { println: "Three"})
-                         }
-                         splitMenuButton("Split", onAction: { println "Split Action"}) {
-                             menuItem("11111", onAction: { println: "11111"})
-                             menuItem("22222", onAction: { println: "22222"})
-                             menuItem("33333", onAction: { println: "33333"})
-                         }
-                         button("Context Menu") {
-                             onMouseEntered {println "over"}
-                             contextMenu() {
-                                menuItem("Write", onAction: { println("Write")})
-                                menuItem("Cancel", onAction: { println("Cancel")} )
+    stage(title: "GroovyFX Menu Demo", width: 650, height: 450, visible: true) {
+        scene(fill: GROOVYBLUE) {
+            borderPane {
+                top {
+                    menuBar {
+                        menu("File") {
+                            menuItem("Open", onAction: { println "Open" }) {
+                                rectangle(width: 16, height: 16, fill: RED)
                             }
-                         }
-                     }
-                 }
-             }
-         }
+                            menuItem("Save", onAction: { println "Save" }) {
+                                graphic(circle(radius: 8, fill: BLUE))
+                            }
+                            saveAs = menuItem("SaveAs..", onAction: { println "Save As" })
+                            separatorMenuItem()
+                            menuItem("Exit", onAction: { primaryStage.close() })
+                        }
+                        menu(text: "Edit") {
+                            menuItem("Cut", onAction: { println "Cut" })
+                            menuItem("Copy", onAction: { println "Copy" })
+                            menuItem("Paste..", onAction: { println "Paste" })
+                            separatorMenuItem()
+                            checkMenuItem("Check")
+                            radioMenuItem("Radio", selected: true)
+                            menu("Foo") {
+                                menuItem("Bar")
+                                menuItem("FooBar")
+                            }
+                        }
+                    }
+                }
+                center {
+                    hbox(spacing: 20, padding: 10) {
+                        menuButton("Choose") {
+                            menuItem("one", onAction: { println: "One"})
+                            menuItem("two", onAction: { println: "Two"})
+                            menuItem("three", onAction: { println: "Three"})
+                        }
+                        splitMenuButton("Split", onAction: { println "Split Action"}) {
+                            menuItem("11111", onAction: { println: "11111"})
+                            menuItem("22222", onAction: { println: "22222"})
+                            menuItem("33333", onAction: { println: "33333"})
+                        }
+                        button("Context Menu") {
+                            onMouseEntered {println "over"}
+                            contextMenu() {
+                                menuItem("Write", onAction: { println("Write")})
+                                menuItem("Cancel", onAction: { println("Cancel")})
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

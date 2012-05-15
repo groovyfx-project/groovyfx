@@ -18,10 +18,10 @@ import static groovyx.javafx.GroovyFX.start
 
 start {
     stage(title: "GroovyFX TextField Demo", x: 100, y: 100, visible: true, style: "decorated") {
-        scene(fill: groovyblue, width: 400, height: 400) {
+        scene(fill: GROOVYBLUE, width: 400, height: 400) {
             borderPane() {
                 top() {
-                    passwordField(prefColumnCount:20)
+                    passwordField(prefColumnCount: 20)
                 }
                 text = textField(promptText: 'Type here', prefColumnCount: 80, onAction: { println "T: " + text.text})
                 bottom(align: "center", margin: [10, 0]) {

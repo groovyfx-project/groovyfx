@@ -15,15 +15,16 @@
 */
 
 import javafx.scene.control.TextField
+
 import static groovyx.javafx.GroovyFX.start
 
 /**
-    Demo of including a custom text field that rejects invalid characters giving
-    visual feedback (shake).
-    Shows how the SGB can be extended with nodes for new controls, how new
-    controls can can be customized with new state, and how to customize
-    their runtime behaviour, i.e. visualizing rejection with a shake.
-    @author Dierk Koenig
+ Demo of including a custom text field that rejects invalid characters giving
+ visual feedback (shake).
+ Shows how the SGB can be extended with nodes for new controls, how new
+ controls can can be customized with new state, and how to customize
+ their runtime behaviour, i.e. visualizing rejection with a shake.
+ @author Dierk Koenig
  */
 
 start {
@@ -32,18 +33,22 @@ start {
     stage title: 'Shake on Reject', visible: true, {
         scene {
             gridPane {
-            rejectField text:'only a-z allowed', id: 'input', allow: '[a-z]*', row: 0, column: 0, {
-                onMouseEntered { println "enter"}
-                shake = sequentialTransition {
-                    rotateTransition to: 3, cycleCount: 3, cycleDuration: 0.1.s
-                    rotateTransition 0.1.s, to: 0
-    }   }   }   }   }
+                rejectField text: 'only a-z allowed', id: 'input', allow: '[a-z]*', row: 0, column: 0, {
+                    onMouseEntered { println "enter"}
+                    shake = sequentialTransition {
+                        rotateTransition to: 3, cycleCount: 3, cycleDuration: 0.1.s
+                        rotateTransition 0.1.s, to: 0
+                    }
+                }
+            }
+        }
+    }
     input.onReject = { shake.playFromStart() }
 }
 
 class RejectField extends TextField {
     Closure onReject
-    String  allow = ".*"
+    String allow = ".*"
 
     void replaceText(int start, int end, String text) {
         if (text.matches(allow)) {

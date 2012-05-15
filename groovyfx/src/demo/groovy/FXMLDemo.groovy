@@ -22,16 +22,16 @@ def xml = """
     <?import javafx.scene.control.*?>
     <Group xmlns:fx="http://javafx.com/fxml">
             <children>
-                 <Rectangle x="20.0" y="40.0" width="50.0" height="150" fill="BLUE" />
-                 <Rectangle x="150.0" y="80.0" width="100.0" height="100" fill="RED" />
-                 <Rectangle x="10.0" y="200.0" width="70.0" height="20" fill="GREEN" />
+                 <Rectangle x="20.0" y="40.0" width="50.0" height="150" fill="blue" />
+                 <Rectangle x="150.0" y="80.0" width="100.0" height="100" fill="red" />
+                 <Rectangle x="10.0" y="200.0" width="70.0" height="20" fill="green" />
             </children>
     </Group>
     """
 
 start {
     stage(title: "GroovyFX FXML Demo", visible: true) {
-        scene(fill: groovyblue, width: 640, height: 600) {
+        scene(fill: GROOVYBLUE, width: 640, height: 600) {
             vbox(padding: 10) {
                 stackPane {
                     fxml """
@@ -42,16 +42,16 @@ start {
                                   <Rectangle height="200.0" width="400.0" strokeWidth="0.0050"/>
                                 </clip>
                                 <children>
-                                     <Rectangle x="10.0" y="10.0" width="100.0" height="50" fill="BLUE" />
-                                     <Rectangle x="50.0" y="80.0" width="100.0" height="100" fill="RED" />
-                                     <Rectangle x="100.0" y="150.0" width="75.0" height="80" fill="GREEN" />
+                                     <Rectangle x="10.0" y="10.0" width="100.0" height="50" fill="blue" />
+                                     <Rectangle x="50.0" y="80.0" width="100.0" height="100" fill="red" />
+                                     <Rectangle x="100.0" y="150.0" width="75.0" height="80" fill="green" />
                                 </children>
                         </Group>
                         """
-                    
+
                 }
                 stackPane {
-                    fxml xml 
+                    fxml xml
                 }
                 stackPane {
                     fxml resource("/FXMLDemo.fxml"), {

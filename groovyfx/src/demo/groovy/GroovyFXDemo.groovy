@@ -14,10 +14,6 @@
 * limitations under the License.
 */
 
-
-
-import groovyx.javafx.GroovyFX
-import groovyx.javafx.SceneGraphBuilder
 import javafx.scene.layout.Region
 import javafx.scene.paint.Color
 import javafx.scene.shape.Rectangle
@@ -38,12 +34,12 @@ class Custom extends Region {
 
 start {
     stage(title: "GroovyFX Demo", x: 100, y: 100, width: 480, height: 800, visible: true, style: "decorated",
-             onHidden: { println "Close"}) {
+            onHidden: { println "Close"}) {
 
-        scene(fill: groovyblue, root: group(), stylesheets: resource("/groovyfx.css")) {
-            onMousePressed {e -> println "scene press @" + e.x + "," + e.y  }
+        scene(fill: GROOVYBLUE, root: group(), stylesheets: resource("/groovyfx.css")) {
+            onMousePressed {e -> println "scene press @" + e.x + "," + e.y }
             onKeyReleased { e -> println "scene key" + e.text}
-            onChange ("width") { observable, oldValue, newValue ->
+            onChange("width") { observable, oldValue, newValue ->
                 println "Width: " + oldValue + " ==> " + newValue
             }
             node(new Custom(), layoutX: 10, layoutY: 10) {
@@ -55,13 +51,13 @@ start {
 
             circle(centerX: 50, centerY: 50, radius: 25, fill: rgb(0, 0, 255), onMousePressed: {println 'jim'})
 
-            rectangle(x: 100, y: 50, width: 50, height: 50, fill: red) {
+            rectangle(x: 100, y: 50, width: 50, height: 50, fill: RED) {
                 effect reflection {
                     dropShadow()
                 }
             }
 
-            path(fill: yellow) {
+            path(fill: YELLOW) {
                 onMousePressed {println "foo"}
                 moveTo(x: 150, y: 50)
                 lineTo(x: 150, y: 100)
@@ -80,9 +76,9 @@ start {
                     }
                     separator()
                     hbox(spacing: 10, padding: 10) {
-                        scrollBar(min: 0, max: 100, value: 50, orientation: horizontal, prefWidth: 200)
-                        slider(min: 0, max: 100, value: 50, orientation: "horizontal", showTickMarks: true,
-                               prefWidth: 200)
+                        scrollBar(min: 0, max: 100, value: 50, orientation: HORIZONTAL, prefWidth: 200)
+                        slider(min: 0, max: 100, value: 50, orientation: HORIZONTAL, showTickMarks: true,
+                                prefWidth: 200)
                     }
                     listView(items: ["one", "two", "three"], prefWidth: 200, prefHeight: 400)
                     comboBox(items: ["one", "two", "three"], prefWidth: 200, value: "one")

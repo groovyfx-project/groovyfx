@@ -18,13 +18,13 @@
 import static groovyx.javafx.GroovyFX.start
 
 start {
-    stage(title: 'GroovyFX Fill Transition Demo', width: 400, height:300, visible: true, resizable: true) {
-         scene(fill: groovyblue) {
-             rectangle(x: 20, y: 20, width: 100, height: 50, fill: 'blue') {
-                fillTransition(4.s, delay: 1000.ms, interpolator: 'ease_in', to: 'red',
-                               onFinished: { println 'done'}).playFromStart()
-             }
-         }
+    stage(title: 'GroovyFX Fill Transition Demo', width: 400, height: 300, visible: true, resizable: true) {
+        scene(fill: GROOVYBLUE) {
+            rectangle(x: 20, y: 20, width: 100, height: 50, fill: BLUE) {
+                fillTransition(4.s, delay: 1000.ms, interpolator: EASE_IN, to: RED,
+                        onFinished: { println 'done'}).playFromStart()
+            }
+        }
     }
 }
 

@@ -20,12 +20,12 @@ import static groovyx.javafx.GroovyFX.start
  * @author dean
  */
 start { primaryStage ->
-    stage(title: "GroovyFX Choice Box Demo", width: 400, height:200, visible: true) {
-         scene(fill: groovyblue) {
-             vbox(padding: 10, spacing: 5) {
-                 choiceBox(value: 'blue',items: ['blue', 'green', 'red'])
-             }
-         }
+    stage(title: "GroovyFX Choice Box Demo", width: 400, height: 200, visible: true) {
+        scene(fill: GROOVYBLUE) {
+            vbox(padding: 10, spacing: 5) {
+                choiceBox(value: 'blue', items: ['blue', 'green', 'red'])
+            }
+        }
     }
 }
 
