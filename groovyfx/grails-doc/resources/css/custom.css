@@ -4,9 +4,8 @@
 */
 
 #groovyfxlogo {
-    background-image: url(../img/GroovyFX_logo.png);
+    background-image: url(../img/GroovyFX_logo_text.png);
     background-repeat: no-repeat;
-    background-size: 120px 120px;
-    width: 120px;
-    height: 120px;
+    width: 384px;
+    height: 100px;
 }

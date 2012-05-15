@@ -1,20 +1,59 @@
 introduction :
   title : Introduction
-  introduction_enter_GroovyFX : Enter GroovyFX
-  introduction_credits : Credits
+  credits : Credits
 gettingStarted :
   title : Getting Started
-  gettingStarted_whatsNew: What's new
-  gettingStarted_downloadingAndInstalling : Downloading and Installing
-  gettingStarted_aHelloWorldExample : A Hello World Example
-  gettingStarted_codeConventions : Code conventions
-  gettingStarted_gettingSetUpInAnIDE : Getting Set Up in an IDE
-  gettingStarted_applicabilityOfConcepts : Applicability of Concepts
+  whatsNew: What's new
+  usingGroovyFX : Using the GroovyFX Library
+  buildingFromSource: Building from Source
+  helloGroovyFX: "Hello GroovyFX: Your First GroovyFX Program"
+
 basicConcepts :
   title: Basic Concepts
-  basicConcepts_SceneGraphBuilder : SceneGraphBuilder
-  basicConcepts_node: Node
-  basicConcepts_Layout: Layout in GroovyFX
-  controls :
-     title: Controls
-     controls_button: button
+  usingSceneGraphBuilder : Using SceneGraphBuilder
+  fonts: Fonts
+  paintsAndColors: Paints and Colors
+  insets: Insets
+  geometry: Geometry
+  enumeratedValues: Enumerated Values
+
+propertiesAndBinding:
+  title: Properties and Binding
+  bindingSupport: 
+    title: Binding Support
+    propertyNames: Property Names
+    bidirectional: Bidirectional
+    unidirectional: Unidirectional
+    closureBindings: Closure Binding Expressions
+  fxbindable: FXBindable Properties
+
+controls:
+  title: Controls
+  labelsAndText: Labels and Text
+  buttonsAndMenus: 
+    title: Buttons and Menus
+    actions: Actions
+  choiceBoxComboBox: ChoiceBox and ComboBox
+  listsTreesTables: "Lists, Tables, and Trees"
+  fileChoosers: File Choosers
+
+layout:
+  title: Layout
+
+graphics:
+  title: Graphics and Animation
+  shapesPaths: Shapes and Paths
+  colors: Colors
+  gradients: Gradients
+  effects: Effects
+  animation: Animation
+
+charts:
+  title: Charts
+  pieCharts: Pie Charts
+  xyCharts: XY Charts
+
+groovyApplications:
+  title: Writing GroovyFX Applications
+  structure: Structuring GroovyFX Applications
+  usingGriffon: Using the Griffon Application Framework

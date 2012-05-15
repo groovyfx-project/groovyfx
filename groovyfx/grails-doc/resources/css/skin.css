@@ -13,7 +13,7 @@ body, .wiki-table th strong {
 a, a:hover, a:focus, a:active, a:hover, #main .project strong, #table-of-content a:hover strong,
     #table-of-content a strong, .menu .menu-block h1, .menu a:hover, .local .local-title .toggle a,
     #navigation #nav-summary-childs a:hover, #main h1, #main h2 {
-    color: #67B3FE;
+    color: #75A9BD;
 }
 
 #main .project h1, #table-of-content h2 {
@@ -62,20 +62,20 @@ a, a:hover, a:focus, a:active, a:hover, #main .project strong, #table-of-content
 }
 
 .code, #navigation #nav-summary-childs {
-    background: #F2f2F2;
+    background: #F2F2F2;
 }
 
 
 #navigation .selected a {
-    background: #5a7103;
+    background: #4F717F;
 }
 
 #navigation a:hover {
-    background: #678104;
+    background: #6793A5;
 }
 
 #navigation .selected a:hover, #navigation .active .button {
-    background: #526703;
+    background: #3F6D78;
 }
 
 /*
@@ -100,11 +100,11 @@ a, a:hover, a:focus, a:active, a:hover, #main .project strong, #table-of-content
 }
 
 .wiki-table th, #navigation {
-    background: #a4c001 url(../img/default/linear-gradient-green.png) repeat-x 0 0;
+    background: #7cc8e2 url(../img/linear-gradient-blue.png) repeat-x 0 0;
 }
 
 #navigation .separator {
-    background: url(../img/default/separator-menu.png) no-repeat 0 center;
+    background: url(../img/separator-menu.png) no-repeat 0 center;
 }
 
 
@@ -124,7 +124,7 @@ a, a:hover, a:focus, a:active, a:hover, #main .project strong, #table-of-content
 
 #navigation {
     border-style: solid;
-    border-color: #344d06;
+    border-color: #1F2D48;
 }
 
 .code {

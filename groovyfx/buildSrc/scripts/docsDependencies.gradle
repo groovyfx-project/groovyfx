@@ -1,4 +1,5 @@
-grailsDocs 		= 'org.grails:grails-docs:2.0.0@jar'
+//grailsDocs      = 'org.grails:grails-docs:2.0.0@jar'
+grailsDocs      = 'org.grails:grails-docs:2.0.1'
 xhtmlRenderer 	= 'org.xhtmlrenderer:core-renderer:R8'
 lowagieItext 	= 'com.lowagie:itext:2.0.8'
 radeox 			= 'radeox:radeox:1.0-b2'

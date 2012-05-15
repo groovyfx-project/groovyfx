@@ -38,7 +38,7 @@ class WebFactory extends AbstractNodeFactory {
         Object instance = super.newInstance(builder, name, value, attributes)
 
         if(WebView.isAssignableFrom(beanClass)) {
-            def location = value;
+            def location = value.toString();
             if(location == null)
                 location = attributes.remove("location");
             if(location != null)
