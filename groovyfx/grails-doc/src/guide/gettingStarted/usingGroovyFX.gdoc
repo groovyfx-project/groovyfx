@@ -1,36 +1,60 @@
-Download JavaFX from http://javafx.com and follow the install instructions.
+h4. Using GroovyFX from Maven Central
 
-h3. Building with Gradle
+Having GroovyFX in Maven Central (thanks to Sonatype's OSS hosting!) makes it simple to use GroovyFX in 
+everything from simple test scripts to larger projects.  The Maven coordinates are as follows
 
-# Set your environment variable JAVAFX_HOME to the directory that contains rt/lib/jfxrt.jar.
-# cd groovyfx
-# gradlew build
+* _groupId_: org.codehaus.groovyfx
+* _artifactId_: groovyfx
+* _version_: 0.2
 
-To run any specific demo, e.g. the AccordionDemo, you can just call
-{code}gradlew AccordionDemo{code}
+GroovyFX is simple to inlude in Groovy scripts thanks to Groovy's Grab annotation, a part of the Grape 
+system.  Just include the following line at the top of your script
 
-To see an executable overview of all build tasks including all demos
-{code}gradlew --gui{code}
+{code}
+@Grab('org.codehaus.groovyfx:groovyfx:0.2')
+{code}
 
-h4. Local development builds
+h4. Creating a GroovyFX-Based Project with Gradle
 
-Until there is a release build of GroovyFx available in the central maven
-repositories, you can build locally, deploy to your local maven cache, and
-make your own projects depend on that build.
+It is also simple to set up your own GroovyFX-based project using Gradle as the build system.  This sample
+build.gradle script will get you started.
 
-To install all generated artefacts into your local maven cache
-{code}gradlew install{code}
+{code}
+apply plugin:'groovy'
 
-To make a gradle build depend on a locally installed GroovyFx build
-* use mavenLocal() as the repository
-* add to dependencies: compile 'org.codehaus.groovy.modules.groovyfx:groovyfx:0.1-SNAPSHOT'
+ext.javafxHome = System.env['JAVAFX_HOME']
 
-h3. Building with IntellijIdea
-* use the Groovyfx.iml module
-* make sure to have libraries named "JavaFX 2.0 Beta" and "groovy-1.8.4"
+repositories { mavenCentral() }
 
-h3. Building with NetBeans
-Add the <JAVAFX_SDK>/rt/lib/jfxrt.jar lib to the project libraries.
-In Netbeans modify the nbproject/project.properties file modify the following property:
+dependencies {
+    groovy  'org.codehaus.groovy:groovy-all:1.8.6'
+    compile 'org.codehaus.groovyfx:groovyfx:0.2'
+    compile files("${javafxHome}/rt/lib/jfxrt.jar")
+}
 
-file.reference.jfxrt.jar=/Users/jimclarke/SRC/JavaFX20/rt/lib/jfxrt.jar
+task run(type: JavaExec) {
+    main = 'MyMain'
+    classpath sourceSets.main.runtimeClasspath
+}
+
+task makeDirs(description: 'make all dirs for project setup') << {
+    def sources = [sourceSets.main, sourceSets.test]
+    sources*.allSource*.srcDirs.flatten().each { File srcDir ->
+        println "making $srcDir"
+        srcDir.mkdirs()
+    } 
+}
+
+task wrap(type:Wrapper, description: 'create a gradlew') {
+    gradleVersion = '1.0-rc-3'
+}
+{code}
+
+Just create a new directory for your project and place this build.gradle file in it.  Then simply call
+
+{code}
+gradle makeDirs
+{code}
+
+to set up the rest of your project's directory structure.  You will automatically have a dependency on both
+Groovy and GroovyFX.

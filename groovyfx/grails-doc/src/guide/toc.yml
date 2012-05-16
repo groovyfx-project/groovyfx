@@ -1,9 +1,14 @@
 introduction :
   title : Introduction
   credits : Credits
+
 gettingStarted :
   title : Getting Started
-  whatsNew: What's new
+  whatsNew: 
+    title: What's new
+    breakingChanges: Breaking Changes
+    improvements: Improvements and Bug Fixes
+  requirements: Installation Requirements
   usingGroovyFX : Using the GroovyFX Library
   buildingFromSource: Building from Source
   helloGroovyFX: "Hello GroovyFX: Your First GroovyFX Program"

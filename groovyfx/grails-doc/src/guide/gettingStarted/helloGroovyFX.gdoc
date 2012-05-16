@@ -1,13 +1,27 @@
-Once you are setup, try the following Groovy script to test that your setup is functioning as it should.
+Once you have everything set up, try the following Groovy script to test that your setup is functioning as it should.
+
 {code}
-	some.hello.world.code
+@Grab('org.codehaus.groovyfx:groovyfx:0.1')
+
+import static groovyx.javafx.GroovyFX.start
+
+start {
+    stage(title: 'GroovyFX Hello World', visible: true) {
+        scene(fill: BLACK, width: 500, height: 250) {
+            hbox(padding: 60) {
+                text(text: 'Groovy', font: '80pt sanserif') {
+                    fill linearGradient(endX: 0, stops: [PALEGREEN, SEAGREEN])
+                }
+                text(text: 'FX', font: '80pt sanserif') {
+                    fill linearGradient(endX: 0, stops: [CYAN, DODGERBLUE])
+                    effect dropShadow(color: DODGERBLUE, radius: 25, spread: 0.25)
+                }
+            }
+        }
+    }
+}
 {code}
 
-bla
+If everything runs correctly you should see the following screen appear.
 
-{note:Title=Java API}
-blubs
-
-For details please refer to the Java API section.
-{note}
-
+!helloWorld.png!

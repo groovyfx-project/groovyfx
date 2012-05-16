@@ -5,6 +5,9 @@ groovyfx/.gradle
 groovyfx/gradle-app.setting
 groovyfx/buildSrc/build
 groovyfx/buildSrc/.gradle
+groovyfx/groovyfx.ipr
+groovyfx/groovyfx.iml
+groovyfx/groovyfx.iws
 
 #generated:
 groovyfx/grails-doc/src/ref/webView/Properties.gdoc
