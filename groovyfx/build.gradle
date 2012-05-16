@@ -42,11 +42,11 @@ apply {
 }
 
 signArchives.onlyIf {
-    hasProperty('signing.keyId')
+    project.hasProperty('signing.keyId')
 }
 
 uploadArchives.onlyIf {
-    hasProperty('sonatypeUsername') && hasProperty('sonatypePassword')
+    project.hasProperty('sonatypeUsername') && project.hasProperty('sonatypePassword')
 }
 
 // ---------------- check environment ------------------

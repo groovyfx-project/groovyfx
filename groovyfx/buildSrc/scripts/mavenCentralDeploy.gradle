@@ -21,7 +21,7 @@ signing {
 }
 
 uploadArchives {
-    if (!hasProperty('sonatypeUsername') || !hasProperty('sonatypePassword'))
+    if (!project.hasProperty('sonatypeUsername') || !project.hasProperty('sonatypePassword'))
         return
         
     repositories.mavenDeployer {
