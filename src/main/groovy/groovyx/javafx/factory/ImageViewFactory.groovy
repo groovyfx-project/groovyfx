@@ -18,7 +18,9 @@ package groovyx.javafx.factory
 
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
-
+import java.io.File;
+import java.net.URL;
+import java.net.URI;
 /**
 *
 * @author jimclarke
@@ -40,6 +42,9 @@ class ImageViewFactory extends AbstractNodeFactory {
                 case Image:
                     iv.image = value;
                     break;
+                case File:
+                    iv.image = new Image(value.toURL().toString());
+                    break;
                 default:
                     iv.image = new Image(value.toString());
                     break;
@@ -49,10 +54,20 @@ class ImageViewFactory extends AbstractNodeFactory {
     }
     
     public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
-        if(child instanceof Image) {
-            parent.setImage = child;
-        }else {
-            super.setChild(builder, parent, child);
+        switch(child) {
+            case Image:
+                parent.image = child;
+                break;
+            case File:
+                parent.image = new Image(value.toURL().toString());
+                break;
+            case URL:
+            case URI:
+                parent.image = new Image(value.toString());
+                break;
+            default:
+                super.setChild(builder, parent, child);
+                break;
         }
     }
 	
