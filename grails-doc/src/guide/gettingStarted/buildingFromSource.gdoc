@@ -1,0 +1,64 @@
+The project's source code is located on [GitHub|https://github.com/groovyfx-project/groovyfx].  You can clone
+the GroovyFX repository using the following [Git|http://git-scm.com/] command
+
+{code}
+git clone git://github.com/groovyfx-project/groovyfx.git
+{code}
+
+h4. Installation Requirements
+
+If you are using a JDK prior to Java 7u4, you will need to install the JavaFX 2.1 SDK from 
+[javafx.com|http://www.oracle.com/technetwork/java/javafx/downloads/index.html]. Once you have downloaded 
+and installed the SDK, set up an environment variable called JAVAFX_HOME pointing to the location of the 
+JavaFX SDK.
+
+{note:Title=Using Java 7?}
+The JavaFX 2.1 SDK is included in Java 7u4 and above.  If you are using this version of the JDK, you do not
+need to install a separate SDK and set the JAVAFX_HOME environment unless you would like to use a different
+version of the JavaFX SDK than the one included in your JDK.
+{note}
+
+h4. Building with Gradle
+GroovyFX uses [Gradle|http://www.gradle.org] as its primary build system.  Building the project with Gradle
+requires only the following simple steps
+
+{code}
+cd groovyfx
+gradlew build
+{code}
+
+The Gradle build script is also capable of running any of the project's demo.  To run any specific demo, e.g. 
+the AccordionDemo, you can just use
+
+{code}gradlew AccordionDemo{code}
+
+To see an executable overview of all build tasks including all demos
+
+{code}gradlew --gui{code}
+
+h4. Building with IntellijIdea
+
+GroovyFX's build script is capable of generating all of the project files neccessary to build the project with 
+Intellij IDEA.  Just run the following command from the project's root directory
+
+{code}
+gradlew idea
+{code}
+
+This will generate a groovyfx.ipr file.  From IDEA, select File -> Open Project and navigate to the directory
+containing the groovyfx.ipr file and open it.  You should now be able to build the library and run the demos
+with IDEA.
+
+h4. Building with NetBeans
+
+The NetBeans project files are included in the code repository.  You must customize the project files by following
+these steps
+
+# Add the <JAVAFX_SDK>/rt/lib/jfxrt.jar lib to the project libraries.
+# In Netbeans, open the nbproject/project.properties file and modify the following property to point to your jfxrt.jar file:
+
+{code}
+file.reference.jfxrt.jar=<path_to_JavaFX_SDK>/rt/lib/jfxrt.jar
+{code}
+
+You should now be able to build the library and run the demos with NetBeans.

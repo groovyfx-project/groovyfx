@@ -1,10 +1,13 @@
 out
 .idea/workspace.xml
-groovyfx/build
-groovyfx/.gradle
-groovyfx/gradle-app.setting
-groovyfx/buildSrc/build
-groovyfx/buildSrc/.gradle
+build
+.gradle
+gradle-app.setting
+buildSrc/build
+buildSrc/.gradle
+groovyfx.ipr
+groovyfx.iml
+groovyfx.iws
 
 #generated:
-groovyfx/grails-doc/src/ref/webView/Properties.gdoc
+grails-doc/src/ref/webView/Properties.gdoc

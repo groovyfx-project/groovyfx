@@ -1,0 +1,17 @@
+Client-side Java development took a major step forward with the introduction of Oracle's "JavaFX 2.0.":http://www.javafx.com JavaFX is a modern, rich client technology stack that enables Java developers to quickly and easily create desktop clients with functionality and richness that rival, and even surpass, that of native clients and web applications.
+
+GroovyFX is a library that makes working with JavaFX much simpler and more natural. GroovyFX is focused on exploiting the power of the "Groovy":http://groovy.codehaus.org language to make JavaFX development easier and more concise than what is possible in Java. GroovyFX also leverages Groovy's powerful DSL features and AST transformations to eliminate boilerplate, making GroovyFX code easier to write and, just as importantly, easier to read.
+
+GroovyFX provides the SceneGraphBuilder object, which offers support for:
+
+* All of the JavaFX core controls
+* All of the core JavaFX layout containers
+* Shapes, colors, and gradients
+* Video and audio (including H.264 support)
+* Bar charts, line charts, pie charts, and the rest of core JavaFX charts
+* Full property and binding support
+* The @FXBindable annotation, which eliminates the boilerplate required to define JavaFX properties
+
+All of these are made easy to use through the power of the  language and the extensive use of Domain Specific Languages (DSLs)
+
+This documentation will take you from getting started with GroovyFX all the way to building full applications with the power of JavaFX and Groovy.

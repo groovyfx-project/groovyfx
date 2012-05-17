@@ -1,0 +1,64 @@
+introduction :
+  title : Introduction
+  credits : Credits
+
+gettingStarted :
+  title : Getting Started
+  whatsNew: 
+    title: What's new
+    breakingChanges: Breaking Changes
+    improvements: Improvements and Bug Fixes
+  requirements: Installation Requirements
+  usingGroovyFX : Using the GroovyFX Library
+  buildingFromSource: Building from Source
+  helloGroovyFX: "Hello GroovyFX: Your First GroovyFX Program"
+
+basicConcepts :
+  title: Basic Concepts
+  usingSceneGraphBuilder : Using SceneGraphBuilder
+  fonts: Fonts
+  paintsAndColors: Paints and Colors
+  insets: Insets
+  geometry: Geometry
+  enumeratedValues: Enumerated Values
+
+propertiesAndBinding:
+  title: Properties and Binding
+  bindingSupport: 
+    title: Binding Support
+    propertyNames: Property Names
+    bidirectional: Bidirectional
+    unidirectional: Unidirectional
+    closureBindings: Closure Binding Expressions
+  fxbindable: FXBindable Properties
+
+controls:
+  title: Controls
+  labelsAndText: Labels and Text
+  buttonsAndMenus: 
+    title: Buttons and Menus
+    actions: Actions
+  choiceBoxComboBox: ChoiceBox and ComboBox
+  listsTreesTables: "Lists, Tables, and Trees"
+  fileChoosers: File Choosers
+
+layout:
+  title: Layout
+
+graphics:
+  title: Graphics and Animation
+  shapesPaths: Shapes and Paths
+  colors: Colors
+  gradients: Gradients
+  effects: Effects
+  animation: Animation
+
+charts:
+  title: Charts
+  pieCharts: Pie Charts
+  xyCharts: XY Charts
+
+groovyApplications:
+  title: Writing GroovyFX Applications
+  structure: Structuring GroovyFX Applications
+  usingGriffon: Using the Griffon Application Framework
