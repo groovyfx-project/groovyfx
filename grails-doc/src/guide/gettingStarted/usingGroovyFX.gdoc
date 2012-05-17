@@ -17,40 +17,9 @@ system.  Just include the following line at the top of your script
 h4. Creating a GroovyFX-Based Project with Gradle
 
 It is also simple to set up your own GroovyFX-based project using Gradle as the build system.  This sample
-build.gradle script will get you started.
+[build.gradle|https://gist.github.com/2712927] script will get you started.
 
-{code}
-apply plugin:'groovy'
-
-ext.javafxHome = System.env['JAVAFX_HOME']
-
-repositories { mavenCentral() }
-
-dependencies {
-    groovy  'org.codehaus.groovy:groovy-all:1.8.6'
-    compile 'org.codehaus.groovyfx:groovyfx:0.2'
-    compile files("${javafxHome}/rt/lib/jfxrt.jar")
-}
-
-task run(type: JavaExec) {
-    main = 'MyMain'
-    classpath sourceSets.main.runtimeClasspath
-}
-
-task makeDirs(description: 'make all dirs for project setup') << {
-    def sources = [sourceSets.main, sourceSets.test]
-    sources*.allSource*.srcDirs.flatten().each { File srcDir ->
-        println "making $srcDir"
-        srcDir.mkdirs()
-    } 
-}
-
-task wrap(type:Wrapper, description: 'create a gradlew') {
-    gradleVersion = '1.0-rc-3'
-}
-{code}
-
-Just create a new directory for your project and place this build.gradle file in it.  Then simply call
+Just create a new directory for your project and place the gradle script into it.  Then simply call
 
 {code}
 gradle makeDirs
