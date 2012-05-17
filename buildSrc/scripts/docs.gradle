@@ -3,7 +3,7 @@ import java.lang.reflect.Modifier
 
 // shamelessly copied from GPars
 
-guideBuildDirectory = "${buildDir}/guide"
+project.ext.guideBuildDirectory = "${buildDir}/guide"
 
 task buildGuide(type: GrailsDoc) {
     srcDir = file('grails-doc/src')
@@ -11,18 +11,18 @@ task buildGuide(type: GrailsDoc) {
     styleDir = file('grails-doc/resources/style')
     cssDir = file('grails-doc/resources/css')
     imagesDir = file('grails-doc/resources/img')
-    outputDir = file(guideBuildDirectory)
+    outputDir = file(project.ext.guideBuildDirectory)
 }
 
 task pdfGuide(type: PdfGuide, dependsOn: buildGuide) {
-    inputs.files file(guideBuildDirectory + '/guide')
-    outputDirectory = new File(guideBuildDirectory)
+    inputs.files file(project.ext.guideBuildDirectory + '/guide')
+    outputDirectory = new File(project.ext.guideBuildDirectory)
     pdfName = "groovyfx-guide-${project.version}.pdf"
 }
 
 task zipGuide(type: Zip, dependsOn: pdfGuide) {
     appendix = 'guide'
-    from guideBuildDirectory
+    from project.ext.guideBuildDirectory
 }
 
 // ---------------- generating the documentation ------------------
@@ -67,7 +67,7 @@ task documentation(dependsOn: ['javadoc', 'groovydoc', 'buildGuide', 'pdfGuide']
 // in findWebProperties() below will not be recognized.
 buildscript {
     dependencies {
-        classpath files(javafxJar)
+        classpath files(project.ext.javafxJar)
     }
 }
 
