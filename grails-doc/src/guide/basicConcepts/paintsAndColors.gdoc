@@ -1,0 +1,13 @@
+All color and paint attributes may be set with one of the JavaFX Paint or Color objects
+(javafx.scene.paint.LinearGradient, javafx.scene.paint.RadialGradient and javafx.scene.paint.Color). In addition,
+colors may be set using the pseudo color variables, such as red, green, blue, etc. Colors may also be defined as
+a web string such as "#333", "cyan", etc. Colors may also be defined using the JavaFX CSS styles for colors,
+linear, and radial gradients. (see JavaFX CSS Reference Guide) Also see SceneGraphBuilder - paint for more details.
+
+{code}
+scene(fill: hsb(128, 0.5, 0.5, 0.5))
+circle(centerX: 50, centerY: 50, radius: 25, fill: rgb(0, 0, 255))
+rectangle(x: 100, y: 50, width: 50, height: 50, fill: red)
+rectangle(x: 100, y: 50, width: 50, height: 50, fill: "#333")
+rectangle(x: 100, y: 50, width: 50, height: 50, fill: "linear (0%,0%) to (0%,100%) stops (0%,gray) (100%,black)")
+{code}

@@ -1,0 +1,37 @@
+/* 
+    Document   : groovyfx
+    Created on : Apr 15, 2012, 8:30:38 PM
+    Author     : jimclarke
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.root {
+    -fx-background-color: radial-gradient(radius 100%, #93D4EF, #496977);
+}
+
+.label {
+    -fx-text-fill: white;
+}
+
+#header {
+    -fx-font-size: 24;
+    -fx-fill: cyan;
+    -fx-padding: 0 0 10 0;
+    -fx-text-alignment: center;
+    -fx-text-origin: top;
+    -fx-underline: true;
+
+}
+
+.submit {
+    -fx-spacing: 10;
+}
+
+.form {
+    -fx-padding: 25 25 25 25;
+    -fx-alignment: top-center;
+    -fx-hgap: 5; /* doesn't work */
+    -fx-vgap: 10; /* doesn't work */
+}
+

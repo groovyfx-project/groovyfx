@@ -1,0 +1,20 @@
+apply plugin: 'groovy'
+
+apply from: 'scripts/docsDependencies.gradle'
+
+repositories {
+	mavenCentral()
+    mavenRepo name: 'SpringSource', url: 'http://repository.springsource.com/maven/bundles/release'
+    mavenRepo name: 'JavaNet', url: 'http://download.java.net/maven/2/'
+   //  To get the latest Grails-Doc.
+    mavenRepo name: 'grails' , url: 'http://repo.grails.org/grails/core'
+}
+
+dependencies {
+	groovy localGroovy()
+    compile gradleApi()
+    compile(grailsDocs) { transitive = false }
+    compile(xhtmlRenderer) { transitive = false }
+    compile(lowagieItext) { transitive = false }
+    compile(radeox) { transitive = false }
+}

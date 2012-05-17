@@ -1,0 +1,13 @@
+out
+.idea/workspace.xml
+build
+.gradle
+gradle-app.setting
+buildSrc/build
+buildSrc/.gradle
+groovyfx.ipr
+groovyfx.iml
+groovyfx.iws
+
+#generated:
+grails-doc/src/ref/webView/Properties.gdoc

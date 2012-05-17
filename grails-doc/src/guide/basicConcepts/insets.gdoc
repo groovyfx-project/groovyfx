@@ -1,0 +1,16 @@
+The javafx.geometry.Insets class may be instantiated by using the javafx class, or by using a Groovy number list.
+If a number list is used, it may contain, one, two, or four numbers. If one number is presented then all sides of
+the Insets will be set to that value. If two numbers are presented then the first number will be used to set the
+top and bottom side of the Inset, and the second number will be used to set the left and right side of the Inset.
+If four numbers are present in the list, the numbers will be assigned to the the top, right, bottom and left in
+order. An empty list or the String "empty" (or "EMPTY") will map to the Insets.EMPTY object.
+
+{code}
+stackPane(style: "-fx-background-color: burlywood", padding: 20)
+stackPane(style: "-fx-background-color: burlywood", padding: [10])
+stackPane(style: "-fx-background-color: burlywood", padding: [50, 25])
+stackPane(style: "-fx-background-color: burlywood", padding: [0, 50, 0, 0])
+stackPane(style: "-fx-background-color: burlywood", padding: [])
+stackPane(style: "-fx-background-color: burlywood", padding: "EMPTY")
+{code}
+

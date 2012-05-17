@@ -1,0 +1,102 @@
+import java.lang.reflect.Method
+import java.lang.reflect.Modifier
+
+// shamelessly copied from GPars
+
+guideBuildDirectory = "${buildDir}/guide"
+
+task buildGuide(type: GrailsDoc) {
+    srcDir = file('grails-doc/src')
+    props = file('grails-doc/src/doc.properties')
+    styleDir = file('grails-doc/resources/style')
+    cssDir = file('grails-doc/resources/css')
+    imagesDir = file('grails-doc/resources/img')
+    outputDir = file(guideBuildDirectory)
+}
+
+task pdfGuide(type: PdfGuide, dependsOn: buildGuide) {
+    inputs.files file(guideBuildDirectory + '/guide')
+    outputDirectory = new File(guideBuildDirectory)
+    pdfName = "groovyfx-guide-${project.version}.pdf"
+}
+
+task zipGuide(type: Zip, dependsOn: pdfGuide) {
+    appendix = 'guide'
+    from guideBuildDirectory
+}
+
+// ---------------- generating the documentation ------------------
+
+def titleForDocumentation = archivesBaseName + ' ' + version
+def copyrightString = 'Copyright &#169; 2012 The GroovyFX team. All Rights Reserved.'
+def packageTitle = group
+
+javadoc {
+    //options.overview('overview.html')
+    options.showAll()
+    options.encoding('UTF-8')
+    options.setUse(true)
+    options.author(true)
+    options.version(true)
+    options.windowTitle(titleForDocumentation)
+    options.docTitle(titleForDocumentation)
+    options.footer(copyrightString)
+
+    doFirst {
+        javadoc.title = titleForDocumentation
+        javadoc.options.docTitle = javadoc.title
+    }
+}
+
+groovydoc {
+    dependsOn(classes)
+    includePrivate = true
+    use = true
+    windowTitle = packageTitle
+    docTitle = packageTitle
+    header = packageTitle
+    footer = copyrightString
+    include 'groovyx/**'
+    //overview = new File('overview.html')
+}
+
+task documentation(dependsOn: ['javadoc', 'groovydoc', 'buildGuide', 'pdfGuide'],
+                   description: 'Create the API documentation and guide.')
+
+// buildscript config needs to be repeated here or javafx.scene.web.WebView
+// in findWebProperties() below will not be recognized.
+buildscript {
+    dependencies {
+        classpath files(javafxJar)
+    }
+}
+
+// experimental
+def findWebProperties(String accessor) {
+//    javafx.scene.web.WebView."$accessor"
+//           .findAll{ Method m -> Modifier.isPublic(m.modifiers) }
+//           .name.findAll { it.startsWith('set') }
+//           .findAll { ! (it =~ /(i|I)mpl_/) } // I guess these should be removed
+//           .collect { it[3].toLowerCase() + it[4..-1] }
+}
+
+task webViewPropDoc(description: 'merge JavaFX infos with GroovyFX infos') {
+//    def allProps = findWebProperties('methods').sort()
+//    def addedWebProps = ['location']
+//    def selfProps = (findWebProperties('declaredMethods') + addedWebProps).sort()
+//    File file = new File('grails-doc/src/ref/webView/Properties.gdoc')
+//
+//    if (!file.parentFile.exists())
+//        file.parentFile.mkdirs()
+//
+//    file.withWriter('utf-8') { out ->
+//        //out << "{hidden}\nauto-generated: do not edit!\n{hidden}" // looks like the hidden macro is not in place
+//        out << "\nh1. Properties of webView "
+//        out << "\nh2. Self declared properties"
+//        for (prop in selfProps) { out << "\n* $prop" }
+//        out << "\nh2. Inherited properties "
+//        for (prop in allProps-selfProps) { out << "\n* $prop" }
+//    }
+}
+buildGuide.dependsOn webViewPropDoc
+

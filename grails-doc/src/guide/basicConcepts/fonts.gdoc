@@ -1,0 +1,8 @@
+All font attributes may of course be set with a JavaFX Font object (javafx.scene.text.Font). In addition,
+fonts may be defined using the JavaFX CSS styles for "-fx-font" or "-fx-font-size". If a font size string
+is presented, then the default Font will be used with that size. (see CSS Reference Guide.)
+
+{code}
+text(font: "32pt", text: "This is Text")
+button(font: "16pt Courier", text: "Push Here")
+{code}

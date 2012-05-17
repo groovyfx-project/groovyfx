@@ -1,0 +1,67 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'signing'
+apply plugin: 'idea'
+
+// ---------------- dependencies ------------------
+
+buildscript {
+    final javafxHome = System.env['JAVAFX_HOME']
+    if (javafxHome) {
+      javafxJar = "${javafxHome}/rt/lib/jfxrt.jar"
+    } else {
+      final javaHome = System.env['JAVA_HOME']
+      if (javaHome)
+        javafxJar = "${javaHome}/jre/lib/jfxrt.jar"
+    }
+    ant.echo(message: "JavaFX runtime jar: ${javafxJar}")
+    dependencies {
+        classpath files(javafxJar)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    groovy       "org.codehaus.groovy:groovy-all:${groovyVersion}"
+    compile      'asm:asm:3.3.1'
+    compile      files(javafxJar)
+    testCompile  'junit:junit:4.10'
+}
+
+task wrap(type:Wrapper, description:"create a gradlew") {
+    gradleVersion = '1.0-milestone-8a'
+}
+
+apply {
+    from 'buildSrc/scripts/demo.gradle'
+    from 'buildSrc/scripts/mavenCentralDeploy.gradle'
+    from 'buildSrc/scripts/docsDependencies.gradle'
+    from 'buildSrc/scripts/docs.gradle'
+}
+
+signArchives.onlyIf {
+    project.hasProperty('signing.keyId')
+}
+
+uploadArchives.onlyIf {
+    project.hasProperty('sonatypeUsername') && project.hasProperty('sonatypePassword')
+}
+
+// ---------------- check environment ------------------
+
+if(!javafxJar) {
+    println """Please set environment variable JAVAFX_HOME
+               to the directory that contains /rt/lib/jfxrt.jar
+               in version $requiredJavaFxVersion""".stripIndent()
+    System.exit 1
+}
+
+actualJavaFXVersion = com.sun.javafx.runtime.VersionInfo.runtimeVersion
+if (! actualJavaFXVersion.startsWith(requiredJavaFxVersion)) {
+    println "Required JavaFX version is '$requiredJavaFxVersion' but actual version is '$actualJavaFXVersion'"
+    System.exit(1)
+}
+
