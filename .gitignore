@@ -11,3 +11,5 @@ groovyfx.iws
 
 #generated:
 grails-doc/src/ref/webView/Properties.gdoc
+/nbproject/private/
+/dist/
