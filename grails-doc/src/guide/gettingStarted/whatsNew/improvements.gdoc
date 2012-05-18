@@ -3,3 +3,7 @@ h4. JavaFX 2.1 Support
 * DirectoryChooser
 * ComboBox
 * StackedBarChart and StackedAreaChart
+
+h4. Actions
+
+h4. Nested tableColumn support
