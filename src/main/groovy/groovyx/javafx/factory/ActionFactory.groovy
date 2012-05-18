@@ -18,6 +18,7 @@ package groovyx.javafx.factory
 import groovyx.javafx.appsupport.Action
 import javafx.beans.value.ChangeListener
 import javafx.beans.value.ObservableValue
+import javafx.scene.control.Tooltip
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 
@@ -41,6 +42,8 @@ class ActionFactory extends AbstractFXBeanFactory {
 
         actionParams.skipOnAction = attributes.remove('skipOnAction')
         actionParams.skipName = attributes.remove('skipName')
+        actionParams.skipDescription = attributes.remove('skipDescription')
+        actionParams.skipAccelerator = attributes.remove('skipAccelerator')
         actionParams.skipIcon = attributes.remove('skipIcon')
         actionParams.skipSelected = attributes.remove('skipSelected')
         actionParams.skipEnabled = attributes.remove('skipEnabled')
@@ -52,31 +55,76 @@ class ActionFactory extends AbstractFXBeanFactory {
         MetaClass mc = control.metaClass
 
         if (!actionParams.skipOnAction && mc.respondsTo(control, "onActionProperty")) {
-            control.onActionProperty().bind(action.onActionProperty())
+            action.onActionProperty().addListener(new ChangeListener() {
+                void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
+                    control.onActionProperty().set(newValue)
+                }
+            })
+            control.onActionProperty().set(action.onAction)
         }
         if (!actionParams.skipName && mc.respondsTo(control, "textProperty")) {
-            control.textProperty().bind(action.nameProperty())
+            action.nameProperty().addListener(new ChangeListener() {
+                void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
+                    control.textProperty().set(newValue)
+                }
+            })
+            control.textProperty().set(action.name)
+        }
+        if (!actionParams.skipDescription && mc.respondsTo(control, "tooltipProperty")) {
+            action.descriptionProperty().addListener(new ChangeListener() {
+                void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
+                    setTooltip(control, newValue)
+                }
+            })
+            if (action.description) setTooltip(control, action.description)
+        }
+        if (!actionParams.skipAccelerator && mc.respondsTo(control, "acceleratorProperty")) {
+            action.acceleratorProperty().addListener(new ChangeListener() {
+                void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
+                    control.acceleratorProperty().set(newValue)
+                }
+            })
+            if (action.accelerator != null) control.acceleratorProperty().set(action.accelerator)
         }
         if (mc.respondsTo(control, "graphicProperty")) {
             if (!actionParams.skipIcon) {
                 action.iconProperty().addListener(new ChangeListener() {
                     void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
-                        ActionFactory.setIcon(control, newValue)
+                        setIcon(control, newValue)
                     }
                 })
-                if (action.icon != null) ActionFactory.setIcon(control, action.icon)
+                if (action.icon) setIcon(control, action.icon)
             }
         }
         if (!actionParams.skipSelected && mc.respondsTo(control, "selectedProperty")) {
-            control.selectedProperty().bind(action.selectedProperty())
+            action.selectedProperty().addListener(new ChangeListener() {
+                void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
+                    control.selectedProperty().set(newValue)
+                }
+            })
+            control.selectedProperty().set(action.selected)
         }
         if (!actionParams.skipEnabled && mc.respondsTo(control, "disableProperty")) {
-            control.disableProperty().bind(action.enabledProperty().not())
+            action.enabledProperty().addListener(new ChangeListener() {
+                void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
+                    control.disableProperty().set(!newValue)
+                }
+            })
+            control.disableProperty().set(!action.enabled)
         }
     }
 
     static void setIcon(node, String iconUrl) {
         Image image = new Image(Thread.currentThread().getContextClassLoader().getResource(iconUrl).toString())
         node.graphicProperty().set(new ImageView(image: image))
+    }
+
+    static void setTooltip(node, String text) {
+        Tooltip tooltip = node.tooltipProperty().get()
+        if (!tooltip) {
+            tooltip = new Tooltip()
+            node.tooltipProperty().set(tooltip)
+        }
+        tooltip.text = text
     }
 }

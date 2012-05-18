@@ -36,7 +36,7 @@ To see an executable overview of all build tasks including all demos
 
 {code}gradlew --gui{code}
 
-h4. Building with IntellijIdea
+h4. Building with Intellij IDEA
 
 GroovyFX's build script is capable of generating all of the project files neccessary to build the project with 
 Intellij IDEA.  Just run the following command from the project's root directory

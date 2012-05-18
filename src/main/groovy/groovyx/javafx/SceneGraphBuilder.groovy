@@ -321,6 +321,7 @@ class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory "bean", new CustomNodeFactory(Object)
         registerFactory "fxaction", new ActionFactory()
         registerFactory "actions", new CollectionFactory()
+        registerFactory "noparent", new CollectionFactory()
     }
 
     void registerContainers() {

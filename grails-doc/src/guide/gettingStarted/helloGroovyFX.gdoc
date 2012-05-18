@@ -1,7 +1,7 @@
 Once you have everything set up, try the following Groovy script to test that your setup is functioning as it should.
 
 {code}
-@Grab('org.codehaus.groovyfx:groovyfx:0.1')
+@Grab('org.codehaus.groovyfx:groovyfx:0.2')
 
 import static groovyx.javafx.GroovyFX.start
 
