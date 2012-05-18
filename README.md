@@ -50,7 +50,7 @@ GroovyFX's build script is capable of generating all of the project files necess
 
 > gradlew idea
 
-This will generate a groovyfx.ipr file.  From IDEA, select File -> Open Project and navigate to the directory containing the groovyfx.ipr file and open it.  You should now be able to build the library and run the demos with IDEA.
+This will generate a groovyfx.ipr file.  From IntelliJ IDEA, select File -> Open Project and navigate to the directory containing the groovyfx.ipr file and open it.  You should now be able to build the library and run the demos with IntelliJ IDEA.
 
 Building with NetBeans
 -------------------
