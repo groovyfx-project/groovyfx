@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-
+import groovyx.javafx.*
 import groovyx.javafx.factory.*
 import java.io.*
 import static groovy.io.FileType.*

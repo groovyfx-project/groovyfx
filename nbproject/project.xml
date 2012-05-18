@@ -23,6 +23,7 @@
             <source-roots>
                 <root id="src.groovy.dir" name="Source Packages"/>
                 <root id="src.groovy2.dir" name="Demo Programs"/>
+                <root id="src.util.dir" name="GrailsDoc-Util"/>
             </source-roots>
             <test-roots>
                 <root id="test.groovy.dir" name="Test Packages"/>
