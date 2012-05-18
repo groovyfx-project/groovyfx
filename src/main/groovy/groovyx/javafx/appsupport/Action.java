@@ -88,8 +88,7 @@ public class Action {
 
 	public final BooleanProperty enabledProperty() {
 		if (enabled == null) {
-			enabled = new SimpleBooleanProperty(this, "enabled");
-            enabled.set(true);
+			enabled = new SimpleBooleanProperty(this, "enabled", true);
 		}
 		return enabled;
 	}

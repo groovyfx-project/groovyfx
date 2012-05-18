@@ -20,6 +20,7 @@ import javafx.beans.value.ChangeListener
 import javafx.beans.value.ObservableValue
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
+import javafx.event.ActionEvent
 
 /**
  *
@@ -52,10 +53,20 @@ class ActionFactory extends AbstractFXBeanFactory {
         MetaClass mc = control.metaClass
 
         if (!actionParams.skipOnAction && mc.respondsTo(control, "onActionProperty")) {
-            control.onActionProperty().bind(action.onActionProperty())
+            action.onActionProperty().addListener(new ChangeListener(){
+                void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
+                    control.onActionProperty().set(newValue)
+                }
+            })
+            control.onActionProperty().set(action.onAction)
         }
         if (!actionParams.skipName && mc.respondsTo(control, "textProperty")) {
-            control.textProperty().bind(action.nameProperty())
+            action.nameProperty().addListener(new ChangeListener(){
+                void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
+                    control.textProperty().set(newValue)
+                }
+            })
+            control.textProperty().set(action.name)
         }
         if (mc.respondsTo(control, "graphicProperty")) {
             if (!actionParams.skipIcon) {
@@ -68,10 +79,20 @@ class ActionFactory extends AbstractFXBeanFactory {
             }
         }
         if (!actionParams.skipSelected && mc.respondsTo(control, "selectedProperty")) {
-            control.selectedProperty().bind(action.selectedProperty())
+            action.selectedProperty().addListener(new ChangeListener(){
+                void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
+                    control.selectedProperty().set(newValue)
+                }
+            })
+            control.selectedProperty().set(action.selected)
         }
         if (!actionParams.skipEnabled && mc.respondsTo(control, "disableProperty")) {
-            control.disableProperty().bind(action.enabledProperty().not())
+            action.enabledProperty().addListener(new ChangeListener(){
+                void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
+                    control.disableProperty().set(!newValue)
+                }
+            })
+            control.disableProperty().set(!action.enabled)
         }
     }
 
