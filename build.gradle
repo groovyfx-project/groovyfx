@@ -31,6 +31,8 @@ dependencies {
     testCompile  'junit:junit:4.10'
 }
 
+jar.baseName = 'groovyfx'
+
 task wrap(type:Wrapper, description:"create a gradlew") {
     gradleVersion = '1.0-rc-3'
 }
@@ -62,6 +64,6 @@ if(!ext.javafxJar) {
 ext.actualJavaFXVersion = com.sun.javafx.runtime.VersionInfo.runtimeVersion
 if (! ext.actualJavaFXVersion.startsWith(requiredJavaFxVersion)) {
     println "Required JavaFX version is '$requiredJavaFxVersion' but actual version is '$ext.actualJavaFXVersion'"
-    System.exit(1)
+    System.exit 1
 }
 
