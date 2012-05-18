@@ -1,4 +1,4 @@
-_GroovyFX is currently under development and the 0.1-SNAPSHOT version must be considered experimental_.
+_This documentation pertains to GroovyFX version 0.2, which includes support for JavaFX 2.1_
 
 Build instructions
 ==================
@@ -16,28 +16,50 @@ To run any specific demo, e.g. the AccordionDemo, you can just call
 To see an executable overview of all build tasks including all demos
 > gradlew --gui
 
-### Local development builds ###
+Using GroovyFX from Maven Central
+------------------------------
 
-Until there is a release build of GroovyFx available in the central maven
-repositories, you can build locally, deploy to your local maven cache, and
-make your own projects depend on that build.
+Having GroovyFX in Maven Central (thanks to Sonatype's OSS hosting!) makes it simple to use GroovyFX in 
+everything from simple test scripts to larger projects.  The Maven coordinates are as follows
 
-To install all generated artefacts into your local maven cache
-> gradlew install
+* _groupId_: org.codehaus.groovyfx
+* _artifactId_: groovyfx
+* _version_: 0.2
 
-To make a gradle build depend on a locally installed GroovyFx build
-* use mavenLocal() as the repository
-* add to dependencies: compile 'org.codehaus.groovy.modules.groovyfx:groovyfx:0.1-SNAPSHOT'
+GroovyFX is simple to inlude in Groovy scripts thanks to Groovy's Grab annotation, a part of the Grape 
+system.  Just include the following line at the top of your script
 
-Building with IntellijIdea
---------------------------
-* use the Groovyfx.iml module
-* make sure to have libraries named "JavaFX 2.0 Beta" and "groovy-1.8.4"
+
+> @Grab('org.codehaus.groovyfx:groovyfx:0.2')
+
+Creating a GroovyFX-Based Project with Gradle
+---------------------------------------
+
+It is also simple to set up your own GroovyFX-based project using Gradle as the build system.  This sample [build.gradle](https://gist.github.com/2712927) script will get you started.
+
+Just create a new directory for your project and place the gradle script into it.  Then simply call
+
+> gradle makeDirs
+
+to set up the rest of your project's directory structure.  You will automatically have a dependency on both Groovy and GroovyFX.
+
+Building with Intellij IDEA
+--------------------
+
+GroovyFX's build script is capable of generating all of the project files necessary to build the project with Intellij IDEA.  Just run the following command from the project's root directory
+
+> gradlew idea
+
+This will generate a groovyfx.ipr file.  From IDEA, select File -> Open Project and navigate to the directory containing the groovyfx.ipr file and open it.  You should now be able to build the library and run the demos with IDEA.
 
 Building with NetBeans
-----------------------
-Add the <JAVAFX_SDK>/rt/lib/jfxrt.jar lib to the project libraries.
-In Netbeans modify the nbproject/project.properties file modify the following property:
+-------------------
 
-file.reference.jfxrt.jar=/Users/jimclarke/SRC/JavaFX20/rt/lib/jfxrt.jar
+The NetBeans project files are included in the code repository.  You must customize the project files by following these steps
 
+1. Add the <JAVAFX_SDK>/rt/lib/jfxrt.jar lib to the project libraries.
+2. In Netbeans, open the nbproject/project.properties file and modify the following property to point to your jfxrt.jar file:
+
+> file.reference.jfxrt.jar=<path_to_JavaFX_SDK>/rt/lib/jfxrt.jar
+
+You should now be able to build the library and run the demos with NetBeans.
