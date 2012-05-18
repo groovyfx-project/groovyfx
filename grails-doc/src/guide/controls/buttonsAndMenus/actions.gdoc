@@ -1,1 +1,52 @@
-actions
+GroovyFX provides an action abstraction inspired by [javax.swing.Action|http://docs.oracle.com/javase/6/docs/api/javax/swing/Action.html].
+All Action properties are fully observable
+
+h4. JavaFX Components Supporting @Action@
+
+All buttons and menuItems support @Action@ but only if their respective factories are used. In other words, if you manually
+create an instance of such controls then you must also bind Action properties manually.
+
+The following table describes the properties used by JavaFX components that support Actions.
+
+{table}
+*Action Property* | *Component Property* | *Notes*
+onAction          | onAction             | if component supports @onActionProperty()@
+name              | text                 | if component supports @textProperty()@
+description       | tooltip.text         | if component supports @tooltipProperty()@
+accelerator       | accelerator          | if component supports @acceleratorProperty()@
+selected          | selected             | if component supports @selectedProperty()@
+icon              | graphic              | if component supports @graphicProperty()@
+enabled           | disabled             | negated value is mapped to component property
+{table}
+
+Any of the Action's properties may be skipped when using factory nodes, this avoids setting a text value on a toolbar button for example.
+In order to skip a property simply use the @skip@ prefix. The following example shows the usage of Actions in both menuItems and toolbar
+buttons; the menuItems will display both icons and text wehereas the toolbar buttons will only display the icons
+
+{code}
+actions {
+    fxaction(id: 'copyAction',
+        icon: 'icons/copy.png',
+        onAction: { /* copy content */ }
+    fxaction(id: 'cutyAction',
+        icon: 'icons/cut.png',
+        onAction: { /* cut content */ }
+    fxaction(id: 'pasteAction',
+        icon: 'icons/paste.png',
+        onAction: { /* paste content */ }
+}
+
+meuBar {
+    menu(text: "Edit") {
+         menuItem(cutAction)
+         menuItem(copyAction)
+         menuItem(pasteAction)
+    }
+}
+
+toolBar {
+    button(cutAction,   skipName: true)
+    button(copyAction,  skipName: true)
+    button(pasteAction, skipName: true)
+}
+{code}
