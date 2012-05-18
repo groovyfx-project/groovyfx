@@ -51,14 +51,11 @@ with IDEA.
 
 h4. Building with NetBeans
 
-The NetBeans project files are included in the code repository.  You must customize the project files by following
-these steps
+The NetBeans project files are included in the code repository.  You may have to set up a Java Platform that
+includes the JavaFX SDK directory, if one does not already exist. Please see 
+[Setting Up NetBeans IDE With JavaFX 2.1|http://netbeans.org/kb/docs/java/javafx-setup.html] for more information.
 
-# Add the <JAVAFX_SDK>/rt/lib/jfxrt.jar lib to the project libraries.
-# In Netbeans, open the nbproject/project.properties file and modify the following property to point to your jfxrt.jar file:
-
-{code}
-file.reference.jfxrt.jar=<path_to_JavaFX_SDK>/rt/lib/jfxrt.jar
-{code}
-
-You should now be able to build the library and run the demos with NetBeans.
+Once you have created the JavaFX enabled Java platform, then choose the GroovyFX project, 
+right click and pick "Properties". Choose the "Libraries" entry, then choose the 
+JavaFX enabled Java Platform. You should now be able to build the library and run the demos with NetBeans.
+Also, you may have to fix the location for the groovy-all-1.8.6.jar file.
