@@ -1,5 +1,56 @@
-This chapter introduces you to the basics of GroovyFX including the SceneGraphBuilder and GroovyFX classes.
+In JavaFX, you display graphics and controls on the screen by constructing a scene graph that consists of various types
+of nodes - perhaps a circle or a button control.  The scene graph is put into a _Scene,_ which defines the area in which
+your scene graph will be displayed.  The _Scene_ can then be shown on a _Stage_.  You can think of a _Stage_ as the application
+container.  If your applicaiton is running on the user's desktop, the _Stage_ corresponds to a desktop window that typically
+has a title bar and resizing controls.  If your application is embedded into a browser, then the _Stage_ corresponds to the
+applet's display area.
 
+This arrangement of Stage -> Scene -> Scene Graph is a hierarchy of nodes that can be described nicely using a declarative
+format:
 
+{code}
+stage(title: 'GroovyFX', show: true) {
+    scene {
+        rectangle(width: 300, height: 100, fill: GREEN)
+    }
+}
+{code}
 
+Except for one other minor detail which we'll cover in the next section, this is a complete GroovyFX program that, when run,
+will produce the output below.
 
+!firstapp.png!
+
+You can see that we declare a stage with a _title_ attribute of 'GroovyFX' and a _show_ attribute set to _true_.  The _title_
+of the stage appears as the text in the application window's title bar (since this was run as a desktop application).  The
+value of the _show_ attribute controls whether the Stage (the window) will initially be visible.  If you leave out the
+_show_ attribute, its default value will remain false and your applicaiton will be invisible!
+
+The scene node is declared as a child of the stage node - that is, it appears within the stage's curly braces.  Those curly braces
+actually define the stage's closure, and any node declared within that closure will become a child node.  A rectangle
+declaration appears within the scene's closure, making the rectangle a child of the scene and the one and only node that
+makes up the entire scene graph in this application.
+
+Those are the only two basic concepts you need to know in order to build rich user interfaces with GroovyFX.  You describe 
+the structure of your scene declaratively using closures to indicate the hierarchy of your nodes.  You pass attributes to 
+those nodes using Groovy's _key: value_ syntax (the same syntax used to declare key/value pairs in Maps literals - in fact, 
+under the covers you are really passing a Map as an argument to each node).
+
+This sort of syntax is generally usefull for declaring any kind of hierarchical data such as HTML or XML.  It is so common
+that Groovy has built-in support for easily creating classes, called Builders, that allow you to write code using this
+syntax.  Groovy's MarkupBuilder, for example, allows you to easily create HTML documents using a very similar syntax.  
+
+It is probably not surprising, then, that the class we have created to allow you to declare JavaFX scene graphs using Groovy's
+builder syntax is called _SceneGraphBuilder_.
+
+{note}
+*A Note on Terminology*
+
+The nodes in a scene graphs are generally referred to as, well... nodes.  When you create a Groovy Builder, the elements
+that you can declare with the builder are also referred to as nodes.  In most cases, this won't cause us any confusion
+because the JavaFX scene graph nodes all have a corresponding GroovyFX builder node, and therefore the term _node_ can
+be used interchangabely.
+
+In those rare cases where we need to make a distinction, we will explicitly refer to _builder nodes_ rather
+than simply scene graph _nodes_.
+{note}
