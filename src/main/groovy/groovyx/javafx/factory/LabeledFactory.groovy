@@ -78,16 +78,15 @@ class LabeledFactory extends AbstractNodeFactory {
     public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         switch (child) {
             case Tooltip:
-                if (parent instanceof Control)
-                    ((Control) parent).setTooltip(child);
-                break;
-
-            case Labeled:
-                ((Labeled) parent).setGraphic(child);
+                parent.tooltip = child;
                 break;
 
             case ContextMenu:
                 parent.contextMenu = child;
+                break;
+
+            case Node:
+                parent.graphic = child;
                 break;
 
             case GroovyCallback:
