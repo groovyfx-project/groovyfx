@@ -16,7 +16,7 @@ stage(title: 'GroovyFX', show: true) {
 }
 {code}
 
-Except for one other minor detail which we'll cover in the next section, this is a complete GroovyFX program that, when run,
+Except for one other minor detail which we'll cover in the next section, this is a complete GroovyFX program that when run,
 will produce the output below.
 
 !firstapp.png!
@@ -46,7 +46,7 @@ builder syntax is called _SceneGraphBuilder_.
 {note}
 *A Note on Terminology*
 
-The nodes in a scene graphs are generally referred to as, well... nodes.  When you create a Groovy Builder, the elements
+The nodes in a scene graph are generally referred to as, well... nodes.  When you create a Groovy Builder, the elements
 that you can declare with the builder are also referred to as nodes.  In most cases, this won't cause us any confusion
 because the JavaFX scene graph nodes all have a corresponding GroovyFX builder node, and therefore the term _node_ can
 be used interchangabely.

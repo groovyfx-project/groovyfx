@@ -16,21 +16,24 @@
 
 package groovyx.javafx.factory
 
+import groovyx.javafx.appsupport.Action
+import groovyx.javafx.event.GroovyCallback
+import javafx.beans.value.ChangeListener
+import javafx.beans.value.ObservableValue
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.scene.control.*
-import groovyx.javafx.appsupport.Action
 
-import static groovyx.javafx.factory.ActionFactory.extractActionParams
 import static groovyx.javafx.factory.ActionFactory.applyAction
+import static groovyx.javafx.factory.ActionFactory.extractActionParams
 
 /**
  *
  * @author jimclarke
  */
 class LabeledFactory extends AbstractNodeFactory {
-    
-    LabeledFactory(Class  beanClass) {
+
+    LabeledFactory(Class beanClass) {
         super(beanClass);
     }
 
@@ -43,7 +46,7 @@ class LabeledFactory extends AbstractNodeFactory {
             actionParams = extractActionParams(attributes)
         }
 
-        def control  = super.newInstance(builder, name, value, attributes)
+        def control = super.newInstance(builder, name, value, attributes)
 
         if (control instanceof ButtonBase && action) {
             applyAction(control, action, actionParams)
@@ -73,14 +76,32 @@ class LabeledFactory extends AbstractNodeFactory {
 
 
     public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
-        if (child instanceof Tooltip && parent instanceof Control) {
-            ((Control) parent).setTooltip(child);
-        } else if (child instanceof Node) {
-            ((Labeled) parent).setGraphic(child);
-        } else if (child instanceof ContextMenu) {
-            parent.contextMenu = child;
-        } else {
-            super.setChild(builder, parent, child);
+        switch (child) {
+            case Tooltip:
+                if (parent instanceof Control)
+                    ((Control) parent).setTooltip(child);
+                break;
+
+            case Labeled:
+                ((Labeled) parent).setGraphic(child);
+                break;
+
+            case ContextMenu:
+                parent.contextMenu = child;
+                break;
+
+            case GroovyCallback:
+                if ((parent instanceof ChoiceBox) && (child.property == "onSelect")) {
+                    parent.selectionModel.selectedItemProperty().addListener(new ChangeListener() {
+                        public void changed(final ObservableValue observable, final Object oldValue, final Object newValue) {
+                            builder.defer({child.closure.call(parent, newValue);});
+                        }
+                    });
+                }
+                break;
+
+            default:
+                super.setChild(builder, parent, child);
         }
     }
 }
