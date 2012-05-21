@@ -75,7 +75,14 @@ public class GroovyClosureProperty implements ReadOnlyProperty,  ChangeListener,
 
     @Override
     public final Object getValue() {
-        return closure != null? closure.call() : null;
+        Object result = null;
+        if(closure != null) {
+            result = closure.call();
+            if(result instanceof ReadOnlyProperty) {
+                result = ((ReadOnlyProperty)result).getValue();
+            }
+        }
+        return result;
     }
     
     @Override
