@@ -41,7 +41,8 @@ public class Util {
     }
     
     static public Property wrapValueInProperty(Object instance) {
-        
+        if(instance instanceof Property)
+            return (Property)instance;
         Class type = instance.getClass();
         if(type == Boolean.class || type == Boolean.TYPE) {
             return new SimpleBooleanProperty((Boolean)instance);
