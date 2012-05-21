@@ -52,47 +52,39 @@ class FontFactory {
 
     static Font getFont(String str) {
         str = str.trim();
-        if(str.length() == 0)
+        if (str.length() == 0)
             return Font.getDefault();
-        if(str.endsWith(";")) {
-            str = str.substring(0, str.length()-1);
+        if (str.endsWith(";")) {
+            str = str.substring(0, str.length() - 1);
         }
         Font font = fontMap.get(str);
-        if(font == null) {
+        if (font == null) {
             try {
                 def parts = str.split("\\s");
-                if(parts.length > 1) {
+                if (parts.length > 1) {
                     Stylesheet p = CSSParser.getInstance().parse("* { -fx-font: " + str + "; }");
                     List declarations = p.getRules().get(0).getDeclarations();
-                    ParsedValue v = declarations.get(0).getParsedValue();
-                    font = (Font)v.getConverter().convert(v, null);
-                }else {
-                    /*******
-                    String type = typeMap.get(str);
-                    if(type != null) {
-                        Stylesheet p = CSSParser.getInstance().parse("* { " + type + ": " + str + "; }");
-                        List declarations = p.getRules().get(0).getDeclarations();
-                        Value v = declarations.get(0).getParsedValue();
-                        def converted = null;
-                        if(v.getConverter() != null)
-                            converted = v.getConverter().convert(v, null);  
-                        else
-                            converted = v.getValue();
-                        Font defaultFont = Font.getDefault();
-                        font = Font.font(defaultFont.getFamily(), converted, defaultFont.getSize());
-                    }else {
-                    ******/
-                        Stylesheet p = CSSParser.getInstance().parse("* { -fx-font-size: " + str + "; }");
-                        List declarations = p.getRules().get(0).getDeclarations();
+                    if (declarations) {
                         ParsedValue v = declarations.get(0).getParsedValue();
-                        def size = v.getConverter().convert(v, new Font(8));
+                        font = (Font) v.getConverter().convert(v, null);
+                    } else {
+                        throw new RuntimeException("Font declaration '${str}' could not be parsed")
+                    }
+                } else {
+                    Stylesheet p = CSSParser.getInstance().parse("* { -fx-font-size: " + str + "; }");
+                    List declarations = p.getRules().get(0).getDeclarations();
+                    if (declarations) {
+                        ParsedValue v = declarations.get(0).getParsedValue();
+                        final size = v.getConverter().convert(v, new Font(8));
                         font = new Font(size);
-                    // }
+                    } else {
+                        throw new RuntimeException("Font size declaration '${str}' could not be parsed")
+                    }
                 }
-                if(font != null) {
+                if (font != null) {
                     fontMap.put(str, font)
                 }
-            }catch(IOException ex) {
+            } catch (IOException ex) {
                 System.out.println("FontFactory.getFont() Exception: " + ex);
             }
         }
