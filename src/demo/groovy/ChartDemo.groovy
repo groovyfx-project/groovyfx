@@ -40,9 +40,10 @@ start {
 
                         lineChart(data: [First: [0, 0.25, 0.5, 1.5, 2, 1.0], Second: [0.25, 0, 0.5, 0.5, 1.5, 0.75]])
 
-                        lineChart(XAxis: categoryAxis(label: "X Axis")) {
-                            numberAxis(lowerBound: -1.2, upperBound: 1.2, tickUnit: 0.2, autoRanging: false,
-                                    label: "Y Axis")
+                        final yAxis = numberAxis(label: "Y Axis", lowerBound: -1.2, upperBound: 1.2, tickUnit: 0.2,
+                                                 autoRanging: false)
+
+                        lineChart(xAxis: categoryAxis(label: "X Axis"), yAxis: yAxis) {
                             series(name: 'First Series', data: ["A", 0, "B", 1, "C", -1])
                             series(name: 'Second Series', data: [["A", 0], ["B", -1], ["C", 1], ["D", 0]])
                         }
