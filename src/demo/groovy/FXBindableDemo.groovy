@@ -25,13 +25,13 @@ class FXPerson {
     String firstName;
     String lastName;
     int age;
-    String likes;
-}
-
-
+    List likes = [];
+}  
+ 
+ 
 FXPerson person = new FXPerson();
 
-println("======================");
+println("======================"); 
 println(person.lastNameProperty);
 println(person.firstNameProperty);
 println(person.ageProperty);
@@ -54,7 +54,7 @@ println("LastName: " + person.lastName);
 println("FirstName: " + person.firstName);
 println("Age: " + person.age);
 println("Likes: " + person.likes);
-for (l in person.likes)
+for (l in person.likes) 
     println("    " + l);
 println("======================");
 println(person.lastNameProperty);
@@ -62,3 +62,4 @@ println(person.firstNameProperty);
 println(person.ageProperty);
 println(person.likesProperty);
 println("======================");
+ 
