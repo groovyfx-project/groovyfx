@@ -21,6 +21,8 @@ import javafx.beans.value.ChangeListener
 import javafx.beans.value.ObservableNumberValue
 import javafx.event.EventHandler
 import javafx.scene.Node
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import javafx.scene.web.WebEngine
 import javafx.stage.Window
 import javafx.util.Callback
@@ -389,6 +391,7 @@ class GroovyFXEnhancer {
             onMouseReleased << { Closure closure -> delegate.setOnMouseReleased(closure as EventHandler)}
             onScroll << { Closure closure -> delegate.setOnScroll(closure as EventHandler)}
             
+            // Handle short cut for javafx properties where xxxxProperty() is same as xxxx()
             methodMissing = {  name, args ->
                 def fxName = "${name}Property"
                 if(delegate.metaClass.respondsTo(delegate, fxName, InvokerHelper.EMPTY_ARGUMENTS)) {
@@ -396,6 +399,38 @@ class GroovyFXEnhancer {
                         delegate."${name}Property"();
                     }
                     Node.metaClass."$name" = meth;
+                    return meth(args)
+                } else {
+                    throw new MissingMethodException(name, delegate.class, args)
+                }
+            }
+        }
+        
+        Scene.metaClass {
+            // Handle short cut for javafx properties where xxxxProperty() is same as xxxx()
+            methodMissing = {  name, args ->
+                def fxName = "${name}Property"
+                if(delegate.metaClass.respondsTo(delegate, fxName, InvokerHelper.EMPTY_ARGUMENTS)) {
+                    def meth =  {Object[] varargs ->
+                        delegate."${name}Property"();
+                    }
+                    Scene.metaClass."$name" = meth;
+                    return meth(args)
+                } else {
+                    throw new MissingMethodException(name, delegate.class, args)
+                }
+            }
+        }
+        
+        Stage.metaClass {
+            // Handle short cut for javafx properties where xxxxProperty() is same as xxxx()
+            methodMissing = {  name, args ->
+                def fxName = "${name}Property"
+                if(delegate.metaClass.respondsTo(delegate, fxName, InvokerHelper.EMPTY_ARGUMENTS)) {
+                    def meth =  {Object[] varargs ->
+                        delegate."${name}Property"();
+                    }
+                    Scene.metaClass."$name" = meth;
                     return meth(args)
                 } else {
                     throw new MissingMethodException(name, delegate.class, args)
