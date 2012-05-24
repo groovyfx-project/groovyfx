@@ -52,6 +52,8 @@ class SceneFactory extends AbstractFXBeanFactory {
         if (checkValue(name, value)) {
             scene = value
         } else {
+            
+            
             def root = attributes.remove("root")
             def height = attributes.remove("height")
             def width = attributes.remove("width")
@@ -71,7 +73,9 @@ class SceneFactory extends AbstractFXBeanFactory {
                 scene = new Scene(root)
             }
         }
-
+        def id = attributes.remove("id");
+        if(id != null)
+            builder.getVariables().put(id, scene);
         return scene;
     }
 
