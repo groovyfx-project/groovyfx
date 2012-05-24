@@ -32,6 +32,7 @@ import javafx.scene.Cursor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.beans.property.ReadOnlyProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.Node;
@@ -80,7 +81,7 @@ class FXHelper {
     ];
 
     static Object getValue(value) {
-        if (value instanceof ReadOnlyProperty) {
+        if (value instanceof ObservableValue) {
             def v = value.getValue();
             return v;
         } else {
@@ -442,9 +443,9 @@ class FXHelper {
         }
         if(property instanceof Property && value instanceof Property) { // both writable
              property.bindBidirectional(value);       
-        }else if(property instanceof Property) { // target is writable, source is ReadOnlyProperty
+        }else if(property instanceof Property) { // target is writable, source is ReadOnly
             property.bind(value);
-        }else if(property instanceof Property) { // target is ReadOnlyProperty, source is writable
+        }else if(value instanceof Property) { // target is ReadOnly, source is writable
             value.bind(property);
         }else {
             System.out.println("Both sides of a bind for property '${metaProperty.name}' are Readonly, bind skipped.")
@@ -493,7 +494,7 @@ class FXHelper {
         (HPos.class): doHPos,
         (VPos.class): doVPos,
         (Pos.class): doPos,
-        (ReadOnlyProperty.class): doBind,
+        (ObservableValue.class): doBind,
     ];
 
     public static boolean fxAttribute(delegate, key, value) {
@@ -521,7 +522,7 @@ class FXHelper {
         
         if(metaProperty) {
             // first do quick check from map
-            if(value instanceof ReadOnlyProperty) {
+            if(value instanceof ObservableValue) {
                   return doBind(delegate, metaProperty, value);     
             }
             def closure = classMap.get(metaProperty.getType());
@@ -563,7 +564,7 @@ class FXHelper {
                 return doEventHandler(delegate, metaProperty, value);
             }else if(ToggleGroup.class.isAssignableFrom(metaProperty.getType())) {
                 return doToggleGroup(delegate, metaProperty, value);
-            }else if(ReadOnlyProperty.class.isAssignableFrom(metaProperty.getType())) {
+            }else if(ObservableValue.class.isAssignableFrom(metaProperty.getType())) {
                 return doBind(delegate, metaProperty, value);
             }
         }
