@@ -19,6 +19,7 @@ package groovyx.javafx.factory
 
 import javafx.beans.property.*;
 import javafx.beans.property.adapter.*;
+import javafx.beans.value.*;
 import groovyx.javafx.binding.*
 
 import org.codehaus.groovy.runtime.InvokerHelper;
@@ -30,10 +31,10 @@ import org.codehaus.groovy.runtime.InvokerHelper;
 class BindFactory extends AbstractFXBeanFactory {
     
     public BindFactory() {
-        super(ReadOnlyProperty)
+        super(ObservableValue)
     }
     
-    public BindFactory(Class<ReadOnlyProperty> beanClass) {
+    public BindFactory(Class<ObservableValue> beanClass) {
         super(beanClass);
     }
     
@@ -44,22 +45,17 @@ class BindFactory extends AbstractFXBeanFactory {
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
             throws InstantiationException, IllegalAccessException {
                 
-          ReadOnlyProperty property = null;
-          switch(value) {
-              case ReadOnlyProperty:
+          ObservableValue property = null;
+          if(value instanceof ObservableValue) {
                 property = value;
-                break;
-              case List:
+          }else if(value instanceof List) {
                 def instance = value[0];
                 def propertyName = value[1];
                 property = Util.getJavaFXProperty(instance, propertyName)
                 if(property == null)
                     property = Util.getJavaBeanFXProperty(instance, propertyName);
-                break;
-              default:
+          }else {
                 property = new GroovyClosureProperty();
-                break;
-                
           }
           
           def converter = attributes.remove("converter");
