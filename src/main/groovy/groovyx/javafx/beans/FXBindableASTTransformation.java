@@ -31,7 +31,12 @@ import org.codehaus.groovy.transform.GroovyASTTransformation;
 import org.objectweb.asm.Opcodes;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
+import javafx.collections.ObservableSet;
 import org.codehaus.groovy.ast.GenericsType;
 
 
@@ -61,6 +66,9 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
     protected static final ClassNode intPropertyClass = ClassHelper.make(IntegerProperty.class);
     protected static final ClassNode longPropertyClass = ClassHelper.make(LongProperty.class);
     protected static final ClassNode stringPropertyClass = ClassHelper.make(StringProperty.class);
+    protected static final ClassNode listPropertyClass = ClassHelper.make(ListProperty.class);
+    protected static final ClassNode mapPropertyClass = ClassHelper.make(MapProperty.class);
+    protected static final ClassNode setPropertyClass = ClassHelper.make(SetProperty.class);
     
     protected static final ClassNode simpleBooleanPropertyClass = ClassHelper.make(SimpleBooleanProperty.class);
     protected static final ClassNode simpleDoublePropertyClass = ClassHelper.make(SimpleDoubleProperty.class);
@@ -68,8 +76,18 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
     protected static final ClassNode simpleIntPropertyClass = ClassHelper.make(SimpleIntegerProperty.class);
     protected static final ClassNode simpleLongPropertyClass = ClassHelper.make(SimpleLongProperty.class);
     protected static final ClassNode simpleStringPropertyClass = ClassHelper.make(SimpleStringProperty.class);
+    protected static final ClassNode simpleListPropertyClass = ClassHelper.make(SimpleListProperty.class);
+    protected static final ClassNode simpleMapPropertyClass = ClassHelper.make(SimpleMapProperty.class);
+    protected static final ClassNode simpleSetPropertyClass = ClassHelper.make(SimpleSetProperty.class);
     protected static final ClassNode simpleObjectPropertyClass = ClassHelper.make(SimpleObjectProperty.class, true);
 //    protected static final ClassNode numberClassNode = ClassHelper.make(Number.class);
+    
+    protected static final ClassNode observableListClass = ClassHelper.make(ObservableList.class, true);
+    protected static final ClassNode observableMapClass = ClassHelper.make(ObservableMap.class, true);
+    protected static final ClassNode observableSetClass = ClassHelper.make(ObservableSet.class, true);
+    protected static final ClassNode listClass = ClassHelper.make(List.class, true);
+    protected static final ClassNode mapClass = ClassHelper.make(Map.class, true);
+    protected static final ClassNode setClass = ClassHelper.make(Set.class, true);
 
     private static final Map<ClassNode, ClassNode> propertyTypeMap = new HashMap<ClassNode, ClassNode>();
 
@@ -102,6 +120,9 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
         propertyImplMap.put(intPropertyClass, simpleIntPropertyClass);
         propertyImplMap.put(longPropertyClass, simpleLongPropertyClass);
         propertyImplMap.put(stringPropertyClass, simpleStringPropertyClass);
+        propertyImplMap.put(listPropertyClass, simpleListPropertyClass);
+        propertyImplMap.put(mapPropertyClass, simpleMapPropertyClass);
+        propertyImplMap.put(setPropertyClass, simpleSetPropertyClass);
         //propertyImplMap.put(objectPropertyClass, simpleObjectPropertyClass);
     }
 
@@ -286,12 +307,28 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
 
         // For the ObjectProperty, we need to add the generic type to it.
         if (newType == null) {
-            newType = ClassHelper.makeWithoutCaching(ObjectProperty.class, true);
-            ClassNode genericType = origType;
-            if (genericType.isPrimaryClassNode()) {
-                genericType = ClassHelper.getWrapper(genericType);
+            System.out.println("Evaluate class: " + origType);
+            if(origType.equals(listClass) || origType.declaresInterface(listClass)) {
+                System.out.println("List");
+                newType =  ClassHelper.make(SimpleListProperty.class, true);
+                GenericsType[] genericTypes = origType.getGenericsTypes();
+                newType.setGenericsTypes(genericTypes);
+            }else if(origType.equals(mapClass) ||origType.declaresInterface(mapClass)) {
+                newType = ClassHelper.make(SimpleMapProperty.class, true);
+                GenericsType[] genericTypes = origType.getGenericsTypes();
+                newType.setGenericsTypes(genericTypes);
+            }else if(origType.equals(setClass) ||origType.declaresInterface(setClass)) {
+                newType = ClassHelper.make(SimpleSetProperty.class, true);
+                GenericsType[] genericTypes = origType.getGenericsTypes();
+                newType.setGenericsTypes(genericTypes);
+            }else { // Object Type
+                newType = ClassHelper.makeWithoutCaching(ObjectProperty.class, true);
+                ClassNode genericType = origType;
+                if (genericType.isPrimaryClassNode()) {
+                    genericType = ClassHelper.getWrapper(genericType);
+                }
+                newType.setGenericsTypes(new GenericsType[]{new GenericsType(genericType)});
             }
-            newType.setGenericsTypes(new GenericsType[]{new GenericsType(genericType)});
         }
 
         FieldNode fieldNode = createFieldNodeCopy(orig.getName() + "Property", newType, orig.getField());
