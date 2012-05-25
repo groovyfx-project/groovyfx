@@ -69,8 +69,14 @@ start {
 
                 vbox(spacing: 10) {
                     hbox(spacing: 10) {
-                        button("This is a Button", styleClass: "custom-button", font: "16pt Courier", onAction: { println "button pressed"})
-                        checkBox("Check", font: "16pt Courier", selected: true)
+                        button("This is a Button", styleClass: "custom-button", font: "16pt Courier") {
+                            onAction { println "button pressed"}
+                            tooltip "This button has a tooltip!"
+                        }
+                        checkBox("Check", font: "16pt Courier", selected: true) {
+                            graphic(circle(radius: 8, fill: GREEN))
+                            tooltip "This checkbox has a graphic! (and a tooltip!)"
+                        }
                     }
                     separator()
                     hbox(spacing: 10, padding: 10) {

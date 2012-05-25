@@ -60,7 +60,6 @@ class ControlFactory extends AbstractNodeFactory {
     }
 
     public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
-        
         switch(child) {
             case Tooltip:
                 parent.setTooltip(child);
@@ -70,7 +69,6 @@ class ControlFactory extends AbstractNodeFactory {
                     switch(parent) {
                         case ListView:
                         case ComboBox:
-                        case ChoiceBox:
                         case TabPane:
                         case TreeView:
                             parent.selectionModel.selectedItemProperty().addListener(new ChangeListener() {
@@ -80,7 +78,6 @@ class ControlFactory extends AbstractNodeFactory {
                             }); 
                             break;
                         default:
-                      
                             break;
                     }
                  } else if(child.property == "cellFactory") {

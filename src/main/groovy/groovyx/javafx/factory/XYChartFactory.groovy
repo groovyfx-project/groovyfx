@@ -37,18 +37,45 @@ class XYChartFactory extends AbstractFXBeanFactory {
         if (checkValue(name,value)) {
             return value
         } else {
-            def builderClass = Class.forName("javafx.scene.chart.${beanClass.getSimpleName()}Builder")
-            def chartBuilder = builderClass.newInstance()
+            def xAxis = attributes.remove('xAxis')
+            def yAxis = attributes.remove('yAxis')
 
-            // Set default axes so the builder doesn't blow up with a NPE
-            // TODO: Set the axes correctly depending on bar chart orientation
-            if(beanClass.isAssignableFrom(BarChart))
-                chartBuilder.XAxis(new CategoryAxis())
-            else
-                chartBuilder.XAxis(new NumberAxis())
+            if(beanClass.isAssignableFrom(BarChart)) {
+                // For a bar chart, one of the axes must be a CategoryAxis:
+                //   1) If neither axis is defined, the x axis will be the CategoryAxis
+                //   2) If both are defined, one of them must be a category axis
+                //   3) If only one axis is defined, then create the other as the opposite
+                //      of the defined one (i.e. if a NumberAxis is defined, then the other
+                //      must be defined as a CategoryAxis and vice-versa.
+                if (!xAxis && !yAxis) {
+                    // Neither are defined
+                    xAxis = new CategoryAxis()
+                    yAxis = new NumberAxis()
+                } else if (xAxis && yAxis) {
+                    // Both are defined.  Neither is a CategoryAxis?
+                    if (!(yAxis instanceof CategoryAxis) && !(xAxis instanceof CategoryAxis)) {
+                        throw new Exception("In $name either the x or y axis must be a CategoryAxis.")
+                    }
+                } else if (xAxis) {
+                    // Only xAxis is defined
+                    yAxis = (xAxis instanceof CategoryAxis) ? new NumberAxis() : new CategoryAxis()
+                } else if (yAxis) {
+                    // Only yAxis is defined
+                    xAxis = (yAxis instanceof CategoryAxis) ? new NumberAxis() : new CategoryAxis()
+                }
+            } else {
+                // For any other kind of chart, just create a default auto-ranging NumberAxis
+                // if either x or y axis is not already defined by the user.
+                xAxis = xAxis ?: new NumberAxis()
+                yAxis = yAxis ?: new NumberAxis()
+            }
 
-            chartBuilder.YAxis(new NumberAxis())
-            return createChart(chartBuilder, attributes)
+            def data = attributes['data']
+            if (data && (data instanceof Map)) {
+                attributes['data'] = createXYSeriesFromMap(data)
+            }
+
+            beanClass.newInstance(xAxis, yAxis)
         }
     }
 
@@ -68,24 +95,6 @@ class XYChartFactory extends AbstractFXBeanFactory {
         }
         
         return FXCollections.observableArrayList(seriesList)
-    }
-
-    private XYChart createChart(chartBuilder, Map attributes) {
-        def data = attributes.remove('data')
-        if (data) {
-            if (data instanceof Map) {
-                data = createXYSeriesFromMap(data)
-            }
-        }
-
-        attributes.each { name, value ->
-            FXHelper.setPropertyOrMethod(chartBuilder, name, value)
-        }
-        attributes.clear()
-
-        def chart = chartBuilder.build()
-        FXHelper.setPropertyOrMethod(chart, 'data', data)
-        return chart
     }
 }
 

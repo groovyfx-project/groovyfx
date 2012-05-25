@@ -23,7 +23,11 @@ start { primaryStage ->
     stage(title: "GroovyFX Choice Box Demo", width: 400, height: 200, visible: true) {
         scene(fill: GROOVYBLUE) {
             vbox(padding: 10, spacing: 5) {
-                choiceBox(value: 'blue', items: ['blue', 'green', 'red'])
+                choiceBox(value: 'blue', items: ['blue', 'green', 'red']) {
+                    onSelect { control, item ->
+                        println "Got selection for $control, item is $item"
+                    }
+                }
             }
         }
     }
