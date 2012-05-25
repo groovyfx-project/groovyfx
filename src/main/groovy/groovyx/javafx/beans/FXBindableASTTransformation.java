@@ -34,6 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.collections.ObservableSet;
@@ -85,9 +86,10 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
     protected static final ClassNode observableListClass = ClassHelper.make(ObservableList.class, true);
     protected static final ClassNode observableMapClass = ClassHelper.make(ObservableMap.class, true);
     protected static final ClassNode observableSetClass = ClassHelper.make(ObservableSet.class, true);
-    protected static final ClassNode listClass = ClassHelper.make(List.class, true);
-    protected static final ClassNode mapClass = ClassHelper.make(Map.class, true);
-    protected static final ClassNode setClass = ClassHelper.make(Set.class, true);
+    protected static final ClassNode fxCollectionsType = ClassHelper.make(FXCollections.class, true);
+    protected static final ClassNode listType = ClassHelper.make(List.class, true);
+    protected static final ClassNode mapType = ClassHelper.make(Map.class, true);
+    protected static final ClassNode setType = ClassHelper.make(Set.class, true);
 
     private static final Map<ClassNode, ClassNode> propertyTypeMap = new HashMap<ClassNode, ClassNode>();
 
@@ -307,17 +309,15 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
 
         // For the ObjectProperty, we need to add the generic type to it.
         if (newType == null) {
-            System.out.println("Evaluate class: " + origType);
-            if(origType.equals(listClass) || origType.declaresInterface(listClass)) {
-                System.out.println("List");
+            if(origType.equals(observableListClass) || origType.declaresInterface(observableListClass)) {
                 newType =  ClassHelper.make(SimpleListProperty.class, true);
                 GenericsType[] genericTypes = origType.getGenericsTypes();
                 newType.setGenericsTypes(genericTypes);
-            }else if(origType.equals(mapClass) ||origType.declaresInterface(mapClass)) {
+            }else if(origType.equals(observableMapClass) ||origType.declaresInterface(observableMapClass)) {
                 newType = ClassHelper.make(SimpleMapProperty.class, true);
                 GenericsType[] genericTypes = origType.getGenericsTypes();
                 newType.setGenericsTypes(genericTypes);
-            }else if(origType.equals(setClass) ||origType.declaresInterface(setClass)) {
+            }else if(origType.equals(observableSetClass) ||origType.declaresInterface(observableSetClass)) {
                 newType = ClassHelper.make(SimpleSetProperty.class, true);
                 GenericsType[] genericTypes = origType.getGenericsTypes();
                 newType.setGenericsTypes(genericTypes);
@@ -366,7 +366,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
      * @param propertyName The name of the original Groovy property
      */
     private void wrapSetterMethod(ClassNode classNode, String propertyName) {
-        System.out.println("wrapSetterMethod");
+        System.out.println("wrapSetterMethod for ${classNode}, property ${propertyName} not yet implemented");
     }
 
     /**
@@ -395,7 +395,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
      * @param propertyName The name of the original Groovy property
      */
     private void wrapGetterMethod(ClassNode classNode, String propertyName) {
-        System.out.println("wrapGetterMethod");
+        System.out.println("wrapGetterMethod for ${classNode}, property ${propertyName} not yet implemented");
     }
     
 
@@ -422,14 +422,75 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
             new ArgumentListExpression(initExp);
 
         BlockStatement block = new BlockStatement();
-        ClassNode implNode = propertyImplMap.get(fxProperty.getType());
+        ClassNode fxType = fxProperty.getType();
+        ClassNode implNode = propertyImplMap.get(fxType);
         if(implNode == null) {
-            implNode = ClassHelper.make(SimpleObjectProperty.class, true);
-            GenericsType[] origGenerics = fxProperty.getType().getGenericsTypes();
-            //List<GenericsType> copyGenericTypes = new ArrayList<GenericsType>();
-            //for()
-            implNode.setGenericsTypes(origGenerics);
+            if(fxType.getTypeClass() == simpleListPropertyClass.getTypeClass()) {
+                if(initExp != null) {
+                    if(initExp instanceof ListExpression ||
+                       (initExp instanceof CastExpression && 
+                            (((CastExpression)initExp).getType().equals(listType) || 
+                            ((CastExpression)initExp).getType().declaresInterface(listType))) ||
+                       (initExp instanceof ConstructorCallExpression && 
+                            (((ConstructorCallExpression)initExp).getType().equals(listType) || 
+                            ((ConstructorCallExpression)initExp).getType().declaresInterface(listType)))
+                    ) {
+                        ctorArgs = new ArgumentListExpression(
+                            new MethodCallExpression(
+                                new ClassExpression(fxCollectionsType), 
+                                "observableList", 
+                                ctorArgs)
+                        );
+                    }
+                }
+                implNode = fxType;
+            }else if( fxType.getTypeClass() == simpleMapPropertyClass.getTypeClass()) {
+                if(initExp != null ) {
+                    if(initExp instanceof MapExpression ||
+                       (initExp instanceof CastExpression && 
+                            (((CastExpression)initExp).getType().equals(mapType) || 
+                            ((CastExpression)initExp).getType().declaresInterface(mapType))) ||
+                       (initExp instanceof ConstructorCallExpression && 
+                            (((ConstructorCallExpression)initExp).getType().equals(mapType) || 
+                            ((ConstructorCallExpression)initExp).getType().declaresInterface(mapType)))
+                    ) {
+                        ctorArgs = new ArgumentListExpression(
+                            new MethodCallExpression(
+                                new ClassExpression(fxCollectionsType), 
+                                "observableMap", 
+                                ctorArgs)
+                        );
+                    }
+                }
+                implNode = fxType;
+            }else if( fxType.getTypeClass() == simpleSetPropertyClass.getTypeClass()) {
+                if(initExp != null) {
+                    if((initExp instanceof CastExpression && 
+                            (((CastExpression)initExp).getType().equals(setType) || 
+                            ((CastExpression)initExp).getType().declaresInterface(setType))) ||
+                       (initExp instanceof ConstructorCallExpression && 
+                            (((ConstructorCallExpression)initExp).getType().equals(setType) || 
+                            ((ConstructorCallExpression)initExp).getType().declaresInterface(setType)))
+                    ) {
+                        ctorArgs = new ArgumentListExpression(
+                            new MethodCallExpression(
+                                new ClassExpression(fxCollectionsType), 
+                                "observableSet", 
+                                ctorArgs)
+                        );
+                    }
+                }
+                implNode = fxType;
+            }else {
+                implNode = ClassHelper.make(SimpleObjectProperty.class, true);
+                GenericsType[] origGenerics = fxProperty.getType().getGenericsTypes();
+                //List<GenericsType> copyGenericTypes = new ArrayList<GenericsType>();
+                //for()
+                implNode.setGenericsTypes(origGenerics);
+            }
         }
+        Expression initExpression = new ConstructorCallExpression(implNode, ctorArgs);
+        
         IfStatement ifStmt = new IfStatement(
             new BooleanExpression(
                 new BinaryExpression(
@@ -442,7 +503,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
                 new BinaryExpression(
                     fieldExpression,
                     Token.newSymbol(Types.EQUAL, 0, 0),
-                    new ConstructorCallExpression(implNode, ctorArgs)
+                    initExpression
                 )
             ),
             EmptyStatement.INSTANCE
