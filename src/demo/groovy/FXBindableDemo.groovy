@@ -16,6 +16,10 @@
 
 import groovyx.javafx.beans.FXBindable;
 
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
+import javafx.collections.ObservableSet;
+
 /**
  *
  * @author jimclarke
@@ -25,13 +29,15 @@ class FXPerson {
     String firstName;
     String lastName;
     int age;
-    String likes;
+    ObservableList likes = []; 
+    ObservableMap attributes = [:];
+    ObservableSet aSet = [] as Set;
 }
-
-
+  
+ 
 FXPerson person = new FXPerson();
 
-println("======================");
+println("======================"); 
 println(person.lastNameProperty);
 println(person.firstNameProperty);
 println(person.ageProperty);
@@ -48,17 +54,28 @@ println("======================");
 person.lastName = 'Clarke';
 person.firstName = 'Jim';
 person.age = 17;  // I wish :-)
-person.likes = ['JavaFX', 'Groovy'];
+println(person.getLikes()[0]);
+person.likes << 'JavaFX';
+person.likes << 'Java';
 println("======================");
 println("LastName: " + person.lastName);
 println("FirstName: " + person.firstName);
 println("Age: " + person.age);
 println("Likes: " + person.likes);
-for (l in person.likes)
+for (l in person.likes) 
     println("    " + l);
+println(person.likes[0]);
 println("======================");
 println(person.lastNameProperty);
 println(person.firstNameProperty);
 println(person.ageProperty);
 println(person.likesProperty);
 println("======================");
+
+person.attributes.put('foo', 'bar');
+println person.attributes['foo'];
+
+person.aSet << 1
+person.aSet << 2
+println person.aSet
+ 

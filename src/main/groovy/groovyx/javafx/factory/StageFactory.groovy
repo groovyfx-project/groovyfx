@@ -39,6 +39,11 @@ class StageFactory extends AbstractFXBeanFactory {
                     return handleStage(builder, name, value, attributes)
                 }
                 def window = super.newInstance(builder, name, value, attributes)
+                def id = attributes.remove("id");
+                if(id != null) {
+                    if(id != null)
+                        builder.getVariables().put(id, window);
+                }
                 if( ! FileChooser.isAssignableFrom(beanClass)) {
                     def onHidden = attributes.remove("onHidden");
                     if(onHidden != null) {
@@ -91,6 +96,11 @@ class StageFactory extends AbstractFXBeanFactory {
             window = new Stage(style)
             if(primary)
                 builder.variables.primaryStage = window;
+        }
+        
+        def id = attributes.remove("id");
+        if(id != null) {
+            builder.getVariables().put(id, window);
         }
         window;
     }
