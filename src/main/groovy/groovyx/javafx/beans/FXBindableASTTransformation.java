@@ -15,7 +15,12 @@
 */
 package groovyx.javafx.beans;
 
+import java.util.*;
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
+import javafx.collections.ObservableSet;
 import org.codehaus.groovy.ast.*;
 import org.codehaus.groovy.ast.expr.*;
 import org.codehaus.groovy.ast.stmt.*;
@@ -29,16 +34,6 @@ import org.codehaus.groovy.syntax.Types;
 import org.codehaus.groovy.transform.ASTTransformation;
 import org.codehaus.groovy.transform.GroovyASTTransformation;
 import org.objectweb.asm.Opcodes;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
-import javafx.collections.ObservableSet;
-import org.codehaus.groovy.ast.GenericsType;
 
 
 /**
@@ -355,6 +350,8 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
         setter.setSynthetic(true);
         declaringClass.addMethod(setter);
     }
+            
+    
 
     /**
      * If the setter already exists, this method should wrap it with our code and then a call to the original
@@ -366,7 +363,9 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
      * @param propertyName The name of the original Groovy property
      */
     private void wrapSetterMethod(ClassNode classNode, String propertyName) {
-        System.out.println("wrapSetterMethod for ${classNode}, property ${propertyName} not yet implemented");
+        System.out.println(
+                String.format("wrapSetterMethod for '%s', property '%s' not yet implemented",
+                classNode.getName(), propertyName));
     }
 
     /**
@@ -395,7 +394,9 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
      * @param propertyName The name of the original Groovy property
      */
     private void wrapGetterMethod(ClassNode classNode, String propertyName) {
-        System.out.println("wrapGetterMethod for ${classNode}, property ${propertyName} not yet implemented");
+        System.out.println(
+                String.format("wrapGetterMethod for '%s', property '%s' not yet implemented",
+                classNode.getName(), propertyName));
     }
     
 
@@ -573,6 +574,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
 
         return new ExpressionStatement(setValue);
     }
+      
 
     /**
      * Creates the body of a getter method for the original property that is actually backed by a

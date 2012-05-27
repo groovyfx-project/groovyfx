@@ -14,12 +14,13 @@
 * limitations under the License.
 */
 
-import groovyx.javafx.beans.FXBindable;
-
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.collections.ObservableSet;
+import groovyx.javafx.GroovyFXEnhancer;
+import groovyx.javafx.beans.FXBindable
 
+GroovyFXEnhancer.enhanceClasses();
 /**
  *
  * @author jimclarke
@@ -32,9 +33,9 @@ class FXPerson {
     ObservableList likes = []; 
     ObservableMap attributes = [:];
     ObservableSet aSet = [] as Set;
+    
 }
-  
- 
+     
 FXPerson person = new FXPerson();
 
 println("======================"); 
@@ -44,6 +45,7 @@ println(person.ageProperty);
 println(person.likesProperty);
 println("======================");
 
+person.likes = ["GroovyFX"] as ObservableList
 println("LastName: " + person.lastName);
 println("FirstName: " + person.firstName);
 println("Age: " + person.age);
@@ -72,10 +74,14 @@ println(person.ageProperty);
 println(person.likesProperty);
 println("======================");
 
+person.attributes = ['one':'two'] as ObservableMap
 person.attributes.put('foo', 'bar');
+println person.attributes
 println person.attributes['foo'];
 
+person.aSet = [0] as ObservableSet
 person.aSet << 1
 person.aSet << 2
 println person.aSet
- 
+println person.aSet.size()
+println person.aSet.contains(1)
