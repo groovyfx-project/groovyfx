@@ -1,36 +1,29 @@
 
+Although SceneGraphBuilder provides all of the builder nodes you will use when creating your GroovyFX graphics and 
+UIs, you will rarely use it directly.  This is because you will typically begin your applications by calling the 
+static _start_ method of the GroovyFX class as shown here.
 
-Although you will rarely use it directly, the SceneGraphBuilder is the main class you will use while
-writing declarative GroovyFX code.
+{code}
+import static groovyx.javafx.GroovyFX.start
+
+start {
+    stage(title: 'GroovyFX', show: true) {
+        scene {
+            rectangle(width: 300, height: 100, fill: GREEN)
+        }
+    }
+}
+{code}
+
+The GroovyFX.start method takes a closure as its only parameter.  At the appropriate time during the JavaFX startup
+sequence, this closure will be executed.  The _start_ method creates a new SceneGraphBuilder object and sets it as the
+closure's delegate before it is executed.  This is the reason that you can call SceneGraphBuilder methods like _stage_ 
+and _scene_ within your closure.  Those calls will be automatically forwarded on to the closure's delegate
+SceneGraphBuilder object when they are not found within the closure's current scope.
+
+Calling the GroovyFX.start method is the missing piece of the puzzle we referred to in the previous section when we
+first presented this code.
 
 The following sections describe some of the generalized behavior supported in the SceneGraphBuilder on all
 nodes and attributes defined in the User Guide.
 
-h4. ToggleGroups
-{note}
-Note to self: Move this section to the ToogleButton reference page.
-{note}
-ToggleGroups are identified with an unique string across the SceneGraphBuilder context. To tie a toggle type button
-to a specific ToggleGroup, use the special attribute toggleGroup on the Toggle type button. Buttons with the same
-ToggleGroup names will be assigned the same ToggleGroup instance.
-
-{code}
-scene(fill: hsb(128, 0.5, 0.5, 0.5), root: group()) {
-    toggleButton (
-        layoutX: 25,
-        layoutY: 300,
-        font: "16pt Courier",
-        text: "One",
-        selected: true,
-        toggleGroup: "Group1"
-    )
-    toggleButton (
-        layoutX: 125,
-        layoutY: 300,
-        font: "16pt Courier",
-        text: "Two",
-        selected: false,
-        toggleGroup: "Group1"
-    )
-}
-{code}

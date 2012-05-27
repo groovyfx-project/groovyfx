@@ -6,6 +6,8 @@ h4. JavaFX 2.1 Support
 
 h4. Actions
 
-h4. Nested tableColumn support
+h4. Nested Table Column Support
 
 h4. onSelect Pseudo-Property Added to ListView, TreeView, ComboBox, ChoiceBox, and TabPane
+
+h4. Cell Factory Support

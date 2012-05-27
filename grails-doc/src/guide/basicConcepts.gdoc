@@ -16,7 +16,7 @@ stage(title: 'GroovyFX', show: true) {
 }
 {code}
 
-Except for one other minor detail which we'll cover in the next section, this is a complete GroovyFX program that when run,
+Except for one other minor detail which we'll cover in the next section, this is a complete GroovyFX program that, when run,
 will produce the output below.
 
 !firstapp.png!

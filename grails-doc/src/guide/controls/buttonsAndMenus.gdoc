@@ -1,1 +1,25 @@
-buttonsAndMenus
+h4. ToggleGroups
+ToggleGroups are identified with an unique string across the SceneGraphBuilder context. To tie a toggle type button
+to a specific ToggleGroup, use the special attribute toggleGroup on the Toggle type button. Buttons with the same
+ToggleGroup names will be assigned the same ToggleGroup instance.
+
+{code}
+scene(fill: hsb(128, 0.5, 0.5, 0.5), root: group()) {
+    toggleButton (
+        layoutX: 25,
+        layoutY: 300,
+        font: "16pt Courier",
+        text: "One",
+        selected: true,
+        toggleGroup: "Group1"
+    )
+    toggleButton (
+        layoutX: 125,
+        layoutY: 300,
+        font: "16pt Courier",
+        text: "Two",
+        selected: false,
+        toggleGroup: "Group1"
+    )
+}
+{code}
