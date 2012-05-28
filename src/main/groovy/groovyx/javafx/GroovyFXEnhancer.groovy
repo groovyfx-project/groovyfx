@@ -31,6 +31,8 @@ import javafx.beans.binding.*
 import javafx.beans.property.*
 import javafx.scene.control.*
 
+import javafx.collections.*;
+
 /**
  * @author jimclarke
  * @author Andres Almiray
@@ -40,6 +42,39 @@ class GroovyFXEnhancer {
     
     static void enhanceClasses() {
         ExpandoMetaClass.enableGlobally()
+        
+        def origListAsType = ArrayList.metaClass.getMetaMethod("asType", [Class] as Class[])
+        ArrayList.metaClass {
+            asType << {Class clazz ->
+                if(clazz == ObservableList) {
+                    FXCollections.observableList(delegate);
+                } else if(clazz == ObservableSet) {
+                    FXCollections.observableSet(delegate as Set);
+                }else {
+                    origListAsType.invoke(delegate, clazz)
+                }
+            }
+        }
+        def origMapAsType = Map.metaClass.getMetaMethod("asType", [Class] as Class[])
+        Map.metaClass {
+            asType << {Class clazz ->
+                if(clazz == ObservableMap) {
+                    FXCollections.observableMap(delegate);
+                }else {
+                    origMapAsType.invoke(delegate, clazz)
+                }
+            }
+        }
+        def origSetAsType = Set.metaClass.getMetaMethod("asType", [Class] as Class[])
+        Set.metaClass {
+            asType << {Class clazz ->
+                if(clazz == ObservableSet) {
+                    FXCollections.observableSet(delegate);
+                }else if(origSetAsType != null){
+                    origSetAsType.invoke(delegate, clazz)
+                }
+            }
+        }
 
         Number.metaClass {
             getM = {-> Duration.minutes(delegate)}
