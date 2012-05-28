@@ -4,6 +4,8 @@ h4. JavaFX 2.1 Support
 * ComboBox
 * StackedBarChart and StackedAreaChart
 
+h4. Usage of Node IDs
+
 h4. Actions
 
 h4. Nested Table Column Support

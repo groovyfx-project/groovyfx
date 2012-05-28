@@ -15,11 +15,12 @@ start {
 }
 {code}
 
-The GroovyFX.start method takes a closure as its only parameter.  At the appropriate time during the JavaFX startup
-sequence, this closure will be executed.  The _start_ method creates a new SceneGraphBuilder object and sets it as the
-closure's delegate before it is executed.  This is the reason that you can call SceneGraphBuilder methods like _stage_ 
-and _scene_ within your closure.  Those calls will be automatically forwarded on to the closure's delegate
-SceneGraphBuilder object when they are not found within the closure's current scope.
+The GroovyFX.start method takes a closure as its only parameter and, behind the scenes, it initiates JavaFX's startup
+sequence.  The _start_ method also ensures that the closure you pass will be executed at the appropriate time during
+the JavaFX startup sequence.  Just before your closure is executed, the _start_ method creates a new SceneGraphBuilder 
+object and sets it as the closure's delegate.  This is the reason that you can call SceneGraphBuilder methods like 
+_stage_, _scene_, and _rectangle_ within your closure.  Those calls will be automatically forwarded on to the closure's 
+delegate SceneGraphBuilder object when they are not found within the closure's current scope.
 
 Calling the GroovyFX.start method is the missing piece of the puzzle we referred to in the previous section when we
 first presented this code.
