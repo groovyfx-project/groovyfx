@@ -2,8 +2,7 @@ apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: 'signing'
 apply plugin: 'idea'
-
-// ---------------- dependencies ------------------
+apply plugin: 'eclipse'
 
 buildscript {
     final javafxHome = System.env['JAVAFX_HOME']
@@ -14,21 +13,37 @@ buildscript {
       if (javaHome)
         ext.javafxJar = "${javaHome}/jre/lib/jfxrt.jar"
     }
-    println "JavaFX runtime jar: ${ext.javafxJar}"
-    dependencies {
+    try {
+      println "JavaFX runtime jar: ${ext.javafxJar}"
+      dependencies {
         classpath files(ext.javafxJar)
+      }
+    }
+    catch (MissingPropertyException mpe) {
+      println """    Please set the environment variable JAVAFX_HOME
+    to the directory that contains rt/lib/jfxrt.jar
+    of JavaFX version ${groovyfx_requiredJavaFxVersion}."""
+      System.exit 1
     }
 }
 
+ext.actualJavaFXVersion = com.sun.javafx.runtime.VersionInfo.runtimeVersion
+if (! ext.actualJavaFXVersion.startsWith(groovyfx_requiredJavaFxVersion)) {
+  println "    Required JavaFX version is '${groovyfx_requiredJavaFxVersion}' but actual version is '${ext.actualJavaFXVersion}'"
+  System.exit 1
+}
+
+
 repositories {
+    if ( project.hasProperty('useMavenLocal') && Boolean.valueOf(project.useMavenLocal)) { mavenLocal() }
     mavenCentral()
 }
 
 dependencies {
-    groovy       "org.codehaus.groovy:groovy-all:${groovyVersion}"
-    compile      'asm:asm:3.3.1'
+    groovy       "org.codehaus.groovy:groovy-all:${groovyfx_groovyVersion}"
+    compile      "asm:asm:${groovyfx_asmVersion}"
     compile      files(ext.javafxJar)
-    testCompile  'junit:junit:4.10'
+    testCompile  "junit:junit:${groovyfx_junitVersion}"
 }
 
 jar.baseName = 'groovyfx'
@@ -51,19 +66,3 @@ signArchives.onlyIf {
 uploadArchives.onlyIf {
     project.hasProperty('sonatypeUsername') && project.hasProperty('sonatypePassword')
 }
-
-// ---------------- check environment ------------------
-
-if(!ext.javafxJar) {
-    println """Please set environment variable JAVAFX_HOME
-               to the directory that contains /rt/lib/jfxrt.jar
-               in version $requiredJavaFxVersion""".stripIndent()
-    System.exit 1
-}
-
-ext.actualJavaFXVersion = com.sun.javafx.runtime.VersionInfo.runtimeVersion
-if (! ext.actualJavaFXVersion.startsWith(requiredJavaFxVersion)) {
-    println "Required JavaFX version is '$requiredJavaFxVersion' but actual version is '$ext.actualJavaFXVersion'"
-    System.exit 1
-}
-
