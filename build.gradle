@@ -35,7 +35,7 @@ if (! ext.actualJavaFXVersion.startsWith(groovyfx_requiredJavaFxVersion)) {
 
 
 repositories {
-    if ( project.hasProperty('useMavenLocal') && Boolean.valueOf(project.useMavenLocal)) { mavenLocal() }
+    if ( project.hasProperty('groovyfx_useMavenLocal') && Boolean.valueOf(project.groovyfx_useMavenLocal)) { mavenLocal() }
     mavenCentral()
 }
 
