@@ -13,3 +13,10 @@ groovyfx.iws
 grails-doc/src/ref/webView/Properties.gdoc
 /nbproject/private/
 /dist/
+
+.classpath
+.project
+/.settings/
+*.iml
+*.ipr
+*.iws

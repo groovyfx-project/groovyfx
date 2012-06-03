@@ -66,3 +66,28 @@ signArchives.onlyIf {
 uploadArchives.onlyIf {
     project.hasProperty('sonatypeUsername') && project.hasProperty('sonatypePassword')
 }
+
+idea {
+  module {
+    excludeDirs += file('gradle/') // Gradle directory including the wrapper subdirectory.
+    excludeDirs += file('.settings/') // Eclipse settings directory.
+    excludeDirs += file('bin') // Eclipse compilation directory.
+    excludeDirs += file('out') // IDEA compilation directory.
+    excludeDirs += file('build') // Gradle compilation directory.
+  }
+  project {
+    //ext.javaVersion = '1.6'
+    ipr {
+      withXml { provider ->
+        final node =provider.asNode()
+        final component = provider.asNode ( ).component
+        node.component.find { it.'@name' == 'VcsDirectoryMappings' }.mapping[0].'@vcs' = 'Git'
+        final gradleSettings = node.appendNode('component' , [name: 'GradleSettings'])
+        gradleSettings.appendNode('option', [name: 'linkedProjectPath', value: '$PROJECT_DIR$/build.gradle'])
+      }
+      //whenMerged { project ->
+      //  project.jdk.languageLevel = 'JDK_1_6'
+      //}
+    }
+  }
+}
