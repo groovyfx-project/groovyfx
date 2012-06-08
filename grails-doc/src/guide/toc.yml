@@ -16,6 +16,7 @@ gettingStarted :
 basicConcepts :
   title: Basic Concepts
   usingSceneGraphBuilder : Using SceneGraphBuilder
+  nodeAndPropertyNames: Node and Property Names
   fonts: Fonts
   paintsAndColors: Paints and Colors
   insets: Insets
