@@ -46,12 +46,12 @@ class TimelineFactory extends AbstractFXBeanFactory {
         else
             timeline = new Timeline()
             
-        Object action = attributes.remove("onFinished");
-        if(action != null) {
-            if(action instanceof Closure) {
-                timeline.onFinished = new GroovyEventHandler("onFinished", action);
+        Object onFinished = attributes.remove("onFinished");
+        if(onFinished != null) {
+            if(onFinished instanceof Closure) {
+                timeline.onFinished = new GroovyEventHandler("onFinished", onFinished);
             }else {
-                timeline.onFinished = action;
+                timeline.onFinished = onFinished;
             }
         }
         return timeline;
@@ -63,6 +63,8 @@ class TimelineFactory extends AbstractFXBeanFactory {
             frames.add(child);
         }else if(child instanceof GroovyEventHandler) {
             FXHelper.setPropertyOrMethod(parent, child.property, child)
+        }else {
+            super.setChild(build, parent, child);
         }
     }
 

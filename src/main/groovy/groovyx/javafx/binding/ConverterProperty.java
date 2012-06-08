@@ -16,11 +16,11 @@
 package groovyx.javafx.binding;
 
 import groovy.lang.Closure;
+import groovy.lang.GString;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
@@ -29,8 +29,8 @@ import javafx.beans.value.ObservableValue;
  * @author jimclarke
  */
 
-public class ConverterProperty implements  ReadOnlyProperty, ChangeListener,  InvalidationListener{
-    private ReadOnlyProperty baseProperty;
+public class ConverterProperty implements  ObservableValue, ChangeListener,  InvalidationListener{
+    private ObservableValue baseProperty;
     private Closure converter;
     
     private List<ChangeListener> changeListeners = new ArrayList<ChangeListener>();
@@ -39,12 +39,12 @@ public class ConverterProperty implements  ReadOnlyProperty, ChangeListener,  In
     private Object oldValue = null;
     private Object newValue = null;
     
-    public ConverterProperty(ReadOnlyProperty baseProperty, Closure converter) {
+    public ConverterProperty(ObservableValue baseProperty, Closure converter) {
         this.baseProperty = baseProperty;
         this.converter = converter;
         baseProperty.addListener((ChangeListener)this);
         baseProperty.addListener((InvalidationListener)this);
-        newValue = getValue();
+        getValue();
     }
     
     
@@ -52,17 +52,9 @@ public class ConverterProperty implements  ReadOnlyProperty, ChangeListener,  In
     public final Object getValue() {
         oldValue = newValue;
         newValue = converter.call(baseProperty.getValue());
+        if(newValue instanceof GString)
+            newValue = newValue.toString();
         return newValue;
-    }
-
-    @Override
-    public Object getBean() {
-        return null;
-    }
-
-    @Override
-    public String getName() {
-        return "ConverterProperty";
     }
 
     @Override
@@ -88,17 +80,21 @@ public class ConverterProperty implements  ReadOnlyProperty, ChangeListener,  In
     @Override
     public void changed(ObservableValue obs, Object oldVal, Object newVal) {
         getValue();
-        ChangeListener[] l = changeListeners.toArray(new ChangeListener[invalidationListeners.size()]);
-        for(int i = 0; i < l.length; i++) {
-            l[i].changed(this, oldValue, newValue);
+        if(!changeListeners.isEmpty()) {
+            ChangeListener[] l = changeListeners.toArray(new ChangeListener[changeListeners.size()]);
+            for(int i = 0; i < l.length; i++) {
+                l[i].changed(this, oldValue, newValue);
+            }
         }
     }
 
     @Override
     public void invalidated(Observable obs) {
-        InvalidationListener[] l = invalidationListeners.toArray(new InvalidationListener[invalidationListeners.size()]);
-        for(int i = 0; i < l.length; i++) {
-            l[i].invalidated(this);
+        if(!invalidationListeners.isEmpty()) {
+            InvalidationListener[] l = invalidationListeners.toArray(new InvalidationListener[invalidationListeners.size()]);
+            for(int i = 0; i < l.length; i++) {
+                l[i].invalidated(this);
+            }
         }
     }
 }

@@ -22,13 +22,16 @@ import javafx.beans.property.adapter.*;
 import javafx.beans.value.*;
 import groovyx.javafx.binding.*
 
+
 import org.codehaus.groovy.runtime.InvokerHelper;
 
 /**
-*
+* bind myTextField.text() to myButton.label(), { optionalConversion(it) }
 * @author jimclarke
 */
 class BindFactory extends AbstractFXBeanFactory {
+    
+    private static final String BIND_TO_PROPERTY = "__bindToList"
     
     public BindFactory() {
         super(ObservableValue)
@@ -38,93 +41,25 @@ class BindFactory extends AbstractFXBeanFactory {
         super(beanClass);
     }
     
+    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
+            throws InstantiationException, IllegalAccessException {
+          BindingHolder bh = new BindingHolder(value);
+          bh;
+    }
+    
     public boolean isHandlesNodeChildren() {
         return true;
     }
     
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
-            throws InstantiationException, IllegalAccessException {
-                
-          ObservableValue property = null;
-          if(value instanceof ObservableValue) {
-                property = value;
-          }else if(value instanceof List) {
-                def instance = value[0];
-                def propertyName = value[1];
-                property = Util.getJavaFXProperty(instance, propertyName)
-                if(property == null)
-                    property = Util.getJavaBeanFXProperty(instance, propertyName);
-          }else {
-                property = new GroovyClosureProperty();
-          }
-          
-          def converter = attributes.remove("converter");
-          if(converter) {
-                property =  new ConverterProperty(property, converter);
-          }
-          property;
+     public boolean onNodeChildren(FactoryBuilderSupport builder, Object node, Closure childContent) {
+        node.observable = new GroovyClosureProperty(childContent);
+        false
     }
     
-    private ReadOnlyProperty getJavaFXProperty(instance, propertyName) {
-        def fxProperty = null;
-        try {
-            fxProperty = (ReadOnlyProperty)InvokerHelper.invokeMethodSafe(instance,
-                                            propertyName + "Property", null);
-        } catch (MissingMethodException ignore) {
-            
-        }
-        fxProperty                              
-    }
-    
-    private ReadOnlyProperty buildJavaFXJavaBeanProperty(instance, propertyName) {
-        def metaProperty = instance.getClass().metaClass.getMetaProperty(propertyName);
-        def type = metaProperty.type;
-        def builder = null;
-        switch(type) {
-            case Boolean:
-            case Boolean.TYPE:
-                builder = ReadOnlyJavaBeanBooleanPropertyBuilder.create();
-                break;
-            case Double:
-            case Double.TYPE:
-                builder = ReadOnlyJavaBeanDoublePropertyBuilder.create();
-                break;
-            case Float:
-            case Float.TYPE:
-                builder = ReadOnlyJavaBeanFloatPropertyBuilder.create();
-                break;
-            case Byte:
-            case Byte.TYPE:
-            case Short:
-            case Short.TYPE:
-            case Integer:
-            case Integer.TYPE:
-                builder = ReadOnlyJavaBeanIntegerPropertyBuilder.create();
-                break;
-            case Long:
-            case Long.TYPE:
-                builder = ReadOnlyJavaBeanLongPropertyBuilder.create();
-                break;
-            case String:
-            case String.TYPE:
-                builder = ReadOnlyJavaBeanStringPropertyBuilder.create();
-                break;
-            default:
-                builder = ReadOnlyJavaBeanObjectPropertyBuilder.create();
-                break;
-        }
-        builder.bean(instance);
-        builder.name(propertyName);
-        builder.beanClass(instance.class)
-        return builder.build();
-    }
-
-    public boolean onNodeChildren(FactoryBuilderSupport builder, Object node, Closure childContent) {
-        switch(node) {
-            case GroovyClosureProperty:
-                node.closure = childContent
-                break;
-        }
+     @Override
+    void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
+        node.binding;
+        super.onNodeCompleted(builder, parent, node)
     }
 	
 }

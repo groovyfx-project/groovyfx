@@ -17,6 +17,8 @@
 package groovyx.javafx.factory
 
 import javafx.scene.image.Image;
+import java.io.InputStream
+import java.io.ByteArrayInputStream
 
 /**
  *
@@ -35,9 +37,6 @@ class ImageFactory extends AbstractFXBeanFactory {
         }
         Image image;
         def url = attributes.remove("url");
-        if(url == null && value != null)
-            url = value;
-        //println(url);
         def widthA = attributes.remove("width");
         def heightA = attributes.remove("height");
         def preserveRatio = attributes.remove("preserveRatio");
@@ -50,8 +49,17 @@ class ImageFactory extends AbstractFXBeanFactory {
         if(preserveRatio == null) preserveRatio = false;
         if(smooth == null) smooth = false;
         if(backgroundLoading == null) backgroundLoading = false;
-
-        image = new Image(url.toString(), width, height, preserveRatio, smooth, backgroundLoading);
+        if(value instanceof byte[]) {
+            image = new Image(new ByteArrayInputStream(value), width, height, preserveRatio, smooth)
+        }else if(value instanceof InputStream) {
+            image = new Image(value, width, height, preserveRatio, smooth)
+        }else {
+            
+            if(url == null && value != null)
+                url = value;
+            //println(url);
+            image = new Image(url.toString(), width, height, preserveRatio, smooth, backgroundLoading);
+        }
         return image;
     }
     public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {

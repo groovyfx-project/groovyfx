@@ -61,6 +61,8 @@ class TransitionFactory extends AbstractFXBeanFactory {
             parent.path = child
         }else if(child instanceof GroovyEventHandler) {
             parent."${child.property}" = child;
+        }else {
+            super.setChild(build, parent, child);
         }
     }
     

@@ -23,6 +23,8 @@ package groovyx.javafx.factory
 class AbstractFXBeanFactory extends AbstractFactory {
     final Class beanClass
     final boolean leaf
+    
+    Map<String, Factory> childFactories;
 
     public AbstractFXBeanFactory(Class beanClass) {
         this(beanClass, false)
@@ -60,6 +62,23 @@ class AbstractFXBeanFactory extends AbstractFactory {
         FXHelper.fxAttributes(node, attributes)
         super.onHandleNodeAttributes(builder, node, attributes);
         return true;
+    }
+    
+    public boolean hasChildFactories() {
+        return childFactories != null;
+    }
+    
+    
+    
+    public void registerFactory(String name, Factory factory) {
+        if(childFactories == null)
+            childFactories = [(name):factory]
+        else
+            childFactories.put(name, factory);
+    }
+    
+    public Factory resolveFactory(Object name, Map attributes, Object value) {
+        childFactories == null? null : childFactories[name];
     }
 }
 

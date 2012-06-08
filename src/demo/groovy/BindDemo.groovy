@@ -49,16 +49,19 @@ start {
 
                 // Bind to POGO fields annotated with @FXBindable
                 // These three bindings are equivalent
-                //label(text: bind(source: qt, sourceProperty: 'qtText'))
-                label(text: bind(qt, 'qtText'))
+                label(text: bind(qt,'qtText'))
                 label(text: bind(qt.qtText()))
-                label(text: bind(qt.qtTextProperty()))
+                label(text: bind(qt.qtTextProperty()).using({"<<< ${it} >>>"}) )
+                label(id: "bind2")
+                label(id: "bind1");
 
                 // bidirectional bind
                 textField(id: "tf2", promptText: 'Change Me!')
                 textField(text: bind(tf2.textProperty()))
             }
         }
+        
     }
+    bind bind1.text() to bind2.text() to qt,"qtText"  using {"Converted: ${it}"} 
 }
 

@@ -40,15 +40,23 @@ class KeyFrameFactory extends AbstractFXBeanFactory {
         KeyFrameWrapper keyFrame = super.newInstance(builder, name, value, attributes)
         keyFrame.time = (Duration)value;
 
-        Object action = attributes.remove("onFinished");
-        if(action != null) {
-            if(action instanceof Closure) {
-                keyFrame.onFinished = new GroovyEventHandler("onFinished", action);
-            }else if(action instanceof EventHandler) {
-                keyFrame.onFinished = action;
+        Object onFinished = attributes.remove("onFinished");
+        if(onFinished != null) {
+            if(onFinished instanceof Closure) {
+                keyFrame.onFinished = new GroovyEventHandler("onFinished", onFinished);
+            }else if(onFinished instanceof EventHandler) {
+                keyFrame.onFinished = onFinished;
             }
         }
         keyFrame;
+    }
+    
+    public void setChild(FactoryBuilderSupport build, Object parent, Object child) {
+        if(child instanceof GroovyEventHandler) {
+            FXHelper.setPropertyOrMethod(parent, child.property, child)
+        }else {
+            super.setChild(build, parent, child);
+        }
     }
 
     public void onNodeCompleted( FactoryBuilderSupport builder, Object parent, Object node )  {

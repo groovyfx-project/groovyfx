@@ -33,6 +33,7 @@ start {
         at(10.s) {
             change(this, "x") to 400.0 tween EASE_BOTH
             change(this, "y") to 400
+            onFinished { println "10 seconds elapsed"}
         }
     }.play()
 }

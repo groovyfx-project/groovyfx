@@ -54,6 +54,8 @@ import javafx.scene.transform.*
 import javafx.stage.*
 import groovy.swing.factory.CollectionFactory
 
+import groovyx.javafx.canvas.*
+
 /**
  *
  * @author jimclarke
@@ -106,6 +108,25 @@ class SceneGraphBuilder extends FactoryBuilderSupport {
     
     boolean isFxApplicationThread() {
         Platform.isFxApplicationThread();
+    }
+    
+    protected Factory resolveFactory(Object name, Map attributes, Object value) {
+        // First, see if parent factory has a factory,
+        // if not, go to the builder.
+        Factory factory = null;
+        Factory parent = getParentFactory();
+        if(parent != null && parent instanceof AbstractFXBeanFactory) {
+            factory = parent.resolveFactory(name, attributes, value);
+        }
+        if(factory) {
+            // This is actually done in super.resolveFactory
+            // so we need to do it here for the child factory
+            getProxyBuilder().getContext().put(CHILD_BUILDER, getProxyBuilder());
+        }else {
+            factory =  super.resolveFactory(name, attributes, value);
+        }
+        
+        return factory
     }
 
     SceneGraphBuilder submit(WebView wv, Closure c) {
@@ -288,6 +309,8 @@ class SceneGraphBuilder extends FactoryBuilderSupport {
             registerFactory nodeName, groupName, new XYSeriesFactory(beanClass)
         } else if (Node.isAssignableFrom(beanClass)) {
             registerFactory nodeName, groupName, new NodeFactory(beanClass)
+        } else if (CanvasOperation.isAssignableFrom(beanClass)) {
+            registerFactory nodeName, groupName, new CanvasOperationFactory(beanClass)
         } else {
             super.registerBeanFactory(nodeName, groupName, beanClass)
         }
@@ -354,9 +377,78 @@ class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory 'right', new BorderPanePositionFactory(BorderPanePosition)
         registerFactory 'center', new BorderPanePositionFactory(BorderPanePosition)
     }
+    
+    void registerCanvas() {
+        CanvasFactory cf = new CanvasFactory();
+        
+        registerFactory "canvas", cf
+        
+        cf.registerFactory "appendSVGPath", new CanvasOperationFactory(AppendSVGPathOperation)
+        cf.registerFactory "applyEffect", new CanvasOperationFactory(ApplyEffectOperation)
+        cf.registerFactory "arc", new CanvasOperationFactory(ArcOperation)
+        cf.registerFactory "arcTo", new CanvasOperationFactory(ArcToOperation)
+        cf.registerFactory "path", new CanvasOperationFactory(BeginPathOperation)
+        cf.registerFactory "bezierCurveTo", new CanvasOperationFactory(BezierCurveToOperation)
+        cf.registerFactory "clearRect", new CanvasOperationFactory(ClearRectOperation)
+        cf.registerFactory "clip", new CanvasOperationFactory(ClipOperation)
+        cf.registerFactory "closePath", new CanvasOperationFactory(ClosePathOperation)
+        cf.registerFactory "drawImage", new CanvasOperationFactory(DrawImageOperation)
+        cf.registerFactory "effect", new CanvasOperationFactory(SetEffectOperation)
+        cf.registerFactory "fillPath", new CanvasOperationFactory(FillOperation)
+        cf.registerFactory "fill", new CanvasOperationFactory(SetFillOperation)
+        cf.registerFactory "fillArc", new CanvasOperationFactory(FillArcOperation)
+        cf.registerFactory "fillOval", new CanvasOperationFactory(FillOvalOperation)
+        cf.registerFactory "fillPolygon", new CanvasOperationFactory(FillPolygonOperation)
+        cf.registerFactory "fillRect", new CanvasOperationFactory(FillRectOperation)
+        cf.registerFactory "fillRoundRect", new CanvasOperationFactory(FillRoundRectOperation)
+        cf.registerFactory "fillRule", new CanvasOperationFactory(SetFillRuleOperation)
+        cf.registerFactory "fillText", new CanvasOperationFactory(FillTextOperation)
+        cf.registerFactory "font", new CanvasOperationFactory(SetFontOperation)
+        cf.registerFactory "globalAlpha", new CanvasOperationFactory(SetGlobalAlphaOperation)
+        cf.registerFactory "globalCompositeOperation", new CanvasOperationFactory(SetGlobalCompositeOperationOperation)
+        cf.registerFactory "lineCap", new CanvasOperationFactory(SetLineCapOperation)
+        cf.registerFactory "lineJoin", new CanvasOperationFactory(SetLineJoinOperation)
+        cf.registerFactory "lineTo", new CanvasOperationFactory(LineToOperation)
+        cf.registerFactory "lineWidth", new CanvasOperationFactory(SetLineWidthOperation)
+        cf.registerFactory "miterLimit", new CanvasOperationFactory(SetMiterLimitOperation)
+        cf.registerFactory "moveTo", new CanvasOperationFactory(MoveToOperation)
+        cf.registerFactory "quadraticCurveTo", new CanvasOperationFactory(QuadraticCurveToOperation)
+        cf.registerFactory "rect", new CanvasOperationFactory(RectOperation)
+        cf.registerFactory "restore", new CanvasOperationFactory(RestoreOperation)
+        cf.registerFactory "rotate", new CanvasOperationFactory(RotateOperation)
+        cf.registerFactory "save", new CanvasOperationFactory(SaveOperation)
+        cf.registerFactory "scale", new CanvasOperationFactory(ScaleOperation)
+        cf.registerFactory "stroke", new CanvasOperationFactory(SetStrokeOperation)
+        cf.registerFactory "strokePath", new CanvasOperationFactory(StrokeOperation)
+        cf.registerFactory "strokeArc", new CanvasOperationFactory(StrokeArcOperation)
+        cf.registerFactory "strokeLine", new CanvasOperationFactory(StrokeLineOperation)
+        cf.registerFactory "strokeOval", new CanvasOperationFactory(StrokeOvalOperation)
+        cf.registerFactory "strokePolygon", new CanvasOperationFactory(StrokePolygonOperation)
+        cf.registerFactory "strokePolyline", new CanvasOperationFactory(StrokePolylineOperation)
+        cf.registerFactory "strokeRect", new CanvasOperationFactory(StrokeRectOperation)
+        cf.registerFactory "strokeRoundRect", new CanvasOperationFactory(StrokeRoundRectOperation)
+        cf.registerFactory "strokeText", new CanvasOperationFactory(StrokeTextOperation)
+        cf.registerFactory "textAlign", new CanvasOperationFactory(SetTextAlignOperation)
+        cf.registerFactory "textBaseline", new CanvasOperationFactory(SetTextBaselineOperation)
+        cf.registerFactory "setTransform", new CanvasOperationFactory(SetTransformOperation)
+        cf.registerFactory "transform", new CanvasOperationFactory(TransformOperation)
+        cf.registerFactory "translate", new CanvasOperationFactory(TranslateOperation)
+        cf.registerFactory "operation", new CanvasClosureOperationFactory(ClosureOperation)
+        
+        DrawFactory df = new DrawFactory();
+        
+        registerFactory "draw", df
+        df.childFactories = cf.childFactories
+        
+    }
 
     void registerBinding() {
-        registerFactory "bind", new BindFactory();
+        BindFactory bf = new BindFactory();
+        registerFactory "bind", bf;
+        BindToFactory btf = new BindToFactory();
+        bf.registerFactory "to", btf
+        bf.registerFactory "using", new BindUsingFactory()
+        
         registerFactory "onChange", new ChangeFactory(ChangeListener)
         registerFactory "onInvalidate", new ChangeFactory(InvalidationListener)
     }
@@ -413,16 +505,17 @@ class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory 'rectangle',  new ShapeFactory(Rectangle)
         registerFactory 'svgPath',    new ShapeFactory(SVGPath)
 
-        registerFactory 'path', new PathFactory(Path)
+        PathFactory pathFactory = new PathFactory(Path)
+        registerFactory 'path', pathFactory
 
-        registerFactory 'arcTo',        new PathElementFactory(ArcTo)
-        registerFactory 'closePath',    new PathElementFactory(ClosePath)
-        registerFactory 'cubicCurveTo', new PathElementFactory(CubicCurveTo)
-        registerFactory 'hLineTo',      new PathElementFactory(HLineTo)
-        registerFactory 'lineTo',       new PathElementFactory(LineTo)
-        registerFactory 'moveTo',       new PathElementFactory(MoveTo)
-        registerFactory 'quadCurveTo',  new PathElementFactory(QuadCurveTo)
-        registerFactory 'vLineTo',      new PathElementFactory(VLineTo)
+        pathFactory.registerFactory 'arcTo',        new PathElementFactory(ArcTo)
+        pathFactory.registerFactory 'closePath',    new PathElementFactory(ClosePath)
+        pathFactory.registerFactory 'cubicCurveTo', new PathElementFactory(CubicCurveTo)
+        pathFactory.registerFactory 'hLineTo',      new PathElementFactory(HLineTo)
+        pathFactory.registerFactory 'lineTo',       new PathElementFactory(LineTo)
+        pathFactory.registerFactory 'moveTo',       new PathElementFactory(MoveTo)
+        pathFactory.registerFactory 'quadCurveTo',  new PathElementFactory(QuadCurveTo)
+        pathFactory.registerFactory 'vLineTo',      new PathElementFactory(VLineTo)
 
         registerFactory 'text', new TextFactory(Text)
 
@@ -567,13 +660,22 @@ class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory 'strokeTransition', new TransitionFactory(StrokeTransition)
         registerFactory 'transition', new TransitionFactory(Transition)
 
-        registerFactory 'timeline', new TimelineFactory(Timeline)
-        registerFactory "at", new KeyFrameFactory(KeyFrameWrapper)
-        registerFactory "action", new ClosureHandlerFactory(GroovyEventHandler)
-        registerFactory "change", new KeyValueFactory(TargetHolder)
-        registerFactory "to", new KeyValueSubFactory(Object)
-        registerFactory "tween", new KeyValueSubFactory(Interpolator)
+        TimelineFactory tf =  new TimelineFactory(Timeline)
+        registerFactory 'timeline', tf
+        
+        KeyFrameFactory kf = new KeyFrameFactory(KeyFrameWrapper)
+        tf.registerFactory "at", kf
+        
+        
+        KeyValueFactory kvf = new KeyValueFactory(TargetHolder);
+        kf.registerFactory "change",kvf
+        kvf.registerFactory "to", new KeyValueSubFactory(Object)
+        kvf.registerFactory "tween", new KeyValueSubFactory(Interpolator)
+        
+        // applies to Timeline and KeyFrame
         registerFactory "onFinished", new ClosureHandlerFactory(GroovyEventHandler)
+        
+        
     }
 
     void registerMedia() {

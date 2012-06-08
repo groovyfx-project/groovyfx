@@ -1,5 +1,5 @@
 /*
-* Copyright 2011 the original author or authors.
+* Copyright 2011-2012 the original author or authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -14,19 +14,33 @@
 * limitations under the License.
 */
 
-package groovyx.javafx.factory
+package groovyx.javafx.canvas
 
-import javafx.scene.shape.*;
+import groovyx.javafx.beans.FXBindable
+import javafx.scene.canvas.GraphicsContext;
 
 /**
  *
  * @author jimclarke
  */
-class PathElementFactory extends AbstractFXBeanFactory {
-
-    PathElementFactory(Class<? extends PathElement> pathElementClass) {
-        super(pathElementClass)
-    }
+@FXBindable
+class ArcToOperation implements CanvasOperation {
+    double x1;
+    double y1;
+    double x2;
+    double y2;
+    double radius
     
+    public void initParams(Object val) {
+        x1     = val[0]
+        y1     = val[1]
+        x2     = val[2]
+        y2     = val[3]
+        radius = val[4]
+    }
+
+    public void execute(GraphicsContext gc) {
+        gc.arcTo(x1, y1, x2, y2, radius);
+    }
 }
 

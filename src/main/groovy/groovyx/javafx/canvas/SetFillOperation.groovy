@@ -1,5 +1,5 @@
 /*
-* Copyright 2011 the original author or authors.
+* Copyright 2011-2012 the original author or authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -14,19 +14,27 @@
 * limitations under the License.
 */
 
-package groovyx.javafx.factory
+package groovyx.javafx.canvas
 
-import javafx.scene.shape.*;
+import groovyx.javafx.beans.FXBindable
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Paint;
+import groovyx.javafx.factory.ColorFactory
 
 /**
  *
  * @author jimclarke
  */
-class PathElementFactory extends AbstractFXBeanFactory {
-
-    PathElementFactory(Class<? extends PathElement> pathElementClass) {
-        super(pathElementClass)
-    }
+@FXBindable
+class SetFillOperation implements CanvasOperation {
+    Paint p;
     
+    public void initParams(Object val) {
+        p = ColorFactory.get(val);
+    }
+
+    public void execute(GraphicsContext gc) {
+        gc.setFill(p);
+    }
 }
 

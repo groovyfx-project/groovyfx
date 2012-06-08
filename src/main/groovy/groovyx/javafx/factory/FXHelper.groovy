@@ -441,6 +441,9 @@ class FXHelper {
                 shouldNotHappen.printStackTrace();
             }
         }
+        if(value instanceof BindingHolder) {
+            value = value.binding;
+        }
         if(property instanceof Property && value instanceof Property) { // both writable
              property.bindBidirectional(value);       
         }else if(property instanceof Property) { // target is writable, source is ReadOnly
@@ -494,7 +497,7 @@ class FXHelper {
         (HPos.class): doHPos,
         (VPos.class): doVPos,
         (Pos.class): doPos,
-        (ObservableValue.class): doBind,
+        (BindingHolder.class): doBind,
     ];
 
     public static boolean fxAttribute(delegate, key, value) {
@@ -522,7 +525,7 @@ class FXHelper {
         
         if(metaProperty) {
             // first do quick check from map
-            if(value instanceof ObservableValue) {
+            if(value instanceof BindingHolder) {
                   return doBind(delegate, metaProperty, value);     
             }
             def closure = classMap.get(metaProperty.getType());
@@ -564,7 +567,7 @@ class FXHelper {
                 return doEventHandler(delegate, metaProperty, value);
             }else if(ToggleGroup.class.isAssignableFrom(metaProperty.getType())) {
                 return doToggleGroup(delegate, metaProperty, value);
-            }else if(ObservableValue.class.isAssignableFrom(metaProperty.getType())) {
+            }else if(BindingHolder.class.isAssignableFrom(metaProperty.getType())) {
                 return doBind(delegate, metaProperty, value);
             }
         }
