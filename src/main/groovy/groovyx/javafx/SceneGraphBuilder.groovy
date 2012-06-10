@@ -405,7 +405,7 @@ class SceneGraphBuilder extends FactoryBuilderSupport {
         cf.registerFactory "fillText", new CanvasOperationFactory(FillTextOperation)
         cf.registerFactory "font", new CanvasOperationFactory(SetFontOperation)
         cf.registerFactory "globalAlpha", new CanvasOperationFactory(SetGlobalAlphaOperation)
-        cf.registerFactory "globalCompositeOperation", new CanvasOperationFactory(SetGlobalCompositeOperationOperation)
+        cf.registerFactory "globalBlendMode", new CanvasOperationFactory(SetGlobalBlendModeOperation)
         cf.registerFactory "lineCap", new CanvasOperationFactory(SetLineCapOperation)
         cf.registerFactory "lineJoin", new CanvasOperationFactory(SetLineJoinOperation)
         cf.registerFactory "lineTo", new CanvasOperationFactory(LineToOperation)
@@ -445,9 +445,6 @@ class SceneGraphBuilder extends FactoryBuilderSupport {
     void registerBinding() {
         BindFactory bf = new BindFactory();
         registerFactory "bind", bf;
-        BindToFactory btf = new BindToFactory();
-        bf.registerFactory "to", btf
-        bf.registerFactory "using", new BindUsingFactory()
         
         registerFactory "onChange", new ChangeFactory(ChangeListener)
         registerFactory "onInvalidate", new ChangeFactory(InvalidationListener)
