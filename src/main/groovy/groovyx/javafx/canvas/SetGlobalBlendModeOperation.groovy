@@ -18,25 +18,26 @@ package groovyx.javafx.canvas
 
 import groovyx.javafx.beans.FXBindable
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.BlendMode;
 
 /**
  *
  * @author jimclarke
  */
 @FXBindable
-class SetGlobalCompositeOperationOperation implements CanvasOperation {
-    GraphicsContext.CompositeOperation op
+class SetGlobalBlendModeOperation implements CanvasOperation {
+    BlendMode mode
     
     public void initParams(Object val) {
-        if(val instanceof GraphicsContext.CompositeOperation) {
-            op = val;
+        if(val instanceof BlendMode) {
+            mode = val;
         }else {
-            op = Enum.valueOf(GraphicsContext.CompositeOperation,val.toString().trim().toUpperCase())
+            mode = Enum.valueOf(BlendMode,val.toString().trim().toUpperCase())
         }
     }
 
     public void execute(GraphicsContext gc) {
-        gc.setGlobalCompositeOperation(op);
+        gc.setGlobalBlendMode(mode);
     }
 }
 
