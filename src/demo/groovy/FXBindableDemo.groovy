@@ -17,10 +17,10 @@
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.collections.ObservableSet;
-import groovyx.javafx.GroovyFXEnhancer;
 import groovyx.javafx.beans.FXBindable
 
-GroovyFXEnhancer.enhanceClasses();
+import static groovyx.javafx.GroovyFX.start
+
 /**
  *
  * @author jimclarke
@@ -36,6 +36,7 @@ class FXPerson {
     
 }
      
+start {
 FXPerson person = new FXPerson();
 
 println("======================"); 
@@ -85,3 +86,4 @@ person.aSet << 2
 println person.aSet
 println person.aSet.size()
 println person.aSet.contains(1)
+}
