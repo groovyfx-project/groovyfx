@@ -14,6 +14,7 @@ import javafx.beans.property.Property;
  */
 class BindingHolder {
     BindingHolder parent;
+    String propertyName;
     ObservableValue observable;
     Closure converter; 
     BindingHolder bindTo;
@@ -42,6 +43,8 @@ class BindingHolder {
             }
         }else if (value instanceof Closure){ // closure
             observable = new GroovyClosureProperty((Closure)value);
+        }else if(value instanceof String || value instanceof GString) {
+            propertyName = value.toString();
         }
         
     }
@@ -84,6 +87,20 @@ class BindingHolder {
              new ConverterProperty(observable, converter);
        }
        binding 
+    }
+    
+    public boolean isResolved() {
+        return observable != null;
+    }
+    
+    public ObservableValue resolve(Object instance) {
+        observable = Util.getJavaFXProperty(instance, propertyName);
+        if(observable == null) 
+            observable = Util.getJavaBeanFXProperty(instance, propertyName);
+        if(observable == null) {
+            println "Warning, could not locate neither a JavaFX property nor a JavaBean property for ${instance.class}, property: '${propertyName}'"
+        }
+        return observable;
     }
     
     public BindingHolder using(Closure converter) {
