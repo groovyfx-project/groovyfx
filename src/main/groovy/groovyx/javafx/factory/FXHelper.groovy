@@ -442,6 +442,8 @@ class FXHelper {
             }
         }
         if(value instanceof BindingHolder) {
+            if(!value.isResolved())
+                value.resolve(delegate);
             value = value.binding;
         }
         if(property instanceof Property && value instanceof Property) { // both writable
