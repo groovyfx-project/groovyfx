@@ -17,6 +17,7 @@
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.collections.ObservableSet;
+import javafx.application.Platform;
 import groovyx.javafx.beans.FXBindable
 
 import static groovyx.javafx.GroovyFX.start
@@ -86,4 +87,5 @@ person.aSet << 2
 println person.aSet
 println person.aSet.size()
 println person.aSet.contains(1)
+Platform.exit();
 }
