@@ -46,7 +46,7 @@ class FXMLFactory extends AbstractNodeFactory {
             result = processValue(value);
             if(result == null)
                 throw new Exception("In $name value must be an instanceof InputStream or one of its subclasses, java.net.URL, java.net.URI or a String  to be used as embedded content.")
-        } else if(attributes.contains("location") || attributes.contains("url")){
+        } else if(attributes.containsKey("location") || attributes.containsKey("url")){
             def location = attributes.remove("location");
             if(location == null) {
                 location = attributes.remove("url");
@@ -54,15 +54,15 @@ class FXMLFactory extends AbstractNodeFactory {
             if(location instanceof String) 
                 location = new URL(location);
             result = FXMLLoader.load(location);
-        } else if(attributes.contains("uri")){
+        } else if(attributes.containsKey("uri")){
             def uri = attributes.remove("uri");
             if(uri instanceof String)
                 uri = new URI(uri);
             result = FXMLLoader.load(uri.toURL());
-        } else if(attributes.contains("xml")) {
+        } else if(attributes.containsKey("xml")) {
             def xml = attributes.remove("xml");
             result = loadXML(xml)
-        } else if(attributes.contains("input")) {
+        } else if(attributes.containsKey("input")) {
             def input = attributes.remove("input");
             result = loadInput(input);
         } else { // default case
