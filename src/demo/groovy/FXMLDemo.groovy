@@ -31,7 +31,7 @@ def xml = """
 
 start {
     stage(title: "GroovyFX FXML Demo", visible: true) {
-        scene(fill: GROOVYBLUE, width: 640, height: 600) {
+        scene(fill: GROOVYBLUE, width: 640, height: 800) {
             vbox(padding: 10) {
                 stackPane {
                     fxml """
@@ -56,6 +56,17 @@ start {
                 stackPane {
                     fxml resource("/FXMLDemo.fxml"), {
                         onMouseEntered { println "Entered"}
+                    }
+                }
+                stackPane {
+                    fxml resource("/FXMLDemoInline.fxml"), {
+                        onMouseEntered { println "Entered"}
+                        buttonCSSID.onAction {
+                            labelCSSID.text = "Clicked - CSS";
+                        }
+                        buttonFXID.onAction {
+                            labelFXID.text = "Clicked - FXML";
+                        }
                     }
                 }
             }

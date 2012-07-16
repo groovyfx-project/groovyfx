@@ -19,18 +19,15 @@ package groovyx.javafx.factory
 import javafx.scene.Node;
 import javafx.scene.Group;
 import javafx.fxml.FXMLLoader;
-import java.net.URI;
-import java.net.URL;
-import javafx.scene.Parent;
 
 /**
  *
  * @author jimclarke
  */
 class FXMLFactory extends AbstractNodeFactory {
-    private static final String LOCATION_PROPERTY = "__fxml_location"
-    private static final String XML_PROPERTY = "__fxml_xml"
-    
+
+    private FXMLLoader loader
+
     FXMLFactory() {
         super(Node);
     }
@@ -40,8 +37,7 @@ class FXMLFactory extends AbstractNodeFactory {
     }
     
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        def fxml = new FXMLLoader();
-        Node result = null;
+        Node result
         if(value != null) {
             result = processValue(value);
             if(result == null)
@@ -53,12 +49,12 @@ class FXMLFactory extends AbstractNodeFactory {
             }
             if(location instanceof String) 
                 location = new URL(location);
-            result = FXMLLoader.load(location);
+            result = loadInput(location);
         } else if(attributes.containsKey("uri")){
             def uri = attributes.remove("uri");
             if(uri instanceof String)
                 uri = new URI(uri);
-            result = FXMLLoader.load(uri.toURL());
+            result = loadInput(uri.toURL());
         } else if(attributes.containsKey("xml")) {
             def xml = attributes.remove("xml");
             result = loadXML(xml)
@@ -66,10 +62,10 @@ class FXMLFactory extends AbstractNodeFactory {
             def input = attributes.remove("input");
             result = loadInput(input);
         } else { // default case
-            return new Group();
+            result = new Group();
         }
         
-        result
+        return result;
         
         
     }
@@ -83,7 +79,7 @@ class FXMLFactory extends AbstractNodeFactory {
             case CharSequence:
                 try {
                     URL url = new URL(value.toString());
-                    result = FXMLLoader.load(url);
+                    result = loadInput(url);
                 }catch(MalformedURLException mfe) {
                     result = loadXML(value.toString());
                 }
@@ -92,10 +88,10 @@ class FXMLFactory extends AbstractNodeFactory {
                 result = loadInput(value);
                 break
             case URL:
-                result = FXMLLoader.load(value);
+                result = loadInput(value);
                 break
             case URI:
-                result = FXMLLoader.load(value.toURL());
+                result = loadInput(value.toURL());
                 break;
         }
         result;
@@ -103,7 +99,7 @@ class FXMLFactory extends AbstractNodeFactory {
     
     
     private Object loadXML(String xml) {
-        def loader = new FXMLLoader();
+        this.@loader = new FXMLLoader();
         def ins = new ByteArrayInputStream(xml.getBytes());
         try {
             return loader.load(ins);
@@ -111,9 +107,9 @@ class FXMLFactory extends AbstractNodeFactory {
             ins.close();
         }
     }
-    
+
     private Object loadInput(input) {
-        def loader = new FXMLLoader();
+        this.@loader = new FXMLLoader();
         return loader.load(input);
     }
     
@@ -125,6 +121,36 @@ class FXMLFactory extends AbstractNodeFactory {
         }else {
             super.setChild(builder, parent, child);
         }
+    }
+
+    @Override
+    boolean onNodeChildren(FactoryBuilderSupport builder, Object node, Closure childContent) {
+        childContent.delegate = new FXMLDelegate(loader, node, childContent.delegate)
+        childContent.call();
+        return false
+    }
+
+    @Override
+    boolean isHandlesNodeChildren() {
+        return true;
+    }
+}
+
+class FXMLDelegate {
+
+    FXMLDelegate(FXMLLoader loader, Node node, GroovyObject superObject) {
+        this.loader = loader
+        this.node = node
+        this.superObject = superObject
+    }
+
+    private FXMLLoader loader
+    private Node node
+    private GroovyObject superObject
+
+    @Override
+    def getProperty(String property) {
+        return this.@loader.namespace[property] ?: this.@node.lookup("#$property") ?: this.@superObject.getProperty(property)
     }
 }
 
