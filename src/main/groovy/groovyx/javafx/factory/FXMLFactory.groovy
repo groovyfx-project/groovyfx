@@ -26,6 +26,8 @@ import javafx.fxml.FXMLLoader;
  */
 class FXMLFactory extends AbstractNodeFactory {
 
+    private FXMLLoader loader
+
     FXMLFactory() {
         super(Node);
     }
@@ -47,12 +49,12 @@ class FXMLFactory extends AbstractNodeFactory {
             }
             if(location instanceof String) 
                 location = new URL(location);
-            result = FXMLLoader.load(location);
+            result = loadInput(location);
         } else if(attributes.containsKey("uri")){
             def uri = attributes.remove("uri");
             if(uri instanceof String)
                 uri = new URI(uri);
-            result = FXMLLoader.load(uri.toURL());
+            result = loadInput(uri.toURL());
         } else if(attributes.containsKey("xml")) {
             def xml = attributes.remove("xml");
             result = loadXML(xml)
@@ -77,7 +79,7 @@ class FXMLFactory extends AbstractNodeFactory {
             case CharSequence:
                 try {
                     URL url = new URL(value.toString());
-                    result = FXMLLoader.load(url);
+                    result = loadInput(url);
                 }catch(MalformedURLException mfe) {
                     result = loadXML(value.toString());
                 }
@@ -86,10 +88,10 @@ class FXMLFactory extends AbstractNodeFactory {
                 result = loadInput(value);
                 break
             case URL:
-                result = FXMLLoader.load(value);
+                result = loadInput(value);
                 break
             case URI:
-                result = FXMLLoader.load(value.toURL());
+                result = loadInput(value.toURL());
                 break;
         }
         result;
@@ -97,7 +99,7 @@ class FXMLFactory extends AbstractNodeFactory {
     
     
     private Object loadXML(String xml) {
-        def loader = new FXMLLoader();
+        this.@loader = new FXMLLoader();
         def ins = new ByteArrayInputStream(xml.getBytes());
         try {
             return loader.load(ins);
@@ -107,7 +109,7 @@ class FXMLFactory extends AbstractNodeFactory {
     }
 
     private Object loadInput(input) {
-        def loader = new FXMLLoader();
+        this.@loader = new FXMLLoader();
         return loader.load(input);
     }
     
@@ -123,7 +125,7 @@ class FXMLFactory extends AbstractNodeFactory {
 
     @Override
     boolean onNodeChildren(FactoryBuilderSupport builder, Object node, Closure childContent) {
-        childContent.delegate = new FXMLDelegate(node, childContent.delegate)
+        childContent.delegate = new FXMLDelegate(loader, node, childContent.delegate)
         childContent.call();
         return false
     }
@@ -136,17 +138,19 @@ class FXMLFactory extends AbstractNodeFactory {
 
 class FXMLDelegate {
 
-    FXMLDelegate(Node node, GroovyObject superObject) {
+    FXMLDelegate(FXMLLoader loader, Node node, GroovyObject superObject) {
+        this.loader = loader
         this.node = node
         this.superObject = superObject
     }
 
+    private FXMLLoader loader
     private Node node
     private GroovyObject superObject
 
     @Override
     def getProperty(String property) {
-        return this.@node.lookup("#$property") ?: this.@superObject.getProperty(property)
+        return this.@loader.namespace[property] ?: this.@node.lookup("#$property") ?: this.@superObject.getProperty(property)
     }
 }
 

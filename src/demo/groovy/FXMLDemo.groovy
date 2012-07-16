@@ -61,9 +61,11 @@ start {
                 stackPane {
                     fxml resource("/FXMLDemoInline.fxml"), {
                         onMouseEntered { println "Entered"}
-                        button.onAction {
-                            println "That Tickles!";
-                            label.text = "FizzBuzz";
+                        buttonCSSID.onAction {
+                            labelCSSID.text = "Clicked - CSS";
+                        }
+                        buttonFXID.onAction {
+                            labelFXID.text = "Clicked - FXML";
                         }
                     }
                 }
