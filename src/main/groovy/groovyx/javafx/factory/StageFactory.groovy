@@ -91,7 +91,7 @@ class StageFactory extends AbstractFXBeanFactory {
             window = value
         } else if (primary && builder.variables.primaryStage != null) {
             window = builder.variables.primaryStage;
-            window.style = style;
+            window.initStyle(style)
         } else {
             window = new Stage(style)
             if(primary)
