@@ -54,8 +54,6 @@ import javafx.scene.transform.*
 import javafx.stage.*
 import groovy.swing.factory.CollectionFactory
 
-import groovyx.javafx.canvas.*
-
 /**
  *
  * @author jimclarke
@@ -309,8 +307,6 @@ class SceneGraphBuilder extends FactoryBuilderSupport {
             registerFactory nodeName, groupName, new XYSeriesFactory(beanClass)
         } else if (Node.isAssignableFrom(beanClass)) {
             registerFactory nodeName, groupName, new NodeFactory(beanClass)
-        } else if (CanvasOperation.isAssignableFrom(beanClass)) {
-            registerFactory nodeName, groupName, new CanvasOperationFactory(beanClass)
         } else {
             super.registerBeanFactory(nodeName, groupName, beanClass)
         }
@@ -376,70 +372,6 @@ class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory 'left', new BorderPanePositionFactory(BorderPanePosition)
         registerFactory 'right', new BorderPanePositionFactory(BorderPanePosition)
         registerFactory 'center', new BorderPanePositionFactory(BorderPanePosition)
-    }
-    
-    void registerCanvas() {
-        CanvasFactory cf = new CanvasFactory();
-        
-        registerFactory "canvas", cf
-        
-        cf.registerFactory "appendSVGPath", new CanvasOperationFactory(AppendSVGPathOperation)
-        cf.registerFactory "applyEffect", new CanvasOperationFactory(ApplyEffectOperation)
-        cf.registerFactory "arc", new CanvasOperationFactory(ArcOperation)
-        cf.registerFactory "arcTo", new CanvasOperationFactory(ArcToOperation)
-        cf.registerFactory "path", new CanvasOperationFactory(BeginPathOperation)
-        cf.registerFactory "bezierCurveTo", new CanvasOperationFactory(BezierCurveToOperation)
-        cf.registerFactory "clearRect", new CanvasOperationFactory(ClearRectOperation)
-        cf.registerFactory "clip", new CanvasOperationFactory(ClipOperation)
-        cf.registerFactory "closePath", new CanvasOperationFactory(ClosePathOperation)
-        cf.registerFactory "drawImage", new CanvasOperationFactory(DrawImageOperation)
-        cf.registerFactory "effect", new CanvasOperationFactory(SetEffectOperation)
-        cf.registerFactory "fillPath", new CanvasOperationFactory(FillOperation)
-        cf.registerFactory "fill", new CanvasOperationFactory(SetFillOperation)
-        cf.registerFactory "fillArc", new CanvasOperationFactory(FillArcOperation)
-        cf.registerFactory "fillOval", new CanvasOperationFactory(FillOvalOperation)
-        cf.registerFactory "fillPolygon", new CanvasOperationFactory(FillPolygonOperation)
-        cf.registerFactory "fillRect", new CanvasOperationFactory(FillRectOperation)
-        cf.registerFactory "fillRoundRect", new CanvasOperationFactory(FillRoundRectOperation)
-        cf.registerFactory "fillRule", new CanvasOperationFactory(SetFillRuleOperation)
-        cf.registerFactory "fillText", new CanvasOperationFactory(FillTextOperation)
-        cf.registerFactory "font", new CanvasOperationFactory(SetFontOperation)
-        cf.registerFactory "globalAlpha", new CanvasOperationFactory(SetGlobalAlphaOperation)
-        cf.registerFactory "globalBlendMode", new CanvasOperationFactory(SetGlobalBlendModeOperation)
-        cf.registerFactory "lineCap", new CanvasOperationFactory(SetLineCapOperation)
-        cf.registerFactory "lineJoin", new CanvasOperationFactory(SetLineJoinOperation)
-        cf.registerFactory "lineTo", new CanvasOperationFactory(LineToOperation)
-        cf.registerFactory "lineWidth", new CanvasOperationFactory(SetLineWidthOperation)
-        cf.registerFactory "miterLimit", new CanvasOperationFactory(SetMiterLimitOperation)
-        cf.registerFactory "moveTo", new CanvasOperationFactory(MoveToOperation)
-        cf.registerFactory "quadraticCurveTo", new CanvasOperationFactory(QuadraticCurveToOperation)
-        cf.registerFactory "rect", new CanvasOperationFactory(RectOperation)
-        cf.registerFactory "restore", new CanvasOperationFactory(RestoreOperation)
-        cf.registerFactory "rotate", new CanvasOperationFactory(RotateOperation)
-        cf.registerFactory "save", new CanvasOperationFactory(SaveOperation)
-        cf.registerFactory "scale", new CanvasOperationFactory(ScaleOperation)
-        cf.registerFactory "stroke", new CanvasOperationFactory(SetStrokeOperation)
-        cf.registerFactory "strokePath", new CanvasOperationFactory(StrokeOperation)
-        cf.registerFactory "strokeArc", new CanvasOperationFactory(StrokeArcOperation)
-        cf.registerFactory "strokeLine", new CanvasOperationFactory(StrokeLineOperation)
-        cf.registerFactory "strokeOval", new CanvasOperationFactory(StrokeOvalOperation)
-        cf.registerFactory "strokePolygon", new CanvasOperationFactory(StrokePolygonOperation)
-        cf.registerFactory "strokePolyline", new CanvasOperationFactory(StrokePolylineOperation)
-        cf.registerFactory "strokeRect", new CanvasOperationFactory(StrokeRectOperation)
-        cf.registerFactory "strokeRoundRect", new CanvasOperationFactory(StrokeRoundRectOperation)
-        cf.registerFactory "strokeText", new CanvasOperationFactory(StrokeTextOperation)
-        cf.registerFactory "textAlign", new CanvasOperationFactory(SetTextAlignOperation)
-        cf.registerFactory "textBaseline", new CanvasOperationFactory(SetTextBaselineOperation)
-        cf.registerFactory "setTransform", new CanvasOperationFactory(SetTransformOperation)
-        cf.registerFactory "transform", new CanvasOperationFactory(TransformOperation)
-        cf.registerFactory "translate", new CanvasOperationFactory(TranslateOperation)
-        cf.registerFactory "operation", new CanvasClosureOperationFactory(ClosureOperation)
-        
-        DrawFactory df = new DrawFactory();
-        
-        registerFactory "draw", df
-        df.childFactories = cf.childFactories
-        
     }
 
     void registerBinding() {
