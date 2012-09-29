@@ -11,6 +11,11 @@ buildscript {
     final javafxHome = System.env['JAVAFX_HOME']
     if (javafxHome) {
       ext.javafxJar = "${javafxHome}/rt/lib/jfxrt.jar"
+      if (!(new File(ext.javafxJar).exists())) {
+          // If JAVAFX_HOME/rt/lib/jfxrt.jar doesn't exist, maybe the user
+          // is pointing at the directory containing jfxrt.jar itself?
+          ext.javafxJar = "${javafxHome}/jfxrt.jar"
+      }
     } else {
       final javaHome = System.env['JAVA_HOME']
       if (javaHome)
