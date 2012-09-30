@@ -1,4 +1,4 @@
-_This documentation pertains to GroovyFX version 0.2, which includes support for JavaFX 2.1_
+_This documentation pertains to GroovyFX version 0.3.1, which includes support for JavaFX 2.2_
 
 Build instructions
 ==================
@@ -31,6 +31,11 @@ system.  Just include the following line at the top of your script
 
 
 > @Grab('org.codehaus.groovyfx:groovyfx:0.3.1')
+
+When you start such a script, make sure that an explicit reference to your jfxrt.jar is declared in your classpath 
+(even if you use Java 7, which includes JavaFX), e.g. like so
+
+> groovy -cp $JAVA_HOME/jre/lib/jfxrt.jar myScript.groovy
 
 Creating a GroovyFX-Based Project with Gradle
 ---------------------------------------
