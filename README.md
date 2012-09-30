@@ -24,13 +24,13 @@ everything from simple test scripts to larger projects.  The Maven coordinates a
 
 * _groupId_: org.codehaus.groovyfx
 * _artifactId_: groovyfx
-* _version_: 0.2
+* _version_: 0.3.1
 
 GroovyFX is simple to include in Groovy scripts thanks to Groovy's Grab annotation, a part of the Grape 
 system.  Just include the following line at the top of your script
 
 
-> @Grab('org.codehaus.groovyfx:groovyfx:0.2')
+> @Grab('org.codehaus.groovyfx:groovyfx:0.3.1')
 
 Creating a GroovyFX-Based Project with Gradle
 ---------------------------------------
