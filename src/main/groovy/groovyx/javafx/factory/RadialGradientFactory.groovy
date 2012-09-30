@@ -35,7 +35,7 @@ class RadialGradientFactory extends AbstractGradientFactory {
         if (checkValue(name, value))
             return value;
         else
-            return new RadialGradientBuilder()
+            return RadialGradientBuilder.create()
     }
 
     @Override

@@ -45,13 +45,17 @@ abstract class AbstractGradientFactory extends AbstractFXBeanFactory {
      */
     protected void handleStopsAttributeIfPresent(Map attributes, gradientBuilder) {
         def stops = attributes.remove("stops")
-        if ((stops instanceof List) && stops) {
+        if (!stops) return
+
+        if (stops instanceof List) {
             if (stops[0] instanceof List) {
                 stops = stops.collect { new Stop(it[0], ColorFactory.get(it[1])) }
                 gradientBuilder.stops(stops)
             } else {
                 gradientBuilder.stops(createStopList(stops))
             }
+        } else if (stops instanceof Map) {
+            gradientBuilder.stops(stops.collect { k, v -> new Stop(k, ColorFactory.get(v)) })
         }
     }
 
