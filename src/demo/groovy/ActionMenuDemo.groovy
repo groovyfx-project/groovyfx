@@ -38,12 +38,15 @@ start {
                 onAction: { primaryStage.close() })
         fxaction(id: 'cutAction',
                 name: 'Cut',
+                icon: 'icons/cut.png',
                 onAction: { println "Cut" })
         fxaction(id: 'copyAction',
                 name: 'Copy',
+                icon: 'icons/copy.png',
                 onAction: { println "Copy" })
         fxaction(id: 'pasteAction',
                 name: 'Paste',
+                icon: 'icons/paste.png',
                 onAction: { println "Paste" })
         fxaction(id: 'checkAction',
                 name: 'Check',
