@@ -332,6 +332,7 @@ class SceneGraphBuilder extends FactoryBuilderSupport {
 
     // register this one first
     void registerNodes() {
+        registerFactory "bean", new CustomNodeFactory(Object)
         registerFactory "node", new CustomNodeFactory(javafx.scene.Node)
         registerFactory "nodes", new CustomNodeFactory(List, true)
         registerFactory "container", new CustomNodeFactory(Parent)
