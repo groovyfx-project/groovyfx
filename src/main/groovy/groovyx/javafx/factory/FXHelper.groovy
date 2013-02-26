@@ -198,8 +198,10 @@ class FXHelper {
                         for(v in value) {
                             list.add(v.doubleValue());
                         }
-                }else {
-                    list.addAll(value);
+                } else if (value instanceof ObservableList){
+                    metaProperty.setProperty(delegate, value)
+                } else {
+                    list.addAll(value)
                 }
             }else if(!list.contains(value)) {
                 list.add(value);

@@ -300,7 +300,7 @@ class TableFactory extends AbstractNodeFactory {
                 node.setCellFactory(cellFactory);
             }
         }
-        
+
         return super.onHandleNodeAttributes(builder, node, attributes);
     }
 
