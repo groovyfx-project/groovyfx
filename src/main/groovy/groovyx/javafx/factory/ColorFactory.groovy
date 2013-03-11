@@ -21,17 +21,17 @@ package groovyx.javafx.factory
 
 import java.util.regex.Matcher
 import java.util.regex.Pattern
+import javafx.css.ParsedValue
 import javafx.scene.paint.*
 import com.sun.javafx.css.Stylesheet
 import com.sun.javafx.css.parser.CSSParser
-import com.sun.javafx.css.ParsedValue
 
 /**
  *
  * @author jimclarke
  */
 public class ColorFactory {
-    
+
     private static Map <String, Paint> colorCacheMap = new HashMap<String, Paint>();
 
     public static Paint get(Object value) {
@@ -126,7 +126,7 @@ public class ColorFactory {
             if (color.startsWith('#')) {
                 return Color.web(color)
             }
-            
+
             if(color.endsWith(";")) {
                 color = color.substring(0, color.length()-1);
             }
@@ -351,5 +351,3 @@ public class ColorFactory {
         }
     }
 }
-
-

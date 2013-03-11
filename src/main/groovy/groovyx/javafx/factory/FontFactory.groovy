@@ -16,10 +16,10 @@
 
 package groovyx.javafx.factory
 
+import javafx.css.ParsedValue;
 import javafx.scene.text.*;
 import com.sun.javafx.css.Stylesheet;
 import com.sun.javafx.css.parser.CSSParser
-import com.sun.javafx.css.ParsedValue;
 
 /**
  *
@@ -34,9 +34,9 @@ class FontFactory {
             return getFont(fontStr);
         }
     }
-    
+
     private static Map <String, Font> fontMap = new HashMap<String, Font>();
-    
+
     /*****
     private static typeMap = [
         normal: "-fx-font-style",
@@ -47,7 +47,7 @@ class FontFactory {
         lighter: "-fx-font-weight",
         //TODO: 100, 200, 300, 400, 500, 600, 700, 800 conflict with size
     ]
-    
+
     *****/
 
     static Font getFont(String str) {
