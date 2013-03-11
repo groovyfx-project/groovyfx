@@ -26,25 +26,25 @@ import groovyx.javafx.event.GroovyEventHandler;
  * @author jimclarke
  */
 class TreeItemFactory extends AbstractFXBeanFactory {
-    
+
     public static def treeItemEvents = [
         "onBranchCollapse": TreeItem.BRANCH_COLLAPSED_EVENT,
         "onBranchExpand" : TreeItem.BRANCH_EXPANDED_EVENT,
         "onChildrenModification" : TreeItem.CHILDREN_MODIFICATION_EVENT,
         "onGraphicChanged" : TreeItem.GRAPHIC_CHANGED_EVENT,
-        "onTreeItemCountChange" : TreeItem.TREE_ITEM_COUNT_CHANGE_EVENT,
+        "onExpandedItemCountChange" : TreeItem.EXPANDED_ITEM_COUNT_CHANGE_EVENT,
         "onTreeNotification" : TreeItem.TREE_NOTIFICATION_EVENT,
         "onValueChanged" : TreeItem.VALUE_CHANGED_EVENT
     ];
-    
+
     public TreeItemFactory() {
         super(TreeItem)
     }
-    
+
     public TreeItemFactory(Class<TreeItem> beanClass) {
         super(beanClass)
     }
-    
+
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         TreeItem item = super.newInstance(builder, name, value, attributes)
         if(!checkValue(name, value)) {
@@ -70,7 +70,7 @@ class TreeItemFactory extends AbstractFXBeanFactory {
                 throw new Exception("In a TreeItem, value must be an instanceof TreeItem, Node, or an event to be used as embedded content.")
         }
     }
-    
+
     public boolean onHandleNodeAttributes( FactoryBuilderSupport builder, Object node,
             Map attributes ) {
         for(v in treeItemEvents) {
@@ -85,11 +85,10 @@ class TreeItemFactory extends AbstractFXBeanFactory {
         }
         return super.onHandleNodeAttributes(builder, node, attributes);
     }
-    
+
     void setEventHandler(TreeItem item, String property, EventHandler handler) {
         def eventType = treeItemEvents[property]
         item.addEventHandler(eventType, handler)
     }
 
 }
-

@@ -76,7 +76,7 @@ private void contributeContainers(delegate) {
                     params: [args: [autoSizeChildren: 'java.lang.Boolean'], body: {}])
 
     def containerArgs = [
-            minHeight: 'java.lang.Double', prefHeight: 'java.lang.Double', maxHeight: 'java.lang.Double', 
+            minHeight: 'java.lang.Double', prefHeight: 'java.lang.Double', maxHeight: 'java.lang.Double',
             minWidth: 'java.lang.Double', prefWidth: 'java.lang.Double', maxWidth: 'java.lang.Double',
             padding: 'java.lang.Object', snapToPixel: 'java.lang.Boolean'] + size2d
 
@@ -204,7 +204,7 @@ private void contributeControls(delegate) {
     delegate.method(name: 'onBranchExpand', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
     delegate.method(name: 'onChildrenModification', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
     delegate.method(name: 'onGraphicChanged', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
-    delegate.method(name: 'onTreeItemCountChange', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
+    delegate.method(name: 'onExpandedItemCountChange', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
     delegate.method(name: 'onTreeNotification', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
     delegate.method(name: 'onValueChanged', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
     delegate.method(name: 'onEditCancel', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
