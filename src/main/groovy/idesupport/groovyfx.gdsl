@@ -2,6 +2,7 @@ package idesupport
 
 /**
  * @author dean
+ * minor adaptions by hackergarten
  */
 
 title = [title: 'java.lang.String']
@@ -204,12 +205,17 @@ private void contributeControls(delegate) {
     delegate.method(name: 'onBranchExpand', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
     delegate.method(name: 'onChildrenModification', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
     delegate.method(name: 'onGraphicChanged', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
-    delegate.method(name: 'onExpandedItemCountChange', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
     delegate.method(name: 'onTreeNotification', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
     delegate.method(name: 'onValueChanged', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
     delegate.method(name: 'onEditCancel', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
     delegate.method(name: 'onEditCommit', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
     delegate.method(name: 'onEditStart', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
+
+    if (groovyx.javafx.JdkUtil.jdkIsBefore8()) {
+        delegate.method(name: 'onTreeItemCountChange', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
+    } else {
+        delegate.method(name: 'onExpandedItemCountChange', type: 'groovyx.javafx.ClosureEventHandler', params: [handler: {}])
+    }
 }
 
 private void contributeCharts(delegate) {

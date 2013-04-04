@@ -16,26 +16,36 @@
 
 package groovyx.javafx.factory
 
+import groovyx.javafx.JdkUtil
 import javafx.scene.control.*;
 import javafx.scene.Node;
 import javafx.event.EventHandler;
 import groovyx.javafx.event.GroovyEventHandler;
 
 /**
- *
  * @author jimclarke
+ * minor adaptions by hackergarten
  */
 class TreeItemFactory extends AbstractFXBeanFactory {
 
-    public static def treeItemEvents = [
-        "onBranchCollapse": TreeItem.BRANCH_COLLAPSED_EVENT,
-        "onBranchExpand" : TreeItem.BRANCH_EXPANDED_EVENT,
-        "onChildrenModification" : TreeItem.CHILDREN_MODIFICATION_EVENT,
-        "onGraphicChanged" : TreeItem.GRAPHIC_CHANGED_EVENT,
-        "onExpandedItemCountChange" : TreeItem.EXPANDED_ITEM_COUNT_CHANGE_EVENT,
-        "onTreeNotification" : TreeItem.TREE_NOTIFICATION_EVENT,
-        "onValueChanged" : TreeItem.VALUE_CHANGED_EVENT
-    ];
+    public static def treeItemEvents
+    static {
+        treeItemEvents = [
+                "onBranchCollapse": TreeItem.BRANCH_COLLAPSED_EVENT,
+                "onBranchExpand" : TreeItem.BRANCH_EXPANDED_EVENT,
+                "onChildrenModification" : TreeItem.CHILDREN_MODIFICATION_EVENT,
+                "onGraphicChanged" : TreeItem.GRAPHIC_CHANGED_EVENT,
+                "onTreeNotification" : TreeItem.TREE_NOTIFICATION_EVENT,
+                "onValueChanged" : TreeItem.VALUE_CHANGED_EVENT
+            ]
+        if (JdkUtil.jdkIsBefore8()) {
+            String constName = "TREE_ITEM_COUNT_CHANGE_EVENT"
+            treeItemEvents.onTreeItemCountChange = TreeItem."$constName"
+        } else {
+            String constName = "EXPANDED_ITEM_COUNT_CHANGE_EVENT"
+            treeItemEvents.onExpandedItemCountChange = TreeItem."$constName"
+        }
+    }
 
     public TreeItemFactory() {
         super(TreeItem)

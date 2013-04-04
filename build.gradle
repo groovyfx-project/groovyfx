@@ -43,7 +43,7 @@ buildscript {
 }
 
 ext.actualJavaFXVersion = com.sun.javafx.runtime.VersionInfo.runtimeVersion
-if (! ext.actualJavaFXVersion.startsWith(groovyfx_requiredJavaFxVersion)) {
+if (! ext.actualJavaFXVersion =~ groovyfx_requiredJavaFxVersion) {
   println "    Required JavaFX version is '${groovyfx_requiredJavaFxVersion}' but actual version is '${ext.actualJavaFXVersion}'"
   System.exit 1
 }

@@ -26,8 +26,4 @@ start {
                 text(text: 'FX', font: '80pt sanserif') {
                     fill linearGradient(endX: 0, stops: [CYAN, DODGERBLUE])
                     effect dropShadow(color: DODGERBLUE, radius: 25, spread: 0.25)
-                }
-            }
-        }
-    }
-}
+} } } } }

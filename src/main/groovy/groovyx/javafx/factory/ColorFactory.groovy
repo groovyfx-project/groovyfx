@@ -16,12 +16,9 @@
 
 package groovyx.javafx.factory
 
-//import com.sun.javafx.css.Value;
-
-
 import java.util.regex.Matcher
 import java.util.regex.Pattern
-import javafx.css.ParsedValue
+// import javafx.css.ParsedValue // package change between jdk versions but we want to support both
 import javafx.scene.paint.*
 import com.sun.javafx.css.Stylesheet
 import com.sun.javafx.css.parser.CSSParser
@@ -29,6 +26,7 @@ import com.sun.javafx.css.parser.CSSParser
 /**
  *
  * @author jimclarke
+ * minor adaptions by hackergarten
  */
 public class ColorFactory {
 
@@ -139,7 +137,7 @@ public class ColorFactory {
                 if (!declarations)
                     throw new IllegalArgumentException("Invalid fill syntax: '$color'")
 
-                ParsedValue v = declarations.get(0).getParsedValue();
+                def v = declarations.get(0).getParsedValue();
                 if(v.getConverter() == null)
                     paint = (Paint)v.value;
                 else

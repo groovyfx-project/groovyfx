@@ -16,14 +16,15 @@
 
 package groovyx.javafx.factory
 
-import javafx.css.ParsedValue;
-import javafx.scene.text.*;
-import com.sun.javafx.css.Stylesheet;
+// import javafx.css.ParsedValue; // package change between jdk versions but we want to support both
+import javafx.scene.text.*
+import com.sun.javafx.css.Stylesheet
 import com.sun.javafx.css.parser.CSSParser
 
 /**
  *
  * @author jimclarke
+ * minor adaptions by hackergarten
  */
 class FontFactory {
     public static Font get(Object value) {
@@ -65,7 +66,7 @@ class FontFactory {
                     Stylesheet p = CSSParser.getInstance().parse("* { -fx-font: " + str + "; }");
                     List declarations = p.getRules().get(0).getDeclarations();
                     if (declarations) {
-                        ParsedValue v = declarations.get(0).getParsedValue();
+                        def v = declarations.get(0).getParsedValue();
                         font = (Font) v.getConverter().convert(v, null);
                     } else {
                         throw new RuntimeException("Font declaration '${str}' could not be parsed")
@@ -74,7 +75,7 @@ class FontFactory {
                     Stylesheet p = CSSParser.getInstance().parse("* { -fx-font-size: " + str + "; }");
                     List declarations = p.getRules().get(0).getDeclarations();
                     if (declarations) {
-                        ParsedValue v = declarations.get(0).getParsedValue();
+                        def v = declarations.get(0).getParsedValue();
                         final size = v.getConverter().convert(v, new Font(8));
                         font = new Font(size);
                     } else {
