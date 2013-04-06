@@ -308,6 +308,7 @@ private void contributeListeners(delegate) {
     delegate.method(name: 'onDragOver', type: 'javafx.event.EventHandler', params: [body: {}])
     delegate.method(name: 'onDragDropped', type: 'javafx.event.EventHandler', params: [body: {}])
 
+    // todo dk: why is this here 3 times?
     delegate.method(name: 'onMouseClicked', type: 'javafx.event.EventHandler', params: [body: {}])
     delegate.method(name: 'onMouseClicked', type: 'javafx.event.EventHandler', params: [body: {}])
     delegate.method(name: 'onMouseClicked', type: 'javafx.event.EventHandler', params: [body: {}])
