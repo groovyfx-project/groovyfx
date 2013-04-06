@@ -33,7 +33,7 @@ start {
             tilePane(hgap: 10, vgap: 20, padding: 5) {
                 rectangle(width: width, height: height, fill: linearGradient(stops: [GREEN, BLACK]))
 
-                rectangle(width: width, height: height, fill: linearGradient(stops: [[0.25, YELLOW], [1.0, BLUE]])) {
+                rectangle(width: width, height: height, fill: linearGradient(stops: [0.25: YELLOW, 1.0: BLUE])) {
                     effect dropShadow()
                 }
 
@@ -49,12 +49,12 @@ start {
                 circle(radius: height / 2, fill: radialGradient(stops: [RED, DARKRED, BLACK]))
 
                 circle(radius: height / 2,
-                        fill: radialGradient(radius: 0.95, center: [0.5, 0.5], stops: [[0, CYAN], [0.75, BLACK]])) {
+                        fill: radialGradient(radius: 0.95, center: [0.5, 0.5], stops: [0: CYAN, 0.75: BLACK])) {
                     effect dropShadow()
                 }
 
                 circle(radius: height / 2) {
-                    fill radialGradient(radius: 1, center: [0.5, 1], stops: [[0, MAGENTA], [0.75, INDIGO], [1, BLACK]])
+                    fill radialGradient(radius: 1, center: [0.5, 1], stops: [0: MAGENTA, 0.75: INDIGO, 1: BLACK])
                 }
 
                 circle(radius: height / 2) {

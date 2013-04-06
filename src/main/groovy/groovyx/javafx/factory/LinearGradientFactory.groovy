@@ -35,7 +35,7 @@ class LinearGradientFactory extends AbstractGradientFactory {
         if (checkValue(name, value))
             return value;
         else
-            return new LinearGradientBuilder()
+            return LinearGradientBuilder.create()
     }
 
     @Override

@@ -1,4 +1,4 @@
-_This documentation pertains to GroovyFX version 0.2, which includes support for JavaFX 2.1_
+_This documentation pertains to GroovyFX version 0.3.1, which includes support for JavaFX 2.2_
 
 Build instructions
 ==================
@@ -24,13 +24,18 @@ everything from simple test scripts to larger projects.  The Maven coordinates a
 
 * _groupId_: org.codehaus.groovyfx
 * _artifactId_: groovyfx
-* _version_: 0.2
+* _version_: 0.3.1
 
 GroovyFX is simple to include in Groovy scripts thanks to Groovy's Grab annotation, a part of the Grape 
 system.  Just include the following line at the top of your script
 
 
-> @Grab('org.codehaus.groovyfx:groovyfx:0.2')
+> @Grab('org.codehaus.groovyfx:groovyfx:0.3.1')
+
+When you start such a script, make sure that an explicit reference to your jfxrt.jar is declared in your classpath 
+(even if you use Java 7, which includes JavaFX), e.g. like so
+
+> groovy -cp $JAVA_HOME/jre/lib/jfxrt.jar myScript.groovy
 
 Creating a GroovyFX-Based Project with Gradle
 ---------------------------------------
