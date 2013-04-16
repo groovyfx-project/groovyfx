@@ -317,7 +317,8 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
                 GenericsType[] genericTypes = origType.getGenericsTypes();
                 newType.setGenericsTypes(genericTypes);
             }else { // Object Type
-                newType = ClassHelper.makeWithoutCaching(ObjectProperty.class, true);
+                //newType = ClassHelper.makeWithoutCaching(ObjectProperty.class, true);
+            	newType = new ClassNode(ObjectProperty.class);
                 ClassNode genericType = origType;
                 if (genericType.isPrimaryClassNode()) {
                     genericType = ClassHelper.getWrapper(genericType);
@@ -483,7 +484,8 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
                 }
                 implNode = fxType;
             }else {
-                implNode = ClassHelper.make(SimpleObjectProperty.class, true);
+                //implNode = ClassHelper.make(SimpleObjectProperty.class, true);
+            	implNode = new ClassNode(SimpleObjectProperty.class);
                 GenericsType[] origGenerics = fxProperty.getType().getGenericsTypes();
                 //List<GenericsType> copyGenericTypes = new ArrayList<GenericsType>();
                 //for()
