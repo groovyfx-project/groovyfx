@@ -57,7 +57,7 @@ dependencies {
 jar.baseName = 'groovyfx'
 
 task wrap(type:Wrapper, description:"create a gradlew") {
-    gradleVersion = '1.4'
+    gradleVersion = '1.7'
 }
 
 apply {
