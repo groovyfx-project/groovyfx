@@ -48,23 +48,22 @@ if (! ext.actualJavaFXVersion =~ groovyfx_requiredJavaFxVersion) {
   System.exit 1
 }
 
-
 repositories {
     if (project.hasProperty('groovyfx_useMavenLocal') && Boolean.valueOf(project.groovyfx_useMavenLocal)) { mavenLocal() }
     mavenCentral()
 }
 
 dependencies {
-    groovy       "org.codehaus.groovy:groovy-all:${groovyfx_groovyVersion}"
-    compile      "asm:asm:${groovyfx_asmVersion}"
-    compile      files(ext.javafxJar)
-    testCompile  "junit:junit:${groovyfx_junitVersion}"
+    compile "org.codehaus.groovy:groovy-all:${groovyfx_groovyVersion}"
+    compile "asm:asm:${groovyfx_asmVersion}"
+    compile files(ext.javafxJar)
+    testCompile "junit:junit:${groovyfx_junitVersion}"
 }
 
 jar.baseName = 'groovyfx'
 
 task wrap(type:Wrapper, description:"create a gradlew") {
-    gradleVersion = '1.7'
+    gradleVersion = '1.9'
 }
 
 apply {

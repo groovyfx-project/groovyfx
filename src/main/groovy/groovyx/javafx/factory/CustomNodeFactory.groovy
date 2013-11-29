@@ -39,7 +39,7 @@ class CustomNodeFactory extends AbstractNodeFactory {
         if ((value != null) && checkValue(name, value)) {
             return value;
         } else {
-            throw new RuntimeException("$name must have either a value argument that must be of type $restrictedType.name");
+            throw new RuntimeException("$name must have either a value argument that must be of type $beanClass.name");
         }
     }
     
