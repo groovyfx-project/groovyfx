@@ -4,15 +4,17 @@ apply from: 'scripts/docsDependencies.gradle'
 
 repositories {
 	mavenCentral()
-    mavenRepo name: 'SpringSource', url: 'http://repository.springsource.com/maven/bundles/release'
-    mavenRepo name: 'JavaNet', url: 'http://download.java.net/maven/2/'
+  maven {
+    url 'http://repository.springsource.com/maven/bundles/release'
+    url 'http://download.java.net/maven/2/'
+  }
 }
 
 dependencies {
-	groovy localGroovy()
-    compile gradleApi()
-    compile(ext.grailsDocs) { transitive = false }
-    compile(ext.xhtmlRenderer) { transitive = false }
-    compile(ext.lowagieItext) { transitive = false }
-    compile(ext.radeox) { transitive = false }
+	compile localGroovy()
+  compile gradleApi()
+  compile(ext.grailsDocs) { transitive = false }
+  compile(ext.xhtmlRenderer) { transitive = false }
+  compile(ext.lowagieItext) { transitive = false }
+  compile(ext.radeox) { transitive = false }
 }
