@@ -10,11 +10,11 @@ targetCompatibility = 1.6
 buildscript {
     final javafxHome = System.env['JAVAFX_HOME']
     if (javafxHome) {
-      ext.javafxJar = "${javafxHome}/rt/lib/jfxrt.jar"
-      if (!(new File(ext.javafxJar).exists())) {
+      project.ext.javafxJar = "${javafxHome}/rt/lib/jfxrt.jar"
+      if (!(new File(project.ext.javafxJar).exists())) {
           // If JAVAFX_HOME/rt/lib/jfxrt.jar doesn't exist, maybe the user
           // is pointing at the directory containing jfxrt.jar itself?
-          ext.javafxJar = "${javafxHome}/jfxrt.jar"
+          project.ext.javafxJar = "${javafxHome}/jfxrt.jar"
       }
     } else {
       final javaHome = System.env['JAVA_HOME']
@@ -22,16 +22,16 @@ buildscript {
           File jfxrt7Jar = new File("${javaHome}/jre/lib/jfxrt.jar")
           File jfxrt8Jar = new File("${javaHome}/jre/lib/ext/jfxrt.jar")
           if (jfxrt8Jar.exists()) {
-               ext.javafxJar = jfxrt8Jar.canonicalPath
+               project.ext.javafxJar = jfxrt8Jar.canonicalPath
           } else if (jfxrt7Jar.exists()) {
-               ext.javafxJar = jfxrt7Jar.canonicalPath
+               project.ext.javafxJar = jfxrt7Jar.canonicalPath
           }
       }
     }
     try {
-      println "JavaFX runtime jar: ${ext.javafxJar}"
+      println "JavaFX runtime jar: ${project.ext.javafxJar}"
       dependencies {
-        classpath files(ext.javafxJar)
+        classpath files(project.ext.javafxJar)
       }
     } catch (MissingPropertyException mpe) {
         println """|
@@ -42,9 +42,9 @@ buildscript {
     }
 }
 
-ext.actualJavaFXVersion = com.sun.javafx.runtime.VersionInfo.runtimeVersion
-if (! ext.actualJavaFXVersion =~ groovyfx_requiredJavaFxVersion) {
-  println "    Required JavaFX version is '${groovyfx_requiredJavaFxVersion}' but actual version is '${ext.actualJavaFXVersion}'"
+project.ext.actualJavaFXVersion = com.sun.javafx.runtime.VersionInfo.runtimeVersion
+if (! project.ext.actualJavaFXVersion =~ groovyfx_requiredJavaFxVersion) {
+  println "    Required JavaFX version is '${groovyfx_requiredJavaFxVersion}' but actual version is '${project.ext.actualJavaFXVersion}'"
   System.exit 1
 }
 
@@ -56,7 +56,7 @@ repositories {
 dependencies {
     compile "org.codehaus.groovy:groovy-all:${groovyfx_groovyVersion}"
     compile "asm:asm:${groovyfx_asmVersion}"
-    compile files(ext.javafxJar)
+    compile files(project.ext.javafxJar)
     testCompile "junit:junit:${groovyfx_junitVersion}"
 }
 
