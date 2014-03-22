@@ -1,5 +1,5 @@
 /*
-* Copyright 2011 the original author or authors.
+* Copyright 2011, 2014 the original author or authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -27,19 +27,19 @@ import java.lang.annotation.Target;
 /**
  * Annotates a groovy property or a class to support JavaFX properties.
  *
- * When annotating a property it indicates that the property should be a
+ * <p>When annotating a property it indicates that the property should be a
  * bound property according to  JavaFX beans, announcing to listeners
- * that the value has changed. <br/><br/>
+ * that the value has changed.</p>
  *
- * When annotating a class it indicates that all groovy properties in that
+ * <p>When annotating a class it indicates that all groovy properties in that
  * class should be bound as though each property had the annotation (even
- * if it already has it explicitly).<br/><br/>
+ * if it already has it explicitly).</p>
  *
- * It is a compilation error to place this annotation on a field (that is
- * not a property, i.e. has scope visibility modifiers).<br/><br/>
+ * <p>It is a compilation error to place this annotation on a field (that is
+ * not a property, i.e. has scope visibility modifiers).</p>
  *
- * If a property with a user defined setter method is annotated the code
- * block is wrapped with the needed code to fire off the event.<br/><br/>
+ * <p>If a property with a user defined setter method is annotated the code
+ * block is wrapped with the needed code to fire off the event.</p>
  *
  * @author jimclarke (inspired by Danno Ferrin (shemnon) and Chris Reeved)
  */

@@ -20,11 +20,11 @@ import javafx.beans.property.SimpleFloatProperty;
 
 /**
  * Wraps a groovy script variable in a JavaFX Property
- * 
+ *
  * @author jimclarke
  */
 public class ScriptVariableFloatProperty extends SimpleFloatProperty{
-    
+
     ScriptVariableFloatProperty(Script script, String propertyName) {
         super(script, propertyName, ((Number)script.getProperty(propertyName)).floatValue());
     }
@@ -34,10 +34,10 @@ public class ScriptVariableFloatProperty extends SimpleFloatProperty{
         ((Script)getBean()).setProperty(getName(), newValue);
         super.set(newValue);
     }
-    
+
     /**
      * Handle BigDecimal/BigInteger and other numbers from Groovy
-     * @param newValue 
+     * @param newValue  The new value.
      */
     public void set(Number newValue) {
         this.set(newValue.floatValue());

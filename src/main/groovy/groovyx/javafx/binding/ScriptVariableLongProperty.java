@@ -20,11 +20,11 @@ import javafx.beans.property.SimpleLongProperty;
 
 /**
  * Wraps a groovy script variable in a JavaFX Property
- * 
+ *
  * @author jimclarke
  */
 public class ScriptVariableLongProperty extends SimpleLongProperty{
-    
+
     ScriptVariableLongProperty(Script script, String propertyName) {
         super(script, propertyName, ((Number)script.getProperty(propertyName)).longValue());
     }
@@ -34,10 +34,10 @@ public class ScriptVariableLongProperty extends SimpleLongProperty{
         ((Script)getBean()).setProperty(getName(), newValue);
         super.set(newValue);
     }
-    
+
     /**
      * Handle BigDecimal/BigInteger and other numbers from Groovy
-     * @param newValue 
+     * @param newValue The new value.
      */
     public void set(Number newValue) {
         this.set(newValue.longValue());

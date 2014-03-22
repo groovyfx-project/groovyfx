@@ -1,5 +1,5 @@
 /*
-* Copyright 2011 the original author or authors.
+* Copyright 2011, 2014 the original author or authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -38,15 +38,15 @@ import org.objectweb.asm.Opcodes;
 
 /**
  * Handles generation of code for the {@code @FXBindable}
- * <p/>
- * Generally, it adds (if needed) a javafx.beans.property.Property type
- * <p/>
- * It also generates the setter and getter and wires the them through the
- * javafx.beans.property.Property.
+ *
+ * <p>Generally, it adds (if needed) a {@code javafx.beans.property.Property} type</p>
+ *
+ * <p>It also generates the setter and getter and wires the them through the
+ * {@code javafx.beans.property.Property}.</p>
  *
  * TODO: Support for read only properties
  * TODO: Support for eager and lazy properties
- *       
+ *
  * @author jimclarke (inspired by Danno Ferrin (shemnon) and Chris Reeved)
  * @author Dean Iverson
  */
@@ -65,7 +65,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
     protected static final ClassNode listPropertyClass = ClassHelper.make(ListProperty.class);
     protected static final ClassNode mapPropertyClass = ClassHelper.make(MapProperty.class);
     protected static final ClassNode setPropertyClass = ClassHelper.make(SetProperty.class);
-    
+
     protected static final ClassNode simpleBooleanPropertyClass = ClassHelper.make(SimpleBooleanProperty.class);
     protected static final ClassNode simpleDoublePropertyClass = ClassHelper.make(SimpleDoubleProperty.class);
     protected static final ClassNode simpleFloatPropertyClass = ClassHelper.make(SimpleFloatProperty.class);
@@ -77,7 +77,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
     protected static final ClassNode simpleSetPropertyClass = ClassHelper.make(SimpleSetProperty.class);
     protected static final ClassNode simpleObjectPropertyClass = ClassHelper.make(SimpleObjectProperty.class, true);
 //    protected static final ClassNode numberClassNode = ClassHelper.make(Number.class);
-    
+
     protected static final ClassNode observableListClass = ClassHelper.make(ObservableList.class, true);
     protected static final ClassNode observableMapClass = ClassHelper.make(ObservableMap.class, true);
     protected static final ClassNode observableSetClass = ClassHelper.make(ObservableSet.class, true);
@@ -107,9 +107,9 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
         //propertyTypeMap.put(ClassHelper.char_TYPE, intPropertyClass);
         //propertyTypeMap.put(ClassHelper.Character_TYPE, intPropertyClass);
     }
-    
+
     private static final Map<ClassNode, ClassNode> propertyImplMap = new HashMap<ClassNode, ClassNode>();
-    
+
     static {
         propertyImplMap.put(booleanPropertyClass, simpleBooleanPropertyClass);
         propertyImplMap.put(doublePropertyClass, simpleDoublePropertyClass);
@@ -225,7 +225,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
 
     /**
      * Iterate through the properties of the class and convert each eligible property to a JavaFX property.
-     * 
+     *
      * @param source The SourceUnit
      * @param node The AnnotationNode
      * @param classNode The declaring class
@@ -333,7 +333,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
     /**
      * Creates a setter method and adds it to the declaring class.  The setter has the form:
      *
-     *     void <setter>(<type> fieldName)
+     *     void &lt;setter&gt;(&lt;type&gt; fieldName)
      *
      * @param declaringClass The class to which the method is added
      * @param propertyNode The property node being accessed by this setter
@@ -350,8 +350,8 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
         setter.setSynthetic(true);
         declaringClass.addMethod(setter);
     }
-            
-    
+
+
 
     /**
      * If the setter already exists, this method should wrap it with our code and then a call to the original
@@ -398,7 +398,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
                 String.format("wrapGetterMethod for '%s', property '%s' not yet implemented",
                 classNode.getName(), propertyName));
     }
-    
+
 
     /**
      * Creates the body of a property access method that returns the JavaFX *Property instance.  If
@@ -411,7 +411,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
      *
      * @param classNode The declaring class to which the JavaFX property will be added
      * @param fxProperty The new JavaFX property
-     * @param fxFieldShortName
+     * @param fxFieldShortName The short name (this is a fatuous comment to keep JavaDoc happy).
      * @param initExp The initializer expression from the original Groovy property declaration
      */
     private void createPropertyAccessor(ClassNode classNode, PropertyNode fxProperty, FieldNode fxFieldShortName,
@@ -429,17 +429,17 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
             if(fxType.getTypeClass() == simpleListPropertyClass.getTypeClass()) {
                 if(initExp != null) {
                     if(initExp instanceof ListExpression ||
-                       (initExp instanceof CastExpression && 
-                            (((CastExpression)initExp).getType().equals(listType) || 
+                       (initExp instanceof CastExpression &&
+                            (((CastExpression)initExp).getType().equals(listType) ||
                             ((CastExpression)initExp).getType().declaresInterface(listType))) ||
-                       (initExp instanceof ConstructorCallExpression && 
-                            (((ConstructorCallExpression)initExp).getType().equals(listType) || 
+                       (initExp instanceof ConstructorCallExpression &&
+                            (((ConstructorCallExpression)initExp).getType().equals(listType) ||
                             ((ConstructorCallExpression)initExp).getType().declaresInterface(listType)))
                     ) {
                         ctorArgs = new ArgumentListExpression(
                             new MethodCallExpression(
-                                new ClassExpression(fxCollectionsType), 
-                                "observableList", 
+                                new ClassExpression(fxCollectionsType),
+                                "observableList",
                                 ctorArgs)
                         );
                     }
@@ -448,17 +448,17 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
             }else if( fxType.getTypeClass() == simpleMapPropertyClass.getTypeClass()) {
                 if(initExp != null ) {
                     if(initExp instanceof MapExpression ||
-                       (initExp instanceof CastExpression && 
-                            (((CastExpression)initExp).getType().equals(mapType) || 
+                       (initExp instanceof CastExpression &&
+                            (((CastExpression)initExp).getType().equals(mapType) ||
                             ((CastExpression)initExp).getType().declaresInterface(mapType))) ||
-                       (initExp instanceof ConstructorCallExpression && 
-                            (((ConstructorCallExpression)initExp).getType().equals(mapType) || 
+                       (initExp instanceof ConstructorCallExpression &&
+                            (((ConstructorCallExpression)initExp).getType().equals(mapType) ||
                             ((ConstructorCallExpression)initExp).getType().declaresInterface(mapType)))
                     ) {
                         ctorArgs = new ArgumentListExpression(
                             new MethodCallExpression(
-                                new ClassExpression(fxCollectionsType), 
-                                "observableMap", 
+                                new ClassExpression(fxCollectionsType),
+                                "observableMap",
                                 ctorArgs)
                         );
                     }
@@ -466,17 +466,17 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
                 implNode = fxType;
             }else if( fxType.getTypeClass() == simpleSetPropertyClass.getTypeClass()) {
                 if(initExp != null) {
-                    if((initExp instanceof CastExpression && 
-                            (((CastExpression)initExp).getType().equals(setType) || 
+                    if((initExp instanceof CastExpression &&
+                            (((CastExpression)initExp).getType().equals(setType) ||
                             ((CastExpression)initExp).getType().declaresInterface(setType))) ||
-                       (initExp instanceof ConstructorCallExpression && 
-                            (((ConstructorCallExpression)initExp).getType().equals(setType) || 
+                       (initExp instanceof ConstructorCallExpression &&
+                            (((ConstructorCallExpression)initExp).getType().equals(setType) ||
                             ((ConstructorCallExpression)initExp).getType().declaresInterface(setType)))
                     ) {
                         ctorArgs = new ArgumentListExpression(
                             new MethodCallExpression(
-                                new ClassExpression(fxCollectionsType), 
-                                "observableSet", 
+                                new ClassExpression(fxCollectionsType),
+                                "observableSet",
                                 ctorArgs)
                         );
                     }
@@ -491,7 +491,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
             }
         }
         Expression initExpression = new ConstructorCallExpression(implNode, ctorArgs);
-        
+
         IfStatement ifStmt = new IfStatement(
             new BooleanExpression(
                 new BinaryExpression(
@@ -517,39 +517,39 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
                                              Parameter.EMPTY_ARRAY, ClassNode.EMPTY_ARRAY, block);
         accessor.setSynthetic(true);
         classNode.addMethod(accessor);
-        
+
         // Create the xxxxProperty() method that merely calls getXxxxProperty()
         block = new BlockStatement();
-        
+
         VariableExpression thisExpression = VariableExpression.THIS_EXPRESSION;
         ArgumentListExpression emptyArguments = ArgumentListExpression.EMPTY_ARGUMENTS;
-        
+
         MethodCallExpression getProperty = new MethodCallExpression(thisExpression, getterName, emptyArguments);
         block.addStatement(new ReturnStatement(getProperty));
-        
+
         String javaFXPropertyFunction = fxProperty.getName();
-        
+
         accessor = new MethodNode(javaFXPropertyFunction, fxProperty.getModifiers(), fxProperty.getType(),
                                              Parameter.EMPTY_ARRAY, ClassNode.EMPTY_ARRAY, block);
         accessor.setSynthetic(true);
         classNode.addMethod(accessor);
-        
+
         // Create the xxxx() method that merely calls getXxxxProperty()
         block = new BlockStatement();
-        
+
         thisExpression = VariableExpression.THIS_EXPRESSION;
         emptyArguments = ArgumentListExpression.EMPTY_ARGUMENTS;
-        
+
         getProperty = new MethodCallExpression(thisExpression, getterName, emptyArguments);
         block.addStatement(new ReturnStatement(getProperty));
         javaFXPropertyFunction = fxProperty.getName().replace("Property", "");
-        
+
         accessor = new MethodNode(javaFXPropertyFunction, fxProperty.getModifiers(), fxProperty.getType(),
                                              Parameter.EMPTY_ARRAY, ClassNode.EMPTY_ARRAY, block);
         accessor.setSynthetic(true);
         classNode.addMethod(accessor);
-        
-        
+
+
     }
 
     /**
@@ -574,7 +574,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
 
         return new ExpressionStatement(setValue);
     }
-      
+
 
     /**
      * Creates the body of a getter method for the original property that is actually backed by a
@@ -633,7 +633,7 @@ public class FXBindableASTTransformation implements ASTTransformation, Opcodes {
 
     /**
      * Generates the correct getter method name for a JavaFX property.
-     * 
+     *
      * @param fxProperty The property for which the getter should be generated.
      * @return The getter name as a String.
      */
