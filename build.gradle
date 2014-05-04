@@ -58,6 +58,7 @@ dependencies {
     compile "org.ow2.asm:asm:${groovyfx_asmVersion}"
     compile files(project.ext.javafxJar)
     testCompile "junit:junit:${groovyfx_junitVersion}"
+    println "Groovy: ${groovyfx_groovyVersion}; ASM: ${groovyfx_asmVersion}; JUnit: ${groovyfx_junitVersion}"
 }
 
 jar.baseName = 'groovyfx'
