@@ -55,7 +55,7 @@ repositories {
 
 dependencies {
     compile "org.codehaus.groovy:groovy-all:${groovyfx_groovyVersion}"
-    compile "asm:asm:${groovyfx_asmVersion}"
+    compile "org.ow2.asm:asm:${groovyfx_asmVersion}"
     compile files(project.ext.javafxJar)
     testCompile "junit:junit:${groovyfx_junitVersion}"
 }
@@ -63,7 +63,7 @@ dependencies {
 jar.baseName = 'groovyfx'
 
 task wrap(type:Wrapper, description:"create a gradlew") {
-    gradleVersion = '1.10'
+    gradleVersion = '1.11'
 }
 
 apply {
