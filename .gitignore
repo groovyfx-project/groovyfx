@@ -1,22 +1,24 @@
-out
-.idea/workspace.xml
-build
-.gradle
-gradle-app.setting
-buildSrc/build
-buildSrc/.gradle
-groovyfx.ipr
-groovyfx.iml
-groovyfx.iws
-
-#generated:
-grails-doc/src/ref/webView/Properties.gdoc
-/nbproject/private/
+# Gradle things.
+/build
+/.gradle
+/buildSrc/build
+/buildSrc/.gradle
 /dist/
 
-.classpath
-.project
-/.settings/
+# IntelliJ IDEA things
+/out
+/.idea
 *.iml
 *.ipr
 *.iws
+
+# Netbeans things
+/nbproject/
+
+# Eclipse things
+/.classpath
+/.project
+/.settings/
+
+# Generated
+/grails-doc/src/ref/webView/Properties.gdoc
