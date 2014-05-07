@@ -6,11 +6,11 @@
 /dist/
 
 # IntelliJ IDEA things
-/out
 /.idea
 *.iml
 *.ipr
 *.iws
+/out
 
 # Netbeans things
 /nbproject/
@@ -19,6 +19,7 @@
 /.classpath
 /.project
 /.settings/
+/bin
 
 # Generated
 /grails-doc/src/ref/webView/Properties.gdoc
