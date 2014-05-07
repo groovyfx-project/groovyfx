@@ -1,15 +1,19 @@
-_This documentation pertains to GroovyFX version 0.3.1, which includes support for JavaFX 2.2_
+_This documentation pertains to GroovyFX version 0.4.0, which includes support for JavaFX 2.2 on Java 7 and
+JavaFX 8 on Java 8_
 
 # Build instructions
 
-
 Download JavaFX from http://javafx.com and follow the install instructions.
 
+Or if you are feeling "bleeding edge" clone the Git repository!
 
-## Building with Gradle
 
-* Set your environment variable JAVAFX_HOME to the directory that contains rt/lib/jfxrt.jar.
-* cd groovyfx
+## Building with Gradle shell command line
+
+* If you are using Java 8 or a recent Java 7 then there is nothing extra to do. If you are using an old Java
+  7, you may find you have to set the environment variable JAVAFX_HOME to the directory that contains
+  rt/lib/jfxrt.jar.
+* cd to the GroovyFX directory
 * gradlew build
 
 To run any specific demo, e.g. the AccordionDemo, you can just call:
@@ -23,22 +27,27 @@ To see an executable overview of all build tasks including all demos:
 
 ## Using GroovyFX from Maven Central
 
-Having GroovyFX in Maven Central (thanks to Sonatype's OSS hosting!) makes it simple to use GroovyFX in
+Having GroovyFX in Maven Central (thanks to Sonatype's OSS hosting) makes it simple to use GroovyFX in
 everything from simple test scripts to larger projects.  The Maven coordinates are as follows:
 
 * _groupId_: org.codehaus.groovyfx
 * _artifactId_: groovyfx
-* _version_: 0.3.1
+* _version_: 0.4.0
 
 GroovyFX is simple to include in Groovy scripts thanks to Groovy's Grab annotation, a part of the Grape
 system.  Just include the following line at the top of your script:
 
-> @Grab('org.codehaus.groovyfx:groovyfx:0.3.1')
+> @Grab('org.codehaus.groovyfx:groovyfx:0.4.0')
 
-When you start such a script, make sure that an explicit reference to your jfxrt.jar is declared in your classpath
-(even if you use Java 7, which includes JavaFX), e.g. like so:
+You may find that when you start such a script, you have to ensure that an explicit reference to your
+jfxrt.jar is declared in your classpath. For Java 8:
+
+> groovy -cp $JAVA_HOME/jre/lib/ext/jfxrt.jar myScript.groovy
+
+and for Java 7:
 
 > groovy -cp $JAVA_HOME/jre/lib/jfxrt.jar myScript.groovy
+
 
 
 ## Creating a GroovyFX-Based Project with Gradle
@@ -69,12 +78,12 @@ the demos with IntelliJ IDEA.
 
 ## Building with NetBeans
 
-The NetBeans project files are included in the code repository.  You must customize the project files by
-following these steps
+Install the NetBeans Gradle Plugin (which should be in the list of plugins offered as standard, but failing
+that there see http://plugins.netbeans.org/plugin/44510/gradle-support). Using the open a new project
+dialogue, navigate to the GroovyFX project directory and you should see the Gradle logo indicating you can
+open this as a Gradle project. You should now be able to build the library and run the demos with NetBeans.
 
-1. Add the <JAVAFX_SDK>/rt/lib/jfxrt.jar lib to the project libraries.
-2. In NetBeans, open the nbproject/project.properties file and modify the following property to point to your jfxrt.jar file:
 
-> file.reference.jfxrt.jar=<path_to_JavaFX_SDK>/rt/lib/jfxrt.jar
+## Building with Eclipse
 
-You should now be able to build the library and run the demos with NetBeans.
+As at 2014-05-07, GrEclipse appears not to support Groovy 2.3.0, so building with Eclipse has not been tried.
