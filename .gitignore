@@ -1,8 +1,8 @@
 # Gradle things.
-/build
-/.gradle
 /buildSrc/build
 /buildSrc/.gradle
+/build
+/.gradle
 /dist/
 
 # IntelliJ IDEA things
@@ -13,6 +13,8 @@
 /out
 
 # Netbeans things
+/buildSrc/.nb-gradle/
+/.nb-gradle/
 /nbproject/
 
 # Eclipse things
