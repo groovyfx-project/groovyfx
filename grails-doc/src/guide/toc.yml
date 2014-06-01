@@ -4,8 +4,9 @@ introduction :
 
 gettingStarted :
   title : Getting Started
-  whatsNew: 
-    title: What's new
+  whatsNew_0_4_0: What's New in v0.4
+  whatsNew_0_2_0: 
+    title: What's New in v0.2
     breakingChanges: Breaking Changes
     improvements: Improvements and Bug Fixes
   requirements: Installation Requirements
