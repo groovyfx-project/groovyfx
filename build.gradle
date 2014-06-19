@@ -3,11 +3,20 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
+apply plugin: 'org.asciidoctor.gradle.asciidoctor'
 
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
 buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:0.7.1'
+    }
+
     final javafxHome = System.env['JAVAFX_HOME']
     if (javafxHome) {
       project.ext.javafxJar = "${javafxHome}/rt/lib/jfxrt.jar"
@@ -111,4 +120,24 @@ idea {
       }
     }
   }
+}
+
+asciidoctor {
+    baseDir = project.file('src/asciidoc')
+    options = [
+        attributes: [
+            toc                     : 'left',
+            doctype                 : 'book',
+            icons                   : 'font',
+            encoding                : 'utf-8',
+            sectlink                : true,
+            sectanchors             : true,
+            numbered                : true,
+            linkattrs               : true,
+            stylesheet              : 'src/asciidoc-resources/css/style.css',
+            'source-highlighter'    : 'coderay',
+            'groovyfx-version'      : project.version
+        ]
+    ]
+    sourceDocumentName = project.file('src/asciidoc/index.adoc')
 }
