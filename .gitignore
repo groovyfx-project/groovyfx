@@ -2,7 +2,7 @@
 /buildSrc/build
 /buildSrc/.gradle
 /build
-/.gradle
+.gradle
 /dist/
 
 # IntelliJ IDEA things

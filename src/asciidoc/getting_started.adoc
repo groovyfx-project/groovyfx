@@ -1,3 +1,208 @@
 
 = Getting Started
 
+== What's New in Version 0.4.0
+GroovyFX version 0.4 includes support for Groovy 2.3, Java 8, and JavaFX 8.
+
+== What's New in Version 0.2.0
+GroovyFX version 0.2 has a number of fixes, new functionality, and other
+enhancements.  This includes some changes that are incompatible with version
+0.1.  See the Breaking Changes section below for details on these changes.
+
+=== Improvements
+The following JavaFX 2.1 and 2.2 features have been added:
+
+* DirectoryChooser
+* ComboBox
+* StackedBarChart and StackedAreaChart
+* Canvas
+
+Other improvements:
+
+* Usage of Node IDs
+* Actions
+* Nested Table Column Support
+* onSelect Pseudo-Property Added to ListView, TreeView, ComboBox, ChoiceBox,
+  and TabPane
+* Cell Factory Support
+
+=== Breaking Changes
+
+The following changes are not backwards compatible with previous versions.
+
+* New usage of GroovyFX and SceneGraphBuilder classes
+* New Binding
+* TimelineBuilder went away
+
+== Installation Requirements
+Before installing GroovyFX you will need to install the Java Development Kit
+(JDK) version 1.6 or above.
+
+http://java.com/en/download/manual.jsp[Download the appropriate JDK] for your
+operating system, run the installer, and then set up an environment
+variable named JAVA_HOME pointing to the location of this installation.
+
+== Using the GroovyFX Library
+There are several ways in which you can include GroovyFx in your projects.
+
+=== Maven Central
+
+Having GroovyFX in Maven Central (thanks to Sonatype's OSS hosting!) makes it
+simple to use GroovyFX in everything from simple test scripts to larger
+projects.  The Maven coordinates are as follows
+
+* _groupId_: org.codehaus.groovyfx
+* _artifactId_: groovyfx
+* _version_: 0.4.0
+
+GroovyFX is simple to inlude in Groovy scripts thanks to Groovy's Grab
+annotation, a part of the Grape system.  Just include the following line at the
+top of your script
+
+[source,groovy]
+Testing.groovy
+@Grab('org.codehaus.groovyfx:groovyfx:0.4.0')
+
+=== Creating a GroovyFX-Based Project with Gradle
+
+It is also simple to set up your own GroovyFX-based project using Gradle as the
+build system.  This sample build.gradle script will get you started.
+
+[source,groovy]
+----
+apply plugin:'groovy'
+
+project.ext.set('javafxHome', System.env['JAVAFX_HOME']
+
+repositories { mavenCentral() }
+
+dependencies {
+    groovy 'org.codehaus.groovy:groovy-all:1.8.6'
+    compile 'org.codehaus.groovyfx:groovyfx:0.4.0'
+    compile files("${javafxHome}/rt/lib/jfxrt.jar")
+}
+
+task run(type: JavaExec) {
+    main = 'helloGroovyFX'
+    classpath sourceSets.main.runtimeClasspath
+}
+
+task makeDirs(description:'make all dirs for project setup') << {
+    def sources = [sourceSets.main, sourceSets.test]
+    sources*.allSource*.srcDirs.flatten().each { File srcDir ->
+        println "making $srcDir"
+        srcDir.mkdirs()
+    }
+}
+
+task wrap(type:Wrapper, description:"create a gradlew") {
+    gradleVersion = '1.0-rc-3'
+}
+----
+
+Just create a new directory for your project and place the gradle script into
+it.  Then simply call
+
+[source,groovy]
+gradle makeDirs
+
+to set up the rest of your project's directory structure.  You will
+automatically have a dependency on both Groovy and GroovyFX.
+
+== Building from Source
+
+The project's source code is located on
+https://github.com/groovyfx-project/groovyfx[GitHub].  You can clone the
+GroovyFX repository using the following http://git-scm.com/[Git] command
+
+[source]
+git clone git://github.com/groovyfx-project/groovyfx.git
+
+=== Installation Requirements
+
+If you are using a JDK prior to Java 7u4, you will need to install the JavaFX
+2.x SDK from
+http://www.oracle.com/technetwork/java/javafx/downloads/index.html[javafx.com].
+Once you have downloaded and installed the SDK, set up an environment variable
+called JAVAFX_HOME pointing to the location of the JavaFX SDK.
+
+[NOTE]
+The JavaFX 2.1 SDK is included in Java 7u4 and above.  If you are using this
+version of the JDK, you do not need to install a separate SDK and set the
+JAVAFX_HOME environment unless you would like to use a different version of the
+JavaFX SDK than the one included in your JDK.
+
+=== Building with Gradle
+GroovyFX uses http://www.gradle.org[Gradle] as its primary build system.
+Building the project with Gradle requires only the following simple steps
+
+[source]
+cd groovyfx
+gradlew build
+
+The Gradle build script is also capable of running any of the project's demo.
+To run any specific demo, e.g.the AccordionDemo, you can just use
+
+[source]
+gradlew AccordionDemo
+
+To see an executable overview of all build tasks including all demos
+
+[source]
+gradlew --gui
+
+=== Building with Intellij IDEA
+
+GroovyFX's build script is capable of generating all of the project files
+neccessary to build the project with Intellij IDEA.  Just run the following
+command from the project's root directory
+
+[source]
+gradlew idea
+
+This will generate a groovyfx.ipr file.  From IDEA, select File -> Open Project
+and navigate to the directory containing the groovyfx.ipr file and open it.  You
+should now be able to build the library and run the demos with IDEA.
+
+=== Building with NetBeans
+
+The NetBeans project files are included in the code repository.  You may have to
+set up a Java Platform that includes the JavaFX SDK directory, if one does not
+already exist. Please see
+http://netbeans.org/kb/docs/java/javafx-setup.html[Setting Up NetBeans IDE With
+JavaFX 2.1] for more information.
+
+Once you have created the JavaFX enabled Java platform, then choose the GroovyFX project,
+right click and pick "Properties". Choose the "Libraries" entry, then choose the
+JavaFX enabled Java Platform. You should now be able to build the library and run the demos with NetBeans.
+Also, you may have to fix the location for the groovy-all jar file.
+
+== Hello GroovyFX: Your First GroovyFX Program
+Once you have everything set up, try the following Groovy script to test that your setup is functioning as it should.
+
+[source,groovy]
+----
+@Grab('org.codehaus.groovyfx:groovyfx:0.2')
+
+import static groovyx.javafx.GroovyFX.start
+
+start {
+    stage(title: 'GroovyFX Hello World', visible: true) {
+        scene(fill: BLACK, width: 500, height: 250) {
+            hbox(padding: 60) {
+                text(text: 'Groovy', font: '80pt sanserif') {
+                    fill linearGradient(endX: 0, stops: [PALEGREEN, SEAGREEN])
+                }
+                text(text: 'FX', font: '80pt sanserif') {
+                    fill linearGradient(endX: 0, stops: [CYAN, DODGERBLUE])
+                    effect dropShadow(color: DODGERBLUE, radius: 25, spread: 0.25)
+                }
+            }
+        }
+    }
+}
+----
+
+If everything runs correctly you should see the following screen appear.
+
+image:helloWorld.png[]

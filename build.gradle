@@ -134,6 +134,7 @@ asciidoctor {
             sectanchors             : true,
             numbered                : true,
             linkattrs               : true,
+            imagesdir               : 'images',
             stylesheet              : 'src/asciidoc-resources/css/style.css',
             'source-highlighter'    : 'coderay',
             'groovyfx-version'      : project.version
