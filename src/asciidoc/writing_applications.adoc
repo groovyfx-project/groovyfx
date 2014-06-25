@@ -1,3 +1,5 @@
 
 = Writing Applications
 
+== Structuring GroovyFX Applications
+== Using the Griffon Application Framework

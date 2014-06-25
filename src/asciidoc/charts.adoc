@@ -1,3 +1,5 @@
 
 = Charts
 
+== Pie Charts
+== XY Charts

@@ -1,3 +1,14 @@
 
 = Properties and Binding
 
+== Binding Support
+
+=== Property Names
+
+=== Bidirectional
+
+=== Unidirectional
+
+=== Closure Binding Expressions
+
+=== FXBindable Properties
