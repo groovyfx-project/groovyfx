@@ -1,3 +1,0 @@
-Before installing GroovyFX you will need to install the Java Development Kit (JDK) version 1.6 or above. 
-[Download the appropriate JDK|http://java.com/en/download/manual.jsp] for your operating system, run the installer, and then set up an environment 
-variable called JAVA_HOME pointing to the location of this installation.

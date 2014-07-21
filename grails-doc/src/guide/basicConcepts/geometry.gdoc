@@ -1,9 +1,0 @@
-The Geometry objects in the javafx.geometry package, Point2D, Point3D, Dimension2D, Rectangle2D, and BoundingBox,
-may be set using numbered lists. For the 2D classes, 2 numbers must be provided, and for the 3D classes, 3 numbers
-must be provided. BoundingBox may be either 2D, requiring 4 values, or 3D, requiring 6 values. A Rectangle2D may
-also take and empty list or the "EMPTY" string as shown in the previous section on Insets.
-
-{code}
-rotate(angle: 90, axis: [1,1,0])
-imageView(viewport: [0,0, 400, 400])
-{code}

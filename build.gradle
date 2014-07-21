@@ -83,15 +83,11 @@ task wrap(type:Wrapper, description:"create a gradlew") {
 apply {
     from 'buildSrc/scripts/demo.gradle'
     from 'buildSrc/scripts/mavenCentralDeploy.gradle'
-    from 'buildSrc/scripts/docsDependencies.gradle'
-    from 'buildSrc/scripts/docs.gradle'
 }
 */
 
 apply from: 'buildSrc/scripts/demo.gradle'
 apply from: 'buildSrc/scripts/mavenCentralDeploy.gradle'
-apply from: 'buildSrc/scripts/docsDependencies.gradle'
-apply from: 'buildSrc/scripts/docs.gradle'
 
 signArchives.onlyIf {
     project.hasProperty('signing.keyId')
