@@ -73,7 +73,7 @@ dependencies {
 jar.baseName = 'groovyfx'
 
 task wrap(type:Wrapper, description:"create a gradlew") {
-    gradleVersion = '1.12'
+    gradleVersion = '2.0'
 }
 
 //  The "apply {}" form was broken between Gradle 1.11 and Gradle 1.12 but is fixed again in Gradle 2.0.
