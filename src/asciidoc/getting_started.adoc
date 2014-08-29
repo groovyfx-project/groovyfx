@@ -72,14 +72,14 @@ build system.  This sample build.gradle script will get you started.
 ----
 apply plugin:'groovy'
 
-project.ext.set('javafxHome', System.env['JAVAFX_HOME']
+project.ext.set('javaHome', System.env['JAVA_HOME']
 
 repositories { mavenCentral() }
 
 dependencies {
-    groovy 'org.codehaus.groovy:groovy-all:1.8.6'
+    compile 'org.codehaus.groovy:groovy-all:2.3.6'
     compile 'org.codehaus.groovyfx:groovyfx:0.4.0'
-    compile files("${javafxHome}/rt/lib/jfxrt.jar")
+    compile files("${javaHome}/jre/lib/ext/jfxrt.jar")
 }
 
 task run(type: JavaExec) {
