@@ -380,7 +380,7 @@ class FXHelper {
         if(!value.getClass().isEnum()) {
             value = Enum.valueOf(metaProperty.getType(),value.toString().trim().toUpperCase())
         }else if(value instanceof Pos) {
-            value = value.Hpos
+            value = value.hpos
         }
         metaProperty.setProperty(delegate, value);
         return true;
@@ -390,7 +390,7 @@ class FXHelper {
         if(!value.getClass().isEnum()) {
             value = Enum.valueOf(metaProperty.getType(),value.toString().trim().toUpperCase())
         }else if(value instanceof Pos) {
-            value = value.Vpos
+            value = value.vpos
         }
         metaProperty.setProperty(delegate, value);
         return true;
