@@ -77,7 +77,7 @@ project.ext.set('javaHome', System.env['JAVA_HOME']
 repositories { mavenCentral() }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.3.6'
+    compile 'org.codehaus.groovy:groovy-all:2.3.7'
     compile 'org.codehaus.groovyfx:groovyfx:0.4.0'
     compile files("${javaHome}/jre/lib/ext/jfxrt.jar")
 }
@@ -96,7 +96,7 @@ task makeDirs(description:'make all dirs for project setup') << {
 }
 
 task wrap(type:Wrapper, description:"create a gradlew") {
-    gradleVersion = '1.0-rc-3'
+    gradleVersion = '2.1'
 }
 ----
 
