@@ -11,10 +11,11 @@ targetCompatibility = 1.6
 buildscript {
     repositories {
         jcenter()
+        mavenCentral()
     }
 
     dependencies {
-        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.0'
+        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.1'
     }
 
     final javafxHome = System.env['JAVAFX_HOME']
@@ -73,7 +74,7 @@ dependencies {
 jar.baseName = 'groovyfx'
 
 task wrap(type:Wrapper, description:"create a gradlew") {
-    gradleVersion = '2.1'
+    gradleVersion = '2.2.1'
 }
 
 apply {
@@ -111,22 +112,17 @@ idea {
 }
 
 asciidoctor {
-    baseDir = project.file('src/asciidoc')
-    options = [
-        attributes: [
-            toc                     : 'left',
-            doctype                 : 'book',
-            icons                   : 'font',
-            encoding                : 'utf-8',
-            sectlink                : true,
-            sectanchors             : true,
-            numbered                : true,
-            linkattrs               : true,
-            imagesdir               : 'images',
-            stylesheet              : '../asciidoc-resources/css/style.css',
-            'source-highlighter'    : 'coderay',
-            'groovyfx-version'      : project.version
-        ]
-    ]
-    sourceDocumentNames = files('src/asciidoc/index.adoc')
+  //sources { include 'index.adoc' }
+  attributes toc: 'left',
+             doctype: 'book',
+             icons: 'font',
+             encoding: 'utf-8',
+             sectlink: true,
+             sectanchors: true,
+             numbered: true,
+             linkattrs: true,
+             imagesdir: 'images',
+             stylesheet: 'css/style.css',
+             'source-highlighter': 'coderay',
+             'groovyfx-version': project.version
 }

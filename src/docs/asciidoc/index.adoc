@@ -1,0 +1,18 @@
+= The GroovyFX Guide
+:author: Dean Iverson, Dierk Koenig, Russel Winder, Andres Almiray
+:revnumber: {groovyfx-version}
+:revremark: The easiest way to write JavaFX 2.0 and 8.0 applications in Groovy
+:toclevels: 10
+
+include::_links.adoc[]
+
+:leveloffset: 1
+include::introduction.adoc[]
+include::getting_started.adoc[]
+include::basic_concepts.adoc[]
+include::properties_binding.adoc[]
+include::controls.adoc[]
+include::layout.adoc[]
+include::graphics_animation.adoc[]
+include::charts.adoc[]
+include::writing_applications.adoc[]
