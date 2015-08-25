@@ -3,10 +3,10 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
-apply plugin: 'org.asciidoctor.gradle.asciidoctor'
+apply plugin: 'org.asciidoctor.convert'
 
-sourceCompatibility = 1.6
-targetCompatibility = 1.6
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 buildscript {
     repositories {
@@ -74,7 +74,7 @@ dependencies {
 jar.baseName = 'groovyfx'
 
 task wrap(type:Wrapper, description:"create a gradlew") {
-    gradleVersion = '2.4'
+    gradleVersion = '2.6'
 }
 
 apply {
