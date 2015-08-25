@@ -542,16 +542,17 @@ class GroovyFXEnhancer {
         MenuItem.metaClass {
             onAction << { Closure closure -> delegate.setOnAction(closure as EventHandler)}
         }
-        WebEngine.metaClass {
-            confirmHandler << { Closure closure -> delegate.setConfirmHandler(closure as Callback)}
-            createPopupHandler << { Closure closure -> delegate.setCreatePopupHandler(closure as Callback)}
-            promptHandler << { Closure closure -> delegate.setPromptHandler(closure as Callback)}
+        if( System.properties[ 'javafx.platform' ] != 'eglfb' ) {
+            WebEngine.metaClass {
+                confirmHandler << { Closure closure -> delegate.setConfirmHandler(closure as Callback)}
+                createPopupHandler << { Closure closure -> delegate.setCreatePopupHandler(closure as Callback)}
+                promptHandler << { Closure closure -> delegate.setPromptHandler(closure as Callback)}
 
-            onAlert << { Closure closure -> delegate.setOnAlert(closure as EventHandler)}
-            onResized << { Closure closure -> delegate.setOnResized(closure as EventHandler)}
-            onStatusChanged << { Closure closure -> delegate.setOnStatusChanged(closure as EventHandler)}
-            onVisibilityChanged << { Closure closure -> delegate.setOnVisibilityChanged(closure as EventHandler)}
-
+                onAlert << { Closure closure -> delegate.setOnAlert(closure as EventHandler)}
+                onResized << { Closure closure -> delegate.setOnResized(closure as EventHandler)}
+                onStatusChanged << { Closure closure -> delegate.setOnStatusChanged(closure as EventHandler)}
+                onVisibilityChanged << { Closure closure -> delegate.setOnVisibilityChanged(closure as EventHandler)}
+            }
         }
     }
 }
