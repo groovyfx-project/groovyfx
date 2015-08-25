@@ -4,6 +4,7 @@ apply plugin: 'signing'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'org.asciidoctor.convert'
+apply plugin: 'com.github.kt3k.coveralls'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -16,6 +17,7 @@ buildscript {
 
     dependencies {
         classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.2'
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.4.0'
     }
 
     final javafxHome = System.env['JAVAFX_HOME']
