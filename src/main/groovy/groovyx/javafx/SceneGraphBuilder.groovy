@@ -342,7 +342,6 @@ class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory "clip", new ClipFactory(ClipHolder)
         registerFactory "fxml", new FXMLFactory()
 
-        registerFactory "bean", new CustomNodeFactory(Object)
         registerFactory "fxaction", new ActionFactory()
         registerFactory "actions", new CollectionFactory()
         registerFactory "noparent", new CollectionFactory()
