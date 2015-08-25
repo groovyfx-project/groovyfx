@@ -55,20 +55,20 @@ start {
                 center {
                     hbox(spacing: 20, padding: 10) {
                         menuButton("Choose") {
-                            menuItem("one", onAction: { println: "One"})
-                            menuItem("two", onAction: { println: "Two"})
-                            menuItem("three", onAction: { println: "Three"})
+                            menuItem("one", onAction: { println "One"})
+                            menuItem("two", onAction: { println "Two"})
+                            menuItem("three", onAction: { println "Three"})
                         }
                         splitMenuButton("Split", onAction: { println "Split Action"}) {
-                            menuItem("11111", onAction: { println: "11111"})
-                            menuItem("22222", onAction: { println: "22222"})
-                            menuItem("33333", onAction: { println: "33333"})
+                            menuItem("11111", onAction: { println "11111"})
+                            menuItem("22222", onAction: { println "22222"})
+                            menuItem("33333", onAction: { println "33333"})
                         }
                         button("Context Menu") {
                             onMouseEntered {println "over"}
                             contextMenu() {
-                                menuItem("Write", onAction: { println("Write")})
-                                menuItem("Cancel", onAction: { println("Cancel")})
+                                menuItem("Write", onAction: { println "Write" })
+                                menuItem("Cancel", onAction: { println "Cancel" })
                             }
                         }
                     }
