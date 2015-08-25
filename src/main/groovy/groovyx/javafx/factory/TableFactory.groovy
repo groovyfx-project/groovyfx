@@ -173,16 +173,9 @@ class EnumEditingCell extends TableCell implements ChangeListener {
             Method valuesMethod = enumClass.getMethod("values");
             Object[] values = (Object[])valuesMethod.invoke(null);
             items.setAll(values);
-        } catch (NoSuchMethodException ex) {
-            Logger.getLogger(PatientView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(PatientView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SecurityException ex) {
-            Logger.getLogger(PatientView.class.getName()).log(Level.SEVERE, null, ex);
-        }catch (InvocationTargetException ex) {
-            Logger.getLogger(PatientView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        } catch (NoSuchMethodException | IllegalAccessException | SecurityException | InvocationTargetException ex) {
+            Logger.getLogger(EnumEditingCell.class.getName()).log(Level.SEVERE, null, ex);
+        } 
 
         choiceBox.setItems(items);
         choiceBox.getSelectionModel().select(getItem());
