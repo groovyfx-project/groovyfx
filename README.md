@@ -1,3 +1,9 @@
+GroovyFx
+--------
+
+[![Travis Build Status](http://img.shields.io/travis/groovyfx-project/groovyfx.svg)](https://travis-ci.org/groovyfx-project/groovyfx)
+[![Coverage Status](http://img.shields.io/coveralls/groovyfx-project/groovyfx.svg)](https://coveralls.io/r/groovyfx-project/groovyfx)
+
 _This documentation pertains to GroovyFX version 0.4.0, which includes support for JavaFX 2.2 on Java 7 and
 JavaFX 8 on Java 8_
 
