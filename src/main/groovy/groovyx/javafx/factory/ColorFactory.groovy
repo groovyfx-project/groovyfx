@@ -13,31 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
-* Copyright 2011 the original author or authors.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
 
 package groovyx.javafx.factory
 
-import java.util.regex.Matcher
-import java.util.regex.Pattern
-// import javafx.css.ParsedValue // package change between jdk versions but we want to support both
-import javafx.scene.paint.*
 import com.sun.javafx.css.Stylesheet
 import com.sun.javafx.css.parser.CSSParser
+import javafx.scene.paint.Color
+import javafx.scene.paint.CycleMethod
+import javafx.scene.paint.LinearGradient
+import javafx.scene.paint.LinearGradientBuilder
+import javafx.scene.paint.Paint
+import javafx.scene.paint.RadialGradient
+import javafx.scene.paint.RadialGradientBuilder
+import javafx.scene.paint.Stop
 
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
+// import javafx.css.ParsedValue // package change between jdk versions but we want to support both
 /**
  *
  * @author jimclarke

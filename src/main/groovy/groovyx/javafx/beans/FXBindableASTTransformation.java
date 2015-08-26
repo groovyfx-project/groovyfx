@@ -13,24 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
-* Copyright 2011, 2014 the original author or authors.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+
 package groovyx.javafx.beans;
 
-import groovyjarjarasm.asm.Opcodes;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -391,7 +376,7 @@ public class FXBindableASTTransformation implements ASTTransformation {
     protected void createSetterMethod(ClassNode declaringClass, PropertyNode propertyNode, String setterName,
                                       Statement setterBlock, List<AnnotationNode> annotations) {
         Parameter[] setterParameterTypes = {new Parameter(propertyNode.getType(), "value")};
-        int mod = propertyNode.getModifiers() | Opcodes.ACC_FINAL;
+        int mod = propertyNode.getModifiers() | Modifier.FINAL;
 
         MethodNode setter = new MethodNode(setterName, mod, ClassHelper.VOID_TYPE, setterParameterTypes,
             ClassNode.EMPTY_ARRAY, setterBlock);
@@ -426,7 +411,7 @@ public class FXBindableASTTransformation implements ASTTransformation {
      */
     protected void createGetterMethod(ClassNode declaringClass, PropertyNode propertyNode, String getterName,
                                       Statement getterBlock, List<AnnotationNode> annotations) {
-        int mod = propertyNode.getModifiers() | Opcodes.ACC_FINAL;
+        int mod = propertyNode.getModifiers() | Modifier.FINAL;
         MethodNode getter = new MethodNode(getterName, mod, propertyNode.getType(), Parameter.EMPTY_ARRAY,
             ClassNode.EMPTY_ARRAY, getterBlock);
         if (annotations != null) getter.addAnnotations(annotations);

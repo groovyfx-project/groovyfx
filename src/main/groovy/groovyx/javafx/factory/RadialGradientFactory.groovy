@@ -15,8 +15,8 @@
  */
 package groovyx.javafx.factory
 
-import javafx.scene.paint.RadialGradientBuilder
 import javafx.scene.paint.RadialGradient
+import javafx.scene.paint.RadialGradientBuilder
 
 /**
  * @author Dean Iverson

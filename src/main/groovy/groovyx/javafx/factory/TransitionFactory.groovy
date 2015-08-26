@@ -13,29 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
-* Copyright 2011 the original author or authors.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+
 package groovyx.javafx.factory
 
-import javafx.animation.*;
-import javafx.util.Duration;
-import groovyx.javafx.factory.animation.KeyValueSubFactory;
-import javafx.scene.shape.Path;
-import javafx.event.EventHandler;
 import groovyx.javafx.event.GroovyEventHandler
+import groovyx.javafx.factory.animation.KeyValueSubFactory
+import javafx.animation.FadeTransition
+import javafx.animation.FillTransition
+import javafx.animation.ParallelTransition
+import javafx.animation.PathTransition
+import javafx.animation.PauseTransition
+import javafx.animation.RotateTransition
+import javafx.animation.ScaleTransition
+import javafx.animation.SequentialTransition
+import javafx.animation.StrokeTransition
+import javafx.animation.Transition
+import javafx.animation.TranslateTransition
+import javafx.event.EventHandler
+import javafx.scene.shape.Path
+import javafx.util.Duration
 
 /**
  * Handles JavaFX transitions

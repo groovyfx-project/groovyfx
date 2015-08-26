@@ -15,39 +15,32 @@
  */
 package groovyx.javafx.factory
 
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
-import javafx.scene.shape.StrokeLineCap;
-import javafx.scene.shape.StrokeLineJoin;
-import javafx.scene.text.TextAlignment;
-import javafx.geometry.HPos;
-import javafx.geometry.VPos;
-import javafx.scene.layout.Priority;
-import javafx.scene.effect.BlendMode;
-import javafx.scene.effect.BlurType;
-import javafx.geometry.*;
-import javafx.scene.image.Image;
-import javafx.scene.Cursor;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.beans.property.ReadOnlyProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.Node;
-import java.util.Map;
-import java.util.HashMap;
-import javafx.scene.control.ToggleGroup;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import javafx.geometry.VPos;
-import javafx.scene.text.TextAlignment;
-import java.io.File;
-import javafx.event.EventHandler;
-import javafx.beans.value.*;
-import org.codehaus.groovy.runtime.InvokerHelper;
-import groovyx.javafx.binding.*;
-import javafx.beans.property.*;
+import groovyx.javafx.binding.BindingHolder
+import groovyx.javafx.binding.Util
+import javafx.beans.property.Property
+import javafx.beans.value.ObservableValue
+import javafx.collections.FXCollections
+import javafx.collections.ObservableList
+import javafx.event.EventHandler
+import javafx.geometry.BoundingBox
+import javafx.geometry.Dimension2D
+import javafx.geometry.HPos
+import javafx.geometry.Insets
+import javafx.geometry.Orientation
+import javafx.geometry.Point2D
+import javafx.geometry.Point3D
+import javafx.geometry.Pos
+import javafx.geometry.Rectangle2D
+import javafx.geometry.VPos
+import javafx.scene.Cursor
+import javafx.scene.Node
+import javafx.scene.control.ToggleGroup
+import javafx.scene.image.Image
+import javafx.scene.layout.AnchorPane
+import javafx.scene.paint.Paint
+import javafx.scene.text.Font
+import org.codehaus.groovy.runtime.InvokerHelper
+
 /**
  *
  * @author jimclarke

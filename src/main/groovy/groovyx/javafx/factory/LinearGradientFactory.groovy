@@ -15,8 +15,8 @@
  */
 package groovyx.javafx.factory
 
-import javafx.scene.paint.LinearGradientBuilder
 import javafx.scene.paint.LinearGradient
+import javafx.scene.paint.LinearGradientBuilder
 
 /**
  * @author Dean Iverson

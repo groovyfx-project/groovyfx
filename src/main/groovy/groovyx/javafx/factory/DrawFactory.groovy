@@ -20,9 +20,10 @@
 
 package groovyx.javafx.factory
 
+import groovyx.javafx.canvas.CanvasOperation
+import groovyx.javafx.canvas.DrawOperations
 import javafx.scene.canvas.Canvas
-import javafx.scene.canvas.GraphicsContext
-import groovyx.javafx.canvas.*
+
 /**
  *
  * @author jimclarke

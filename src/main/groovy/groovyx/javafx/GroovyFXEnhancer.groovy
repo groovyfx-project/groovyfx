@@ -13,40 +13,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
-* Copyright 2011-2012 the original author or authors.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+
 package groovyx.javafx
 
-import org.codehaus.groovy.runtime.InvokerHelper
 import javafx.beans.InvalidationListener
+import javafx.beans.binding.BooleanBinding
+import javafx.beans.binding.NumberBinding
+import javafx.beans.property.ReadOnlyBooleanProperty
+import javafx.beans.property.ReadOnlyDoubleProperty
+import javafx.beans.property.ReadOnlyFloatProperty
+import javafx.beans.property.ReadOnlyIntegerProperty
+import javafx.beans.property.ReadOnlyListProperty
+import javafx.beans.property.ReadOnlyLongProperty
+import javafx.beans.property.ReadOnlyMapProperty
+import javafx.beans.property.ReadOnlyObjectProperty
+import javafx.beans.property.SimpleBooleanProperty
+import javafx.beans.property.SimpleDoubleProperty
 import javafx.beans.value.ChangeListener
 import javafx.beans.value.ObservableNumberValue
+import javafx.collections.FXCollections
+import javafx.collections.ObservableList
+import javafx.collections.ObservableMap
+import javafx.collections.ObservableSet
 import javafx.event.EventHandler
 import javafx.scene.Node
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import javafx.scene.Scene
+import javafx.scene.control.ButtonBase
+import javafx.scene.control.ChoiceBox
+import javafx.scene.control.ComboBox
+import javafx.scene.control.ListView
+import javafx.scene.control.Menu
+import javafx.scene.control.MenuItem
+import javafx.scene.control.Tab
+import javafx.scene.control.TabPane
+import javafx.scene.control.TableColumn
+import javafx.scene.control.TableView
+import javafx.scene.control.TreeView
 import javafx.scene.web.WebEngine
+import javafx.stage.Stage
 import javafx.stage.Window
 import javafx.util.Callback
 import javafx.util.Duration
-import javafx.beans.binding.*
-import javafx.beans.property.*
-import javafx.scene.control.*
-
-import javafx.collections.*;
+import org.codehaus.groovy.runtime.InvokerHelper
 
 /**
  * @author jimclarke

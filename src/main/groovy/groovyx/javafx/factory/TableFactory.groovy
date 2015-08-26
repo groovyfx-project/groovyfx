@@ -13,37 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
-* Copyright 2011 the original author or authors.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
 
 package groovyx.javafx.factory
 
-
-import javafx.scene.control.*;
-import javafx.scene.control.cell.*;
-import javafx.scene.control.TableColumn.*;
-import java.lang.reflect.*;
-import javafx.beans.value.*;
-import javafx.event.*;
-import javafx.scene.input.*;
-import javafx.beans.property.*;
-import javafx.collections.*;
-import javafx.util.Callback;
 import groovyx.javafx.event.GroovyCallback
+import javafx.beans.property.SimpleStringProperty
+import javafx.beans.property.StringProperty
+import javafx.beans.value.ChangeListener
+import javafx.beans.value.ObservableValue
+import javafx.collections.FXCollections
+import javafx.collections.ObservableList
+import javafx.event.Event
+import javafx.event.EventHandler
+import javafx.scene.control.ChoiceBox
+import javafx.scene.control.ContentDisplay
+import javafx.scene.control.SelectionMode
+import javafx.scene.control.TableCell
+import javafx.scene.control.TableColumn
+import javafx.scene.control.TableView
+import javafx.scene.control.TextField
+import javafx.scene.control.cell.PropertyValueFactory
+import javafx.scene.input.KeyCode
 import org.codehaus.groovy.runtime.InvokerHelper
+
+import java.lang.reflect.InvocationTargetException
+import java.lang.reflect.Method
 
 
 /**

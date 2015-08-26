@@ -13,27 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
-* Copyright 2011-2012 the original author or authors.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
 
 package groovyx.javafx
 
+import groovy.swing.factory.CollectionFactory
 import groovyx.javafx.animation.TargetHolder
+import groovyx.javafx.canvas.*
 import groovyx.javafx.event.GroovyCallback
 import groovyx.javafx.event.GroovyEventHandler
+import groovyx.javafx.factory.*
+import groovyx.javafx.factory.animation.KeyFrameFactory
+import groovyx.javafx.factory.animation.KeyFrameWrapper
+import groovyx.javafx.factory.animation.KeyValueFactory
+import groovyx.javafx.factory.animation.KeyValueSubFactory
+import groovyx.javafx.factory.animation.TimelineFactory
+import javafx.animation.FadeTransition
+import javafx.animation.FillTransition
+import javafx.animation.Interpolator
+import javafx.animation.ParallelTransition
+import javafx.animation.PathTransition
+import javafx.animation.PauseTransition
+import javafx.animation.RotateTransition
+import javafx.animation.ScaleTransition
+import javafx.animation.SequentialTransition
+import javafx.animation.StrokeTransition
+import javafx.animation.Timeline
+import javafx.animation.Transition
+import javafx.animation.TranslateTransition
 import javafx.application.Platform
 import javafx.beans.InvalidationListener
 import javafx.beans.value.ChangeListener
@@ -43,34 +49,80 @@ import javafx.geometry.HPos
 import javafx.geometry.Orientation
 import javafx.geometry.Pos
 import javafx.geometry.VPos
+import javafx.scene.Group
+import javafx.scene.Node
+import javafx.scene.Parent
+import javafx.scene.Scene
+import javafx.scene.SceneBuilder
+import javafx.scene.chart.AreaChart
+import javafx.scene.chart.Axis
+import javafx.scene.chart.BarChart
+import javafx.scene.chart.BubbleChart
+import javafx.scene.chart.CategoryAxis
+import javafx.scene.chart.LineChart
+import javafx.scene.chart.NumberAxis
+import javafx.scene.chart.PieChart
+import javafx.scene.chart.ScatterChart
+import javafx.scene.chart.StackedAreaChart
+import javafx.scene.chart.StackedBarChart
+import javafx.scene.chart.XYChart
+import javafx.scene.control.*
+import javafx.scene.effect.Blend
+import javafx.scene.effect.Bloom
+import javafx.scene.effect.BoxBlur
+import javafx.scene.effect.ColorAdjust
+import javafx.scene.effect.ColorInput
+import javafx.scene.effect.DisplacementMap
+import javafx.scene.effect.DropShadow
+import javafx.scene.effect.Effect
+import javafx.scene.effect.GaussianBlur
+import javafx.scene.effect.Glow
+import javafx.scene.effect.ImageInput
+import javafx.scene.effect.InnerShadow
+import javafx.scene.effect.Light
+import javafx.scene.effect.Lighting
+import javafx.scene.effect.MotionBlur
+import javafx.scene.effect.PerspectiveTransform
+import javafx.scene.effect.Reflection
+import javafx.scene.effect.SepiaTone
+import javafx.scene.effect.Shadow
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
+import javafx.scene.layout.AnchorPane
+import javafx.scene.layout.BorderPane
+import javafx.scene.layout.ColumnConstraints
+import javafx.scene.layout.FlowPane
+import javafx.scene.layout.GridPane
+import javafx.scene.layout.HBox
+import javafx.scene.layout.Pane
+import javafx.scene.layout.Region
+import javafx.scene.layout.RowConstraints
+import javafx.scene.layout.StackPane
+import javafx.scene.layout.TilePane
+import javafx.scene.layout.VBox
 import javafx.scene.media.MediaPlayer
 import javafx.scene.media.MediaPlayerBuilder
 import javafx.scene.media.MediaView
 import javafx.scene.paint.Color
+import javafx.scene.shape.*
 import javafx.scene.text.Text
 import javafx.scene.text.TextFlow
+import javafx.scene.transform.Affine
+import javafx.scene.transform.Rotate
+import javafx.scene.transform.Scale
+import javafx.scene.transform.Shear
+import javafx.scene.transform.Transform
+import javafx.scene.transform.Translate
 import javafx.scene.web.HTMLEditor
 import javafx.scene.web.WebView
+import javafx.stage.DirectoryChooser
+import javafx.stage.FileChooser
+import javafx.stage.Popup
+import javafx.stage.Stage
+import javafx.stage.Window
 import org.codehaus.groovy.runtime.MethodClosure
 
 import java.util.logging.Logger
-
-import groovyx.javafx.factory.*
-import groovyx.javafx.factory.animation.*
-import javafx.animation.*
-import javafx.scene.*
-import javafx.scene.chart.*
-import javafx.scene.control.*
-import javafx.scene.effect.*
-import javafx.scene.layout.*
-import javafx.scene.shape.*
-import javafx.scene.transform.*
-import javafx.stage.*
-import groovy.swing.factory.CollectionFactory
-
-import groovyx.javafx.canvas.*
 
 /**
  *
