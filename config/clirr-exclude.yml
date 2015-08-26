@@ -1,0 +1,5 @@
+packages: 
+    - javax.annotation
+    - javax.inject
+    - groovy.grape
+    - org.apache.tools.ant

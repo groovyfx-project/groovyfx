@@ -1,14 +1,20 @@
-apply plugin: 'groovy'
-apply plugin: 'maven'
-apply plugin: 'signing'
-apply plugin: 'idea'
-apply plugin: 'jacoco'
-apply plugin: 'eclipse'
-apply plugin: 'org.asciidoctor.convert'
-apply plugin: 'com.github.kt3k.coveralls'
+/*
+ * Copyright 2011-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+import java.text.SimpleDateFormat
 
 buildscript {
     repositories {
@@ -19,6 +25,9 @@ buildscript {
     dependencies {
         classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.2'
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.4.0'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.11.3'
+        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0'
+        classpath 'net.nemerosa:versioning:1.6.0'
     }
 
     final javafxHome = System.env['JAVAFX_HOME']
@@ -55,15 +64,31 @@ buildscript {
     }
 }
 
-project.ext.actualJavaFXVersion = com.sun.javafx.runtime.VersionInfo.runtimeVersion
-if (! project.ext.actualJavaFXVersion =~ groovyfx_requiredJavaFxVersion) {
-  println "    Required JavaFX version is '${groovyfx_requiredJavaFxVersion}' but actual version is '${project.ext.actualJavaFXVersion}'"
-  System.exit 1
+ext {
+    actualJavaFXVersion = com.sun.javafx.runtime.VersionInfo.runtimeVersion
+    buildTimeAndDate = new Date()
+    buildDate = new SimpleDateFormat('yyyy-MM-dd').format(buildTimeAndDate)
+    buildTime = new SimpleDateFormat('HH:mm:ss.SSSZ').format(buildTimeAndDate)
 }
+if (! project.ext.actualJavaFXVersion =~ groovyfx_requiredJavaFxVersion) {
+    println "    Required JavaFX version is '${groovyfx_requiredJavaFxVersion}' but actual version is '${project.ext.actualJavaFXVersion}'"
+    System.exit 1
+}
+
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'signing'
+apply plugin: 'idea'
+apply plugin: 'jacoco'
+apply plugin: 'eclipse'
+apply plugin: 'org.asciidoctor.convert'
+apply plugin: 'com.github.kt3k.coveralls'
+apply plugin: 'com.github.ben-manes.versions'
+apply plugin: 'net.nemerosa.versioning'
 
 repositories {
     if (project.hasProperty('groovyfx_useMavenLocal') && Boolean.valueOf(project.groovyfx_useMavenLocal)) { mavenLocal() }
-    mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -74,15 +99,28 @@ dependencies {
     println "Groovy: ${groovyfx_groovyVersion}; ASM: ${groovyfx_asmVersion}; JUnit: ${groovyfx_junitVersion}"
 }
 
-jar.baseName = 'groovyfx'
-
-task wrap(type:Wrapper, description:"create a gradlew") {
-    gradleVersion = '2.6'
+apply {
+    from 'gradle/demo.gradle'
+    from 'gradle/deploy.gradle'
+    from 'gradle/code-quality.gradle'
 }
 
-apply {
-    from 'buildSrc/scripts/demo.gradle'
-    from 'buildSrc/scripts/mavenCentralDeploy.gradle'
+jar {
+    manifest {
+        attributes(
+            'Built-By': System.properties['user.name'],
+            'Created-By': "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})".toString(),
+            'Build-Date': buildDate,
+            'Build-Time': buildTime,
+            'Build-Revision': versioning.info.commit,
+            'Specification-Title': project.name,
+            'Specification-Version': project.version,
+            'Specification-Vendor': 'grovvyfx.org',
+            'Implementation-Title': project.name,
+            'Implementation-Version': project.version,
+            'Implementation-Vendor': 'grovvyfx.org'
+        )
+    }
 }
 
 signArchives.onlyIf {
@@ -95,7 +133,7 @@ uploadArchives.onlyIf {
 
 idea {
   module {
-    excludeDirs += file('gradle/') // Gradle directory including the wrapper subdirectory.
+    // excludeDirs += file('gradle/') // Gradle directory including the wrapper subdirectory.
     excludeDirs += file('.settings/') // Eclipse settings directory.
     excludeDirs += file('bin') // Eclipse compilation directory.
     excludeDirs += file('out') // IDEA compilation directory.
@@ -104,7 +142,7 @@ idea {
   project {
     ipr {
       withXml { provider ->
-        final node =provider.asNode()
+        final node = provider.asNode()
         final component = provider.asNode().component
         node.component.find { it.'@name' == 'VcsDirectoryMappings' }.mapping[0].'@vcs' = 'Git'
         final gradleSettings = node.appendNode('component' , [name: 'GradleSettings'])
