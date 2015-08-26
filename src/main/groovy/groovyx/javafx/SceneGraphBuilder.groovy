@@ -50,6 +50,7 @@ import javafx.scene.media.MediaPlayerBuilder
 import javafx.scene.media.MediaView
 import javafx.scene.paint.Color
 import javafx.scene.text.Text
+import javafx.scene.text.TextFlow
 import javafx.scene.web.HTMLEditor
 import javafx.scene.web.WebView
 import org.codehaus.groovy.runtime.MethodClosure
@@ -378,6 +379,7 @@ class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory 'tilePane', new ContainerFactory(TilePane)
         registerFactory 'group', new ContainerFactory(Group)
         registerFactory 'gridPane', new ContainerFactory(GridPane)
+        registerFactory 'textFlow', new ContainerFactory(TextFlow)
 
         registerFactory 'constraint', new GridConstraintFactory(GridConstraint)
         registerFactory 'rowConstraints', new GridConstraintFactory(RowConstraints)
