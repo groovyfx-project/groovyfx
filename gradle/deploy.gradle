@@ -16,6 +16,20 @@
 
 // ------------- Maven Central deployment ---------------
 
+groovydoc {
+    use = true
+    source = project.sourceSets.main.allSource
+    classpath = javadoc.classpath
+    windowTitle = "$project.name $project.version API"
+    docTitle = "$project.name $project.version API"
+    header = "$project.name $project.version API"
+    includePrivate = false
+    link 'http://junit.org/javadoc/latest/', 'org.junit.', 'junit.'
+    link 'http://docs.oracle.com/javase/8/docs/api/', 'java.', 'org.xml.', 'javax.', 'org.w3c.'
+    link 'http://docs.oracle.com/javase/8/javafx/api/', 'javafx.'
+    link 'http://docs.groovy-lang.org/latest/html/api/', 'groovy.', 'org.codehaus.groovy'
+}
+
 task groovydocJar(type: Jar, dependsOn: groovydoc) {
     classifier = 'javadoc'
     from 'build/docs/groovydoc'
