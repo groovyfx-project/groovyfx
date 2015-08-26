@@ -69,7 +69,7 @@ uploadArchives {
         pom.project {
             name         'GroovyFX'
             url          'http://groovyfx.org'
-            description  'Groovy bindings for JavaFX 2'
+            description  'Groovy bindings for JavaFX 8'
             packaging    'jar'
             licenses {
                 license {
