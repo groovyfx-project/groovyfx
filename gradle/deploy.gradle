@@ -20,6 +20,7 @@ groovydoc {
     use = true
     source = project.sourceSets.main.allSource
     classpath = javadoc.classpath
+    groovyClasspath = project.configurations.jansi
     windowTitle = "$project.name $project.version API"
     docTitle = "$project.name $project.version API"
     header = "$project.name $project.version API"
