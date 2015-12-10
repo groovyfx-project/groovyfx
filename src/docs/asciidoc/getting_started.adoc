@@ -1,6 +1,10 @@
 
 = Getting Started
 
+== What's New in Version 1.0.0
+GroovyFX version 1.0.0 includes support for Groovy 2.4, Java 8, and JavaFX 8. +
+JavaFX 2 is no longer supported.
+
 == What's New in Version 0.4.0
 GroovyFX version 0.4 includes support for Groovy 2.3, Java 8, and JavaFX 8.
 
@@ -36,7 +40,7 @@ The following changes are not backwards compatible with previous versions.
 
 == Installation Requirements
 Before installing GroovyFX you will need to install the Java Development Kit
-(JDK) version 1.6 or above.
+(JDK) version 1.8 or above.
 
 http://java.com/en/download/manual.jsp[Download the appropriate JDK] for your
 operating system, run the installer, and then set up an environment
@@ -53,15 +57,18 @@ projects.  The Maven coordinates are as follows
 
 * _groupId_: org.codehaus.groovyfx
 * _artifactId_: groovyfx
-* _version_: 0.4.0
+* _version_: {groovyfx-version}
 
-GroovyFX is simple to inlude in Groovy scripts thanks to Groovy's Grab
+GroovyFX is simple to include in Groovy scripts thanks to Groovy's Grab
 annotation, a part of the Grape system.  Just include the following line at the
 top of your script
 
 [source,groovy]
+[subs="attributes"]
+----
 Testing.groovy
-@Grab('org.codehaus.groovyfx:groovyfx:0.4.0')
+@Grab('org.codehaus.groovyfx:groovyfx:{groovyfx-version}')
+----
 
 === Creating a GroovyFX-Based Project with Gradle
 
@@ -69,16 +76,17 @@ It is also simple to set up your own GroovyFX-based project using Gradle as the
 build system.  This sample build.gradle script will get you started.
 
 [source,groovy]
+[subs="attributes"]
 ----
-apply plugin:'groovy'
+apply plugin: 'groovy'
 
 project.ext.set('javaHome', System.env['JAVA_HOME']
 
 repositories { mavenCentral() }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.3.7'
-    compile 'org.codehaus.groovyfx:groovyfx:0.4.0'
+    compile 'org.codehaus.groovy:groovy-all:{groovy-version}'
+    compile 'org.codehaus.groovyfx:groovyfx:{groovyfx-version}'
     compile files("${javaHome}/jre/lib/ext/jfxrt.jar")
 }
 
@@ -96,7 +104,7 @@ task makeDirs(description:'make all dirs for project setup') << {
 }
 
 task wrap(type:Wrapper, description:"create a gradlew") {
-    gradleVersion = '2.1'
+    gradleVersion = '2.9'
 }
 ----
 
@@ -120,14 +128,11 @@ git clone git://github.com/groovyfx-project/groovyfx.git
 
 === Installation Requirements
 
-If you are using a JDK prior to Java 7u4, you will need to install the JavaFX
-2.x SDK from
-http://www.oracle.com/technetwork/java/javafx/downloads/index.html[javafx.com].
-Once you have downloaded and installed the SDK, set up an environment variable
+Once you have downloaded and installed a Java8 SDK, set up an environment variable
 called JAVAFX_HOME pointing to the location of the JavaFX SDK.
 
 [NOTE]
-The JavaFX 2.1 SDK is included in Java 7u4 and above.  If you are using this
+The JavaFX 8 SDK is included in Oracle Java 8 and above. If you are using this
 version of the JDK, you do not need to install a separate SDK and set the
 JAVAFX_HOME environment unless you would like to use a different version of the
 JavaFX SDK than the one included in your JDK.
@@ -168,9 +173,7 @@ should now be able to build the library and run the demos with IDEA.
 
 The NetBeans project files are included in the code repository.  You may have to
 set up a Java Platform that includes the JavaFX SDK directory, if one does not
-already exist. Please see
-http://netbeans.org/kb/docs/java/javafx-setup.html[Setting Up NetBeans IDE With
-JavaFX 2.1] for more information.
+already exist.
 
 Once you have created the JavaFX enabled Java platform, then choose the GroovyFX project,
 right click and pick "Properties". Choose the "Libraries" entry, then choose the
@@ -181,8 +184,9 @@ Also, you may have to fix the location for the groovy-all jar file.
 Once you have everything set up, try the following Groovy script to test that your setup is functioning as it should.
 
 [source,groovy]
+[subs="attributes"]
 ----
-@Grab('org.codehaus.groovyfx:groovyfx:0.2')
+@Grab('org.codehaus.groovyfx:groovyfx:{groovyfx-version}')
 
 import static groovyx.javafx.GroovyFX.start
 

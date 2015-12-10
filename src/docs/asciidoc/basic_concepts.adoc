@@ -4,7 +4,7 @@
 In JavaFX, you display graphics and controls on the screen by constructing a scene graph that consists of various types
 of nodes - perhaps a circle or a button control.  The scene graph is put into a +Scene+, which defines the area in which
 your scene graph will be displayed.  The +Scene+ can then be shown on a +Stage+.  You can think of a +Stage+ as the application
-container.  If your applicaiton is running on the user's desktop, the +Stage+ corresponds to a desktop window that typically
+container.  If your application is running on the user's desktop, the +Stage+ corresponds to a desktop window that typically
 has a title bar and resizing controls.  If your application is embedded into a browser, then the +Stage+ corresponds to the
 applet's display area.
 
@@ -28,7 +28,7 @@ image:firstapp.png[]
 You can see that we declare a stage with a +title+ attribute of 'GroovyFX' and a +show+ attribute set to _true_.  The +title+
 of the stage appears as the text in the application window's title bar (since this was run as a desktop application).  The
 value of the +show+ attribute controls whether the Stage (the window) will initially be visible.  If you leave out the
-+show+ attribute, its default value will remain false and your applicaiton will be invisible!
++show+ attribute, its default value will remain false and your application will be invisible!
 
 The scene node is declared as a child of the stage node - that is, it appears within the stage's curly braces.  Those curly braces
 actually define the stage's closure, and any node declared within that closure will become a child node.  A rectangle
@@ -54,7 +54,7 @@ builder syntax is called +SceneGraphBuilder+.
 The nodes in a scene graph are generally referred to as, well... nodes.  When you create a Groovy Builder, the elements
 that you can declare with the builder are also referred to as nodes.  In most cases, this won't cause us any confusion
 because the JavaFX scene graph nodes all have a corresponding GroovyFX +SceneGraphBuilder+ node, and therefore the term _node_ can
-be used interchangabely.
+be used interchangeably.
 
 In those rare cases where we need to make a distinction, we will explicitly refer to _builder nodes_ rather
 than simply scene graph _nodes_.

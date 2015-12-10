@@ -169,7 +169,8 @@ asciidoctor {
              imagesdir: 'images',
              stylesheet: 'css/style.css',
              'source-highlighter': 'coderay',
-             'groovyfx-version': project.version
+             'groovyfx-version': project.version,
+             'groovy-version': project.groovyfx_groovyVersion
 }
 
 test {
