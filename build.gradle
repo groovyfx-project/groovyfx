@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2015 the original author or authors.
+ * Copyright 2011-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,11 +43,10 @@ buildscript {
       if (javaHome) {
           File jfxrt7Jar = new File("${javaHome}/jre/lib/jfxrt.jar")
           File jfxrt8Jar = new File("${javaHome}/jre/lib/ext/jfxrt.jar")
-          if (jfxrt8Jar.exists()) {
-               project.ext.javafxJar = jfxrt8Jar.canonicalPath
-          } else if (jfxrt7Jar.exists()) {
-               project.ext.javafxJar = jfxrt7Jar.canonicalPath
-          }
+          File jfxrt9Jar = new File("${javaHome}/lib/jfxrt.jar")
+          if (jfxrt9Jar.exists()) { project.ext.javafxJar = jfxrt9Jar.canonicalPath }
+          else if (jfxrt8Jar.exists()) { project.ext.javafxJar = jfxrt8Jar.canonicalPath }
+          else if (jfxrt7Jar.exists()) { project.ext.javafxJar = jfxrt7Jar.canonicalPath }
       }
     }
     try {
@@ -58,8 +57,8 @@ buildscript {
     } catch (MissingPropertyException mpe) {
         println """|
         |    Please set the environment variable JAVAFX_HOME
-        |    to the directory that contains rt/lib/jfxrt.jar
-        |    of JavaFX version ${groovyfx_requiredJavaFxVersion}.\n""".stripMargin('|')
+        |    to the directory that contains jfxrt.jar\n""".stripMargin('|')
+        //|    of JavaFX version ${groovyfx_requiredJavaFxVersion}.\n""".stripMargin('|')
         System.exit 1
     }
 }
@@ -70,10 +69,10 @@ ext {
     buildDate = new SimpleDateFormat('yyyy-MM-dd').format(buildTimeAndDate)
     buildTime = new SimpleDateFormat('HH:mm:ss.SSSZ').format(buildTimeAndDate)
 }
-if (! project.ext.actualJavaFXVersion =~ groovyfx_requiredJavaFxVersion) {
-    println "    Required JavaFX version is '${groovyfx_requiredJavaFxVersion}' but actual version is '${project.ext.actualJavaFXVersion}'"
-    System.exit 1
-}
+//if (! project.ext.actualJavaFXVersion =~ groovyfx_requiredJavaFxVersion) {
+//    println "    Required JavaFX version is '${groovyfx_requiredJavaFxVersion}' but actual version is '${project.ext.actualJavaFXVersion}'"
+//    System.exit 1
+//}
 
 apply plugin: 'groovy'
 apply plugin: 'maven'
