@@ -211,6 +211,7 @@ private void contributeControls(delegate) {
     delegate.method(name: 'tab', type: 'javafx.scene.control.Tab', params: [args: [:], body: {}])
     delegate.method(name: 'toolBar', type: 'javafx.scene.control.ToolBar', params: [args: [:], body: {}])
     delegate.method(name: 'buttonBar', type: 'javafx.scene.control.ButtonBar', params: [args: [:], body: {}])
+    delegate.method(name: 'datePicker', type: 'javafx.scene.control.DatePicker', params: [args: [:], body: {}])
 
     noArgsMethodWithClosure(delegate, 'title', 'groovyx.javafx.factory.Titled')
     noArgsMethodWithClosure(delegate, 'content', 'groovyx.javafx.factory.Titled')

@@ -27,6 +27,7 @@ import javafx.scene.control.ButtonBar
 import javafx.scene.control.ComboBox
 import javafx.scene.control.ContextMenu
 import javafx.scene.control.Control
+import javafx.scene.control.DatePicker
 import javafx.scene.control.ListView
 import javafx.scene.control.ScrollPane
 import javafx.scene.control.SplitPane
@@ -81,6 +82,7 @@ class ControlFactory extends AbstractNodeFactory {
                     switch(parent) {
                         case ListView:
                         case ComboBox:
+                        case DatePicker:
                         case TabPane:
                         case TreeView:
                             parent.selectionModel.selectedItemProperty().addListener(new ChangeListener() {
@@ -96,6 +98,7 @@ class ControlFactory extends AbstractNodeFactory {
                      switch(parent) {
                          case ListView:
                          case ComboBox:
+                         case DatePicker:
                          case TreeView:
                             parent.cellFactory = child
                             break;

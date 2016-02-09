@@ -633,6 +633,7 @@ class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory 'tab', new TabFactory(Tab)
         registerFactory 'toolBar', new ControlFactory(ToolBar)
         registerFactory 'buttonBar', new ControlFactory(ButtonBar)
+        registerFactory 'datePicker', new ControlFactory(DatePicker)
 
 
         registerFactory 'treeView', new ControlFactory(TreeView)
