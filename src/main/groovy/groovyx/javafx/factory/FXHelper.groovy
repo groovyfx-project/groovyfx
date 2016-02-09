@@ -34,6 +34,7 @@ import javafx.geometry.Rectangle2D
 import javafx.geometry.VPos
 import javafx.scene.Cursor
 import javafx.scene.Node
+import javafx.scene.control.ButtonBar
 import javafx.scene.control.ToggleGroup
 import javafx.scene.image.Image
 import javafx.scene.layout.AnchorPane
@@ -515,6 +516,11 @@ class FXHelper {
                 setAnchor(delegate, value);
                 return true;
             }
+        }
+
+        if (key == 'buttonData') {
+            ButtonBar.setButtonData(delegate, value)
+            return true
         }
 
         def metaProperty = delegate.getClass().metaClass.getMetaProperty(key);

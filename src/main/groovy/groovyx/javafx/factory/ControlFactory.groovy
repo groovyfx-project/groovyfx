@@ -23,6 +23,8 @@ import javafx.beans.value.ChangeListener
 import javafx.beans.value.ObservableValue
 import javafx.scene.Node
 import javafx.scene.control.Accordion
+import javafx.scene.control.Button
+import javafx.scene.control.ButtonBar
 import javafx.scene.control.ComboBox
 import javafx.scene.control.ContextMenu
 import javafx.scene.control.Control
@@ -166,6 +168,12 @@ class ControlFactory extends AbstractNodeFactory {
                             FXHelper.setPropertyOrMethod(parent, child.property, child)
                         }
                         break;
+                    case ButtonBar:
+                        if (child instanceof Button) {
+                            parent.buttons.add(child)
+                        } else if (child instanceof List) {
+                            parent.buttons.addAll(child)
+                        }
                     default:
                         super.setChild(builder, parent, child);
                         break;
