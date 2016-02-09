@@ -38,7 +38,7 @@ class BorderPanePositionFactory extends AbstractFXBeanFactory {
     }
     
     public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
-         parent.addNode(child);
+         if (child instanceof javafx.scene.Node) parent.addNode(child);
     }
     
     public void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object bpp) {
