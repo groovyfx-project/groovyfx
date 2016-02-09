@@ -24,6 +24,7 @@ import javafx.scene.Node
 import javafx.scene.NodeBuilder
 import javafx.scene.Parent
 import javafx.scene.Scene
+import javafx.scene.SceneAntialiasing
 import org.codehaus.groovy.runtime.InvokerHelper
 
 /**
@@ -48,26 +49,18 @@ class SceneFactory extends AbstractFXBeanFactory {
         if (checkValue(name, value)) {
             scene = value
         } else {
-            
-            
             def root = attributes.remove("root")
-            def height = attributes.remove("height")
-            def width = attributes.remove("width")
-            def depthBuffer = attributes.remove("depthBuffer")
-            
+            def height = attributes.remove("height") ?: -1d
+            def width = attributes.remove("width") ?: -1d
+            def depthBuffer = attributes.remove("depthBuffer") ?: false
+            def antiAliasing = attributes.remove("antiAliasing") ?: SceneAntialiasing.DISABLED
+
             if(root == null) {
                 root = new Group()
                 syntheticRoot = true
             }
-
-            if(depthBuffer == null)
-                depthBuffer = false
             
-            if(width != null && height != null) {
-                scene = new Scene(root, width, height, depthBuffer)
-            } else {
-                scene = new Scene(root)
-            }
+            scene = new Scene(root, width, height, depthBuffer, antiAliasing)
         }
         def id = attributes.remove("id");
         if(id != null)
