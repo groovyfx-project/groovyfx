@@ -25,8 +25,10 @@ import javafx.geometry.Pos
 import javafx.geometry.VPos
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
+import javafx.scene.layout.HBox
 import javafx.scene.layout.Pane
 import javafx.scene.layout.Priority
+import javafx.scene.layout.VBox
 import javafx.scene.transform.Transform
 
 /**
@@ -155,7 +157,7 @@ public abstract class AbstractNodeFactory extends AbstractFXBeanFactory {
     }
 
     private handleLayoutConstraints(Object parent, Object node, Map attributes) {
-        if(parent != null && parent instanceof Pane) {
+        if (parent != null) {
             // Halignment
             def val = attributes.remove("halignment");
             if(val && parent.metaClass.respondsTo(parent, "setHalignment"))
@@ -188,13 +190,20 @@ public abstract class AbstractNodeFactory extends AbstractFXBeanFactory {
 
             // Hgrow
             val = attributes.remove("hgrow");
-            if(val && parent.metaClass.respondsTo(parent, "setHgrow"))
+            if(val && parent.metaClass.respondsTo(parent, "setHgrow")) {
                 parent.setHgrow(node, doEnum(Priority, val));
+            } else if(val) {
+                HBox.setHgrow(node, doEnum(Priority, val))
+            }
 
             // Vgrow
             val = attributes.remove("vgrow");
-            if(val && parent.metaClass.respondsTo(parent, "setVgrow"))
+            if(val && parent.metaClass.respondsTo(parent, "setVgrow")) {
                 parent.setVgrow(node, doEnum(Priority, val));
+            } else if(val) {
+                VBox.setVgrow(node, doEnum(Priority, val))
+            }
+
             
             // Margin
             val = attributes.remove("margin");
