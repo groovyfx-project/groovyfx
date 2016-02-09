@@ -215,11 +215,13 @@ class SceneGraphBuilder extends FactoryBuilderSupport {
                                     wv.engine.loadWorker.stateProperty().removeListener(this);
                                     break;
                                 case Worker.State.FAILED:
-                                    System.out.println(wv.engine.loadWorker.exception);
+                                    LOG.warning(wv.engine.loadWorker.message)
+                                    if (wv.engine.loadWorker.exception?.message)
+                                        LOG.warning(wv.engine.loadWorker.exception.message)
                                     wv.engine.loadWorker.stateProperty().removeListener(this);
                                     break;
-                                case Worker.State.CANCELED:
-                                    System.out.println(wv.engine.loadWorker.message);
+                                case Worker.State.CANCELLED:
+                                    LOG.warning(wv.engine.loadWorker.message);
                                     wv.engine.loadWorker.stateProperty().removeListener(this);
                                     break;
                                 default:
