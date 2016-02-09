@@ -634,6 +634,7 @@ class SceneGraphBuilder extends FactoryBuilderSupport {
         registerFactory 'toolBar', new ControlFactory(ToolBar)
         registerFactory 'buttonBar', new ControlFactory(ButtonBar)
         registerFactory 'datePicker', new ControlFactory(DatePicker)
+        registerFactory 'spinner', new ControlFactory(Spinner)
 
 
         registerFactory 'treeView', new ControlFactory(TreeView)
