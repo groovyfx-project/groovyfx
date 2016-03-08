@@ -36,12 +36,6 @@ class FunctionWrapper {
 class GTimeline {
     
     static timeline(Closure c) {
-
-        ExpandoMetaClass.enableGlobally()
-        Number.metaClass.getMin = { -> new Duration(delegate*1000.0*60.0)};
-        Number.metaClass.getS = { -> new Duration(delegate*1000.0)};
-        Number.metaClass.getMs = { -> new Duration(delegate)};
-        Number.metaClass.getH = { -> new Duration(delegate*1000.0*60.0*60.0)};
         def clone = c.clone()
         clone.delegate = new GTimeline()
         clone.resolveStrategy = Closure.DELEGATE_ONLY

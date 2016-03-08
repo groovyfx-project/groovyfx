@@ -13,26 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package groovyx.javafx.animation
+package groovyx.javafx.extension
+
+import javafx.beans.InvalidationListener
+import javafx.beans.property.ReadOnlyObjectProperty
+import javafx.beans.value.ChangeListener
 
 /**
- *
- * @author jimclarke
+ * @author Andres Almiray
  */
+class ReadOnlyObjectPropertyExtension {
+    static void onChange(ReadOnlyObjectProperty self, Closure listener) {
+        self.addListener(listener as ChangeListener)
+    }
 
-/**
-x = 2
-def  tl = GTimeline.timeline {
-    repeatCount 2
-    frames {
-        at(1.min) {
-            values {
-                change this,"x" to 5.0
-            }
-            action {println "done"}
-        }
+    static void onInvalidate(ReadOnlyObjectProperty self, Closure listener) {
+        self.addListener(listener as InvalidationListener)
     }
 }
-
-println "tl = ${tl}"
-*/
