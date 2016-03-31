@@ -1,0 +1,85 @@
+/*
+ * Copyright 2011-2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// ------------- Bintray deployment ---------------
+
+def pomConfig = {
+    name project.name
+    description project.project_description
+    url project.project_url
+    inceptionYear '2011'
+    licenses {
+        license([:]) {
+            name 'The Apache Software License, Version 2.0'
+            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+            distribution 'repo'
+        }
+    }
+    scm {
+        url project.project_scm
+    }
+    developers {
+        [
+                JimClarke5 : 'Jim Clarke',
+                deanriverson : 'Dean Iverson',
+                russel : 'Russel Winder',
+                aalmiray : 'Andres Almiray',
+                Dierk : 'Dierk König'
+        ].each { devId, devName ->
+            developer {
+                id devId
+                name devName
+                roles {
+                    role 'Developer'
+                }
+            }
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+
+            pom.withXml {
+                asNode().children().last() + pomConfig
+            }
+        }
+    }
+}
+
+if (!project.hasProperty('bintrayApiKey')) ext.bintrayApiKey = ''
+if (!project.hasProperty('bintrayUserName')) ext.bintrayUserName = ''
+
+bintray {
+    user = project.bintrayUserName
+    key = project.bintrayApiKey
+    publications = ['mavenJava']
+    pkg {
+        repo = 'maven'
+        userOrg = 'groovyfx'
+        name = project.name
+        desc = project.project_description
+        licenses = ['Apache-2.0']
+        labels = ['Groovy', 'JavaFX']
+        websiteUrl = project.project_url
+        issueTrackerUrl = project.project_issues
+        vcsUrl = project.project_scm
+        publicDownloadNumbers = true
+    }
+}
