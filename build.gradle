@@ -125,10 +125,10 @@ jar {
             'Build-Revision': versioning.info.commit,
             'Specification-Title': project.name,
             'Specification-Version': project.version,
-            'Specification-Vendor': 'grovvyfx.org',
+            'Specification-Vendor': 'groovyfx.org',
             'Implementation-Title': project.name,
             'Implementation-Version': project.version,
-            'Implementation-Vendor': 'grovvyfx.org'
+            'Implementation-Vendor': 'groovyfx.org'
         )
     }
 
