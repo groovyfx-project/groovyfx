@@ -27,7 +27,7 @@ buildscript {
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.6.3'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.12.0'
         classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0'
-        classpath 'net.nemerosa:versioning:1.6.0'
+        classpath 'net.nemerosa:versioning:1.6.2'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6'
     }
 
@@ -130,6 +130,11 @@ jar {
             'Implementation-Version': project.version,
             'Implementation-Vendor': 'grovvyfx.org'
         )
+    }
+
+    metaInf {
+        from '.'
+        include 'LICENSE'
     }
 }
 
