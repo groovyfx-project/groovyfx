@@ -18,7 +18,6 @@
 
 def pomConfig = {
     name project.name
-    description project.project_description
     url project.project_url
     inceptionYear '2011'
     licenses {
@@ -59,6 +58,7 @@ publishing {
 
             pom.withXml {
                 asNode().children().last() + pomConfig
+                asNode().appendNode('description', project.project_description)
             }
         }
     }

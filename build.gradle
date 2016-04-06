@@ -76,9 +76,9 @@ ext {
 //}
 
 apply plugin: 'groovy'
-apply plugin: 'maven'
+// apply plugin: 'maven'
 apply plugin: 'maven-publish'
-apply plugin: 'signing'
+// apply plugin: 'signing'
 apply plugin: 'idea'
 apply plugin: 'jacoco'
 apply plugin: 'eclipse'
@@ -138,6 +138,7 @@ jar {
     }
 }
 
+/*
 signArchives.onlyIf {
     project.hasProperty('signing.keyId')
 }
@@ -145,6 +146,7 @@ signArchives.onlyIf {
 uploadArchives.onlyIf {
     project.hasProperty('sonatypeUsername') && project.hasProperty('sonatypePassword')
 }
+*/
 
 idea {
   module {
