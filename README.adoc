@@ -1,5 +1,5 @@
 = GroovyFx
-:version: 8.0.0-SNAPSHOT
+:version: 8.0.0
 :project-name: groovyfx
 :branch: master
 
@@ -34,12 +34,12 @@ To see an executable overview of all build tasks including all demos:
 gradlew --gui
 ----
 
-== Using GroovyFX from Maven Central
+== Using GroovyFX from Maven Central or Bintray
 
-Having GroovyFX in Maven Central (thanks to Sonatype's OSS hosting) makes it simple to use GroovyFX in
-everything from simple test scripts to larger projects.  The Maven coordinates are as follows:
+Having GroovyFX in Bintray and Maven Central (thanks to Sonatype's OSS hosting) makes it simple to use GroovyFX in
+everything from simple test scripts to larger projects. The Maven coordinates are as follows:
 
-* _groupId_: org.codehaus.groovyfx
+* _groupId_: org.groovyfx
 * _artifactId_: groovyfx
 * _version_: {version}
 
@@ -49,7 +49,7 @@ system.  Just include the following line at the top of your script:
 [source]
 [subs="attributes"]
 ----
-@Grab('org.codehaus.groovyfx:groovyfx:{version})
+@Grab('org.groovyfx:groovyfx:{version})
 ----
 
 You may find that when you start such a script, you have to ensure that an explicit reference to your
