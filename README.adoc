@@ -49,7 +49,7 @@ system.  Just include the following line at the top of your script:
 [source]
 [subs="attributes"]
 ----
-@Grab('org.codehaus.groovyfx:groovyfx:{version}')
+@Grab('org.groovyfx:groovyfx:{version}')
 ----
 
 You may find that when you start such a script, you have to ensure that an explicit reference to your
