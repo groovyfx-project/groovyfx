@@ -169,5 +169,7 @@ processResources {
 }
 
 task wrapper(type: Wrapper) {
-  gradleVersion = '2.13'
+  gradleVersion = '3.0-milestone-2'
 }
+
+defaultTasks 'test'
