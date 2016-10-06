@@ -101,7 +101,7 @@ dependencies {
     compile "org.codehaus.groovy:groovy-all:${groovyfx_groovyVersion}"
     compile files(project.ext.javafxJar)
     testCompile "junit:junit:${groovyfx_junitVersion}"
-    jansi 'org.fusesource.jansi:jansi:1.11'
+    jansi 'org.fusesource.jansi:jansi:1.14'
     testCompile("org.spockframework:spock-core:${groovyfx_spockVersion}") {
         exclude group: 'org.codehaus.groovy', module: 'groovy-all'
     }
