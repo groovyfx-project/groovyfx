@@ -17,6 +17,7 @@ package groovyx.javafx;
 
 import groovy.lang.Closure;
 import javafx.application.Application;
+import javafx.embed.swing.JFXPanel;
 import javafx.stage.Stage;
 import org.codehaus.groovy.runtime.InvokerHelper;
 
@@ -27,6 +28,10 @@ import org.codehaus.groovy.runtime.InvokerHelper;
  */
 public class GroovyFX extends Application {
     public static Closure closure;
+
+    static {
+        new JFXPanel();
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
