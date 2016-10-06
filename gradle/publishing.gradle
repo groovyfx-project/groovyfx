@@ -16,6 +16,8 @@
 
 // ------------- Bintray deployment ---------------
 
+apply plugin: 'com.jfrog.bintray'
+
 def pomConfig = {
     name project.name
     url project.project_url

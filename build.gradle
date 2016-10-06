@@ -86,7 +86,6 @@ apply plugin: 'org.asciidoctor.convert'
 apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'net.nemerosa.versioning'
-apply plugin: 'com.jfrog.bintray'
 
 repositories {
     if (project.hasProperty('groovyfx_useMavenLocal') && Boolean.valueOf(project.groovyfx_useMavenLocal)) { mavenLocal() }
