@@ -17,6 +17,11 @@ package groovyx.javafx
 
 class JdkUtil {
     static boolean jdkIsBefore8() {
-        System.properties['java.version'][0..2].toFloat() < 1.8f
+        String version = System.properties['java.version']
+        if (version.startsWith('1')) {
+            version[0..2].toFloat() < 1.8f
+        } else {
+            false
+        }
     }
 }
