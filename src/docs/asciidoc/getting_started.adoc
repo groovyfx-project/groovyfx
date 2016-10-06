@@ -1,8 +1,8 @@
 
 = Getting Started
 
-== What's New in Version 1.0.0
-GroovyFX version 1.0.0 includes support for Groovy 2.4, Java 8, and JavaFX 8. +
+== What's New in Version 8.0.0
+GroovyFX version 8.0.0 includes support for Groovy 2.4, Java 8, and JavaFX 8. +
 JavaFX 2 is no longer supported.
 
 == What's New in Version 0.4.0
@@ -55,7 +55,7 @@ Having GroovyFX in Maven Central (thanks to Sonatype's OSS hosting!) makes it
 simple to use GroovyFX in everything from simple test scripts to larger
 projects.  The Maven coordinates are as follows
 
-* _groupId_: org.codehaus.groovyfx
+* _groupId_: org.groovyfx
 * _artifactId_: groovyfx
 * _version_: {groovyfx-version}
 
@@ -67,7 +67,7 @@ top of your script
 [subs="attributes"]
 ----
 Testing.groovy
-@Grab('org.codehaus.groovyfx:groovyfx:{groovyfx-version}')
+@Grab('org.groovyfx:groovyfx:{groovyfx-version}')
 ----
 
 === Creating a GroovyFX-Based Project with Gradle
@@ -86,7 +86,7 @@ repositories { mavenCentral() }
 
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:{groovy-version}'
-    compile 'org.codehaus.groovyfx:groovyfx:{groovyfx-version}'
+    compile 'org.groovyfx:groovyfx:{groovyfx-version}'
     compile files("${javaHome}/jre/lib/ext/jfxrt.jar")
 }
 
@@ -186,7 +186,7 @@ Once you have everything set up, try the following Groovy script to test that yo
 [source,groovy]
 [subs="attributes"]
 ----
-@Grab('org.codehaus.groovyfx:groovyfx:{groovyfx-version}')
+@Grab('org.groovyfx:groovyfx:{groovyfx-version}')
 
 import static groovyx.javafx.GroovyFX.start
 

@@ -25,9 +25,10 @@ buildscript {
     dependencies {
         classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.6.3'
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.12.0'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
         classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0'
-        classpath 'net.nemerosa:versioning:1.6.0'
+        classpath 'net.nemerosa:versioning:2.4.0'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.1'
     }
 }
 
@@ -70,6 +71,7 @@ dependencies {
 apply {
     from 'gradle/demo.gradle'
     from 'gradle/deploy.gradle'
+    from 'gradle/publishing.gradle'
     from 'gradle/code-quality.gradle'
 }
 
@@ -83,14 +85,20 @@ jar {
             'Build-Revision': versioning.info.commit,
             'Specification-Title': project.name,
             'Specification-Version': project.version,
-            'Specification-Vendor': 'grovvyfx.org',
+            'Specification-Vendor': 'groovyfx.org',
             'Implementation-Title': project.name,
             'Implementation-Version': project.version,
-            'Implementation-Vendor': 'grovvyfx.org'
+            'Implementation-Vendor': 'groovyfx.org'
         )
+    }
+
+    metaInf {
+        from '.'
+        include 'LICENSE'
     }
 }
 
+/*
 signArchives.onlyIf {
     project.hasProperty('signing.keyId')
 }
@@ -98,6 +106,7 @@ signArchives.onlyIf {
 uploadArchives.onlyIf {
     project.hasProperty('sonatypeUsername') && project.hasProperty('sonatypePassword')
 }
+*/
 
 idea {
   module {
@@ -169,7 +178,5 @@ processResources {
 }
 
 task wrapper(type: Wrapper) {
-  gradleVersion = '3.0-milestone-2'
+  gradleVersion = '3.1'
 }
-
-defaultTasks 'test'

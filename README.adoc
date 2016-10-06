@@ -34,12 +34,12 @@ To see an executable overview of all build tasks including all demos:
 gradlew --gui
 ----
 
-== Using GroovyFX from Maven Central
+== Using GroovyFX from Maven Central or Bintray
 
-Having GroovyFX in Maven Central (thanks to Sonatype's OSS hosting) makes it simple to use GroovyFX in
-everything from simple test scripts to larger projects.  The Maven coordinates are as follows:
+Having GroovyFX in Bintray and Maven Central (thanks to Sonatype's OSS hosting) makes it simple to use GroovyFX in
+everything from simple test scripts to larger projects. The Maven coordinates are as follows:
 
-* _groupId_: org.codehaus.groovyfx
+* _groupId_: org.groovyfx
 * _artifactId_: groovyfx
 * _version_: {version}
 
