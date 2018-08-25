@@ -13,11 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import groovy.transform.Canonical
+import groovyx.javafx.beans.FXBindable
+
 import javafx.collections.FXCollections
 
 import java.text.SimpleDateFormat
 
 import static groovyx.javafx.GroovyFX.start
+
+enum Gender {
+    MALE, FEMALE
+}
+
+@Canonical
+class Person {
+    @FXBindable String name
+    @FXBindable int age
+    @FXBindable Gender gender
+    @FXBindable Date dob
+}
 
 people = FXCollections.observableList([])
 
