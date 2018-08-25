@@ -24,10 +24,11 @@ import static groovyx.javafx.GroovyFX.start
 start {
     stage(title: "GroovyFX FXML Demo", visible: true) {
         scene(fill: GROOVYBLUE, width: 640, height: 500) {
-            fxml(new File('../resources/buildertry.fxml').text)
+            fxml(new File( getClass().getResource('/buildertry.fxml').toURI() ).text)
         }
     }
-    primaryStage.scene.lookup('#mychart').title = "My chart title!"
+    
+    // println getClass().getResource("/buildertry.fxml")
 }
 
 
