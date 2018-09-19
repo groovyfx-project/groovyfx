@@ -23,12 +23,13 @@ buildscript {
     }
 
     dependencies {
-        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.6.3'
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
+        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.8.1'
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.20.0'
         classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0'
-        classpath 'net.nemerosa:versioning:2.4.0'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.1'
+        classpath 'net.nemerosa:versioning:2.7.1'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+        classpath 'com.google.gradle:osdetector-gradle-plugin:1.6.0'
     }
 }
 
@@ -39,14 +40,15 @@ ext {
 }
 
 apply plugin: 'groovy'
-apply plugin: 'maven-publish'
 apply plugin: 'idea'
 apply plugin: 'jacoco'
-apply plugin: 'eclipse'
 apply plugin: 'org.asciidoctor.convert'
 apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'net.nemerosa.versioning'
+apply plugin: 'com.google.osdetector'
+
+ext.platform = osdetector.os != 'osx' ? osdetector.os : 'mac'
 
 repositories {
     if (project.hasProperty('groovyfx_useMavenLocal') && Boolean.valueOf(project.groovyfx_useMavenLocal)) { mavenLocal() }
@@ -55,16 +57,39 @@ repositories {
 
 configurations {
     jansi.extendsFrom(runtime)
+    javafx
 }
 
 dependencies {
     compile "org.codehaus.groovy:groovy-all:${groovyfx_groovyVersion}"
     testCompile "junit:junit:${groovyfx_junitVersion}"
-    jansi 'org.fusesource.jansi:jansi:1.11'
+    jansi "org.fusesource.jansi:jansi:${groovyfx_jansiVersion}"
     testCompile("org.spockframework:spock-core:${groovyfx_spockVersion}") {
         exclude group: 'org.codehaus.groovy', module: 'groovy-all'
     }
-    println "Groovy: ${groovyfx_groovyVersion}; JUnit: ${groovyfx_junitVersion}"
+
+    // TODO refactor duplication
+
+    compileOnly "org.openjfx:javafx-base:${groovyfx_javafxVersion}:${platform}"
+    compileOnly "org.openjfx:javafx-graphics:${groovyfx_javafxVersion}:${platform}"
+    compileOnly "org.openjfx:javafx-controls:${groovyfx_javafxVersion}:${platform}"
+    compileOnly "org.openjfx:javafx-fxml:${groovyfx_javafxVersion}:${platform}"
+    compileOnly "org.openjfx:javafx-swing:${groovyfx_javafxVersion}:${platform}"
+    compileOnly "org.openjfx:javafx-web:${groovyfx_javafxVersion}:${platform}"
+
+    testCompileOnly "org.openjfx:javafx-base:${groovyfx_javafxVersion}:${platform}"
+    testCompileOnly "org.openjfx:javafx-graphics:${groovyfx_javafxVersion}:${platform}"
+    testCompileOnly "org.openjfx:javafx-controls:${groovyfx_javafxVersion}:${platform}"
+    testCompileOnly "org.openjfx:javafx-fxml:${groovyfx_javafxVersion}:${platform}"
+    testCompileOnly "org.openjfx:javafx-swing:${groovyfx_javafxVersion}:${platform}"
+    testCompileOnly "org.openjfx:javafx-web:${groovyfx_javafxVersion}:${platform}"
+
+    javafx "org.openjfx:javafx-base:${groovyfx_javafxVersion}:${platform}"
+    javafx "org.openjfx:javafx-graphics:${groovyfx_javafxVersion}:${platform}"
+    javafx "org.openjfx:javafx-controls:${groovyfx_javafxVersion}:${platform}"
+    javafx "org.openjfx:javafx-fxml:${groovyfx_javafxVersion}:${platform}"
+    javafx "org.openjfx:javafx-swing:${groovyfx_javafxVersion}:${platform}"
+    javafx "org.openjfx:javafx-web:${groovyfx_javafxVersion}:${platform}"
 }
 
 apply {
@@ -77,11 +102,11 @@ apply {
 jar {
     manifest {
         attributes(
-            'Built-By': System.properties['user.name'],
+            'X-Built-By': System.properties['user.name'],
             'Created-By': "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})".toString(),
-            'Build-Date': buildDate,
-            'Build-Time': buildTime,
-            'Build-Revision': versioning.info.commit,
+            'X-Build-Date': buildDate,
+            'X-Build-Time': buildTime,
+            'X-Build-Revision': versioning.info.commit,
             'Specification-Title': project.name,
             'Specification-Version': project.version,
             'Specification-Vendor': 'groovyfx.org',
@@ -96,16 +121,6 @@ jar {
         include 'LICENSE'
     }
 }
-
-/*
-signArchives.onlyIf {
-    project.hasProperty('signing.keyId')
-}
-
-uploadArchives.onlyIf {
-    project.hasProperty('sonatypeUsername') && project.hasProperty('sonatypePassword')
-}
-*/
 
 idea {
   module {
@@ -152,7 +167,7 @@ test {
 }
 
 jacoco {
-    toolVersion = '0.7.4.201502262128'
+    toolVersion = '0.8.2'
 }
 
 jacocoTestReport {
@@ -174,8 +189,4 @@ processResources {
             'groovyfx.version'   : project.version
         ])
     }
-}
-
-task wrapper(type: Wrapper) {
-  gradleVersion = '3.1'
 }

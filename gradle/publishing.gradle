@@ -16,6 +16,7 @@
 
 // ------------- Bintray deployment ---------------
 apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
 
 def pomConfig = {
     name project.name

@@ -18,8 +18,8 @@
 
 sourceSets {
     demo {
-        compileClasspath += sourceSets.main.output + configurations.compile
-        runtimeClasspath += sourceSets.main.output
+        compileClasspath += sourceSets.main.output + configurations.compile + configurations.javafx
+        runtimeClasspath += sourceSets.main.output + configurations.javafx
         groovy {
             srcDir 'src/demo/groovy'
         }
