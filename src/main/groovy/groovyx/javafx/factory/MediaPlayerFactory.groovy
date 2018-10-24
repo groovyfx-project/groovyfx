@@ -54,7 +54,7 @@ class MediaPlayerFactory extends AbstractFXBeanFactory{
 
         def attr = attributes.remove("audioSpectrumInterval");
         if(attr != null)
-             mpg.audioSpectrumInterval(attr) 
+             mpb.audioSpectrumInterval(attr)
         
         attr = attributes.remove("audioSpectrumListener");
         if(attr != null)
