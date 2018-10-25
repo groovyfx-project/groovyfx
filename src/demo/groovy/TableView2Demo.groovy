@@ -22,15 +22,15 @@ import java.text.SimpleDateFormat
 
 import static groovyx.javafx.GroovyFX.start
 
-enum Gender {
+enum Gender2 {
     MALE, FEMALE
 }
 
 @Canonical
-class Person {
+class Person2 {
     @FXBindable String name
     @FXBindable int age
-    @FXBindable Gender gender
+    @FXBindable Gender2 gender
     @FXBindable Date dob
 }
 
@@ -39,10 +39,10 @@ people = FXCollections.observableList([])
 def random = new Random()
 def createPerson = {
     int i = random.nextInt(30)
-    new Person(
+    new Person2(
         name: "Person ${people.size()}",
         age: 30 + i,
-        gender: i % 2 ? Gender.FEMALE : Gender.MALE,
+        gender: i % 2 ? Gender2.FEMALE : Gender2.MALE,
         dob: new Date() - (30 + i)
     )
 }
@@ -59,19 +59,19 @@ start {
                 tableView(items: people, selectionMode: "single", cellSelectionEnabled: true, editable: true, row: 2, column: 0) {
                     tableColumn(editable: true, property: "name", text: "Name", prefWidth: 150,
                         onEditCommit: { event ->
-                            Person item = event.tableView.items.get(event.tablePosition.row)
+                            Person2 item = event.tableView.items.get(event.tablePosition.row)
                             item.name = event.newValue
                         }
                     )
                     tableColumn(editable: true, property: "age", text: "Age", prefWidth: 50, type: Integer,
                         onEditCommit: { event ->
-                            Person item = event.tableView.items.get(event.tablePosition.row)
+                            Person2 item = event.tableView.items.get(event.tablePosition.row)
                             item.age = Integer.valueOf(event.newValue)
                         }
                     )
-                    tableColumn(editable: true, property: "gender", text: "Gender", prefWidth: 150, type: Gender,
+                    tableColumn(editable: true, property: "gender", text: "Gender", prefWidth: 150, type: Gender2,
                         onEditCommit: { event ->
-                            Person item = event.tableView.items.get(event.tablePosition.row)
+                            Person2 item = event.tableView.items.get(event.tablePosition.row)
                             item.gender = event.newValue;
                         }
                     )
@@ -81,7 +81,7 @@ start {
                             return dateFormat.format(from)
                         },
                         onEditCommit: { event ->
-                            Person item = event.tableView.items.get(event.tablePosition.row)
+                            Person2 item = event.tableView.items.get(event.tablePosition.row)
                             // convert TextField string to a date object.
                             Date date = dateFormat.parse(event.newValue)
                             item.dob = date
