@@ -22,6 +22,7 @@ package groovyx.javafx.factory
 
 import groovyx.javafx.canvas.CanvasOperation
 import groovyx.javafx.canvas.DrawOperations
+import javafx.collections.FXCollections
 import javafx.scene.canvas.Canvas
 
 /**
@@ -52,7 +53,7 @@ class CanvasFactory extends AbstractNodeFactory {
     
     @Override
     void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
-        def operations = builder.context.remove(CANVAS_OPERATIONS_LIST_PROPERTY)
+        def operations = FXCollections.observableArrayList(builder.context.remove(CANVAS_OPERATIONS_LIST_PROPERTY))
         def dop = new DrawOperations(operations: operations, canvas: node);
         dop.draw();
         node.userData = dop;
