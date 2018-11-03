@@ -18,7 +18,8 @@ import groovyx.javafx.beans.FXBindable
 
 import javafx.collections.FXCollections
 
-import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 import static groovyx.javafx.GroovyFX.start
 
@@ -31,7 +32,7 @@ class Person2 {
     @FXBindable String name
     @FXBindable int age
     @FXBindable Gender2 gender
-    @FXBindable Date dob
+    @FXBindable LocalDate dob
 }
 
 people = FXCollections.observableList([])
@@ -43,11 +44,11 @@ def createPerson = {
         name: "Person ${people.size()}",
         age: 30 + i,
         gender: i % 2 ? Gender2.FEMALE : Gender2.MALE,
-        dob: new Date() - (30 + i)
+        dob: LocalDate.now() - (30 + i)
     )
 }
 
-def dateFormat = new SimpleDateFormat("MMM dd, yyyy")
+def dateFormat = DateTimeFormatter.ofPattern("MMM dd, yyyy")
 
 start {
     stage(title: "GroovyFX Table Demo", width: 500, height: 200, visible: true) {
@@ -75,7 +76,7 @@ start {
                             item.gender = event.newValue;
                         }
                     )
-                    tableColumn(editable: true, property: "dob", text: "Birth", prefWidth: 150, type: Date,
+                    tableColumn(editable: true, property: "dob", text: "Birth", prefWidth: 150, type: LocalDate,
                         converter: { from ->
                             // convert date object to String
                             return dateFormat.format(from)
@@ -83,8 +84,7 @@ start {
                         onEditCommit: { event ->
                             Person2 item = event.tableView.items.get(event.tablePosition.row)
                             // convert TextField string to a date object.
-                            Date date = dateFormat.parse(event.newValue)
-                            item.dob = date
+                            item.dob = LocalDate.parse(event.newValue, dateFormat)
                         }
                     )
                 }
