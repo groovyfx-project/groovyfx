@@ -22,8 +22,8 @@ import java.awt.BorderLayout as BL
 import java.awt.Dimension
 
 def DEFAULT_URL = "http://www.yahoo.com"
-def swing = new SwingBuilder();
-def sg = new SceneGraphBuilder();
+def swing = new SwingBuilder()
+def sg
 
 def fxPanel = new JFXPanel(preferredSize: new Dimension(800, 400))
 
@@ -43,6 +43,7 @@ def createScene = {
 }
 
 swing.edt {
+    sg = new SceneGraphBuilder()
     frame = frame(title: 'GroovyFX Swing Demo', show: true, defaultCloseOperation: WC.EXIT_ON_CLOSE) {
         borderLayout()
         panel(constraints: BL.NORTH) {
@@ -54,6 +55,3 @@ swing.edt {
     frame.pack()
     createScene();
 }
-
-
-
