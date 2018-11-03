@@ -83,6 +83,7 @@ dependencies {
     testCompileOnly "org.openjfx:javafx-fxml:${groovyfx_javafxVersion}:${platform}"
     testCompileOnly "org.openjfx:javafx-swing:${groovyfx_javafxVersion}:${platform}"
     testCompileOnly "org.openjfx:javafx-web:${groovyfx_javafxVersion}:${platform}"
+    testCompileOnly "org.openjfx:javafx-media:${groovyfx_javafxVersion}:${platform}"
 
     javafx "org.openjfx:javafx-base:${groovyfx_javafxVersion}:${platform}"
     javafx "org.openjfx:javafx-graphics:${groovyfx_javafxVersion}:${platform}"
@@ -90,6 +91,7 @@ dependencies {
     javafx "org.openjfx:javafx-fxml:${groovyfx_javafxVersion}:${platform}"
     javafx "org.openjfx:javafx-swing:${groovyfx_javafxVersion}:${platform}"
     javafx "org.openjfx:javafx-web:${groovyfx_javafxVersion}:${platform}"
+    javafx "org.openjfx:javafx-media:${groovyfx_javafxVersion}:${platform}"
 }
 
 apply {
