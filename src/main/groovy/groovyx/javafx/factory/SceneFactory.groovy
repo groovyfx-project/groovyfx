@@ -21,7 +21,6 @@ import groovyx.javafx.event.GroovyInvalidationListener
 import javafx.event.EventHandler
 import javafx.scene.Group
 import javafx.scene.Node
-import javafx.scene.NodeBuilder
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.SceneAntialiasing
@@ -95,10 +94,10 @@ class SceneFactory extends AbstractFXBeanFactory {
             case GroovyEventHandler:
                 InvokerHelper.setProperty(scene, child.property, child);
                 break;
-            case NodeBuilder:
+            /*case NodeBuilder:
                 def builderList = builder.parentContext.get(BUILDER_LIST_PROPERTY, [])
                 builderList << child
-                break;
+                break;*/
             case GroovyChangeListener:
             case GroovyInvalidationListener:
                 if(parent.metaClass.respondsTo(parent, child.property + "Property"))

@@ -14,29 +14,20 @@
  * limitations under the License.
  */
 
-import java.text.SimpleDateFormat
-
 buildscript {
     repositories {
         jcenter()
-        mavenCentral()
+        maven { url 'https://plugins.gradle.org/m2/' }
     }
 
     dependencies {
-        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.8.1'
+        classpath 'org.kordamp.gradle:project-gradle-plugin:0.6.0'
+        classpath 'gradle.plugin.gradle-java9-collision:plugin:0.2.3'
+        //classpath 'gradle.plugin.org.javamodularity:moduleplugin:1.0.1'
+        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.9.2'
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2'
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.20.0'
-        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0'
-        classpath 'net.nemerosa:versioning:2.7.1'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
         classpath 'com.google.gradle:osdetector-gradle-plugin:1.6.0'
     }
-}
-
-ext {
-    buildTimeAndDate = new Date()
-    buildDate = new SimpleDateFormat('yyyy-MM-dd').format(buildTimeAndDate)
-    buildTime = new SimpleDateFormat('HH:mm:ss.SSSZ').format(buildTimeAndDate)
 }
 
 apply plugin: 'groovy'
@@ -44,11 +35,96 @@ apply plugin: 'idea'
 apply plugin: 'jacoco'
 apply plugin: 'org.asciidoctor.convert'
 apply plugin: 'com.github.kt3k.coveralls'
-apply plugin: 'com.github.ben-manes.versions'
-apply plugin: 'net.nemerosa.versioning'
+apply plugin: 'org.kordamp.gradle.project'
 apply plugin: 'com.google.osdetector'
+apply plugin: 'org.jonnyzzz.java9c'
+//apply plugin: 'org.javamodularity.moduleplugin'
 
 ext.platform = osdetector.os != 'osx' ? osdetector.os : 'mac'
+
+if (!project.hasProperty('bintrayUsername')) ext.bintrayUsername = ''
+if (!project.hasProperty('bintrayApiKey')) ext.bintrayApiKey = ''
+if (!project.hasProperty('sonatypeUsername')) ext.sonatypeUsername = ''
+if (!project.hasProperty('sonatypePassword')) ext.sonatypePassword = ''
+
+config {
+    release = (rootProject.findProperty('release') ?: false).toBoolean()
+
+    info {
+        name          = 'Groovyfx'
+        vendor        = 'Kordamp'
+        description   = 'A library for writing JavaFX applications in the Groovy language'
+        inceptionYear = '2011'
+        tags          = ['Groovy', 'JavaFX', 'GroovyFX']
+
+        links {
+            website      = 'http://groovyfx.org'
+            issueTracker = 'https://github.com/groovyfx-project/groovyfx/issues'
+            scm          = 'https://github.com/groovyfx-project/groovyfx.git'
+        }
+
+        people {
+            [
+                    JimClarke5 : 'Jim Clarke',
+                    deanriverson : 'Dean Iverson',
+                    russel : 'Russel Winder',
+                    aalmiray : 'Andres Almiray',
+                    Dierk : 'Dierk König'
+            ].each { devId, devName ->
+                person {
+                    id   = devId
+                    name = devName
+                    roles = ['developer']
+                }
+            }
+        }
+
+        implementation { enabled = false }
+
+        credentials {
+            sonatype {
+                username = project.sonatypeUsername
+                password = project.sonatypePassword
+            }
+        }
+    }
+
+    license {
+        licenses {
+            license {
+                id = 'Apache-2.0'
+            }
+        }
+    }
+
+    bintray {
+        credentials {
+            username = project.bintrayUsername
+            password = project.bintrayApiKey
+        }
+        userOrg = 'groovyfx'
+        name    = 'groovyfx'
+        githubRepo = 'groovyfx-project/groovyfx'
+    }
+
+    stats {
+        formats = ['xml', 'txt']
+    }
+
+    apidoc {
+        enabled = false
+    }
+
+    groovydoc {
+        replaceJavadoc = true
+        options {
+            link 'http://junit.org/javadoc/latest/', 'org.junit.', 'junit.'
+            link 'http://docs.oracle.com/javase/8/docs/api/', 'java.', 'org.xml.', 'javax.', 'org.w3c.'
+            link 'http://docs.oracle.com/javase/8/javafx/api/', 'javafx.'
+            link 'http://docs.groovy-lang.org/latest/html/api/', 'groovy.', 'org.codehaus.groovy'
+        }
+    }
+}
 
 repositories {
     if (project.hasProperty('groovyfx_useMavenLocal') && Boolean.valueOf(project.groovyfx_useMavenLocal)) { mavenLocal() }
@@ -57,7 +133,6 @@ repositories {
 
 configurations {
     jansi.extendsFrom(runtime)
-    javafx
 }
 
 dependencies {
@@ -70,58 +145,17 @@ dependencies {
 
     // TODO refactor duplication
 
-    compileOnly "org.openjfx:javafx-base:${groovyfx_javafxVersion}:${platform}"
-    compileOnly "org.openjfx:javafx-graphics:${groovyfx_javafxVersion}:${platform}"
-    compileOnly "org.openjfx:javafx-controls:${groovyfx_javafxVersion}:${platform}"
-    compileOnly "org.openjfx:javafx-fxml:${groovyfx_javafxVersion}:${platform}"
-    compileOnly "org.openjfx:javafx-swing:${groovyfx_javafxVersion}:${platform}"
-    compileOnly "org.openjfx:javafx-web:${groovyfx_javafxVersion}:${platform}"
-
-    testCompileOnly "org.openjfx:javafx-base:${groovyfx_javafxVersion}:${platform}"
-    testCompileOnly "org.openjfx:javafx-graphics:${groovyfx_javafxVersion}:${platform}"
-    testCompileOnly "org.openjfx:javafx-controls:${groovyfx_javafxVersion}:${platform}"
-    testCompileOnly "org.openjfx:javafx-fxml:${groovyfx_javafxVersion}:${platform}"
-    testCompileOnly "org.openjfx:javafx-swing:${groovyfx_javafxVersion}:${platform}"
-    testCompileOnly "org.openjfx:javafx-web:${groovyfx_javafxVersion}:${platform}"
-    testCompileOnly "org.openjfx:javafx-media:${groovyfx_javafxVersion}:${platform}"
-
-    javafx "org.openjfx:javafx-base:${groovyfx_javafxVersion}:${platform}"
-    javafx "org.openjfx:javafx-graphics:${groovyfx_javafxVersion}:${platform}"
-    javafx "org.openjfx:javafx-controls:${groovyfx_javafxVersion}:${platform}"
-    javafx "org.openjfx:javafx-fxml:${groovyfx_javafxVersion}:${platform}"
-    javafx "org.openjfx:javafx-swing:${groovyfx_javafxVersion}:${platform}"
-    javafx "org.openjfx:javafx-web:${groovyfx_javafxVersion}:${platform}"
-    javafx "org.openjfx:javafx-media:${groovyfx_javafxVersion}:${platform}"
+    compile "org.openjfx:javafx-base:${groovyfx_javafxVersion}:${platform}"
+    compile "org.openjfx:javafx-graphics:${groovyfx_javafxVersion}:${platform}"
+    compile "org.openjfx:javafx-controls:${groovyfx_javafxVersion}:${platform}"
+    compile "org.openjfx:javafx-fxml:${groovyfx_javafxVersion}:${platform}"
+    compile "org.openjfx:javafx-swing:${groovyfx_javafxVersion}:${platform}"
+    compile "org.openjfx:javafx-web:${groovyfx_javafxVersion}:${platform}"
+    compile "org.openjfx:javafx-media:${groovyfx_javafxVersion}:${platform}"
 }
 
 apply {
-    from 'gradle/demo.gradle'
-    from 'gradle/deploy.gradle'
-    from 'gradle/publishing.gradle'
-    from 'gradle/code-quality.gradle'
-}
-
-jar {
-    manifest {
-        attributes(
-            'X-Built-By': System.properties['user.name'],
-            'Created-By': "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})".toString(),
-            'X-Build-Date': buildDate,
-            'X-Build-Time': buildTime,
-            'X-Build-Revision': versioning.info.commit,
-            'Specification-Title': project.name,
-            'Specification-Version': project.version,
-            'Specification-Vendor': 'groovyfx.org',
-            'Implementation-Title': project.name,
-            'Implementation-Version': project.version,
-            'Implementation-Vendor': 'groovyfx.org'
-        )
-    }
-
-    metaInf {
-        from '.'
-        include 'LICENSE'
-    }
+    // from 'gradle/demo.gradle'
 }
 
 idea {
@@ -133,6 +167,8 @@ idea {
     excludeDirs += file('build') // Gradle compilation directory.
   }
   project {
+    jdkName '11'
+    languageLevel '11'
     ipr {
       withXml { provider ->
         final node = provider.asNode()

@@ -16,7 +16,6 @@
 package groovyx.javafx.factory
 
 import javafx.scene.paint.LinearGradient
-import javafx.scene.paint.LinearGradientBuilder
 
 /**
  * @author Dean Iverson
@@ -42,6 +41,7 @@ class LinearGradientFactory extends AbstractGradientFactory {
         if (node instanceof LinearGradient)
             return false;
 
+        /*
         LinearGradientBuilder lgb = node as LinearGradientBuilder
 
         List<Double> start = attributes.remove("start") as List<Double>
@@ -57,6 +57,7 @@ class LinearGradientFactory extends AbstractGradientFactory {
         }
 
         handleStopsAttributeIfPresent(attributes, lgb)
+        */
         return super.onHandleNodeAttributes(builder, node, attributes);
     }
 

@@ -16,7 +16,6 @@
 package groovyx.javafx.factory
 
 import javafx.scene.Node
-import javafx.scene.NodeBuilder
 import javafx.scene.Parent
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.GridPane
@@ -63,10 +62,10 @@ class ContainerFactory extends AbstractNodeFactory {
                     grid.getColumnInfo().add(rci.columnInfo)
                 }
             }
-        } else if (child instanceof NodeBuilder) {
+        } /*else if (child instanceof NodeBuilder) {
             def builderList = builder.parentContext.get(BUILDER_LIST_PROPERTY, [])
             builderList << child
-        } else {
+        } */else {
             super.setChild(builder, parent, child)
         }
     }

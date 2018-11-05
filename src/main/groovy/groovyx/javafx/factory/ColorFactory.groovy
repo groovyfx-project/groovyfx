@@ -15,15 +15,15 @@
  */
 package groovyx.javafx.factory
 
-import com.sun.javafx.css.Stylesheet
-import com.sun.javafx.css.parser.CSSParser
+import javafx.css.CssParser
+import javafx.css.Stylesheet
 import javafx.scene.paint.Color
 import javafx.scene.paint.CycleMethod
 import javafx.scene.paint.LinearGradient
-import javafx.scene.paint.LinearGradientBuilder
+//import javafx.scene.paint.LinearGradientBuilder
 import javafx.scene.paint.Paint
 import javafx.scene.paint.RadialGradient
-import javafx.scene.paint.RadialGradientBuilder
+//import javafx.scene.paint.RadialGradientBuilder
 import javafx.scene.paint.Stop
 
 import java.util.regex.Matcher
@@ -42,9 +42,9 @@ public class ColorFactory {
     public static Paint get(Object value) {
         if(value instanceof Paint) {
             return (Paint)value;
-        } else if(value instanceof RadialGradientBuilder || value instanceof LinearGradientBuilder) {
+        } /*else if(value instanceof RadialGradientBuilder || value instanceof LinearGradientBuilder) {
             return value.build();
-        }else if(value instanceof List || value instanceof Object[]) {
+        }*/else if(value instanceof List || value instanceof Object[]) {
             Object[]args;
             if(value instanceof List) {
                 List list = (List)value;
@@ -138,7 +138,7 @@ public class ColorFactory {
 
             Paint paint = colorCacheMap[color];
             if(paint == null) {
-                Stylesheet p = CSSParser.getInstance().parse("* { -fx-fill: " + color + "; }");
+                Stylesheet p = new CssParser().parse("* { -fx-fill: " + color + "; }");
                 List declarations = p.getRules().get(0).getDeclarations();
 
                 if (!declarations)

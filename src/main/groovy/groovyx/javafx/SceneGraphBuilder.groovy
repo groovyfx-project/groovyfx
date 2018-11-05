@@ -52,7 +52,6 @@ import javafx.scene.Group
 import javafx.scene.Node
 import javafx.scene.Parent
 import javafx.scene.Scene
-import javafx.scene.SceneBuilder
 import javafx.scene.chart.AreaChart
 import javafx.scene.chart.Axis
 import javafx.scene.chart.BarChart
@@ -100,7 +99,6 @@ import javafx.scene.layout.StackPane
 import javafx.scene.layout.TilePane
 import javafx.scene.layout.VBox
 import javafx.scene.media.MediaPlayer
-import javafx.scene.media.MediaPlayerBuilder
 import javafx.scene.media.MediaView
 import javafx.scene.paint.Color
 import javafx.scene.shape.*
@@ -764,15 +762,7 @@ class SceneGraphBuilder extends FactoryBuilderSupport {
     }
 
     private static postCompletionDelegate = { FactoryBuilderSupport builder, Object parent, Object node ->
-        if(node instanceof MediaPlayerBuilder || node instanceof SceneBuilder) {
-            node = node.build();
-            if(parent instanceof MediaView && node instanceof MediaPlayer) {
-                parent.mediaPlayer = node;
-            } else if(parent instanceof Stage && node instanceof Scene) {
-                parent.scene = node
-            }
-        // If a non-builder is passed in do the parent check.
-        } else if(parent instanceof MediaView && node instanceof MediaPlayer) {
+        if(parent instanceof MediaView && node instanceof MediaPlayer) {
             parent.mediaPlayer = node;
         } else if(parent instanceof Stage && node instanceof Scene) {
             parent.scene = node
