@@ -23,6 +23,7 @@ package groovyx.javafx.canvas
 import groovyx.javafx.beans.FXBindable
 import javafx.scene.canvas.Canvas
 import javafx.scene.canvas.GraphicsContext
+import javafx.collections.FXCollections
 
 /**
  *
@@ -30,9 +31,14 @@ import javafx.scene.canvas.GraphicsContext
  */
 @FXBindable
 class DrawOperations implements CanvasOperation {
-    List<CanvasOperation> operations = [];
+    private List<CanvasOperation> operations = [];
     Canvas canvas
     
+    public void setOperations(List ops)
+    {
+        this.operations = FXCollections.observableArrayList(ops)
+    }
+
     public void add(CanvasOperation opertion) {
         operations << operation;
     }
