@@ -1,11 +1,13 @@
 /*
+ * SPDX-License-Identifier: Apache-2.0
+ *
  * Copyright 2011-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,38 +16,20 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        jcenter()
-        maven { url 'https://plugins.gradle.org/m2/' }
-    }
-
-    dependencies {
-        classpath 'org.kordamp.gradle:project-gradle-plugin:0.6.0'
-        classpath 'gradle.plugin.gradle-java9-collision:plugin:0.2.3'
-        //classpath 'gradle.plugin.org.javamodularity:moduleplugin:1.0.1'
-        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.9.2'
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2'
-        classpath 'com.google.gradle:osdetector-gradle-plugin:1.6.0'
-    }
+plugins {
+    id 'groovy'
+    id 'idea'
+    id 'org.kordamp.gradle.project' version '0.9.0'
+    id 'org.openjfx.javafxplugin'   version '0.0.5'
+    id 'org.asciidoctor.convert'    version '1.5.9.2'
+    id 'com.github.kt3k.coveralls'  version '2.8.2'
+    id 'org.jonnyzzz.java9c'        version '0.2.3'
 }
 
-apply plugin: 'groovy'
-apply plugin: 'idea'
-apply plugin: 'jacoco'
-apply plugin: 'org.asciidoctor.convert'
-apply plugin: 'com.github.kt3k.coveralls'
-apply plugin: 'org.kordamp.gradle.project'
-apply plugin: 'com.google.osdetector'
-apply plugin: 'org.jonnyzzz.java9c'
-//apply plugin: 'org.javamodularity.moduleplugin'
-
-ext.platform = osdetector.os != 'osx' ? osdetector.os : 'mac'
-
-if (!project.hasProperty('bintrayUsername')) ext.bintrayUsername = ''
-if (!project.hasProperty('bintrayApiKey')) ext.bintrayApiKey = ''
-if (!project.hasProperty('sonatypeUsername')) ext.sonatypeUsername = ''
-if (!project.hasProperty('sonatypePassword')) ext.sonatypePassword = ''
+if (!project.hasProperty('bintrayUsername'))  project.ext.bintrayUsername  = ''
+if (!project.hasProperty('bintrayApiKey'))    project.ext.bintrayApiKey    = ''
+if (!project.hasProperty('sonatypeUsername')) project.ext.sonatypeUsername = ''
+if (!project.hasProperty('sonatypePassword')) project.ext.sonatypePassword = ''
 
 config {
     release = (rootProject.findProperty('release') ?: false).toBoolean()
@@ -65,11 +49,11 @@ config {
 
         people {
             [
-                    JimClarke5 : 'Jim Clarke',
-                    deanriverson : 'Dean Iverson',
-                    russel : 'Russel Winder',
-                    aalmiray : 'Andres Almiray',
-                    Dierk : 'Dierk König'
+                JimClarke5 : 'Jim Clarke',
+                deanriverson : 'Dean Iverson',
+                russel : 'Russel Winder',
+                aalmiray : 'Andres Almiray',
+                Dierk : 'Dierk König'
             ].each { devId, devName ->
                 person {
                     id   = devId
@@ -107,10 +91,6 @@ config {
         githubRepo = 'groovyfx-project/groovyfx'
     }
 
-    stats {
-        formats = ['xml', 'txt']
-    }
-
     apidoc {
         enabled = false
     }
@@ -135,6 +115,18 @@ configurations {
     jansi.extendsFrom(runtime)
 }
 
+javafx {
+    modules = [
+       'javafx.base',
+       'javafx.graphics',
+       'javafx.controls',
+       'javafx.fxml',
+       'javafx.swing',
+       'javafx.web',
+       'javafx.media'
+    ]
+}
+
 dependencies {
     compile "org.codehaus.groovy:groovy-all:${groovyfx_groovyVersion}"
     testCompile "junit:junit:${groovyfx_junitVersion}"
@@ -142,60 +134,57 @@ dependencies {
     testCompile("org.spockframework:spock-core:${groovyfx_spockVersion}") {
         exclude group: 'org.codehaus.groovy', module: 'groovy-all'
     }
-
-    // TODO refactor duplication
-
-    compile "org.openjfx:javafx-base:${groovyfx_javafxVersion}:${platform}"
-    compile "org.openjfx:javafx-graphics:${groovyfx_javafxVersion}:${platform}"
-    compile "org.openjfx:javafx-controls:${groovyfx_javafxVersion}:${platform}"
-    compile "org.openjfx:javafx-fxml:${groovyfx_javafxVersion}:${platform}"
-    compile "org.openjfx:javafx-swing:${groovyfx_javafxVersion}:${platform}"
-    compile "org.openjfx:javafx-web:${groovyfx_javafxVersion}:${platform}"
-    compile "org.openjfx:javafx-media:${groovyfx_javafxVersion}:${platform}"
 }
 
-apply {
-    // from 'gradle/demo.gradle'
+license {
+     mapping {
+        java   = 'SLASHSTAR_STYLE'
+        groovy = 'SLASHSTAR_STYLE'
+        gdsl   = 'SLASHSTAR_STYLE'
+        dsld   = 'SLASHSTAR_STYLE'
+        fxml   = 'XML_STYLE'
+    }
+    exclude '**/*.png'
+    exclude '**/*.jpg'
 }
 
 idea {
-  module {
-    // excludeDirs += file('gradle/') // Gradle directory including the wrapper subdirectory.
-    excludeDirs += file('.settings/') // Eclipse settings directory.
-    excludeDirs += file('bin') // Eclipse compilation directory.
-    excludeDirs += file('out') // IDEA compilation directory.
-    excludeDirs += file('build') // Gradle compilation directory.
-  }
-  project {
-    jdkName '11'
-    languageLevel '11'
-    ipr {
-      withXml { provider ->
-        final node = provider.asNode()
-        final component = provider.asNode().component
-        node.component.find { it.'@name' == 'VcsDirectoryMappings' }.mapping[0].'@vcs' = 'Git'
-        final gradleSettings = node.appendNode('component' , [name: 'GradleSettings'])
-        gradleSettings.appendNode('option', [name: 'linkedProjectPath', value: '$PROJECT_DIR$/build.gradle'])
-      }
+    module {
+        // excludeDirs += file('gradle/') // Gradle directory including the wrapper subdirectory.
+        excludeDirs += file('.settings/') // Eclipse settings directory.
+        excludeDirs += file('bin') // Eclipse compilation directory.
+        excludeDirs += file('out') // IDEA compilation directory.
+        excludeDirs += file('build') // Gradle compilation directory.
     }
-  }
+    project {
+        jdkName '11'
+        languageLevel '11'
+        ipr {
+            withXml { provider ->
+                final node = provider.asNode()
+                final component = provider.asNode().component
+                node.component.find { it.'@name' == 'VcsDirectoryMappings' }.mapping[0].'@vcs' = 'Git'
+                final gradleSettings = node.appendNode('component', [name: 'GradleSettings'])
+                gradleSettings.appendNode('option', [name: 'linkedProjectPath', value: '$PROJECT_DIR$/build.gradle'])
+            }
+        }
+    }
 }
 
 asciidoctor {
-  //sources { include 'index.adoc' }
-  attributes toc: 'left',
-             doctype: 'book',
-             icons: 'font',
-             encoding: 'utf-8',
-             sectlink: true,
-             sectanchors: true,
-             numbered: true,
-             linkattrs: true,
-             imagesdir: 'images',
-             stylesheet: 'css/style.css',
-             'source-highlighter': 'coderay',
-             'groovyfx-version': project.version,
-             'groovy-version': project.groovyfx_groovyVersion
+    attributes toc: 'left',
+        doctype: 'book',
+        icons: 'font',
+        encoding: 'utf-8',
+        sectlink: true,
+        sectanchors: true,
+        numbered: true,
+        linkattrs: true,
+        imagesdir: 'images',
+        stylesheet: 'css/style.css',
+        'source-highlighter': 'coderay',
+        'groovyfx-version': project.version,
+        'groovy-version': project.groovyfx_groovyVersion
 }
 
 test {
@@ -208,23 +197,10 @@ jacoco {
     toolVersion = '0.8.2'
 }
 
-jacocoTestReport {
-    group = "Reporting"
-    description = "Generate Jacoco coverage reports after running tests."
-    additionalSourceDirs = project.files(sourceSets.main.allSource.srcDirs)
-    sourceDirectories = project.files(sourceSets.main.allSource.srcDirs)
-    classDirectories =  project.files(sourceSets.main.output)
-    reports {
-        xml.enabled = true
-        csv.enabled = false
-        html.enabled = true
-    }
-}
-
 processResources {
     from(sourceSets.main.resources.srcDirs) {
         filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: [
-            'groovyfx.version'   : project.version
+            'groovyfx.version': project.version
         ])
     }
 }

@@ -1,4 +1,6 @@
 /*
+ * SPDX-License-Identifier: Apache-2.0
+ *
  * Copyright 2011-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,11 +17,11 @@
  */
 package groovyx.javafx.factory
 
-import groovyx.javafx.JdkUtil
+
 import groovyx.javafx.event.GroovyEventHandler
 import javafx.event.EventHandler
 import javafx.scene.Node
-import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeItem
 
 /**
  * @author jimclarke
@@ -36,14 +38,9 @@ class TreeItemFactory extends AbstractFXBeanFactory {
                 "onGraphicChanged" : TreeItem.GRAPHIC_CHANGED_EVENT,
                 "onTreeNotification" : TreeItem.TREE_NOTIFICATION_EVENT,
                 "onValueChanged" : TreeItem.VALUE_CHANGED_EVENT
-            ]
-        if (JdkUtil.jdkIsBefore8()) {
-            String constName = "TREE_ITEM_COUNT_CHANGE_EVENT"
-            treeItemEvents.onTreeItemCountChange = TreeItem."$constName"
-        } else {
-            String constName = "EXPANDED_ITEM_COUNT_CHANGE_EVENT"
-            treeItemEvents.onExpandedItemCountChange = TreeItem."$constName"
-        }
+        ]
+        String constName = "EXPANDED_ITEM_COUNT_CHANGE_EVENT"
+        treeItemEvents.onExpandedItemCountChange = TreeItem."$constName"
     }
 
     public TreeItemFactory() {
