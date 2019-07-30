@@ -1,7 +1,5 @@
 /*
- * SPDX-License-Identifier: Apache-2.0
- *
- * Copyright 2011-2019 the original author or authors.
+ * Copyright 2011-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,31 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package groovyx.javafx.canvas
-
-import groovyx.javafx.beans.FXBindable
-import javafx.scene.canvas.GraphicsContext;
-
 /**
- *
- * @author jimclarke
+ * Show how to embed an FXML file that was created with SceneBuilder and
+ * get access to the components by id.
+ * @author Dierk Koenig
  */
-@FXBindable
-class FillOvalOperation implements CanvasOperation {
-    double x;
-    double y;
-    double w;
-    double h;
-    
-    public void initParams(Object val) {
-        x = val[0]
-        y = val[1]
-        w = val[2]
-        h = val[3]
-    }
 
-    public void execute(GraphicsContext gc) {
-        gc.fillOval(x, y, w, h);
+import static groovyx.javafx.GroovyFX.start
+
+start {
+    stage(title: "GroovyFX FXML Demo", visible: true) {
+        scene(fill: GROOVYBLUE, width: 640, height: 500) {
+            fxml(new File( getClass().getResource('/demo/buildertry.fxml').toURI() ).text)
+        }
     }
+    
+    // println getClass().getResource("/buildertry.fxml")
 }
+
+
+
 

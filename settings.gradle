@@ -1,5 +1,7 @@
 /*
- * Copyright 2011-2018 the original author or authors.
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Copyright 2011-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,24 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * Show how to embed an FXML file that was created with SceneBuilder and
- * get access to the components by id.
- * @author Dierk Koenig
- */
-
-import static groovyx.javafx.GroovyFX.start
-
-start {
-    stage(title: "GroovyFX FXML Demo", visible: true) {
-        scene(fill: GROOVYBLUE, width: 640, height: 500) {
-            fxml(new File( getClass().getResource('/buildertry.fxml').toURI() ).text)
-        }
+pluginManagement {
+    repositories {
+        jcenter()
+        gradlePluginPortal()
     }
-    
-    // println getClass().getResource("/buildertry.fxml")
 }
-
-
-
-

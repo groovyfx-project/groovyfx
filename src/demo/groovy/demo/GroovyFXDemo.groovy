@@ -33,7 +33,7 @@ start {
     stage(title: "GroovyFX Demo", x: 100, y: 100, width: 480, height: 800, visible: true, style: "decorated",
             onHidden: { println "Close"}) {
 
-        scene(fill: GROOVYBLUE, root: group(), stylesheets: resource("/groovyfx.css")) {
+        scene(fill: GROOVYBLUE, root: group(), stylesheets: resource("/demo/groovyfx.css")) {
             onMousePressed {e -> println "scene press @" + e.x + "," + e.y }
             onKeyReleased { e -> println "scene key" + e.text}
             onChange("width") { observable, oldValue, newValue ->

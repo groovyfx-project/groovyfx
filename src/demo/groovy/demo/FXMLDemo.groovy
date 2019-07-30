@@ -53,12 +53,12 @@ start {
                     fxml xml
                 }
                 stackPane {
-                    fxml resource("/FXMLDemo.fxml"), {
+                    fxml resource("/demo/FXMLDemo.fxml"), {
                         onMouseEntered { println "Entered"}
                     }
                 }
                 stackPane {
-                    fxml resource("/FXMLDemoInline.fxml"), {
+                    fxml resource("/demo/FXMLDemoInline.fxml"), {
                         onMouseEntered { println "Entered"}
                         buttonCSSID.onAction {
                             labelCSSID.text = "Clicked - CSS";
