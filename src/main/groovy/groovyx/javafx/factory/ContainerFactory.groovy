@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2016 the original author or authors.
+ * Copyright 2011-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package groovyx.javafx.factory
 
+import javafx.collections.FXCollections
 import javafx.scene.Node
 import javafx.scene.NodeBuilder
 import javafx.scene.Parent
@@ -27,13 +28,12 @@ import javafx.scene.layout.GridPane
  */
 class ContainerFactory extends AbstractNodeFactory {
     private static final String BUILDER_LIST_PROPERTY = "__builderList"
-    
+
     ContainerFactory(Class beanClass) {
-        super(beanClass);
+        super(beanClass)
     }
 
-
-    public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         if (child instanceof Node) {
             if (parent instanceof BorderPane) {
                 parent.setCenter(child)
@@ -64,7 +64,7 @@ class ContainerFactory extends AbstractNodeFactory {
                 }
             }
         } else if (child instanceof NodeBuilder) {
-            def builderList = builder.parentContext.get(BUILDER_LIST_PROPERTY, [])
+            def builderList = builder.parentContext.get(BUILDER_LIST_PROPERTY, FXCollections.observableList([]))
             builderList << child
         } else {
             super.setChild(builder, parent, child)

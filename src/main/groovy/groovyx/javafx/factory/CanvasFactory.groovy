@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2016 the original author or authors.
+ * Copyright 2011-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,15 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package groovyx.javafx.factory
 
 import groovyx.javafx.canvas.CanvasOperation
 import groovyx.javafx.canvas.DrawOperations
+import javafx.collections.FXCollections
 import javafx.scene.canvas.Canvas
 
 /**
@@ -30,32 +26,32 @@ import javafx.scene.canvas.Canvas
  */
 class CanvasFactory extends AbstractNodeFactory {
     private static final String CANVAS_OPERATIONS_LIST_PROPERTY = "__canvasOperationsList"
-    
+
     CanvasFactory() {
-        super(Canvas);
+        super(Canvas)
     }
-    
+
     CanvasFactory(Class<Canvas> beanClass) {
-        super(beanClass);
+        super(beanClass)
     }
-    
+
     @Override
     public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         if (child instanceof CanvasOperation) {
-            def operations = builder.parentContext.get(CANVAS_OPERATIONS_LIST_PROPERTY, [])
+            def operations = builder.parentContext.get(CANVAS_OPERATIONS_LIST_PROPERTY, FXCollections.observableList([]))
             operations << child
-        }else {
-            super.setChild(builder, parent, child);
+        } else {
+            super.setChild(builder, parent, child)
         }
     }
-    
-    
+
+
     @Override
     void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
         def operations = builder.context.remove(CANVAS_OPERATIONS_LIST_PROPERTY)
-        def dop = new DrawOperations(operations: operations, canvas: node);
-        dop.draw();
-        node.userData = dop;
+        def dop = new DrawOperations(operations: operations, canvas: node)
+        dop.draw()
+        node.userData = dop
         super.onNodeCompleted(builder, parent, node)
     }
 }

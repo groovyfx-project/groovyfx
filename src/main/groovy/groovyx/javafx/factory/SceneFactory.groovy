@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2016 the original author or authors.
+ * Copyright 2011-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package groovyx.javafx.factory
 import groovyx.javafx.event.GroovyChangeListener
 import groovyx.javafx.event.GroovyEventHandler
 import groovyx.javafx.event.GroovyInvalidationListener
+import javafx.collections.FXCollections
 import javafx.event.EventHandler
 import javafx.scene.Group
 import javafx.scene.Node
@@ -33,19 +34,19 @@ import org.codehaus.groovy.runtime.InvokerHelper
  */
 class SceneFactory extends AbstractFXBeanFactory {
     private static final String BUILDER_LIST_PROPERTY = "__builderList"
-    
-    boolean syntheticRoot = false;
-    
+
+    boolean syntheticRoot = false
+
     SceneFactory() {
-        super(Scene);
-    }
-    
-    SceneFactory(Class<Scene> beanClass) {
-        super(beanClass);
+        super(Scene)
     }
 
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        Scene scene;
+    SceneFactory(Class<Scene> beanClass) {
+        super(beanClass)
+    }
+
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+        Scene scene
         if (checkValue(name, value)) {
             scene = value
         } else {
@@ -55,93 +56,93 @@ class SceneFactory extends AbstractFXBeanFactory {
             def depthBuffer = attributes.remove("depthBuffer") ?: false
             def antiAliasing = attributes.remove("antiAliasing") ?: SceneAntialiasing.DISABLED
 
-            if(root == null) {
+            if (root == null) {
                 root = new Group()
                 syntheticRoot = true
             }
-            
+
             scene = new Scene(root, width, height, depthBuffer, antiAliasing)
         }
-        def id = attributes.remove("id");
-        if(id != null)
-            builder.getVariables().put(id, scene);
-        return scene;
+        def id = attributes.remove("id")
+        if (id != null)
+            builder.getVariables().put(id, scene)
+        return scene
     }
 
-    public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
-        Scene scene = (Scene)parent
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
+        Scene scene = (Scene) parent
 
         // If we have a synthetic root, then the first child Node either becomes
         // the root (if it's a Parent) or becomes a child of the synthetic root.
         // Either way, our synthetic root is no longer synthetic.
-        if(syntheticRoot && child instanceof Node) {
-            syntheticRoot = false;
-            if(child instanceof Parent ) {
-                scene.root = child;
+        if (syntheticRoot && child instanceof Node) {
+            syntheticRoot = false
+            if (child instanceof Parent) {
+                scene.root = child
                 return
             }
         }
-        
-        switch(child) {
+
+        switch (child) {
             case Node:
                 scene.root.children.add(child)
-                break;
+                break
             case String:
-                scene.stylesheets.add(child);
-                break;
+                scene.stylesheets.add(child)
+                break
             case List:
-                scene.stylesheets.addAll(child.collect {it.toString()})
-                break;
+                scene.stylesheets.addAll(child.collect { it.toString() })
+                break
             case GroovyEventHandler:
-                InvokerHelper.setProperty(scene, child.property, child);
-                break;
+                InvokerHelper.setProperty(scene, child.property, child)
+                break
             case NodeBuilder:
-                def builderList = builder.parentContext.get(BUILDER_LIST_PROPERTY, [])
+                def builderList = builder.parentContext.get(BUILDER_LIST_PROPERTY, FXCollections.observableList([]))
                 builderList << child
-                break;
+                break
             case GroovyChangeListener:
             case GroovyInvalidationListener:
-                if(parent.metaClass.respondsTo(parent, child.property + "Property"))
-                    parent."${child.property}Property"().addListener(child);
-                break;
+                if (parent.metaClass.respondsTo(parent, child.property + "Property"))
+                    parent."${child.property}Property"().addListener(child)
+                break
         }
     }
 
-    public boolean onHandleNodeAttributes( FactoryBuilderSupport builder, Object node, Map attributes ) {
-        def scene = (Scene)node
+    boolean onHandleNodeAttributes(FactoryBuilderSupport builder, Object node, Map attributes) {
+        def scene = (Scene) node
         def attr = attributes.remove("stylesheets")
-        if(attr) {
-            if(attr instanceof List)
+        if (attr) {
+            if (attr instanceof List)
                 scene.stylesheets.addAll(attr)
-            else    
+            else
                 scene.stylesheets.add(attr.toString())
         }
-        for(v in AbstractNodeFactory.nodeEvents) {
-            if(attributes.containsKey(v)) {
-                def val = attributes.remove(v);
-                if(val instanceof Closure) {
+        for (v in AbstractNodeFactory.nodeEvents) {
+            if (attributes.containsKey(v)) {
+                def val = attributes.remove(v)
+                if (val instanceof Closure) {
                     FXHelper.setPropertyOrMethod(node, v, val as EventHandler)
 /*****
-                    def handler = new GroovyEventHandler(v);
-                    handler.setClosure((Closure)val);
+                    def handler = new GroovyEventHandler(v)
+                    handler.setClosure((Closure)val)
 ****/
-                }else if(val instanceof EventHandler) {
+                } else if(val instanceof EventHandler) {
                     FXHelper.setPropertyOrMethod(node, v, val)
                 }
             }
         }
-        return super.onHandleNodeAttributes(builder, node, attributes);
+        return super.onHandleNodeAttributes(builder, node, attributes)
     }
 
     @Override
     void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
         if (node instanceof Scene && node.root == null) {
-            node.root = new Group();
+            node.root = new Group()
         }
-        
+
         def builderList = builder.context.remove(BUILDER_LIST_PROPERTY)
         builderList?.each {
-            node.root.children.add(it.build());
+            node.root.children.add(it.build())
         }
     }
 }
