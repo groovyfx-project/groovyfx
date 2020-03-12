@@ -1,7 +1,7 @@
 /*
  * SPDX-License-Identifier: Apache-2.0
  *
- * Copyright 2011-2019 the original author or authors.
+ * Copyright 2011-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,14 +18,14 @@
 plugins {
     id 'groovy'
     id 'idea'
-    id 'codenarc'
-    id 'org.kordamp.gradle.project'      version '0.25.0'
-    id 'org.openjfx.javafxplugin'        version '0.0.5'
-    id 'org.asciidoctor.convert'         version '1.5.9.2'
-    id 'com.github.kt3k.coveralls'       version '2.8.4'
-    id 'org.jonnyzzz.java9c'             version '0.2.3'
-    id 'org.javamodularity.moduleplugin' version '1.5.0'
-    id 'com.google.osdetector'           version '1.6.2'
+    id 'org.kordamp.gradle.groovy-project'
+    id 'org.kordamp.gradle.bintray'
+    id 'org.kordamp.gradle.coveralls'
+    id 'org.openjfx.javafxplugin'
+    id 'org.asciidoctor.jvm.convert'
+    id 'org.jonnyzzz.java9c'
+    id 'org.javamodularity.moduleplugin'
+    id 'com.google.osdetector'
 }
 
 if (!project.hasProperty('bintrayUsername'))  project.ext.bintrayUsername  = ''
@@ -93,17 +93,21 @@ config {
         githubRepo = 'groovyfx-project/groovyfx'
     }
 
-    apidoc {
-        enabled = false
+    docs {
+        groovydoc {
+            replaceJavadoc = true
+            options {
+                link 'http://junit.org/javadoc/latest/', 'org.junit.', 'junit.'
+                link 'http://docs.oracle.com/javase/8/docs/api/', 'java.', 'org.xml.', 'javax.', 'org.w3c.'
+                link 'http://docs.oracle.com/javase/8/javafx/api/', 'javafx.'
+                link 'http://docs.groovy-lang.org/latest/html/api/', 'groovy.', 'org.codehaus.groovy'
+            }
+        }
     }
 
-    groovydoc {
-        replaceJavadoc = true
-        options {
-            link 'http://junit.org/javadoc/latest/', 'org.junit.', 'junit.'
-            link 'http://docs.oracle.com/javase/8/docs/api/', 'java.', 'org.xml.', 'javax.', 'org.w3c.'
-            link 'http://docs.oracle.com/javase/8/javafx/api/', 'javafx.'
-            link 'http://docs.groovy-lang.org/latest/html/api/', 'groovy.', 'org.codehaus.groovy'
+    coverage {
+        jacoco {
+            toolVersion = '0.8.5'
         }
     }
 }
@@ -189,16 +193,6 @@ asciidoctor {
         'groovy-version': project.groovyfx_groovyVersion
 }
 
-test {
-    testLogging {
-        exceptionFormat 'full'
-    }
-}
-
-jacoco {
-    toolVersion = '0.8.4'
-}
-
 processResources {
     from(sourceSets.main.resources.srcDirs) {
         filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: [
@@ -207,7 +201,29 @@ processResources {
     }
 }
 
-codenarc {
-    ignoreFailures = true
-    configFile = project.file('config/codenarc/codenarc.groovy')
+// ------------- compiling demo source ---------------
+
+sourceSets {
+    demo {
+        compileClasspath += sourceSets.main.output + configurations.compile
+        runtimeClasspath += sourceSets.main.output
+        groovy {
+            srcDir 'src/demo/groovy'
+        }
+        resources {
+            srcDir 'src/demo/resources'
+        }
+    }
 }
+
+// ---------------- dynamic tasks to run demos ------------------
+
+new File('src/demo/groovy/demo').eachFileMatch(~/.*Demo.groovy/) { file ->
+    def demoClassName = file.name - '.groovy'
+    task "run$demoClassName"(type: org.javamodularity.moduleplugin.tasks.ModularJavaExec) {
+        group = "Demo"
+        description = "Run the $demoClassName program"
+        main = "groovyfx.demo/demo.$demoClassName"
+    }
+}
+

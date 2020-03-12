@@ -1,7 +1,7 @@
 /*
  * SPDX-License-Identifier: Apache-2.0
  *
- * Copyright 2011-2019 the original author or authors.
+ * Copyright 2011-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,5 +19,15 @@ pluginManagement {
     repositories {
         jcenter()
         gradlePluginPortal()
+    }
+    plugins {
+        id 'org.kordamp.gradle.groovy-project' version kordampPluginVersion
+        id 'org.kordamp.gradle.bintray'        version kordampPluginVersion
+        id 'org.kordamp.gradle.coveralls'      version kordampPluginVersion
+        id 'org.openjfx.javafxplugin'          version '0.0.8'
+        id 'org.asciidoctor.jvm.convert'       version '3.1.0'
+        id 'org.jonnyzzz.java9c'               version '0.2.3'
+        id 'org.javamodularity.moduleplugin'   version '1.5.0'
+        id 'com.google.osdetector'             version '1.6.2'
     }
 }

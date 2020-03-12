@@ -1,5 +1,5 @@
 = GroovyFx
-:version: 9.0.0-SNAPSHOT
+:version: 11.0.0-SNAPSHOT
 :project-name: groovyfx
 :branch: master
 
@@ -9,14 +9,9 @@ image:http://img.shields.io/badge/license-ASF2-blue.svg["Apache License 2", link
 
 == Build instructions
 
-Download JavaFX from http://javafx.com and follow the install instructions.
-
-Or if you are feeling "bleeding edge" clone the Git repository!
-
-
 === Building with Gradle shell command line
 
-* Make sure you have Java8u20 (or greater) installed
+* Make sure you have Java 11 (or greater) installed
 * cd to the GroovyFX directory
 * gradlew build
 
@@ -24,14 +19,7 @@ To run any specific demo, e.g. the AccordionDemo, you can just call:
 
 [source]
 ----
-gradlew AccordionDemo
-----
-
-To see an executable overview of all build tasks including all demos:
-
-[source]
-----
-gradlew --gui
+gradlew runAccordionDemo
 ----
 
 == Using GroovyFX from Maven Central or Bintray
@@ -50,14 +38,6 @@ system.  Just include the following line at the top of your script:
 [subs="attributes"]
 ----
 @Grab('org.groovyfx:groovyfx:{version}')
-----
-
-You may find that when you start such a script, you have to ensure that an explicit reference to your
-jfxrt.jar is declared in your classpath. For Java 8:
-
-[source]
-----
-groovy -cp $JAVA_HOME/jre/lib/ext/jfxrt.jar myScript.groovy
 ----
 
 == Creating a GroovyFX-Based Project with Gradle
