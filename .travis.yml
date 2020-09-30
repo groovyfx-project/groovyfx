@@ -12,7 +12,7 @@ before_install:
   - sh -e /etc/init.d/xvfb start
 before_script:
   - ./gradlew --version
-script: ./gradlew -S build jacocoTestReport
+script: ./gradlew -S build
 after_success:
   - ./gradlew coveralls
 

@@ -1,11 +1,15 @@
 = GroovyFx
-:version: 11.0.0-SNAPSHOT
-:project-name: groovyfx
+:linkattrs:
 :branch: master
+:project-owner:   groovyfx-project
+:project-name:    groovyfx
+:project-group:   org.groovyfx
+:project-version: 11.0.0-SNAPSHOT
 
-image:http://img.shields.io/travis/groovyfx-project/{project-name}/{branch}.svg["Build Status", link="https://travis-ci.org/groovyfx-project/{project-name}"]
-image:http://img.shields.io/coveralls/groovyfx-project/{project-name}/{branch}.svg["Coverage Status", link="https://coveralls.io/r/groovyfx-project/{project-name}"]
-image:http://img.shields.io/badge/license-ASF2-blue.svg["Apache License 2", link="http://www.apache.org/licenses/LICENSE-2.0.txt"]
+image:http://img.shields.io/travis/{project-owner}/{project-name}/master.svg["Build Status (travis)", link="https://travis-ci.org/{project-owner}/{project-name}"]
+image:https://github.com/{project-owner}/{project-name}/workflows/Build/badge.svg["Build Status", link="https://github.com/{project-owner}/{project-name}/actions"]
+image:http://img.shields.io/badge/license-ASL2-blue.svg["ASL2 Licensed", link="http://opensource.org/licenses/ASL2"]
+image:https://img.shields.io/maven-central/v/{project-group}/{project-name}.svg?label=maven[link="https://search.maven.org/#search|ga|1|{project-group}"]
 
 == Build instructions
 
