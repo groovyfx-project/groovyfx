@@ -24,10 +24,10 @@ pluginManagement {
         id 'org.kordamp.gradle.groovy-project' version kordampPluginVersion
         id 'org.kordamp.gradle.bintray'        version kordampPluginVersion
         id 'org.kordamp.gradle.coveralls'      version kordampPluginVersion
-        id 'org.openjfx.javafxplugin'          version '0.0.8'
-        id 'org.asciidoctor.jvm.convert'       version '3.1.0'
+        id 'org.openjfx.javafxplugin'          version '0.0.9'
+        id 'org.asciidoctor.jvm.convert'       version '3.2.0'
         id 'org.jonnyzzz.java9c'               version '0.2.3'
-        id 'org.javamodularity.moduleplugin'   version '1.5.0'
+        id 'org.javamodularity.moduleplugin'   version '1.7.0'
         id 'com.google.osdetector'             version '1.6.2'
     }
 }
