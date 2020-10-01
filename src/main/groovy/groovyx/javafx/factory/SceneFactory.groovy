@@ -45,7 +45,7 @@ class SceneFactory extends AbstractFXBeanFactory {
         super(beanClass);
     }
 
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Scene scene;
         if (checkValue(name, value)) {
             scene = value
@@ -69,7 +69,7 @@ class SceneFactory extends AbstractFXBeanFactory {
         return scene;
     }
 
-    public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         Scene scene = (Scene)parent
 
         // If we have a synthetic root, then the first child Node either becomes
@@ -108,7 +108,7 @@ class SceneFactory extends AbstractFXBeanFactory {
         }
     }
 
-    public boolean onHandleNodeAttributes( FactoryBuilderSupport builder, Object node, Map attributes ) {
+    boolean onHandleNodeAttributes(FactoryBuilderSupport builder, Object node, Map attributes ) {
         def scene = (Scene)node
         def attr = attributes.remove("stylesheets")
         if(attr) {

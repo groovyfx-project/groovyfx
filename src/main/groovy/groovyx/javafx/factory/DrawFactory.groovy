@@ -43,7 +43,7 @@ class DrawFactory extends AbstractNodeFactory {
     }
     
     @Override
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         DrawOperations operations = super.newInstance(builder, name, value, attributes);
         if(value instanceof Canvas)
             operations.canvas = value;
@@ -51,7 +51,7 @@ class DrawFactory extends AbstractNodeFactory {
     }
     
     @Override
-    public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         if (child instanceof CanvasOperation) {
             def operations = builder.parentContext.get(DRAW_OPERATIONS_LIST_PROPERTY, [])
             operations << child

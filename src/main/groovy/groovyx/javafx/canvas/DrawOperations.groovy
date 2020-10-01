@@ -35,33 +35,34 @@ import javafx.collections.FXCollections
 class DrawOperations implements CanvasOperation {
     private List<CanvasOperation> operations = [];
     Canvas canvas
-    
-    public void setOperations(List ops)
+
+    void setOperations(List ops)
     {
         this.operations = FXCollections.observableArrayList(ops)
     }
 
-    public void add(CanvasOperation opertion) {
+    void add(CanvasOperation opertion) {
         operations << operation;
     }
-    
-    public void clear() {
+
+    void clear() {
         operations.clear()
     }
-    
-    public void remove(CanvasOperation operation) {
+
+    void remove(CanvasOperation operation) {
         operations.remove(operation)
     }
-    
-    public void draw() {
+
+    void draw() {
         execute(canvas.graphicsContext2D)
     }
-    public void draw(Canvas canvas) {
+
+    void draw(Canvas canvas) {
         this.canvas = canvas;
         draw();
     }
-    
-    public void initParams(Object obj){
+
+    void initParams(Object obj){
         if(obj instanceof Canvas) {
             canvas = obj;
         }else {
@@ -73,7 +74,8 @@ class DrawOperations implements CanvasOperation {
             }
         }
     }
-    public void execute(GraphicsContext gc) {
+
+    void execute(GraphicsContext gc) {
         
         operations?.each {
             it.execute(gc);

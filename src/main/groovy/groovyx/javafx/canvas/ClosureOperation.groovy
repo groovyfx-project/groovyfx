@@ -27,12 +27,12 @@ import javafx.scene.canvas.GraphicsContext;
 @FXBindable
 class ClosureOperation implements CanvasOperation {
     Closure closure
-    
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         closure = val
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         closure(gc)
     }
 }

@@ -27,8 +27,8 @@ import javafx.scene.control.TitledPane
 class TitledContent {
     public TitledPane pane;
     public Node node;
-    
-    public void setNode(Node node) {
+
+    void setNode(Node node) {
         this.node = node;
         pane.content = node
     }

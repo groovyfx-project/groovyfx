@@ -25,24 +25,25 @@ import groovyx.javafx.event.GroovyCallback
 */
 class CellFactory extends AbstractNodeFactory {
     
-    public CellFactory() {
+    CellFactory() {
         super(GroovyCallback)
     }
-    public CellFactory(Class<GroovyCallback> beanClass) {
+
+    CellFactory(Class<GroovyCallback> beanClass) {
         super(beanClass)
     }
-    
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Object factory = super.newInstance(builder, name, value, attributes);
         factory.property = name;
         factory;
     }
-    
-    public boolean isHandlesNodeChildren() {
+
+    boolean isHandlesNodeChildren() {
         return true;
     }
 
-    public boolean onNodeChildren(FactoryBuilderSupport builder, Object node, Closure childContent) {
+    boolean onNodeChildren(FactoryBuilderSupport builder, Object node, Closure childContent) {
         node.closure = childContent;
         return false;
     }

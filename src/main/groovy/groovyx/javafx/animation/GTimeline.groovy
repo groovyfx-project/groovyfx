@@ -30,7 +30,7 @@ import javafx.util.Duration
 class FunctionWrapper {
     public Closure closure;
 
-    public Object invoke() {
+    Object invoke() {
         return closure.call();
     }
 }

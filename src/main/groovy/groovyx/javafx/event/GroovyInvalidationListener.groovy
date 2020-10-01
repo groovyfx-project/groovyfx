@@ -27,27 +27,30 @@ import javafx.beans.Observable
 class GroovyInvalidationListener extends AbstractClosureProperty implements InvalidationListener {
     
     Observable observable;
-    
-    public GroovyInvalidationListener() {
+
+    GroovyInvalidationListener() {
         super();
     }
-    
-    public GroovyInvalidationListener(String property) {
+
+    GroovyInvalidationListener(String property) {
         super(property);
     }
-    public GroovyInvalidationListener(String property, Closure closure) {
+
+    GroovyInvalidationListener(String property, Closure closure) {
         super(property, closure);
     }
-    public GroovyInvalidationListener(Observable observable) {
+
+    GroovyInvalidationListener(Observable observable) {
         super(null);
         this.observable = observable
     }
-    public GroovyInvalidationListener(Observable observable, Closure closure) {
+
+    GroovyInvalidationListener(Observable observable, Closure closure) {
         super(null, closure);
         this.observable = observable
     }
-    
-    public void invalidated(Observable observable) {
+
+    void invalidated(Observable observable) {
         this.closure.call(observable);
     }
 	

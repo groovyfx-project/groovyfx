@@ -26,19 +26,20 @@ import javafx.util.Callback
 class GroovyCallback implements Callback {
     String property
     Closure closure
-    
-    public GroovyCallback() {
+
+    GroovyCallback() {
     }
 
-    public GroovyCallback(String property) {
+    GroovyCallback(String property) {
         this.property = property
     }
 
-    @Override public Object call(Object config) {
+    @Override
+    Object call(Object config) {
         return closure.call(config)
     }
 
-    public String toString() {
+    String toString() {
         "GroovyCallback: property = ${property}"
     }   
 }

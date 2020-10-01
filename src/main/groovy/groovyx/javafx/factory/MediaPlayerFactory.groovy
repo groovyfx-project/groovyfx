@@ -31,7 +31,8 @@ class MediaPlayerFactory extends AbstractFXBeanFactory{
     MediaPlayerFactory(Class<MediaPlayer> beanClass) {
         super(beanClass)
     }
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         if (checkValue(name, value)) {
             return value
         }

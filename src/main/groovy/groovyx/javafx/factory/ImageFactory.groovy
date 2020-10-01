@@ -30,7 +30,8 @@ class ImageFactory extends AbstractFXBeanFactory {
     ImageFactory(Class<Image> beanClass) {
         super(beanClass);
     }
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         if (checkValue(name, value)) {
             return value
         }
@@ -61,7 +62,8 @@ class ImageFactory extends AbstractFXBeanFactory {
         }
         return image;
     }
-    public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
+
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child ) {
         if(child instanceof Image && parent instanceof Image) {
             ((Image)parent).setPlaceHolder((Image)child);
         }

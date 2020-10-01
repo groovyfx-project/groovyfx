@@ -23,7 +23,7 @@ import javafx.scene.Node;
  *
  * @author jimclarke
  */
-public class ClipFactory extends AbstractFXBeanFactory {
+class ClipFactory extends AbstractFXBeanFactory {
     
     ClipFactory() {
         super(ClipHolder);
@@ -32,15 +32,15 @@ public class ClipFactory extends AbstractFXBeanFactory {
     ClipFactory(Class<ClipHolder> beanClass) {
         super(beanClass);
     }
-    
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) {
+
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) {
         ClipHolder ch = super.newInstance(builder, name, value, attributes);
         if(value instanceof Node)
             ch.node = value;
         return ch;
     }
-    
-    public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
+
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child ) {
         if(child instanceof Node) {
             ch.node = child;
         }

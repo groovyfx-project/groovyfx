@@ -30,14 +30,14 @@ class DrawImageOperation implements CanvasOperation {
     Image img;
     double x;
     double y;
-    
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         img = val[0]
         x   = val[1]
         y   = val[2]
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.drawImage(img, x, y);
     }
 }

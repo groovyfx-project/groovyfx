@@ -39,7 +39,7 @@ class MenuFactory extends AbstractNodeFactory {
         super(beanClass);
     }
 
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Action action = null
         Map actionParams = [:]
         if (value instanceof Action) {
@@ -66,7 +66,7 @@ class MenuFactory extends AbstractNodeFactory {
         menu
     }
 
-    public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         if(parent instanceof MenuBar && child instanceof Menu) {
             parent.menus.add(child);
         }else if (child instanceof MenuItem) {

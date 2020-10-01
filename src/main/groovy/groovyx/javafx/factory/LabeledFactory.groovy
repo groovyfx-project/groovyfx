@@ -41,7 +41,7 @@ class LabeledFactory extends AbstractNodeFactory {
         super(beanClass);
     }
 
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Action action = null
         Map actionParams = [:]
         if (value instanceof Action) {
@@ -79,7 +79,7 @@ class LabeledFactory extends AbstractNodeFactory {
     }
 
 
-    public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         switch (child) {
             case Tooltip:
                 parent.tooltip = child;
@@ -96,7 +96,7 @@ class LabeledFactory extends AbstractNodeFactory {
             case GroovyCallback:
                 if ((parent instanceof ChoiceBox) && (child.property == "onSelect")) {
                     parent.selectionModel.selectedItemProperty().addListener(new ChangeListener() {
-                        public void changed(final ObservableValue observable, final Object oldValue, final Object newValue) {
+                        void changed(final ObservableValue observable, final Object oldValue, final Object newValue) {
                             builder.defer({child.closure.call(parent, newValue);});
                         }
                     });

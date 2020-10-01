@@ -28,8 +28,8 @@ import javafx.scene.effect.BlendMode
 @FXBindable
 class SetGlobalBlendModeOperation implements CanvasOperation {
     BlendMode mode
-    
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         if(val instanceof BlendMode) {
             mode = val;
         }else {
@@ -37,7 +37,7 @@ class SetGlobalBlendModeOperation implements CanvasOperation {
         }
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.setGlobalBlendMode(mode);
     }
 }

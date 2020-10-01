@@ -30,15 +30,15 @@ class StrokeLineOperation implements CanvasOperation {
     double y1
     double x2
     double y2
-    
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         x1 = val[0]
         y1 = val[1]
         x2 = val[2]
         y2 = val[3]
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.strokeLine(x1, y1, x2, y2);
     }
 }

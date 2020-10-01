@@ -27,12 +27,12 @@ import javafx.scene.canvas.GraphicsContext;
 @FXBindable
 class SetMiterLimitOperation implements CanvasOperation {
     double ml
-    
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         ml = val
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.setMiterLimit(ml);
     }
 }

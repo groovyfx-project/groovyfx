@@ -32,8 +32,8 @@ class ArcOperation implements CanvasOperation {
     double radiusY;
     double startAngle;
     double length;
-    
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         centerX    = val[0];
         centerY    = val[1];
         radiusX    = val[2];
@@ -42,7 +42,7 @@ class ArcOperation implements CanvasOperation {
         length     = val[5];
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.arc(centerX, centerY, radiusX, radiusY, startAngle, length);
     }
 }

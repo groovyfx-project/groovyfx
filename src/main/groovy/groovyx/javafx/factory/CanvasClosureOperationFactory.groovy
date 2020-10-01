@@ -31,20 +31,20 @@ class CanvasClosureOperationFactory extends AbstractFXBeanFactory {
     CanvasClosureOperationFactory(Class<ClosureOperation> beanClass) {
         super(beanClass);
     }
-    
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
+
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
             throws InstantiationException, IllegalAccessException {
          Object instance = super.newInstance(builder,name,value, attributes);
          if(value != null && value instanceof Closure)
             instance.closure = value;
          instance;
     }
-    
-    public boolean isHandlesNodeChildren() {
+
+    boolean isHandlesNodeChildren() {
         return true;
     }
 
-    public boolean onNodeChildren(FactoryBuilderSupport builder, Object node, Closure childContent) {
+    boolean onNodeChildren(FactoryBuilderSupport builder, Object node, Closure childContent) {
         node.closure = childContent
         return false
     }

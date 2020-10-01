@@ -28,12 +28,12 @@ import javafx.scene.effect.Effect
 @FXBindable
 class SetEffectOperation implements CanvasOperation {
     Effect effect
-    
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         effect = val;
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.setEffect(effect);
     }
 }

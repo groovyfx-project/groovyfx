@@ -36,8 +36,8 @@ class KeyFrameFactory extends AbstractFXBeanFactory {
     KeyFrameFactory(Class<KeyFrameWrapper> beanClass) {
         super(beanClass)
     }
-    
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         KeyFrameWrapper keyFrame = super.newInstance(builder, name, value, attributes)
         keyFrame.time = (Duration)value;
 
@@ -51,8 +51,8 @@ class KeyFrameFactory extends AbstractFXBeanFactory {
         }
         keyFrame;
     }
-    
-    public void setChild(FactoryBuilderSupport build, Object parent, Object child) {
+
+    void setChild(FactoryBuilderSupport build, Object parent, Object child) {
         if(child instanceof GroovyEventHandler) {
             FXHelper.setPropertyOrMethod(parent, child.property, child)
         }else {
@@ -60,7 +60,7 @@ class KeyFrameFactory extends AbstractFXBeanFactory {
         }
     }
 
-    public void onNodeCompleted( FactoryBuilderSupport builder, Object parent, Object node )  {
+    void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node )  {
         def keyValues = builder.context[KeyValueFactory.TARGET_HOLDERS_PROPERTY]
         keyValues?.each {
             KeyValue kv = it.getKeyValue();

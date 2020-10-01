@@ -28,13 +28,13 @@ import javafx.scene.canvas.GraphicsContext;
 class ScaleOperation implements CanvasOperation {
     double x
     double y
-    
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         x = val[0]
         y = val[1]
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.scale(x, y);
     }
 }

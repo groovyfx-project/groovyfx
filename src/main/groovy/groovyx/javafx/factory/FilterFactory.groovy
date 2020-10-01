@@ -28,8 +28,8 @@ class FilterFactory extends AbstractFXBeanFactory {
     FilterFactory() {
         super(null, true)
     }
-    
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
        def extName = value;
        if(extName == null) {
            extName = attributes.remove("description");

@@ -26,12 +26,14 @@ import javafx.scene.control.TableCell;
 class TableCellFactory {
     Closure factory;
 
-    public TableCellFactory() {
+    TableCellFactory() {
     }
-    public TableCellFactory(Closure factory) {
+
+    TableCellFactory(Closure factory) {
         this.factory = factory;
     }
-    public TableCell run() {
+
+    TableCell run() {
         def result = factory.call();
 
         return result;

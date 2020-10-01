@@ -29,12 +29,12 @@ import javafx.scene.paint.Paint
 @FXBindable
 class SetStrokeOperation implements CanvasOperation {
     Paint p;
-     
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         p = ColorFactory.get(val);
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.setStroke(p);
     }
 }

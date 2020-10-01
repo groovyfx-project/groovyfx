@@ -27,12 +27,12 @@ import javafx.scene.canvas.GraphicsContext;
 @FXBindable
 class AppendSVGPathOperation implements CanvasOperation {
     String svgpath
-    
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         svgpath = val.toString();
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.appendSVGPath(svgpath);
     }
 }

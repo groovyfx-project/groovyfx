@@ -27,13 +27,15 @@ import javafx.scene.control.Tooltip
  */
 class TabFactory extends AbstractFXBeanFactory {
     
-    public TabFactory() {
+    TabFactory() {
         super(Tab);
     }
-    public TabFactory(Class<Tab> beanClass) {
+
+    TabFactory(Class<Tab> beanClass) {
         super(beanClass);
     }
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Tab tab = super.newInstance(builder, name, value, attributes);
         switch(value) {
             case GString:
@@ -46,7 +48,7 @@ class TabFactory extends AbstractFXBeanFactory {
         return tab
     }
 
-    public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         switch(child) {
             case Tooltip:
                 parent.tooltip = child

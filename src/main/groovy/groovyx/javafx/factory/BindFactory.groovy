@@ -28,26 +28,26 @@ import javafx.beans.value.ObservableValue
 class BindFactory extends AbstractFXBeanFactory {
     
     private static final String BIND_TO_PROPERTY = "__bindToList"
-    
-    public BindFactory() {
+
+    BindFactory() {
         super(ObservableValue)
     }
-    
-    public BindFactory(Class<ObservableValue> beanClass) {
+
+    BindFactory(Class<ObservableValue> beanClass) {
         super(beanClass);
     }
-    
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
+
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
             throws InstantiationException, IllegalAccessException {
           BindingHolder bh = new BindingHolder(value);
           bh;
     }
-    
-    public boolean isHandlesNodeChildren() {
+
+    boolean isHandlesNodeChildren() {
         return true;
     }
-    
-     public boolean onNodeChildren(FactoryBuilderSupport builder, Object node, Closure childContent) {
+
+    boolean onNodeChildren(FactoryBuilderSupport builder, Object node, Closure childContent) {
         node.observable = new GroovyClosureProperty(childContent);
         false
     }

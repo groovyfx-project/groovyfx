@@ -26,15 +26,15 @@ import javafx.scene.image.ImageView
 */
 class ImageViewFactory extends AbstractNodeFactory {
     
-    public ImageViewFactory() {
+    ImageViewFactory() {
         super(ImageView);
     }
-    
-    public ImageViewFactory(Class<ImageView> beanClass) {
+
+    ImageViewFactory(Class<ImageView> beanClass) {
         super(beanClass);
     }
-    
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         ImageView iv = super.newInstance(builder, name, value, attributes);
         if(value != null) {
             switch(value) {
@@ -51,8 +51,8 @@ class ImageViewFactory extends AbstractNodeFactory {
         }
         iv
     }
-    
-    public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
+
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child ) {
         switch(child) {
             case Image:
                 parent.image = child;

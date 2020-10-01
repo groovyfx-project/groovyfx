@@ -39,13 +39,13 @@ class GridConstraint {
    Priority hgrow = Priority.NEVER;
    Priority vgrow = Priority.NEVER;
    Insets margin = new Insets(0,0,0,0);
-   
-   public void updateConstraints() {
+
+    void updateConstraints() {
        GridPane.setConstraints(node, column, row, columnSpan, rowSpan,
         halignment, valignment, hgrow, vgrow, margin);
    }
-   
-    public void clearConstraints() {
+
+    void clearConstraints() {
         GridPane.clearConstraings(node);
     }
 }

@@ -28,8 +28,8 @@ import javafx.scene.shape.StrokeLineJoin
 @FXBindable
 class SetLineJoinOperation implements CanvasOperation {
     StrokeLineJoin join
-    
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         if(val instanceof StrokeLineJoin) {
             join = val;
         }else {
@@ -37,7 +37,7 @@ class SetLineJoinOperation implements CanvasOperation {
         }
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.setLineJoin(join);
     }
 }

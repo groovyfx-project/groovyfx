@@ -33,11 +33,11 @@ class TargetHolder {
     public Object endValue;
     public Interpolator interpolator = Interpolator.LINEAR;
 
-    public String toString() {
+    String toString() {
         "bean = ${bean}, property = ${propertyName}, endValue = ${endValue}, interpolator = ${interpolator}"
     }
 
-    public KeyValue getKeyValue() {
+    KeyValue getKeyValue() {
         if(property == null) {
             property = Util.getJavaBeanFXWritableProperty(bean, propertyName);
         }

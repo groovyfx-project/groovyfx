@@ -24,19 +24,20 @@ package groovyx.javafx.event
 class AbstractClosureProperty {
     String property
     Closure closure
-    
-    public AbstractClosureProperty() {
+
+    AbstractClosureProperty() {
     }
 
-    public AbstractClosureProperty(String property) {
+    AbstractClosureProperty(String property) {
         this.property = property
     }
-    public AbstractClosureProperty(String property, Closure closure) {
+
+    AbstractClosureProperty(String property, Closure closure) {
         this.property = property
         this.closure = closure
     }
-    
-    public String toString() {
+
+    String toString() {
         "${this.class.name}: property = ${property}"
     }
 }

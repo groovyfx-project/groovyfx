@@ -27,10 +27,11 @@ import javafx.scene.paint.Paint
  */
 class StrokeFactory extends AbstractFXBeanFactory {
     
-    public StrokeFactory() {
+    StrokeFactory() {
         super(Paint, true)
     }
-    public StrokeFactory(Class<Paint> beanClass) {
+
+    StrokeFactory(Class<Paint> beanClass) {
         super(beanClass, true)
     }
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) {

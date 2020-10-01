@@ -37,7 +37,7 @@ import javafx.scene.transform.Transform
  *
  * @author jimclarke
  */
-public abstract class AbstractNodeFactory extends AbstractFXBeanFactory {
+abstract class AbstractNodeFactory extends AbstractFXBeanFactory {
     
     public static def nodeEvents = [
         'onContextMenuRequested',
@@ -65,18 +65,17 @@ public abstract class AbstractNodeFactory extends AbstractFXBeanFactory {
         'onScroll'
         
     ]
-    
-    public AbstractNodeFactory(Class beanClass) {
+
+    AbstractNodeFactory(Class beanClass) {
         super(beanClass)
     }
-    public AbstractNodeFactory(Class beanClass, boolean leaf) {
+
+    AbstractNodeFactory(Class beanClass, boolean leaf) {
         super(beanClass, leaf)
     }
-    
-    
 
 
-     public boolean onHandleNodeAttributes( FactoryBuilderSupport builder, Object node, Map attributes ) {
+    boolean onHandleNodeAttributes(FactoryBuilderSupport builder, Object node, Map attributes ) {
         for(v in nodeEvents) {
             if(attributes.containsKey(v)) {
                 def val = attributes.remove(v);
@@ -96,8 +95,8 @@ public abstract class AbstractNodeFactory extends AbstractFXBeanFactory {
         return super.onHandleNodeAttributes(builder, node, attributes);
     }
 
-    
-    public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
+
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child ) {
         switch(child) {
             case GroovyEventHandler:
                 FXHelper.setPropertyOrMethod(parent, child.property, child)

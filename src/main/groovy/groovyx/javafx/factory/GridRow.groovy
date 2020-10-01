@@ -25,8 +25,8 @@ import javafx.scene.Node;
 class GridRow {
     int index;
     List nodes = new ArrayList();
-    
-    public Node[] nodeArray() {
+
+    Node[] nodeArray() {
         return (Node[])nodes.toArray(new Node[nodes.size()]);
     }
 }

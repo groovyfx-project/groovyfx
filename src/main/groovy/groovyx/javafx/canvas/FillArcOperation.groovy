@@ -34,8 +34,8 @@ class FillArcOperation implements CanvasOperation {
     double startAngle;
     double arcExtent;
     ArcType closure;
-    
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         x          = val[0]
         y          = val[1]
         w          = val[2]
@@ -50,7 +50,7 @@ class FillArcOperation implements CanvasOperation {
         
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.fillArc(x, y, w, h, startAngle, arcExtent, closure);
     }
 }

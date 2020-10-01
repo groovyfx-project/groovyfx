@@ -27,12 +27,12 @@ import javafx.scene.canvas.GraphicsContext;
 @FXBindable
 class SetGlobalAlphaOperation implements CanvasOperation {
     double alpha
-    
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         alpha = val
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.setGlobalAlpha(alpha);
     }
 }

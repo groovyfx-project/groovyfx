@@ -112,8 +112,8 @@ class MenuItemFactory extends AbstractNodeFactory {
         }
         menu
     }
-    
-    public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
+
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         if(parent instanceof Menu && child instanceof MenuItem) {
             parent.items.add(child);        
         } else if(child instanceof Node) {

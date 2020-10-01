@@ -32,8 +32,8 @@ class BezierCurveToOperation implements CanvasOperation {
     double yc2; 
     double x1;
     double y1;
-    
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         xc1 = val[0] 
         yc1 = val[1]  
         xc2 = val[2]  
@@ -41,7 +41,7 @@ class BezierCurveToOperation implements CanvasOperation {
         x1  = val[4] 
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.bezierCurveTo(xc1, yc1, xc2, yc2, x1, y1);
     }
 }

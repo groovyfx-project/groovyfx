@@ -26,11 +26,11 @@ import groovyx.javafx.event.GroovyEventHandler
 class ClosureHandlerFactory extends AbstractFXBeanFactory {
     
     
-    public ClosureHandlerFactory(Class beanClass) {
+    ClosureHandlerFactory(Class beanClass) {
         super(beanClass)
     }
 
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         GroovyEventHandler eh = super.newInstance(builder, name, value, attributes);
         eh.property = name.toString();
         if(value instanceof Closure) {

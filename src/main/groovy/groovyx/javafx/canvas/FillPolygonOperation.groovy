@@ -29,7 +29,8 @@ class FillPolygonOperation implements CanvasOperation {
     double[] xPoints;
     double[] yPoints;
     int nPoints
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         if(val[0] instanceof Number) {
             xPoints = new double[1];
             xPoints[0] = val[0]
@@ -49,7 +50,7 @@ class FillPolygonOperation implements CanvasOperation {
         nPoints = val[3];
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.fillPolygon(xPoints, yPoints, nPoints);
     }
 }

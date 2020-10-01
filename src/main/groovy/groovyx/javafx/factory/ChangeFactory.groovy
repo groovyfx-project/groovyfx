@@ -30,8 +30,8 @@ class ChangeFactory extends AbstractFXBeanFactory {
     ChangeFactory(Class beanClass) {
         super(beanClass);
     }
-    
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
+
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
             throws InstantiationException, IllegalAccessException {
          def listener = null;
          if(ChangeListener.isAssignableFrom(beanClass)) {
@@ -63,12 +63,12 @@ class ChangeFactory extends AbstractFXBeanFactory {
          }   
          listener
     }
-    
-    public boolean isHandlesNodeChildren() {
+
+    boolean isHandlesNodeChildren() {
         return true;
     }
 
-    public boolean onNodeChildren(FactoryBuilderSupport builder, Object node, Closure childContent) {
+    boolean onNodeChildren(FactoryBuilderSupport builder, Object node, Closure childContent) {
         node.closure = childContent
         if(node.observable != null) {
             node.observable.addListener(node);

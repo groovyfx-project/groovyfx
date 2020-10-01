@@ -27,24 +27,24 @@ class AbstractFXBeanFactory extends AbstractFactory {
     
     Map<String, Factory> childFactories;
 
-    public AbstractFXBeanFactory(Class beanClass) {
+    AbstractFXBeanFactory(Class beanClass) {
         this(beanClass, false)
     }
 
-    public AbstractFXBeanFactory(Class beanClass, boolean leaf) {
+    AbstractFXBeanFactory(Class beanClass, boolean leaf) {
         this.beanClass = beanClass
         this.leaf = leaf
     }
 
     @Override
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         if (checkValue(name, value)) {
             return value
         }
         return beanClass.newInstance()
     }
 
-    public boolean checkValue(Object name, Object value) {
+    boolean checkValue(Object name, Object value) {
         return value != null && beanClass.isAssignableFrom(value.class)
     }
 
@@ -64,21 +64,20 @@ class AbstractFXBeanFactory extends AbstractFactory {
         super.onHandleNodeAttributes(builder, node, attributes);
         return true;
     }
-    
-    public boolean hasChildFactories() {
+
+    boolean hasChildFactories() {
         return childFactories != null;
     }
-    
-    
-    
-    public void registerFactory(String name, Factory factory) {
+
+
+    void registerFactory(String name, Factory factory) {
         if(childFactories == null)
             childFactories = [(name):factory]
         else
             childFactories.put(name, factory);
     }
-    
-    public Factory resolveFactory(Object name, Map attributes, Object value) {
+
+    Factory resolveFactory(Object name, Map attributes, Object value) {
         childFactories == null? null : childFactories[name];
     }
 }

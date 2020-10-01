@@ -40,7 +40,7 @@ import javafx.util.Duration
  */
 class TransitionFactory extends AbstractFXBeanFactory {
     
-    public TransitionFactory(Class<Transition> beanClass) {
+    TransitionFactory(Class<Transition> beanClass) {
         super(beanClass);
     }
     
@@ -61,8 +61,8 @@ class TransitionFactory extends AbstractFXBeanFactory {
         }
         return result;
     }
-    
-    public void setChild(FactoryBuilderSupport build, Object parent, Object child) {
+
+    void setChild(FactoryBuilderSupport build, Object parent, Object child) {
         if((parent instanceof ParallelTransition || parent instanceof SequentialTransition)) {
             if(child instanceof Transition) {
                 parent.children.add(child);

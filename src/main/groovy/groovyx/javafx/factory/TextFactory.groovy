@@ -33,7 +33,7 @@ class TextFactory extends AbstractNodeFactory {
         super(beanClass)
     }
 
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
         throws InstantiationException, IllegalAccessException {
         Text text = super.newInstance(builder, name, value, attributes)
         if(value != null)

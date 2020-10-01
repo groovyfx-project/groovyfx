@@ -30,15 +30,15 @@ class FillOvalOperation implements CanvasOperation {
     double y;
     double w;
     double h;
-    
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         x = val[0]
         y = val[1]
         w = val[2]
         h = val[3]
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.fillOval(x, y, w, h);
     }
 }
