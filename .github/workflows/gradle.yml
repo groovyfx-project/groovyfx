@@ -33,7 +33,6 @@ jobs:
         uses: actions/setup-java@v1.4.3
         with:
           java-version: 11
-          java-package: jdk+fx
 
       - uses: actions/cache@v2.1.4
         with:
