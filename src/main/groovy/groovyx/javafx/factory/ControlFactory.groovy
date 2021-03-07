@@ -49,11 +49,11 @@ import javafx.scene.control.TreeView
  */
 class ControlFactory extends AbstractNodeFactory {
 
-    public ControlFactory(Class beanClass) {
+    ControlFactory(Class beanClass) {
         super(beanClass);
     }
 
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Control control = super.newInstance(builder, name, value, attributes);
         if(value != null) {
               control.text = value.toString();
@@ -74,7 +74,7 @@ class ControlFactory extends AbstractNodeFactory {
         }
     }
 
-    public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         switch(child) {
             case Tooltip:
                 parent.setTooltip(child);
@@ -88,7 +88,7 @@ class ControlFactory extends AbstractNodeFactory {
                         case TabPane:
                         case TreeView:
                             parent.selectionModel.selectedItemProperty().addListener(new ChangeListener() {
-                                public void changed(final ObservableValue observable, final Object oldValue, final Object newValue) {
+                                void changed(final ObservableValue observable, final Object oldValue, final Object newValue) {
                                     builder.defer({child.closure.call(parent, newValue);});
                                 }
                             }); 
@@ -186,7 +186,7 @@ class ControlFactory extends AbstractNodeFactory {
         }
     }
 
-    public void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object child) {
+    void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object child) {
         if (child instanceof SplitPane) {
             def cntx = builder.getContext();
             List dividers = cntx.get(SceneGraphBuilder.CONTEXT_DIVIDER_KEY);

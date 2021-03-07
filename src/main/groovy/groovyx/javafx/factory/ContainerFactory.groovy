@@ -34,7 +34,7 @@ class ContainerFactory extends AbstractNodeFactory {
     }
 
 
-    public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         if (child instanceof Node) {
             if (parent instanceof BorderPane) {
                 parent.setCenter(child)

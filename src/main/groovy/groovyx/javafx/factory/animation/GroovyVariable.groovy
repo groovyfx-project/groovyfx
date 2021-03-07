@@ -45,12 +45,12 @@ class GroovyVariable  implements ChangeListener, WritableValue {
 
     Object variable;
 
-    public void setBean(Object bean) {
+    void setBean(Object bean) {
         this.bean = bean;
         initialize();
     }
 
-    public void setProperty(String property) {
+    void setProperty(String property) {
         this.property = property;
         initialize();
     }
@@ -80,13 +80,13 @@ class GroovyVariable  implements ChangeListener, WritableValue {
         }
 
     }
-    
-    public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+
+    void changed(ObservableValue observable, Object oldValue, Object newValue) {
         setPropertyValue(newValue);
     }
 
 
-    public Object getValue() {
+    Object getValue() {
         Object value = null;
         try {
             value = InvokerHelper.getProperty(bean, property);
@@ -113,7 +113,7 @@ class GroovyVariable  implements ChangeListener, WritableValue {
     /**
      * sets the Variable property to this value, that interns sets the Groovy property to this value
      */
-    public void setValue(Object newValue) {
+    void setValue(Object newValue) {
         variable.setValue(newValue);
     }
 

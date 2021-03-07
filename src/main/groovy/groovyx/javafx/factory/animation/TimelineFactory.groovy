@@ -38,7 +38,7 @@ class TimelineFactory extends AbstractFXBeanFactory {
         super(beanClass)
     }
 
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Timeline timeline 
         frames = new ArrayList<KeyFrameWrapper>();
         def framerate = attributes.remove("framerate");
@@ -59,7 +59,7 @@ class TimelineFactory extends AbstractFXBeanFactory {
         
     }
 
-    public void setChild(FactoryBuilderSupport build, Object parent, Object child) {
+    void setChild(FactoryBuilderSupport build, Object parent, Object child) {
         if(child instanceof KeyFrameWrapper) {
             frames.add(child);
         }else if(child instanceof GroovyEventHandler) {
@@ -70,7 +70,7 @@ class TimelineFactory extends AbstractFXBeanFactory {
     }
 
 
-     public void onNodeCompleted( FactoryBuilderSupport builder, Object parent, Object node )  {
+    void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node )  {
         if(node instanceof Timeline) {
             Timeline tl = (Timeline) node;
             for(KeyFrameWrapper w : frames) {

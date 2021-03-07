@@ -26,13 +26,13 @@ import javafx.scene.canvas.GraphicsContext;
  */
 @FXBindable
 class SetLineWidthOperation implements CanvasOperation {
-    double lw 
-    
-    public void initParams(Object val) {
+    double lw
+
+    void initParams(Object val) {
         lw = val
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.setLineWidth(lw);
     }
 }

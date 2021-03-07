@@ -28,7 +28,8 @@ class StylesheetFactory extends AbstractFXBeanFactory {
     StylesheetFactory(Class<List> beanClass) {
         super(beanClass, true)
     }
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
+
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
         throws InstantiationException, IllegalAccessException {
         if (checkValue(name, value)) {
             return value

@@ -25,8 +25,8 @@ import javafx.fxml.FXMLLoader;
  */
 class FXMLLoaderBuilder {
     public String xml;
-    
-    public Object build() {
+
+    Object build() {
         def loader = new FXMLLoader();
         def ins = new ByteArrayInputStream(xml.getBytes());
         try {

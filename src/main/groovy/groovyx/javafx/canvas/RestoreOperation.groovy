@@ -27,11 +27,11 @@ import javafx.scene.canvas.GraphicsContext;
 @FXBindable
 class RestoreOperation implements CanvasOperation {
     
-    public void initParams(Object val) {
+    void initParams(Object val) {
         
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.restore();
     }
 }

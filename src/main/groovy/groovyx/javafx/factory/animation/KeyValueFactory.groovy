@@ -37,8 +37,8 @@ class KeyValueFactory extends AbstractFXBeanFactory {
     KeyValueFactory(Class<TargetHolder> beanClass) {
         super(beanClass);
     }
-    
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         if(checkValue(name, value)) {
             return value;
         }
@@ -53,7 +53,7 @@ class KeyValueFactory extends AbstractFXBeanFactory {
     
     }
 
-    public void setChild(FactoryBuilderSupport build, Object parent, Object child) {
+    void setChild(FactoryBuilderSupport build, Object parent, Object child) {
         if(parent instanceof TargetHolder) {
             if(child instanceof Interpolator) {
                 ((TargetHolder)parent).interpolator = (Interpolator)child;
@@ -63,7 +63,7 @@ class KeyValueFactory extends AbstractFXBeanFactory {
         }
     }
 
-    public void onNodeCompleted( FactoryBuilderSupport builder, Object parent, Object node )  {
+    void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node )  {
         if(node instanceof TargetHolder) {
             def keyValues = builder.parentContext.get(TARGET_HOLDERS_PROPERTY, [])
             keyValues << node

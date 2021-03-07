@@ -26,7 +26,7 @@ class ResourceFactory extends AbstractFXBeanFactory {
         super(null, true)
     }
 
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
         throws InstantiationException, IllegalAccessException {
         if(value instanceof List) {
              List result = [];

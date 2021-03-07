@@ -22,10 +22,11 @@ package groovyx.javafx.factory
 * @author jimclarke
 */
 class NodeFactory extends AbstractNodeFactory {
-    public NodeFactory(Class beanClass) {
+    NodeFactory(Class beanClass) {
         super(beanClass)
     }
-    public NodeFactory(Class beanClass, boolean leaf) {
+
+    NodeFactory(Class beanClass, boolean leaf) {
         super(beanClass, leaf)
     }
     

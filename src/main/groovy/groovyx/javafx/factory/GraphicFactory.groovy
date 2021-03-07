@@ -32,19 +32,19 @@ class GraphicFactory extends AbstractFXBeanFactory {
     GraphicFactory(Class<Graphic> beanClass) {
         super(beanClass)
     }
-    
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
        Graphic graphic = super.newInstance(builder, name, value, attributes)
        if(value instanceof Node)
                graphic.node = value;
         graphic;
     }
-    
-     public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
+
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child ) {
          parent.node = child;
      }
-    
-    public void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
+
+    void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
         parent.graphic = node.node;
     }
 }

@@ -34,8 +34,8 @@ class TransformOperation implements CanvasOperation {
     double mxt
     double myt
     Affine xform
-    
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         if(val instanceof Affine) {
             xform = val
         }else {
@@ -48,7 +48,7 @@ class TransformOperation implements CanvasOperation {
         }
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         if(xform != null)
             gc.transform(xform)
         else

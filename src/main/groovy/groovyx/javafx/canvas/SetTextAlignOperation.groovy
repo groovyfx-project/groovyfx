@@ -28,8 +28,8 @@ import javafx.scene.text.TextAlignment
 @FXBindable
 class SetTextAlignOperation implements CanvasOperation {
     TextAlignment align
-    
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         if(val instanceof TextAlignment) {
             align = val;
         }else {
@@ -37,7 +37,7 @@ class SetTextAlignOperation implements CanvasOperation {
         }
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.setTextAlign(align);
     }
 }

@@ -24,7 +24,7 @@ package groovyx.javafx.factory.animation
 class VarRef {
     Object varName
 
-    public String toString() {
+    String toString() {
         return "${varName.getClass()}:: ${varName}";
     }
 }

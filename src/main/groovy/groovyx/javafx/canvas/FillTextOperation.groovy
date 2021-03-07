@@ -29,14 +29,14 @@ class FillTextOperation implements CanvasOperation {
     String text;
     double x;
     double y;
-    
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         text = val[0].toString();
         x = val[1]
         y = val[2]
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.fillText(text, x, y);
     }
 }

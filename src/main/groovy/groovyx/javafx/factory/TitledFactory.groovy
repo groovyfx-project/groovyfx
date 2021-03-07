@@ -25,17 +25,17 @@ class TitledFactory extends AbstractFXBeanFactory {
     TitledFactory(Class beanClass) {
         super(beanClass)
     }
-    
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         def result = super.newInstance(builder, name, value, attributes);
         result;
     }
 
-    public boolean isHandlesNodeChildren() {
+    boolean isHandlesNodeChildren() {
         return false;
     }
 
-    public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         parent.node = child
     }
 }

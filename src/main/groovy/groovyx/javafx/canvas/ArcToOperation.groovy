@@ -31,8 +31,8 @@ class ArcToOperation implements CanvasOperation {
     double x2;
     double y2;
     double radius
-    
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         x1     = val[0]
         y1     = val[1]
         x2     = val[2]
@@ -40,7 +40,7 @@ class ArcToOperation implements CanvasOperation {
         radius = val[4]
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.arcTo(x1, y1, x2, y2, radius);
     }
 }

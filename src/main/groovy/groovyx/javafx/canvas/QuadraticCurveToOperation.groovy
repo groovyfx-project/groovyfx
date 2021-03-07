@@ -30,15 +30,15 @@ class QuadraticCurveToOperation implements CanvasOperation {
     double yc
     double x1 
     double y1
-    
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         xc = val[0]
         yc = val[1]
         x1 = val[2]
         y1 = val[3]
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.quadraticCurveTo(xc, yc, x1, y1);
     }
 }

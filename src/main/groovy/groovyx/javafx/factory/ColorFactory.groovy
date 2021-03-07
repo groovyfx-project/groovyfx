@@ -37,11 +37,11 @@ import java.util.regex.Pattern
  * @author jimclarke
  * minor adaptions by hackergarten
  */
-public class ColorFactory {
+class ColorFactory {
 
     private static Map <String, Paint> colorCacheMap = new HashMap<String, Paint>();
 
-    public static Paint get(Object value) {
+    static Paint get(Object value) {
         if(value instanceof Paint) {
             return (Paint)value;
         } /*else if(value instanceof RadialGradientBuilder || value instanceof LinearGradientBuilder) {

@@ -26,12 +26,14 @@ import javafx.scene.control.TableRow;
 class TableRowFactory   {
     Closure factory;
 
-    public TableRowFactory() {
+    TableRowFactory() {
     }
-    public TableRowFactory(Closure factory) {
+
+    TableRowFactory(Closure factory) {
         this.factory = factory;
     }
-    public TableRow run() {
+
+    TableRow run() {
         TableRow result = factory.call();
 
         return result;

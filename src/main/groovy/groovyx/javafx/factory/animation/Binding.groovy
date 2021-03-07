@@ -30,14 +30,14 @@ class Binding {
     public Object bean;
     public String property;
 
-    public void updateValue(Object value) {
+    void updateValue(Object value) {
         try {
             InvokerHelper.setProperty(bean, propertyName, newValue);
         } catch (InvokerInvocationException iie) {
             if (!(iie.getCause() instanceof PropertyVetoException)) {
                 throw iie;
             }
-            // ignore veto exceptions, just let the binding fail like a validaiton does
+            // ignore veto exceptions, just let the binding fail like a validation does
         }
     }
 	

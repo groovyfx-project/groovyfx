@@ -34,7 +34,7 @@ class EffectFactory extends AbstractFXBeanFactory {
         super(beanClass)
     }
 
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
             throws InstantiationException, IllegalAccessException {
         def effect = super.newInstance(builder, name, value, attributes);
         if(EffectWrapper.isAssignableFrom(beanClass)) {
@@ -44,7 +44,7 @@ class EffectFactory extends AbstractFXBeanFactory {
     }
 
     @SuppressWarnings('EmptyIfStatement')
-    public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         if (child instanceof Effect) {
             if(parent.metaClass.hasProperty(parent, "input")) {
                FXHelper.setPropertyOrMethod(parent, "input", child)

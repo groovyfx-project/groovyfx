@@ -47,7 +47,7 @@ import java.lang.reflect.Method
  */
 
 class EditingCallback implements javafx.util.Callback {
-    public Object call(Object column) {
+    Object call(Object column) {
         return new EditingCell();
     }
 }
@@ -55,13 +55,13 @@ class EditingCallback implements javafx.util.Callback {
 class EditingCell extends TableCell implements EventHandler {
     private TextField textField;
 
-    public EditingCell() {
+    EditingCell() {
         this.setEditable(true);
     }
 
 
     @Override
-    public void startEdit() {
+    void startEdit() {
         super.startEdit();
         if (isEmpty()) {
             return;
@@ -79,19 +79,19 @@ class EditingCell extends TableCell implements EventHandler {
     }
 
     @Override
-    public void cancelEdit() {
+    void cancelEdit() {
         super.cancelEdit();
         setContentDisplay(ContentDisplay.TEXT_ONLY);
     }
 
     @Override
-    public void commitEdit(Object t) {
+    void commitEdit(Object t) {
         super.commitEdit(t);
         setContentDisplay(ContentDisplay.TEXT_ONLY);
     }
 
     @Override
-    public void updateItem(Object item, boolean empty) {
+    void updateItem(Object item, boolean empty) {
         super.updateItem(item, empty);
         if (!isEmpty()) {
             if (textField != null) {
@@ -101,8 +101,8 @@ class EditingCell extends TableCell implements EventHandler {
             setContentDisplay(ContentDisplay.TEXT_ONLY);
         }
     }
-    
-    public void handle(Event t) { 
+
+    void handle(Event t) {
         if (t.getCode() == KeyCode.ENTER) {
             commitEdit(textField.getText());
         } else if (t.getCode() == KeyCode.ESCAPE) {
@@ -114,12 +114,12 @@ class EditingCell extends TableCell implements EventHandler {
 
 class EnumEditingCallback implements javafx.util.Callback {
     public Class enumClass;
-    
-    public EnumEditingCallback(Class enumClass) {
+
+    EnumEditingCallback(Class enumClass) {
         this.enumClass = enumClass;
     }
-    
-    public Object call(Object column) {
+
+    Object call(Object column) {
         return new EnumEditingCell(enumClass);
     }
 }
@@ -130,13 +130,13 @@ class EnumEditingCell extends TableCell implements ChangeListener {
     private ChoiceBox choiceBox;
     public Class enumClass;
 
-    public EnumEditingCell(Class enumClass) {
+    EnumEditingCell(Class enumClass) {
         this.setEditable(true);
         this.enumClass = enumClass;
     }
 
     @Override
-    public void startEdit() {
+    void startEdit() {
         super.startEdit();
         if (isEmpty()) {
             return;
@@ -153,19 +153,19 @@ class EnumEditingCell extends TableCell implements ChangeListener {
     }
 
     @Override
-    public void cancelEdit() {
+    void cancelEdit() {
         super.cancelEdit();
         setContentDisplay(ContentDisplay.TEXT_ONLY);
     }
 
     @Override
-    public void commitEdit(Object t) {
+    void commitEdit(Object t) {
         super.commitEdit(t);
         setContentDisplay(ContentDisplay.TEXT_ONLY);
     }
 
     @Override
-    public void updateItem(Object item, boolean empty) {
+    void updateItem(Object item, boolean empty) {
         super.updateItem(item, empty);
         if (!isEmpty()) {
             if (choiceBox != null) {
@@ -191,9 +191,9 @@ class EnumEditingCell extends TableCell implements ChangeListener {
         choiceBox.getSelectionModel().select(getItem());
         choiceBox.getSelectionModel().selectedItemProperty().addListener(this);
 
-    }  
-    
-    public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+    }
+
+    void changed(ObservableValue observable, Object oldValue, Object newValue) {
         commitEdit(newValue); 
     }
 }
@@ -203,13 +203,13 @@ class EnumEditingCell extends TableCell implements ChangeListener {
 class ConverterPropertyValueFactory extends PropertyValueFactory implements ChangeListener {
     public Closure converter;
     private StringProperty destination;
-    
-    public ConverterPropertyValueFactory(String property, Closure converter) {
+
+    ConverterPropertyValueFactory(String property, Closure converter) {
         super(property);
         this.converter = converter; 
     }
-    
-    public ObservableValue call(TableColumn.CellDataFeatures param) {
+
+    ObservableValue call(TableColumn.CellDataFeatures param) {
         ObservableValue origin = super.call(param);
         Object originValue = origin.getValue();
         String result = originValue == null ? "" : converter.call(originValue);
@@ -222,8 +222,8 @@ class ConverterPropertyValueFactory extends PropertyValueFactory implements Chan
         }
         
     }
-    
-    public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+
+    void changed(ObservableValue observable, Object oldValue, Object newValue) {
         String result = "";
         if(newValue != null) 
              result = converter.call(newValue);
@@ -235,12 +235,12 @@ class ConverterPropertyValueFactory extends PropertyValueFactory implements Chan
 class TableFactory extends AbstractNodeFactory {
     private static EditingCallback defaultCellFactory = new EditingCallback();
     private static EnumEditingCallback enumCellFactory = new EnumEditingCallback();
-    
-    public TableFactory(Class beanClass) {
+
+    TableFactory(Class beanClass) {
         super(beanClass)
     }
-    
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Object result = super.newInstance(builder, name, value, attributes);
         if(TableColumn.isAssignableFrom(beanClass) && value != null) {
             result.text = value.toString()
@@ -307,13 +307,13 @@ class TableFactory extends AbstractNodeFactory {
         return super.onHandleNodeAttributes(builder, node, attributes);
     }
 
-    public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child ) {
         if((parent instanceof TableView || parent instanceof TableColumn) && child instanceof TableColumn) {
             parent.columns.add(child);
         }else if(child instanceof GroovyCallback) {
             if(parent instanceof TableView && child.property == "onSelect") {
                    parent.selectionModel.selectedItemProperty().addListener(new ChangeListener() {
-                        public void changed(final ObservableValue observable, final Object oldValue, final Object newValue) {
+                        void changed(final ObservableValue observable, final Object oldValue, final Object newValue) {
                             builder.defer({child.closure.call(parent, oldValue, newValue);});
                         }
                     });      

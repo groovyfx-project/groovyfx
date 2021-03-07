@@ -29,7 +29,7 @@ import javafx.scene.text.Font
  * minor adaptions by hackergarten
  */
 class FontFactory {
-    public static Font get(Object value) {
+    static Font get(Object value) {
         if(value instanceof Font) {
             return (Font)value;
         }else  {

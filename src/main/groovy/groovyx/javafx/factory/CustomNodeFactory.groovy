@@ -27,25 +27,25 @@ import javafx.scene.Parent
 class CustomNodeFactory extends AbstractNodeFactory {
 
 
-    public CustomNodeFactory(Class beanClass) {
+    CustomNodeFactory(Class beanClass) {
         super(beanClass)
     }
-    
-    public CustomNodeFactory(Class beanClass, boolean leaf) {
+
+    CustomNodeFactory(Class beanClass, boolean leaf) {
         super(beanClass, leaf)
     }
-    
 
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         if ((value != null) && checkValue(name, value)) {
             return value;
         } else {
             throw new RuntimeException("$name must have either a value argument that must be of type $beanClass.name");
         }
     }
-    
 
-    public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
+
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         if (parent instanceof Parent && child instanceof Node)  {
             parent.children.add(child);
         }else {

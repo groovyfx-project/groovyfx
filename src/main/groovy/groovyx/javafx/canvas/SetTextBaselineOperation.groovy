@@ -29,8 +29,8 @@ import javafx.scene.canvas.GraphicsContext
 @FXBindable
 class SetTextBaselineOperation implements CanvasOperation {
     VPos baseline
-    
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         if(val instanceof VPos) {
             baseline = val;
         }else if(val instanceof Pos) {
@@ -40,7 +40,7 @@ class SetTextBaselineOperation implements CanvasOperation {
         }
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.setTextBaseline(baseline);
     }
 }

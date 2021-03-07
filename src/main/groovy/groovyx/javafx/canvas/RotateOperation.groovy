@@ -27,12 +27,12 @@ import javafx.scene.canvas.GraphicsContext;
 @FXBindable
 class RotateOperation implements CanvasOperation {
     double degrees
-    
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         degrees = val
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.rotate(degrees);
     }
 }

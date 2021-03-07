@@ -32,7 +32,7 @@ class KeyFrameWrapper {
     public EventHandler<ActionEvent> onFinished = null;
     public Collection<KeyValue> values = new ArrayList<KeyValue>();
 
-    public KeyFrame createKeyFrame() {
+    KeyFrame createKeyFrame() {
         return new KeyFrame(time, (String)null, onFinished, (Collection<KeyValue>)values);
     }
 }

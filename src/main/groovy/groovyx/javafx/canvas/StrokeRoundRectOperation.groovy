@@ -32,8 +32,8 @@ class StrokeRoundRectOperation implements CanvasOperation {
     double h;
     double arcWidth;
     double arcHeight;
-    
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         x         = val[0]
         y         = val[1]
         w         = val[2]
@@ -42,7 +42,7 @@ class StrokeRoundRectOperation implements CanvasOperation {
         arcHeight = val[5]
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.strokeRoundRect(x, y, w, h, arcWidth, arcHeight);
     }
 }

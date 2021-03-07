@@ -26,7 +26,7 @@ import javafx.scene.paint.Stop
  */
 abstract class AbstractGradientFactory extends AbstractFXBeanFactory {
     
-    public AbstractGradientFactory(Class beanClass) {
+    AbstractGradientFactory(Class beanClass) {
         super(beanClass);
     }
     /**

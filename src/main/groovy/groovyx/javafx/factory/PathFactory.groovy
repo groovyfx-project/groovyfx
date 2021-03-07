@@ -30,7 +30,7 @@ class PathFactory extends ShapeFactory {
         super(shapeClass)
     }
 
-    public void setChild(FactoryBuilderSupport build, Object parent, Object child) {
+    void setChild(FactoryBuilderSupport build, Object parent, Object child) {
         if(child instanceof PathElement)
             ((Path)parent).getElements().add((PathElement)child);
         else

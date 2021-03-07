@@ -28,8 +28,8 @@ import javafx.scene.shape.FillRule
 @FXBindable
 class SetFillRuleOperation implements CanvasOperation {
     FillRule fillRule
-    
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         if(val instanceof FillRule) {
             fillRule = val;
         }else {
@@ -38,7 +38,7 @@ class SetFillRuleOperation implements CanvasOperation {
             
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.setFillRule(fillRule);
     }
 }

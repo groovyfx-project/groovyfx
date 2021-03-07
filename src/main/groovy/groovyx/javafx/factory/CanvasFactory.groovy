@@ -43,7 +43,7 @@ class CanvasFactory extends AbstractNodeFactory {
     }
     
     @Override
-    public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         if (child instanceof CanvasOperation) {
             def operations = builder.parentContext.get(CANVAS_OPERATIONS_LIST_PROPERTY, [])
             operations << child

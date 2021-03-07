@@ -26,21 +26,24 @@ import javafx.beans.value.ObservableValue
 */
 class GroovyChangeListener extends AbstractClosureProperty implements ChangeListener {
     ObservableValue observable;
-    
-    public GroovyChangeListener() {
+
+    GroovyChangeListener() {
         super();
     }
-    
-    public GroovyChangeListener(String property) {
+
+    GroovyChangeListener(String property) {
         super(property);
     }
-    public GroovyChangeListener(String property, Closure closure) {
+
+    GroovyChangeListener(String property, Closure closure) {
         super(property, closure);
     }
-    public GroovyChangeListener(ObservableValue observable) {
+
+    GroovyChangeListener(ObservableValue observable) {
         this.observable = observable
     }
-    public GroovyChangeListener(ObservableValue observable, Closure closure) {
+
+    GroovyChangeListener(ObservableValue observable, Closure closure) {
         super(null, closure);
         this.observable = observable
     }

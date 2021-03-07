@@ -25,15 +25,15 @@ class GridRowColumnFactory extends AbstractFXBeanFactory {
     GridRowColumnFactory(Class beanClass) {
         super(beanClass)
     }
-    
-     public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
+
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child ) {
          if(child instanceof List)
             parent.nodes.addAll(child);
          else
             parent.nodes.add(child);
      }
-    
-    public void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
+
+    void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
         switch(node) {
             case GridRow:
                 parent.addRow(node.index, node.nodeArray());

@@ -43,22 +43,23 @@ class TreeItemFactory extends AbstractFXBeanFactory {
         treeItemEvents.onExpandedItemCountChange = TreeItem."$constName"
     }
 
-    public TreeItemFactory() {
+    TreeItemFactory() {
         super(TreeItem)
     }
 
-    public TreeItemFactory(Class<TreeItem> beanClass) {
+    TreeItemFactory(Class<TreeItem> beanClass) {
         super(beanClass)
     }
 
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         TreeItem item = super.newInstance(builder, name, value, attributes)
         if(!checkValue(name, value)) {
             item.value = value
         }
         item;
     }
-    public void setChild( FactoryBuilderSupport builder, Object parent, Object child ) {
+
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child ) {
         switch(child) {
             case TreeItem:
                 parent.children.add(child);
@@ -77,8 +78,8 @@ class TreeItemFactory extends AbstractFXBeanFactory {
         }
     }
 
-    public boolean onHandleNodeAttributes( FactoryBuilderSupport builder, Object node,
-            Map attributes ) {
+    boolean onHandleNodeAttributes(FactoryBuilderSupport builder, Object node,
+                                   Map attributes ) {
         for(v in treeItemEvents) {
             if(attributes.containsKey(v)) {
                 def val = attributes.remove(v);

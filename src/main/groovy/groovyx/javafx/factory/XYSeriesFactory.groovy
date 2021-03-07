@@ -34,11 +34,12 @@ import javafx.scene.chart.XYChart
  */
 class XYSeriesFactory extends AbstractFXBeanFactory {
     public static final String SERIES_LIST_PROPERTY = "__seriesList"
-    
-    public XYSeriesFactory() {
+
+    XYSeriesFactory() {
         super(XYChart.Series)
     }
-    public XYSeriesFactory(Class<XYChart.Series> beanClass) {
+
+    XYSeriesFactory(Class<XYChart.Series> beanClass) {
         super(beanClass)
     }
 
@@ -48,7 +49,7 @@ class XYSeriesFactory extends AbstractFXBeanFactory {
      * @param list The list of data points.  Can be either [x1, y1, x2, y2, ...] or [[x1, y1], [x2, y2], ...].
      * @return An ObservableList of XYChart.Data objects.
      */
-    public static ObservableList<XYChart.Data> createXYDataFromList(List list) {
+    static ObservableList<XYChart.Data> createXYDataFromList(List list) {
         def result = []
 
         if (list) {

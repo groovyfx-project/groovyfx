@@ -28,8 +28,8 @@ import javafx.scene.shape.StrokeLineCap
 @FXBindable
 class SetLineCapOperation implements CanvasOperation {
     StrokeLineCap cap
-    
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         if(val instanceof StrokeLineCap) {
             cap = val;
         }else {
@@ -37,7 +37,7 @@ class SetLineCapOperation implements CanvasOperation {
         }
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.setLineCap(cap);
     }
 }

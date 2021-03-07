@@ -23,9 +23,10 @@ import javafx.scene.canvas.GraphicsContext
  *
  * @author jimclarke
  */
-public interface CanvasOperation {
+interface CanvasOperation {
 
-    public void initParams(Object obj);
-    public void execute(GraphicsContext gc);
+    void initParams(Object obj);
+
+    void execute(GraphicsContext gc);
 }
 

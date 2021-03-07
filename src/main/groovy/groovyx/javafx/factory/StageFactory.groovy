@@ -30,11 +30,11 @@ import javafx.stage.StageStyle
  */
 class StageFactory extends AbstractFXBeanFactory {
     
-    public StageFactory(Class beanClass) {
+    StageFactory(Class beanClass) {
         super(beanClass)
     }
 
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
             throws InstantiationException, IllegalAccessException {
                 if(Stage.isAssignableFrom(beanClass)) {
                     return handleStage(builder, name, value, attributes)
@@ -106,7 +106,7 @@ class StageFactory extends AbstractFXBeanFactory {
         window;
     }
 
-    public void setChild(FactoryBuilderSupport build, Object parent, Object child) {
+    void setChild(FactoryBuilderSupport build, Object parent, Object child) {
         if(parent instanceof Popup) {
             parent.content.add(child);
         }else if(parent instanceof FileChooser && child instanceof FileChooser.ExtensionFilter) {
@@ -116,7 +116,7 @@ class StageFactory extends AbstractFXBeanFactory {
         }
     }
 
-    public void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
+    void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
         if(node instanceof Stage) {
             if(node.getWidth() == -1)
                 node.sizeToScene();

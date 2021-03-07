@@ -30,7 +30,7 @@ class KeyValueSubFactory  extends AbstractFXBeanFactory  {
         super(beanClass)
     }
 
-     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         if(Interpolator.isAssignableFrom(beanClass)) {
               return getInterpolator(value);      
         }else {
@@ -38,7 +38,7 @@ class KeyValueSubFactory  extends AbstractFXBeanFactory  {
         }
      }
 
-     public static Interpolator getInterpolator(Object interpolate) {
+    static Interpolator getInterpolator(Object interpolate) {
         if(interpolate == null)
             return Interpolator.LINEAR;
         if(interpolate instanceof Interpolator) {

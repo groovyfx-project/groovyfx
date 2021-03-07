@@ -36,7 +36,7 @@ class ListViewFactory extends AbstractNodeFactory {
         super(beanClass)
     }
 
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         ListView listView = super.newInstance(builder, name, value, attributes);
         def items = attributes.remove("items");
         if(items != null) {
@@ -47,7 +47,7 @@ class ListViewFactory extends AbstractNodeFactory {
         final def onSelect = attritues.remove("onSelect");
         if(onSelect != null) {
              listView.selectionModel.selectedItemProperty().addChangeListener(new ChangeListener() {
-                public void changed(final ObservableValue observable, final Object oldValue, final Object newValue) {
+                void changed(final ObservableValue observable, final Object oldValue, final Object newValue) {
                     builder.defer({onSelect.call(newValue);});
                 }
              });

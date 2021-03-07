@@ -36,8 +36,8 @@ class FXMLFactory extends AbstractNodeFactory {
     FXMLFactory(Class<Node> beanClass) {
         super(beanClass);
     }
-    
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Node result
         if(value != null) {
             result = processValue(value);
@@ -115,7 +115,7 @@ class FXMLFactory extends AbstractNodeFactory {
     }
     
     @Override
-    public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         Node childNode = processValue(child);
         if(childNode != null) {
             parent.children.add(childNode);

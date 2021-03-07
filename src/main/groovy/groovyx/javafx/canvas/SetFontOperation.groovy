@@ -29,12 +29,12 @@ import javafx.scene.text.Font
 @FXBindable
 class SetFontOperation implements CanvasOperation {
     Font f
-    
-    public void initParams(Object val) {
+
+    void initParams(Object val) {
         f = FontFactory.get(val);
     }
 
-    public void execute(GraphicsContext gc) {
+    void execute(GraphicsContext gc) {
         gc.setFont(f);
     }
 }

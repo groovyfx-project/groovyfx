@@ -34,7 +34,8 @@ class WebFactory extends AbstractNodeFactory {
     WebFactory(Class beanClass) {
         super(beanClass)
     }
-    public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         Object instance = super.newInstance(builder, name, value, attributes)
 
         if(WebView.isAssignableFrom(beanClass)) {
@@ -50,8 +51,8 @@ class WebFactory extends AbstractNodeFactory {
 
         instance;
     }
-    
-    public void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
+
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         if(parent instanceof WebView) {
             switch(child) {
                 case GroovyEventHandler:
@@ -59,8 +60,8 @@ class WebFactory extends AbstractNodeFactory {
                     if(child.property == "onLoad") {
                         def listener = new ChangeListener<State>() {
                                 @Override
-                                public void changed(ObservableValue<? extends State> observable, 
-                                            State oldState, State newState) {
+                                void changed(ObservableValue<? extends State> observable,
+                                             State oldState, State newState) {
                                     switch(newState) {
                                         case State.SUCCEEDED:
                                             child.closure.call(parent);
@@ -76,8 +77,8 @@ class WebFactory extends AbstractNodeFactory {
                     }else if(child.property == "onError") {
                         def listener = new ChangeListener<State>() {
                                 @Override
-                                public void changed(ObservableValue<? extends State> observable, 
-                                            State oldState, State newState) {
+                                void changed(ObservableValue<? extends State> observable,
+                                             State oldState, State newState) {
                                     switch(newState) {
                                         case State.FAILED:
                                             child.closure.call(parent.engine.loadWorker.message, parent.engine.loadWorker.exception);

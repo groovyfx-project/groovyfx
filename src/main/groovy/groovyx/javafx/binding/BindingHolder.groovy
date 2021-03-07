@@ -40,12 +40,12 @@ class BindingHolder {
     ObservableValue binding;
     // the bound value from any bindTo.
     ObservableValue boundValue;
-    
-    public BindingHolder(Object value) {
+
+    BindingHolder(Object value) {
         this(null, value);
     }
-    
-    public BindingHolder(BindingHolder parent, Object value) {
+
+    BindingHolder(BindingHolder parent, Object value) {
         this.parent = parent;
         if(value instanceof ObservableValue) {
             observable  = value;
@@ -65,8 +65,8 @@ class BindingHolder {
         }
         
     }
-    
-    public BindingHolder bind() {
+
+    BindingHolder bind() {
         unbind();
         if(bindTo) {
            boundValue = bindTo.binding;
@@ -77,16 +77,16 @@ class BindingHolder {
        }
        this
     }
-    
-    public BindingHolder rebind() {
+
+    BindingHolder rebind() {
         if(boundValue) {
             unbind();
             bind();
         }
         this
     }
-    
-    public BindingHolder unbind() {
+
+    BindingHolder unbind() {
         if(boundValue) {
             if(boundValue instanceof Property) {
                 binding.unbindBidirectional(boundValue);
@@ -97,7 +97,8 @@ class BindingHolder {
         }
         this
     }
-    public ObservableValue getBinding() {
+
+    ObservableValue getBinding() {
        if(binding == null) {
            bind();
            binding = converter == null ? observable :
@@ -105,12 +106,12 @@ class BindingHolder {
        }
        binding 
     }
-    
-    public boolean isResolved() {
+
+    boolean isResolved() {
         return observable != null;
     }
-    
-    public ObservableValue resolve(Object instance) {
+
+    ObservableValue resolve(Object instance) {
         observable = Util.getJavaFXProperty(instance, propertyName);
         if(observable == null) 
             observable = Util.getJavaBeanFXProperty(instance, propertyName);
@@ -119,8 +120,8 @@ class BindingHolder {
         }
         return observable;
     }
-    
-    public BindingHolder using(Closure converter) {
+
+    BindingHolder using(Closure converter) {
         BindingHolder bh = lastHolder();
         bh.converter = converter
         bh.binding = null;
@@ -129,14 +130,15 @@ class BindingHolder {
             bh.parent.rebind();
         this
     }
-    
-    public BindingHolder to(Object value) {
+
+    BindingHolder to(Object value) {
         BindingHolder bh = lastHolder();
         bh.bindTo = new BindingHolder(bh, value);
         bh.bind();
         this
     }
-    public BindingHolder to(Object instance, String prop) {
+
+    BindingHolder to(Object instance, String prop) {
         BindingHolder bh = lastHolder();
         bh.bindTo = new BindingHolder(bh, [instance,prop]);
         bh.bind();
